@@ -1,12 +1,13 @@
 import React from 'react';
 import './App.css';
+import Header from './Components/Header/Header';
+import Tray from './Components/Tray/Tray';
 
 function App() {
   return (
-    <div>
-        <p>
-          wmn-disruptions-v2
-        </p>      
+    <div className="App">
+        <Header />
+        <Tray />
     </div>
   );
 }
