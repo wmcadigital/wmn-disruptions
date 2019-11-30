@@ -1,0 +1,60 @@
+// Vars
+@import 'vars';
+
+// Mixins
+@import 'mixins';
+
+// Global styles
+@import 'utilities';
+@import 'typography';
+@import 'general';
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.pure-g .gutters > div{
+  box-sizing: border-box;
+  padding: 0em 0.5em;
+}
+
+// Aligning the datepicker for mobile
+.react-datepicker__portal {
+  @media only screen and (max-width: 568px) {
+    align-items: flex-start !important;
+    top: 30px !important;
+    background-color: transparent !important;
+  }
+}
+
+// colouring the buttons for the map
+.esri-widget--button {
+  background-color: getColor(secondary) !important;
+  border-radius: 5px !important;
+
+  span {
+    color: white !important;
+    font-weight: bolder;
+  }
+}
+
+// remove white background from behind the buttons for the map
+.esri-widget {
+  &.esri-zoom {
+    background-color: transparent !important;
+  }
+}
+
+
+// add margin to the '-' button on map
+.esri-widget--button:nth-of-type(2) {
+  margin-top: $padding-sm;
+}
+
+// remove box shadow from around buttons for the map
+.esri-component {
+  &.esri-zoom {
+    box-shadow: none !important;
+  }
+}

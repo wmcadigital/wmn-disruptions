@@ -1,0 +1,15 @@
+@import '../../styles/vars';
+@import '../../styles/mixins';
+
+$offset-top: $padding-lg;
+
+.map {
+    width: 100%;
+    height: calc(100vh - #{$offset-top});
+    background-color: #eee;
+    border: 2px solid #ddd;
+    position: absolute;
+    top: $offset-top;
+    left: 0;
+    z-index: -1;
+}
