@@ -1,18 +1,17 @@
-import React, { Component } from 'react';
-import { Map } from '@esri/react-arcgis';
+import React from 'react';
+import { Map as MapView } from '@esri/react-arcgis';
 
-class Maps extends Component {
-    render() {
-        return (
-            <Map 
-                
+const Map = () => {
+    return (
+        <MapView
+            style={{ width: '100vw', height: '100vh' }}
         
-                viewProperties={{
-                    center: [-1.89, 52.45],
-                    zoom: 10
-                }} />
-        )
-    }
+            viewProperties={{
+                center: [-1.89, 52.45],
+                zoom: 10
+            }}
+        />
+    )
 }
 
-export default Maps
+export default Map;
