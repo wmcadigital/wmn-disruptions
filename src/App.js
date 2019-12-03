@@ -1,3 +1,6 @@
+// Import styles
+import './styles/wmn.scss';
+
 import React from 'react';
 import './App.css';
 import Header from './Components/Header/Header';
