@@ -4,7 +4,7 @@ import MapListToggle from './MapListToggle/MapListToggle';
 class Header extends Component {
     render() {
         return (
-            <div>
+            <div className="header">
                 <h2>Distruptions</h2>
                 <MapListToggle />
             </div>
