@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Mode from './Mode/Mode'; 
 
-export class Tray extends Component {
+class Tray extends Component {
     render() {
         return (
             <div>
