@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MapListToggle from './MapListToggle/MapListToggle';
+import AlphaWarning from './AlphaWarning/AlphaWarning';
 
 class Header extends Component {
     render() {
@@ -7,6 +8,7 @@ class Header extends Component {
             <div className="header">
                 <h2>Distruptions</h2>
                 <MapListToggle />
+                <AlphaWarning />
             </div>
         )
     }
