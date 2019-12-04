@@ -9,9 +9,11 @@ import Map from './Components/Map/Map';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App wmnds-grid-5-5">
         
         <Header />
+
+        
         <Tray />
         <Map />
     </div>
