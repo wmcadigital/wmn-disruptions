@@ -1,0 +1,102 @@
+@import '../../../../../../styles/vars';
+@import '../../../../../../styles/mixins';
+
+.container {
+    padding: ($padding-sm / 3) $padding-sm;
+    display: flex; 
+    flex-direction: row;
+    align-items: stretch;
+    transition: background-color ease .2s;
+    border: 1px solid #333;
+}
+
+.iconWrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    &.tramIcon {
+        // border: 1px solid black;
+    }
+}
+
+.tramIcon {
+    color: getColor(success);
+    font-size: 30px;
+    
+    &.disruption {
+        color: getColor(warning) !important;        
+    }
+}
+
+.iconRouteTop {
+    background-color: getColor(success);
+    display: block;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    padding: $padding-sm / 2;
+    margin-bottom: 2px;
+
+    &.disruption {
+        background-color: getColor(warning) !important;
+    }
+}
+
+.iconRouteBottom {
+    background-color: getColor(coolGrey);
+    display: block;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    padding: $padding-sm / 2;
+    font-size: 10px;
+    line-height: 1;
+    text-align: center;
+}
+
+.detailsWrapper {
+    padding: $padding-sm;
+    flex: 1;
+}
+
+.closeWrapper {
+    padding: $padding-sm;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.close {
+    font-size: 30px;
+    color: getColor(secondary);
+}
+
+.favContainer {
+    margin-top: $margin-md;
+    text-align: center;
+    display: block;
+
+    i {
+        color: getColor(secondary);
+        font-size: 30px;
+        margin-left: $margin-md;
+    }
+}
+
+.disruption {
+    margin-top: $margin-md;
+    color: white;
+    background-color: getColor(warning);
+    padding: $padding-sm;
+    display: flex;
+
+    div {
+        padding: $padding-sm;
+    }
+}
+
+.disruptionIcon {
+    font-size: 30px;
+    margin-top: $margin-sm;
+}
