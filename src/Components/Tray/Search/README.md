@@ -1,22 +1,22 @@
 # Mode
 
-## Importing
+## Search
 
 Place the import outside of the component class at the top of the file.
 
 ~~~~
-import Mode from '[FILEPATH]Mode';
+import Search from '[FILEPATH]Search';
 ~~~~
 
-Inside the `render`, instantiate the mode component using the following:
+Inside the render, instantiate the search component using the following:
 
 ~~~~
-<Mode />
+<Search />
 ~~~~
 
 ## Required Packages
 
-In order for the mode component to work. The following `npm packages` are required:
+In order for the search to work. The following npm packages are required:
 
 1. React
 2. prop-types
@@ -28,17 +28,17 @@ If you dont have these installed, they can be using the following node command:
 npm i react prop-types react-redux
 ~~~~
 
-These should be imported `outside of the react component` at the top of the page.
+These should be imported outside of the react component at the top of the page.
 
 ~~~
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 ~~~
 
 ## Data
 
-All copy for the mode component is stored in 'data.js'.
+All copy for the search component is stored in 'data.js'.
 
 ## Redux
 
@@ -62,12 +62,11 @@ The `reducer` is passed two properties:
 It then uses a switch statement based on that action to update the state accordingly. To update a `new state`, simply add it into the returned `object` in the correct `case`.
 
 ~~~~
-export default function setMode(state = {}, action) {
-    switch (action.type) {
-        case a.SET_MODE:
+export default function search(state = {}, action) {
+    switch(action.type) {
+        case a.SEARCH:
             return {
                 ...state,
-                newState: action.payload
             };
         default:
             return state;
@@ -80,7 +79,7 @@ export default function setMode(state = {}, action) {
 `Action names` are stored as `string constants` inside the `action.js` to avoid any spelling or grammatical inconsistencies. These should be stored at the top of the page before any actions.
 
 ~~~~
-export const SET_MODE = 'set mode';
+export const SEARCH = 'search';
 ~~~~
 
 All `actions` are stored in `actions.js`. Actions are payloads of information that send data from the application to the store. They are the only source of information for the store.
@@ -88,18 +87,18 @@ All `actions` are stored in `actions.js`. Actions are payloads of information th
 To create an action, you must pass it the data object, as well as returning an object that states the action type and payload.
 
 ~~~~
-export function SetModeAction (data) {
-    return { type: SET_MODE, payload: data }
+export function Search(data) {
+    return { type: SEARCH, payload: data }
 }
 ~~~~
 
 ### Handling props
 
-The mode component uses the following states from the store:
+The search component uses the following states from the store:
 
-1. mode.modeToCheck
+1. search
 
-These states can be injected into the mode component using `mapStateToProps` and `mapDispatchToProps`.
+These states can be injected into the search component using `mapStateToProps` and `mapDispatchToProps`.
 
 #### mapStateToProps
 
@@ -109,7 +108,7 @@ the `mapStateToProps` is used for selecting the part of the data from the store 
 
 ~~~~
 const mapStateToProps = state => ({
-    modeToCheck: state.mode.modeToCheck || '',
+    search: state.search || {},
 })
 ~~~~
 
@@ -121,9 +120,9 @@ const mapStateToProps = state => ({
 
 ~~~~
 const mapDispatchToProps = dispatch => {
-    const { SetModeAction } = a || {};
+    const { Search } = a || {};
     return {
-        SetModeAction: data => dispatch(SetModeAction(data))
+        Search: data => dispatch(Search())
     }
 }
 ~~~~
@@ -138,5 +137,5 @@ With `React Redux`, your components never access the store directly - `connect` 
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(Mode);
+)(Search);
 ~~~~
