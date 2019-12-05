@@ -28,6 +28,20 @@ body {
   }
 }
 
+//Esri Map General Styling
+.esri-view .esri-view-root {
+    position: relative;
+    flex: 1 1 100%;
+    border: none;
+    padding: 0;
+    margin: 0;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+
+
 // colouring the buttons for the map
 .esri-widget--button {
   background-color: getColor(secondary) !important;
