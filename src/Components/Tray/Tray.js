@@ -1,59 +1,89 @@
-import React, { Component } from 'react';
-import Mode from './Mode/Mode'; 
-import When from './When/When'
+// Import packages
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import Draggable from 'react-draggable';
+import { connect } from 'react-redux';
 
-//Import Tray Styles
-import './Tray.scss'
 
-class Tray extends Component {
-    render() {
-        return (
-            <div className='tray'>
-                <Mode />
-                <When />
+// Import components
+import When from './When/When';
+import Mode from './Mode/Mode';
+import Search from './Search/Search';
+import AutoComplete from './AutoComplete/AutoComplete';
+import Bus from './Bus/Bus';
+import Train from './Train/Train';
+import SingleBus from './Bus/SingleBus';
 
-                <div className="wmnds-disruption-indicator-large wmnds-disruption-indicator-large--undefined"> 
-                    <div className="wmnds-disruption-indicator-large__left-wrapper"> 
-                        <span className="wmnds-disruption-indicator-large__left-icon-wrapper"> 
-                            <svg class="wmnds-disruption-indicator-large__icon"> 
-                                <use xlinkHref="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-modes-isolated-rail" href="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-modes-isolated-rail"></use> </svg> 
-                                Train </span> 
-                                <span className="wmnds-disruption-indicator-large__text"> <strong>Good service</strong><br />Cross City Line </span> </div> <svg class="wmnds-disruption-indicator-large__icon wmnds-disruption-indicator-large__icon--right"> 
-                    <use xlinkHref="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-general-success" href="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-general-success">
-                                    </use> 
-                                </svg> 
-                                </div>
-                            
 
+// Import styles
+import s from './Tray.scss';
+
+// Define consts
+const MAP_VIEW = 'map view';
+const LIST_VIEW = 'list view';
+
+const Tray = (props) => {
+    const { searchPhrase, viewMode } = props || {};
+    const w = window.innerWidth;
+    const mobBreakpoint = 568;
+    const isMob = w <= mobBreakpoint;
+    const searchOpen = searchPhrase.length >= 1;
+    const listView = viewMode === LIST_VIEW;
+    const tray = (
+        <div className={`
+            ${s.tray}
+            ${searchOpen && isMob ? s.searchOpen : s.searchClosed}
+            ${listView ? s.listView : ''}`}
+        >
+            <div className="pure-g gutters">
+                <div className="wmnds-col-1">
+                    <div className={s.bar} />
+                </div>
+            </div>
+            <When />
+            <Mode />
+            <AutoComplete />
+            <Search />
             
-                <span className="wmnds-disruption-indicator-small">
-                    <svg className="wmnds-disruption-indicator-small__icon">
-                        <use xlinkHref="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-modes-isolated-bus" href="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-modes-isolated-bus"></use>
-                    </svg>
-                    
-                    <svg className="wmnds-disruption-indicator-small__icon">
-                        <use xlinkHref="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-general-warning-circle" href="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-general-warning-circle"></use>
-                    </svg>
-                </span>
+            <Bus />
+            <Train />
             
-
-
-            <div class="wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium--with-icon wmnds-disruption-indicator-medium--error wmnds-disruption-indicator-medium--narrow"><svg class="wmnds-disruption-indicator-medium__icon wmnds-disruption-indicator-medium__icon--left">
-                    <use xlinkHref="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-modes-isolated-bus" href="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-modes-isolated-bus"></use>
-                    </svg>
-                    X15
-            <svg class="wmnds-disruption-indicator-medium__icon wmnds-disruption-indicator-medium__icon--right" >
-                        <use xlinkHref="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-general-warning-triangle" href="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-general-warning-triangle"></use>
-        </svg>
+            <SingleBus />
         </div>
+    ); 
+    const mobTray = (
+        <Draggable
+            axis="y"
+            bounds={{top: -150, bottom: 0}}
+        >
+            {tray}
+        </Draggable>
+    );
+    return (
+        <Fragment>
+            {isMob ? mobTray : tray}
+        </Fragment>
+    )
+}
 
+Tray.propTypes = {
+    searchPhrase: PropTypes.string,
+    viewMode: PropTypes.string,
+};
 
-</div>
+Tray.defaultProps = {
+    searchPhrase: undefined,
+    viewMode: MAP_VIEW,
+};
 
-
-
-        )
+const mapStateToProps = state => {
+    const { search, app } = state || {};
+    const { searchPhrase } = search || {};
+    const { viewMode } = app || {};
+    return {
+        searchPhrase: searchPhrase || '',
+        viewMode: viewMode || '',
     }
 }
 
-export default Tray;
+export default connect(mapStateToProps)(Tray);

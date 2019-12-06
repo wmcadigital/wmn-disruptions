@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // Import components
-import ResultIcon from '../../../../ResultIcon/ResultIcon';
+import ResultIcon from '../../../../../ResultIcon/ResultIcon';
 
 // Import actions
 import * as a from '../../actions';
