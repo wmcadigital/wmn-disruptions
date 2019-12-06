@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // Import components
-import AutoComplete from '../../Tray/AutoComplete/AutoComplete';
+import AutoComplete from '../../../form/AutoComplete/AutoComplete';
 import SelectedResult from './components/SelectedResult/SelectedResult';
 
 // Import consts

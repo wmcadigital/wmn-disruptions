@@ -4,7 +4,7 @@ import PropTypes, { oneOfType } from 'prop-types';
 import { connect } from 'react-redux';
 
 // Import components
-import ResultIcon from '../../../../ResultIcon/ResultIcon';
+import ResultIcon from '../../../../../ResultIcon/ResultIcon';
 
 // Import styles
 import s from './SearchResult.module.scss';

@@ -1,0 +1,46 @@
+@import '../../styles/vars';
+@import '../../styles/mixins';
+
+$max-width: 50px;
+
+.tramIcon {
+    color: getColor(success);
+    font-size: 30px;
+    
+    &.disruption {
+        color: getColor(warning) !important;        
+    }
+}
+
+.iconRouteTop {
+    background-color: getColor(success);
+    display: block;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    padding: $padding-sm / 2;
+    margin-bottom: 2px;
+    max-width: $max-width;
+
+    &.disruption {
+        background-color: getColor(warning) !important;
+    }
+}
+
+.iconRouteBottom {
+    background-color: getColor(coolGrey);
+    display: block;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    padding: $padding-sm / 2;
+    font-size: 10px;
+    line-height: 1;
+    text-align: center;
+    max-width: $max-width;
+}
+
+.iconWrapper {
+    display: inline-block;
+    margin-right: $margin-sm;
+}
