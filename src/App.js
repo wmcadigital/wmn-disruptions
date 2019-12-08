@@ -11,11 +11,8 @@ import Map from './Components/Map/Map';
 function App() {
   return (
     <div className="App wmnds-grid-5-5">
-        <MainHeader />
-        
-        <Header />
-
-        
+        <MainHeader />        
+        <Header />        
         <Tray />
         <Map />
     </div>

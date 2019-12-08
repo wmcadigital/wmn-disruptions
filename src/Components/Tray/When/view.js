@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import DatePicker from "react-datepicker";
 
 // Import components
-import Button from '../../../Button/Button';
+import Button from '../../Button/Button';
 
 // Import consts
 import {
