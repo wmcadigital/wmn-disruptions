@@ -1,7 +1,8 @@
 // Import packages
-import React from 'react';
+import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import MainHeader from '../MainHeader/MainHeader';
 
 
 // Import components
@@ -47,6 +48,8 @@ class Header extends React.Component {
         const { viewMode } = props || {};
         const listView = viewMode === LIST_VIEW;
         return (
+           <Fragment>
+            <MainHeader />
       
 
         <div className={`pure-g gutters ${s.container}`}>                
@@ -66,6 +69,7 @@ class Header extends React.Component {
                     </Button>
                 </div>
           </div>
+          </Fragment> 
         )   
     }
 }

@@ -8,11 +8,11 @@ import { connect } from 'react-redux';
 // Import components
 import When from './When/When';
 import Mode from './Mode/Mode';
-import Search from './Search/Search';
+//import Search from './Search/Search';
 import AutoComplete from './AutoComplete/AutoComplete';
-import Bus from './Bus/Bus';
-import Train from './Train/Train';
-import SingleBus from './Bus/SingleBus';
+//import Bus from './Bus/Bus';
+//import Train from './Train/Train';
+//import SingleBus from './Bus/SingleBus';
 
 // Import styles
 import s from './Tray.module.scss';
@@ -42,13 +42,15 @@ const Tray = (props) => {
             </div>
             <When />
             <Mode />
-            <AutoComplete />
-            <Search />
             
-            <Bus />
-            <Train />
+            <div className="autoCompleteNew">                
+                    <AutoComplete />
+            </div>
             
-            <SingleBus />
+            
+            
+            
+            
         </div>
     ); 
     const mobTray = (
