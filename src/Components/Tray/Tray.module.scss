@@ -30,10 +30,14 @@ $t-bar-margin: $margin-sm;
     border: 1px solid rgba(0,0,0,.1);
 
     @media only screen and (min-width: 1200px) {
-        top: 250px;
+        top: 3 50px;
         left: $margin-lg;
         width: $d-t-width;
-        height: 500px;
+        //Was 500px;
+        // height: 500px;
+
+        //Now set to 
+        height:auto;
         min-height: 500px;
 
         // &.listView {
@@ -67,4 +71,9 @@ $t-bar-margin: $margin-sm;
     @media only screen and (min-width: 1200px) {
         display: none;
     }
+}
+
+.autoCompleteNew {
+    margin-top: 40px;
+    display: block;
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Autosuggest from 'react-autosuggest';
+import './AutoComplete.scss';
 
 // Imagine you have a list of buses that you'd like to autosuggest.
 // When we have live API data, then this buses array will be removed
