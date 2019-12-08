@@ -1,0 +1,21 @@
+@import '../../styles/vars';
+
+.container {
+    background-color: #f3f2f1;
+    padding: $padding-sm;
+}
+
+.title {
+    margin: 0;
+}
+
+.btnContainer {
+    display: flex;
+    align-items: center;
+    text-align: right;
+    justify-content: flex-end;
+
+    button {
+        height: 48px;
+    }
+}

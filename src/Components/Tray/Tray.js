@@ -15,7 +15,7 @@ import Train from './Train/Train';
 import SingleBus from './Bus/SingleBus';
 
 // Import styles
-import s from './Tray.scss';
+import s from './Tray.module.scss';
 
 // Define consts
 const MAP_VIEW = 'map view';

@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react';
 
-class MainHeader extends Component {
-    render() {
+function MainHeader(){
         return (
             <div>
                 <header className="wmnds-header wmnds-grid">
@@ -41,7 +40,6 @@ class MainHeader extends Component {
                 </header>
             </div>
         )
-    }
 }
 
 export default MainHeader
