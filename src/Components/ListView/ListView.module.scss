@@ -1,0 +1,11 @@
+@import '../../styles/vars';
+
+$t-width: 400px;
+
+.listContainer {
+    padding-right: $padding-lg;
+    @media only screen and (min-width: 1200px) {
+        padding-top: 134px;
+        margin-left: calc(#{$t-width} + (#{$margin-lg} * 2));
+    }
+}
