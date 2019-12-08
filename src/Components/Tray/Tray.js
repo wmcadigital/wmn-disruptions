@@ -14,7 +14,6 @@ import Bus from './Bus/Bus';
 import Train from './Train/Train';
 import SingleBus from './Bus/SingleBus';
 
-
 // Import styles
 import s from './Tray.scss';
 
@@ -35,6 +34,7 @@ const Tray = (props) => {
             ${searchOpen && isMob ? s.searchOpen : s.searchClosed}
             ${listView ? s.listView : ''}`}
         >
+        
             <div className="pure-g gutters">
                 <div className="wmnds-col-1">
                     <div className={s.bar} />
