@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 
 // Import components
 import Button from '../../Button/Button';
+import Icon from '../../Icon/Icon';
 
 // Import styles
 import s from './Mode.module.scss';
-import svgSprite from '../../../assets/svgs/svg-sprite.min.svg';
 
 // Import actions
 import * as a from './actions';
@@ -58,22 +58,8 @@ class ModeView extends React.Component {
             </div>
             <div className="wmnds-grid">
               <div className={`wmnds-col-1 ${s.buttons}`}>
-                {/* <Button
-                            type="mode"
-                            isSmall
-                            isActive={busActive}
-                            className={s.btn}
-                            onClick={() => changeModeToCheck(BUS)}
-                        >
-                            {BTN_BUS}
-                        </Button> */}
                 <button className="wmnds-btn wmnds-btn--small wmnds-btn--mode">
-                  <svg className="wmnds-btn__icon">
-                    <use
-                      xlinkHref={`${svgSprite}#wmnds-modes-isolated-bus`}
-                      href={`${svgSprite}#wmnds-modes-isolated-bus`}
-                    ></use>
-                  </svg>
+                  <Icon class="wmnds-btn__icon" iconName="modes-isolated-bus" />
                   Bus
                 </button>
 
@@ -84,8 +70,13 @@ class ModeView extends React.Component {
                   className={s.btn}
                   onClick={() => changeModeToCheck(TRAIN)}
                 >
-                  {BTN_TRAIN}
+                  <Icon
+                    class="wmnds-btn__icon"
+                    iconName="modes-isolated-rail"
+                  />
+                  Train
                 </Button>
+
                 <Button
                   type="mode"
                   isSmall
@@ -93,8 +84,13 @@ class ModeView extends React.Component {
                   className={s.btn}
                   onClick={() => changeModeToCheck(TRAM)}
                 >
-                  {BTN_TRAM}
+                  <Icon
+                    class="wmnds-btn__icon"
+                    iconName="modes-isolated-metro"
+                  />
+                  Tram
                 </Button>
+
                 <Button
                   type="mode"
                   isSmall
@@ -102,7 +98,8 @@ class ModeView extends React.Component {
                   className={s.btn}
                   onClick={() => changeModeToCheck(ROADS)}
                 >
-                  {BTN_ROADS}
+                  <Icon class="wmnds-btn__icon" iconName="modes-isolated-roads" />
+                  Roads
                 </Button>
               </div>
             </div>
