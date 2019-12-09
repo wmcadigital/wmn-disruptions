@@ -4,10 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // Import components
-
 import Header from '../../Components/Header/Header';
 import Map from '../../Components/Map/Map';
-import ListView from '../../Components/ListView/ListView';
 import Tray from '../../Components/Tray/Tray';
 
 // Import actions
@@ -34,15 +32,13 @@ class App extends React.Component {
 };
 
   render() {
-    const { props } = this;
-    const { viewMode } = props || {};
-    const showMap = viewMode === MAP_VIEW;   
+  
 
     return (
       
       <div className={s.app}>
         <Header />
-        {showMap ? <Map /> : <ListView />}
+          <Map />
         <Tray />
       </div>
     );

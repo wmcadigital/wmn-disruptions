@@ -13,3 +13,9 @@ $offset-top: $padding-lg;
     left: 0;
     z-index: -1;
 }
+
+//Temp hidden untill proper scss is added
+.esri-ui {
+    display: none !important;
+}
+

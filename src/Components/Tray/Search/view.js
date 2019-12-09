@@ -36,9 +36,9 @@ const SearchView = (props) => {
 
     //const busActive = modeToCheck === BUS;
     
-    if (modeToCheck === BUS ) {
-        console.log('Show Bus Info Now - New', );
-    }
+    // if (modeToCheck === BUS ) {
+    //     console.log('Show Bus Info Now - New', );
+    // }
 
     return (
         <div className={`pure-g ${s.container}`}>
