@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Autosuggest from 'react-autosuggest';
 import './AutoComplete.scss';
 
@@ -6,8 +6,7 @@ import './AutoComplete.scss';
 // When we have live API data, then this buses array will be removed
 const buses = [
   {
-    name: 'Sutton Coldfield to Erdington',
-    number: '101'
+    name: 'Sutton Coldfield to Erdington'
   },
   {
     name: 'Erdington to Sutton Coldfield'
@@ -19,17 +18,17 @@ const buses = [
     name: 'Sutton Coldfield to New Street Station'
   },
   {
-    name: 'Longbridge To Birmingham '
+    name: 'Longbridge To Sutton Coldfield '
   },
   {
-    name: 'Birmingham To Longbridge '
+    name: 'Sutton Coldfield To Longbridge '
   },
    {
-    name: 'Old Street to New Street Station'
+     name: 'Sutton Coldfield to New Street Station'
     
   },
    {
-    name: 'New Station Street to Old Street'
+     name: 'New Station Street to Sutton Coldfield'
   },
 ];
 
@@ -102,7 +101,9 @@ class AutoComplete extends Component {
     };
 
     // Finally, render it!
+    //Will hook up the go btn soon.
     return (
+      <Fragment>
       <Autosuggest
         suggestions={suggestions}
         onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
@@ -111,6 +112,10 @@ class AutoComplete extends Component {
         renderSuggestion={renderSuggestion}
         inputProps={inputProps}
       />
+
+      
+        <button className="wmnds-btn">Go</button>
+      </Fragment>
     );
   }
 }

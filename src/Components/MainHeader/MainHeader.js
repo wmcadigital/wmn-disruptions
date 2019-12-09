@@ -31,7 +31,7 @@ function MainHeader(){
         </a>
                             </li>
 
-                            <li classNameName="wmnds-header__link">
+                            <li className="wmnds-header__link">
                                 <a href="/help/" title="Patterns page" target="_self" className="wmnds-link" >
                                     Help        </a>
                             </li>

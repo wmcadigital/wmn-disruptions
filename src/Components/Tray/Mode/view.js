@@ -40,13 +40,13 @@ class ModeView extends React.Component {
         const tramActive = modeToCheck === TRAM;
         const roadsActive = modeToCheck === ROADS;
 
-        if (modeToCheck === BUS ){
-            console.log('Show Bus Info Now');
-        }
+        // if (modeToCheck === BUS ){
+        //     console.log('Show Bus Info Now');
+        // }
 
-        if (modeToCheck === TRAIN) {
-            console.log('Show Train Info Now');
-        }
+        // if (modeToCheck === TRAIN) {
+        //     console.log('Show Train Info Now');
+        // }
 
         return (
             <Fragment>

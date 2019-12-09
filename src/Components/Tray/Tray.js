@@ -44,7 +44,7 @@ const Tray = (props) => {
             <Mode />
             
             <div className="autoCompleteNew">                
-                    <AutoComplete />
+                <AutoComplete />
             </div>
             
             
