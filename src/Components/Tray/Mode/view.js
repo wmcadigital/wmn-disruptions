@@ -8,7 +8,7 @@ import Button from '../../Button/Button';
 
 // Import styles
 import s from './Mode.module.scss';
-import svgSprite from '../../../styles/svg-sprite.min.svg';
+import svgSprite from '../../../assets/svgs/svg-sprite.min.svg';
 
 // Import actions
 import * as a from './actions';

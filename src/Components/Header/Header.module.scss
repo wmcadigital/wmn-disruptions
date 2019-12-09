@@ -1,4 +1,4 @@
-@import '../../styles/vars';
+@import '../../assets/styles/vars';
 
 .container {
     background-color: #f3f2f1;
@@ -14,7 +14,7 @@
     align-items: center;
     text-align: right;
     justify-content: flex-end;
-    margin-top: -50px !important; 
+    margin-top: -50px !important;
 
     button {
         height: 48px;

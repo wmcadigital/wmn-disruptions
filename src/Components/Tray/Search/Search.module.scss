@@ -1,11 +1,11 @@
-@import '../../../styles/vars';
-@import '../../../styles/mixins';
+@import '../../../assets/styles/vars';
+@import '../../../assets/styles/mixins';
 
 $results-height-open: 150px;
 
 .container {
     padding-top: $padding-md;
-    
+
     * {
         vertical-align: middle;
     }
