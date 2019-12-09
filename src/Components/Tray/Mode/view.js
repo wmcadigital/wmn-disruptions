@@ -8,6 +8,7 @@ import Button from '../../Button/Button';
 
 // Import styles
 import s from './Mode.module.scss';
+import svgSprite from '../../../styles/svg-sprite.min.svg';
 
 // Import actions
 import * as a from './actions';
@@ -49,15 +50,15 @@ class ModeView extends React.Component {
         // }
 
         return (
-            <Fragment>
-                <div className="wmnds-grid">
-                    <div className="wmnds-col-1">
-                        <h5>{TITLE}</h5>
-                    </div>
-                </div>
-                <div className="wmnds-grid">
-                    <div className={`wmnds-col-1 ${s.buttons}`}>
-                        <Button
+          <Fragment>
+            <div className="wmnds-grid">
+              <div className="wmnds-col-1">
+                <h5>{TITLE}</h5>
+              </div>
+            </div>
+            <div className="wmnds-grid">
+              <div className={`wmnds-col-1 ${s.buttons}`}>
+                {/* <Button
                             type="mode"
                             isSmall
                             isActive={busActive}
@@ -65,38 +66,48 @@ class ModeView extends React.Component {
                             onClick={() => changeModeToCheck(BUS)}
                         >
                             {BTN_BUS}
-                        </Button>
-                        <Button
-                            type="mode"
-                            isSmall
-                            isActive={trainActive}
-                            className={s.btn}
-                            onClick={() => changeModeToCheck(TRAIN)}
-                        >
-                            {BTN_TRAIN}
-                        </Button>
-                        <Button
-                            type="mode"
-                            isSmall
-                            isActive={tramActive}
-                            className={s.btn}
-                            onClick={() => changeModeToCheck(TRAM)}
-                        >
-                            {BTN_TRAM}
-                        </Button>
-                        <Button
-                            type="mode"
-                            isSmall
-                            isActive={roadsActive}
-                            className={s.btn}
-                            onClick={() => changeModeToCheck(ROADS)}
-                        >
-                            {BTN_ROADS}
-                        </Button>
-                    </div>
-                </div>
-            </Fragment>
-        )
+                        </Button> */}
+                <button className="wmnds-btn wmnds-btn--small wmnds-btn--mode">
+                  <svg className="wmnds-btn__icon">
+                    <use
+                      xlinkHref={`${svgSprite}#wmnds-modes-isolated-bus`}
+                      href={`${svgSprite}#wmnds-modes-isolated-bus`}
+                    ></use>
+                  </svg>
+                  Bus
+                </button>
+
+                <Button
+                  type="mode"
+                  isSmall
+                  isActive={trainActive}
+                  className={s.btn}
+                  onClick={() => changeModeToCheck(TRAIN)}
+                >
+                  {BTN_TRAIN}
+                </Button>
+                <Button
+                  type="mode"
+                  isSmall
+                  isActive={tramActive}
+                  className={s.btn}
+                  onClick={() => changeModeToCheck(TRAM)}
+                >
+                  {BTN_TRAM}
+                </Button>
+                <Button
+                  type="mode"
+                  isSmall
+                  isActive={roadsActive}
+                  className={s.btn}
+                  onClick={() => changeModeToCheck(ROADS)}
+                >
+                  {BTN_ROADS}
+                </Button>
+              </div>
+            </div>
+          </Fragment>
+        );
     }
 }
 
