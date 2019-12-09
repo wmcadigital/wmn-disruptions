@@ -50,12 +50,12 @@ class ModeView extends React.Component {
 
         return (
             <Fragment>
-                <div className="pure-g gutters">
+                <div className="wmnds-grid">
                     <div className="wmnds-col-1">
                         <h5>{TITLE}</h5>
                     </div>
                 </div>
-                <div className="pure-g gutters">
+                <div className="wmnds-grid">
                     <div className={`wmnds-col-1 ${s.buttons}`}>
                         <Button
                             type="mode"

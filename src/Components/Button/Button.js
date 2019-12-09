@@ -26,7 +26,7 @@ class Button extends React.Component {
                 tabIndex="0"
                 onClick={(e) => onClick(e)}
             >
-                <div>{children}</div>
+                {children}
             </button>
         )
     }
