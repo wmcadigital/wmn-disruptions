@@ -33,6 +33,7 @@ class Mode extends React.Component {
 }
 
 Mode.propTypes = {
+  // eslint-disable-next-line react/no-unused-prop-types
   modeToCheck: PropTypes.string
 };
 

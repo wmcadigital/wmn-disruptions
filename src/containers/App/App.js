@@ -18,6 +18,10 @@ import s from './App.scss';
 const MAP_VIEW = 'map view';
 
 class App extends React.Component {
+  static isMobileDevice() {
+    return typeof window.orientation !== 'undefined' || navigator.userAgent.indexOf('IEMobile') !== -1;
+  }
+
   constructor(props) {
     super(props);
 
@@ -25,16 +29,12 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const { isMobileDevice, props } = this;
+    const { props } = this;
     const { SetViewMode } = props || {};
 
-    isMobileDevice();
+    this.isMobileDevice();
 
     SetViewMode(MAP_VIEW);
-  }
-
-  isMobileDevice() {
-    return typeof window.orientation !== 'undefined' || navigator.userAgent.indexOf('IEMobile') !== -1;
   }
 
   render() {

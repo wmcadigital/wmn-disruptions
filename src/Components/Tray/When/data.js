@@ -1,6 +1,6 @@
 // Define current time
 const today = new Date();
-const time = today.getHours() + ':' + ('0'+ today.getMinutes()).slice(-2);
+const time = `${today.getHours()}:${`0${today.getMinutes()}`.slice(-2)}`;
 
 export const TITLE = 'When';
 
