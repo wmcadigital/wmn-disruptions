@@ -18,10 +18,6 @@ import s from './App.scss';
 const MAP_VIEW = 'map view';
 
 class App extends React.Component {
-  isMobileDevice() {
-    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
-  };
-
   componentDidMount() {
     const { isMobileDevice, props } = this;
     const { SetViewMode } = props || {};
@@ -29,16 +25,17 @@ class App extends React.Component {
     isMobileDevice();
 
     SetViewMode(MAP_VIEW);
-};
+  }
+
+  isMobileDevice() {
+    return typeof window.orientation !== 'undefined' || navigator.userAgent.indexOf('IEMobile') !== -1;
+  }
 
   render() {
-  
-
     return (
-      
       <div className={s.app}>
         <Header />
-          <Map />
+        <Map />
         <Tray />
       </div>
     );
@@ -46,11 +43,11 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  viewMode: PropTypes.string,
+  viewMode: PropTypes.string
 };
 
 App.defaultProps = {
-  viewMode: MAP_VIEW,
+  viewMode: MAP_VIEW
 };
 
 const mapStateToProps = state => {
@@ -58,18 +55,15 @@ const mapStateToProps = state => {
   const { viewMode } = app || {};
 
   return {
-    viewMode: viewMode || '',
-  }
-}
+    viewMode: viewMode || ''
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   const { SetViewMode } = a || {};
   return {
-      SetViewMode: data => dispatch(SetViewMode(data))
-  }
-}
+    SetViewMode: data => dispatch(SetViewMode(data))
+  };
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

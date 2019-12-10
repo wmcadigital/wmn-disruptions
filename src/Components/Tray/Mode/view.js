@@ -1,5 +1,5 @@
 // Import packages
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -31,16 +31,8 @@ class ModeView extends React.Component {
     const tramActive = modeToCheck === TRAM;
     const roadsActive = modeToCheck === ROADS;
 
-    // if (modeToCheck === BUS ){
-    //     console.log('Show Bus Info Now');
-    // }
-
-    // if (modeToCheck === TRAIN) {
-    //     console.log('Show Train Info Now');
-    // }
-
     return (
-      <Fragment>
+      <>
         <div className="wmnds-grid">
           <div className="wmnds-col-1">
             <h5>{TITLE}</h5>
@@ -48,10 +40,10 @@ class ModeView extends React.Component {
         </div>
         <div className="wmnds-grid">
           <div className={`wmnds-col-1 ${s.buttons}`}>
-            <button className="wmnds-btn wmnds-btn--small wmnds-btn--mode">
+            <Button type="mode" isSmall isActive={busActive} className={s.btn} onClick={() => changeModeToCheck(BUS)}>
               <Icon class="wmnds-btn__icon" iconName="modes-isolated-bus" />
               Bus
-            </button>
+            </Button>
 
             <Button
               type="mode"
@@ -81,7 +73,7 @@ class ModeView extends React.Component {
             </Button>
           </div>
         </div>
-      </Fragment>
+      </>
     );
   }
 }
