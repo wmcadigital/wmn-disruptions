@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 // Import components
 import Button from '../../Button/Button';
+import Icon from '../../Icon/Icon';
 
 // Import styles
 import s from './Mode.module.scss';
@@ -49,54 +50,61 @@ class ModeView extends React.Component {
         // }
 
         return (
-            <Fragment>
-                <div className="pure-g gutters">
-                    <div className="wmnds-col-1">
-                        <h5>{TITLE}</h5>
-                    </div>
-                </div>
-                <div className="pure-g gutters">
-                    <div className={`wmnds-col-1 ${s.buttons}`}>
-                        <Button
-                            type="mode"
-                            isSmall
-                            isActive={busActive}
-                            className={s.btn}
-                            onClick={() => changeModeToCheck(BUS)}
-                        >
-                            {BTN_BUS}
-                        </Button>
-                        <Button
-                            type="mode"
-                            isSmall
-                            isActive={trainActive}
-                            className={s.btn}
-                            onClick={() => changeModeToCheck(TRAIN)}
-                        >
-                            {BTN_TRAIN}
-                        </Button>
-                        <Button
-                            type="mode"
-                            isSmall
-                            isActive={tramActive}
-                            className={s.btn}
-                            onClick={() => changeModeToCheck(TRAM)}
-                        >
-                            {BTN_TRAM}
-                        </Button>
-                        <Button
-                            type="mode"
-                            isSmall
-                            isActive={roadsActive}
-                            className={s.btn}
-                            onClick={() => changeModeToCheck(ROADS)}
-                        >
-                            {BTN_ROADS}
-                        </Button>
-                    </div>
-                </div>
-            </Fragment>
-        )
+          <Fragment>
+            <div className="wmnds-grid">
+              <div className="wmnds-col-1">
+                <h5>{TITLE}</h5>
+              </div>
+            </div>
+            <div className="wmnds-grid">
+              <div className={`wmnds-col-1 ${s.buttons}`}>
+                <button className="wmnds-btn wmnds-btn--small wmnds-btn--mode">
+                  <Icon class="wmnds-btn__icon" iconName="modes-isolated-bus" />
+                  Bus
+                </button>
+
+                <Button
+                  type="mode"
+                  isSmall
+                  isActive={trainActive}
+                  className={s.btn}
+                  onClick={() => changeModeToCheck(TRAIN)}
+                >
+                  <Icon
+                    class="wmnds-btn__icon"
+                    iconName="modes-isolated-rail"
+                  />
+                  Train
+                </Button>
+
+                <Button
+                  type="mode"
+                  isSmall
+                  isActive={tramActive}
+                  className={s.btn}
+                  onClick={() => changeModeToCheck(TRAM)}
+                >
+                  <Icon
+                    class="wmnds-btn__icon"
+                    iconName="modes-isolated-metro"
+                  />
+                  Tram
+                </Button>
+
+                <Button
+                  type="mode"
+                  isSmall
+                  isActive={roadsActive}
+                  className={s.btn}
+                  onClick={() => changeModeToCheck(ROADS)}
+                >
+                  <Icon class="wmnds-btn__icon" iconName="modes-isolated-roads" />
+                  Roads
+                </Button>
+              </div>
+            </div>
+          </Fragment>
+        );
     }
 }
 

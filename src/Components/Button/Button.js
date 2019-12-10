@@ -20,13 +20,13 @@ class Button extends React.Component {
                 className={
                     `wmnds-btn wmnds-btn--secondary wmnds-btn__${type}
                     ${className} ${isSmall ? `wmnds-btn-small` : ''}
-                    ${isActive ? 'wmnds-is-active' : ''}
+                    ${isActive ? 'wmnds-is--active' : ''}
                     ${isBlock ? 'wmnds-is-block' : ''}`
                 }
                 tabIndex="0"
                 onClick={(e) => onClick(e)}
             >
-                <div>{children}</div>
+                {children}
             </button>
         )
     }

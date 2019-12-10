@@ -1,5 +1,5 @@
-@import '../../../styles/vars';
-@import '../../../styles/mixins';
+@import '../../../assets/styles/vars';
+@import '../../../assets/styles/mixins';
 
 $btn-width: 115px;
 $sm-mob-width: 92px;
@@ -36,7 +36,7 @@ $sm-mob-height: 66px;
     @media only screen and (max-width: 320px) {
         height: $sm-mob-height!important;
         width: $sm-mob-width;
-    
+
     }
 }
 

@@ -1,5 +1,5 @@
-@import '../../../../styles/vars';
-@import '../../../../styles/mixins';
+@import '../../../../assets/styles/vars';
+@import '../../../../assets/styles/mixins';
 
 .container {
     margin-bottom: $margin-md;
@@ -7,7 +7,7 @@
 
 .topContainer {
     padding: ($padding-sm / 3) $padding-sm;
-    display: flex; 
+    display: flex;
     flex-direction: row;
     align-items: stretch;
     transition: background-color ease .2s;

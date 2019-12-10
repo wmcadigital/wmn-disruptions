@@ -1,14 +1,14 @@
-@import '../../styles/vars';
-@import '../../styles/mixins';
+@import '../../assets/styles/vars';
+@import '../../assets/styles/mixins';
 
 $max-width: 50px;
 
 .tramIcon {
     color: getColor(success);
     font-size: 30px;
-    
+
     &.disruption {
-        color: getColor(warning) !important;        
+        color: getColor(warning) !important;
     }
 }
 
