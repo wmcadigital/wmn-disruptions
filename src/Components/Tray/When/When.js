@@ -7,111 +7,91 @@ import { connect } from 'react-redux';
 import WhenView from './view';
 
 // Import consts
-import {
-    NOW,
-    TOMORROW,
-    CHOOSE_DATE,
-
-} from './data';
+import { NOW, TOMORROW, CHOOSE_DATE } from './data';
 
 // Import actions
 import * as a from './actions';
 
 class When extends React.Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.ChangeTimeToCheck = this.ChangeTimeToCheck.bind(this);
-        this.SelectDate = this.SelectDate.bind(this);
-        this.DatePicker = this.DatePicker.bind(this);
-        this.ModeOfTransport = this.ModeOfTransport(this);
+    this.ChangeTimeToCheck = this.ChangeTimeToCheck.bind(this);
+    this.SelectDate = this.SelectDate.bind(this);
+    this.DatePicker = this.DatePicker.bind(this);
+    this.ModeOfTransport = this.ModeOfTransport(this);
+  }
+
+  componentDidMount() {
+    const { props } = this;
+    const { SetTimeToCheckAction } = props || {};
+    SetTimeToCheckAction(NOW);
+  }
+
+  ChangeTimeToCheck(btn) {
+    const { props } = this;
+    const { SetTimeToCheckAction } = props || {};
+    SetTimeToCheckAction(btn);
+  }
+
+  SelectDate(btn) {
+    const { props, ChangeTimeToCheck } = this;
+    const { SetTimeAction } = props || {};
+    const today = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+
+    if (btn === NOW) {
+      SetTimeAction(today);
+    } else if (btn === TOMORROW) {
+      SetTimeAction(tomorrow);
     }
 
-    componentDidMount() {
-        const { props } = this;
-        const { SetTimeToCheckAction } = props || {};
-        SetTimeToCheckAction(NOW);
-    }
+    ChangeTimeToCheck(btn);
+  }
 
-    ChangeTimeToCheck(btn) {
-        const { props } = this;
-        const { SetTimeToCheckAction } = props || {};
-        SetTimeToCheckAction(btn);
-    }
+  DatePicker(date) {
+    const { props, ChangeTimeToCheck } = this;
+    const { SetTimeAction } = props || {};
+    SetTimeAction(date);
+    ChangeTimeToCheck(CHOOSE_DATE);
+  }
 
-    SelectDate(btn) {
-        const { props, ChangeTimeToCheck } = this;
-        const { SetTimeAction } = props || {};
-        const today = new Date();
-        const tomorrow = new Date();
-        tomorrow.setDate(today.getDate()+1);
+  ModeOfTransport() {
+    // Still to be set up with API
+  }
 
-        if (btn === NOW) {
-            SetTimeAction(today);
-        } else if (btn === TOMORROW) {
-            SetTimeAction(tomorrow);
-        }
+  render() {
+    const { props, SelectDate, DatePicker } = this;
+    const { time, timeToCheck } = props || {};
 
-        ChangeTimeToCheck(btn);
-    }
-
-    DatePicker (date) {
-        const { props, ChangeTimeToCheck } = this;
-        const { SetTimeAction } = props || {};
-        SetTimeAction(date);
-        ChangeTimeToCheck(CHOOSE_DATE);
-    }
-
-    ModeOfTransport(){
-        //Still to be set up with API
-    }
-
-
-    render() {
-        const {
-            props,
-            SelectDate,
-            DatePicker
-        } = this;
-        const { time, timeToCheck } = props || {};
-
-        return (
-            <WhenView
-                timeToCheck={timeToCheck}
-                time={time}
-                selectDate={SelectDate}
-                datePicker={DatePicker}
-            />
-        )
-    }
+    return <WhenView timeToCheck={timeToCheck} time={time} selectDate={SelectDate} datePicker={DatePicker} />;
+  }
 }
 
 When.propTypes = {
-    timeToCheck: PropTypes.string,
+  timeToCheck: PropTypes.string
 };
 
 When.defaultProps = {
-    timeToCheck: '',
+  timeToCheck: ''
 };
 
 const mapStateToProps = state => {
-    const { time } = state || {};
-    const { timeToCheck, time: timeSelected } = time || {};
-    return {
-        timeToCheck: timeToCheck || '',
-        time: timeSelected || '',
-    }
-}
+  const { time } = state || {};
+  const { timeToCheck, time: timeSelected } = time || {};
+  return {
+    timeToCheck: timeToCheck || '',
+    time: timeSelected || ''
+  };
+};
 
 const mapDispatchToProps = dispatch => {
-    const { SetTimeToCheckAction, SetTimeAction } = a || {};
-    return {
-        SetTimeToCheckAction: data => dispatch(SetTimeToCheckAction(data)),
-        SetTimeAction: data => dispatch(SetTimeAction(data)),
-    }
-}
+  const { SetTimeToCheckAction, SetTimeAction } = a || {};
+  return {
+    SetTimeToCheckAction: data => dispatch(SetTimeToCheckAction(data)),
+    SetTimeAction: data => dispatch(SetTimeAction(data))
+  };
+};
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(When);
+export default connect(mapStateToProps, mapDispatchToProps)(When);

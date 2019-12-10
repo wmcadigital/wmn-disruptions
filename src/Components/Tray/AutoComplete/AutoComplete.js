@@ -25,7 +25,7 @@ const buses = [
   },
    {
      name: 'Sutton Coldfield to New Street Station'
-    
+
   },
    {
      name: 'New Station Street to Sutton Coldfield'
@@ -113,11 +113,11 @@ class AutoComplete extends Component {
         inputProps={inputProps}
       />
 
-      
+
         <button className="wmnds-btn">Go</button>
       </Fragment>
     );
   }
 }
 
-export default AutoComplete
+export default AutoComplete;
