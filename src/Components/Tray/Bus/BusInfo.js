@@ -11,15 +11,13 @@ class BusInfo extends Component {
 
         async componentDidMount() {
             
-          const res = await axios.get('https://raw.githubusercontent.com/wmcadigital/wmn-disruptions/master/public/newBusData.json');
-
-          
+          const res = await axios.get('https://raw.githubusercontent.com/wmcadigital/wmn-disruptions/master/public/newBusData.json');         
 
           this.setState({
               busData: []
           });
 
-            console.log(`s data!`, res);
+            console.log(`Bus Data!`, res);
     }
     
 

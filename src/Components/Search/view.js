@@ -12,7 +12,7 @@ import SelectedResult from './components/SelectedResult/SelectedResult';
 // Import consts
 import { SEARCH_PLACEHOLDER } from './data';
 // Import consts
-import { BUS } from './data';
+//import { BUS } from './data';
 
 // Import styles
 import s from './Search.module.scss';
