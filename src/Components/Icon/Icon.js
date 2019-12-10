@@ -1,19 +1,22 @@
 import React from 'react';
-import svgSprite from "../../assets/svgs/svg-sprite.min.svg";
+import PropTypes from 'prop-types';
+import svgSprite from '../../assets/svgs/svg-sprite.min.svg';
 
+const Icon = ({ iconClass, iconName }) => {
+  return (
+    <svg className={iconClass}>
+      <use xlinkHref={`${svgSprite}#wmnds-${iconName}`} href={`${svgSprite}#wmnds-${iconName}`} />
+    </svg>
+  );
+};
 
-class Icon extends React.Component {
-  render(){
+Icon.propTypes = {
+  iconName: PropTypes.string.isRequired,
+  iconClass: PropTypes.string
+};
 
-    return (
-      <svg className={this.props.class}>
-        <use
-          xlinkHref={`${svgSprite}#wmnds-${this.props.iconName}`}
-          href={`${svgSprite}#wmnds-${this.props.iconName}`}
-        ></use>
-      </svg>
-    );
-  }
-}
+Icon.defaultProps = {
+  iconClass: null
+};
 
 export default Icon;
