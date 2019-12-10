@@ -34,6 +34,7 @@ export function FetchResults(data) {
       return;
   }
 
+  // eslint-disable-next-line consistent-return
   return () => {
     fetch(URL)
       .then(res => res.json())

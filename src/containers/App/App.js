@@ -18,6 +18,12 @@ import s from './App.scss';
 const MAP_VIEW = 'map view';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.isMobileDevice = this.isMobileDevice.bind(this);
+  }
+
   componentDidMount() {
     const { isMobileDevice, props } = this;
     const { SetViewMode } = props || {};
