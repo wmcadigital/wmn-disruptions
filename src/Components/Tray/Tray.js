@@ -4,15 +4,14 @@ import PropTypes from 'prop-types';
 import Draggable from 'react-draggable';
 import { connect } from 'react-redux';
 
-
 // Import components
 import When from './When/When';
 import Mode from './Mode/Mode';
-//import Search from './Search/Search';
+// import Search from './Search/Search';
 import AutoComplete from './AutoComplete/AutoComplete';
-//import Bus from './Bus/Bus';
-//import Train from './Train/Train';
-//import SingleBus from './Bus/SingleBus';
+// import Bus from './Bus/Bus';
+// import Train from './Train/Train';
+// import SingleBus from './Bus/SingleBus';
 
 // Import styles
 import s from './Tray.module.scss';
@@ -34,7 +33,7 @@ const Tray = (props) => {
             ${searchOpen && isMob ? s.searchOpen : s.searchClosed}
             ${listView ? s.listView : ''}`}
         >
-        
+
             <div className="pure-g gutters">
                 <div className="wmnds-col-1">
                     <div className={s.bar} />
@@ -42,17 +41,17 @@ const Tray = (props) => {
             </div>
             <When />
             <Mode />
-            
-            <div className="autoCompleteNew">                
+
+            <div className="autoCompleteNew">
                 <AutoComplete />
             </div>
-            
-            
-            
-            
-            
+
+
+
+
+
         </div>
-    ); 
+    );
     const mobTray = (
         <Draggable
             axis="y"
