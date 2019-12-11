@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 
+/*
+Importing Modes of travel
+*/
+import BusInfo from '../Bus/BusInfo';
+
 // Import Styles
 import './mode.scss';
 
@@ -21,7 +26,6 @@ class ModeExtended extends Component {
   }
 
   busButton() {
-    console.log('Bus Button Was Pressed');
     this.setState(prevState => {
       return {
         isHiddenBus: !prevState.isHiddenBus,
@@ -33,7 +37,6 @@ class ModeExtended extends Component {
   }
 
   trainButton() {
-    console.log('Train Button Was Pressed');
     this.setState(prevState => {
       return {
         isHiddenTrain: !prevState.isHiddenTrain,
@@ -45,7 +48,6 @@ class ModeExtended extends Component {
   }
 
   tramButton() {
-    console.log('Tram Button Was Pressed');
     this.setState(prevState => {
       return {
         isHiddenTram: !prevState.isHiddenTram,
@@ -57,7 +59,6 @@ class ModeExtended extends Component {
   }
 
   roadButton() {
-    console.log('Whats going on the roads bob....');
     this.setState(prevState => {
       return {
         isHiddenRoad: !prevState.isHiddenRoad,
@@ -89,10 +90,12 @@ class ModeExtended extends Component {
             </button>
           </div>
         </div>
+
         {state.isHiddenBus && (
-          <>
-            <h6>You can show Bus Data Now....</h6>
-          </>
+          <div>
+            <h6>New Bus Data Being Shown Below:</h6>
+            <BusInfo />
+          </div>
         )}
 
         {state.isHiddenTrain && (
@@ -100,13 +103,11 @@ class ModeExtended extends Component {
             <h6>You can show Train Data Now....</h6>
           </div>
         )}
-
         {state.isHiddenTram && (
           <div>
             <h6>You can show Tram Data Now....</h6>
           </div>
         )}
-
         {state.isHiddenRoad && (
           <div>
             <h6>You roads dsedede....</h6>

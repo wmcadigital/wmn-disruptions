@@ -18,11 +18,13 @@ class BusInfo extends Component {
       busData: []
     });
 
+    // eslint-disable-next-line no-console
     console.log(`Bus Data!`, res);
   }
 
   render() {
     const { state } = this;
+
     const listItems = state.busData.map(res => (
       <div key={res.id}>
         {res.operatorName}

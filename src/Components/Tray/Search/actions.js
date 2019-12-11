@@ -47,8 +47,6 @@ export function FetchResults(data) {
           searchPhrase
         };
 
-        console.log('newData is ', newData);
-
         return { type: FETCH_RESULTS, payload: newData };
       });
   };

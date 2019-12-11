@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import BusInfo from './BusInfo';
 
-class Bus extends Component {
-    render(){
-        return <BusInfo />
-    }    
+export default function Bus() {
+  return (
+    <div>
+      <BusInfo />
+    </div>
+  );
 }
-
-export default Bus;
