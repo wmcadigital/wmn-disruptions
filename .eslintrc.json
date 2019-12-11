@@ -15,6 +15,29 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "plugins": ["react"],
-  "rules": {}
+  "rules": {
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ],
+    "react/jsx-no-bind": [
+      "error",
+      {
+        "allowArrowFunctions": true,
+        "allowBind": false,
+        "ignoreRefs": true
+      }
+    ],
+    "react/no-did-update-set-state": "error",
+    "react/no-unknown-property": "error",
+    "react/react-in-jsx-scope": "error"
+  }
 }

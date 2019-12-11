@@ -1,6 +1,6 @@
 // Import packages
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types'; // Commented out, as with the viewMode propType below
 import { connect } from 'react-redux';
 
 // Import components
@@ -18,58 +18,53 @@ import s from './App.scss';
 const MAP_VIEW = 'map view';
 
 class App extends React.Component {
-  isMobileDevice() {
-    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
-  };
+  static IsMobileDevice() {
+    return typeof window.orientation !== 'undefined' || navigator.userAgent.indexOf('IEMobile') !== -1;
+  }
 
   componentDidMount() {
-    const { isMobileDevice, props } = this;
+    const { props } = this;
     const { SetViewMode } = props || {};
 
-    isMobileDevice();
+    App.IsMobileDevice();
 
     SetViewMode(MAP_VIEW);
-};
+  }
 
   render() {
-  
-
     return (
-      
       <div className={s.app}>
         <Header />
-          <Map />
+        <Map />
         <Tray />
       </div>
     );
   }
 }
 
-App.propTypes = {
-  viewMode: PropTypes.string,
-};
+// Commented out as viewMode isn't being used (yet)
+// App.propTypes = {
+//   viewMode: PropTypes.string
+// };
 
-App.defaultProps = {
-  viewMode: MAP_VIEW,
-};
+// App.defaultProps = {
+//   viewMode: MAP_VIEW
+// };
 
 const mapStateToProps = state => {
   const { app } = state || {};
   const { viewMode } = app || {};
 
   return {
-    viewMode: viewMode || '',
-  }
-}
+    viewMode: viewMode || ''
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   const { SetViewMode } = a || {};
   return {
-      SetViewMode: data => dispatch(SetViewMode(data))
-  }
-}
+    SetViewMode: data => dispatch(SetViewMode(data))
+  };
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

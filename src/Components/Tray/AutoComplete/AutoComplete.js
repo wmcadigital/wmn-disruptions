@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import Autosuggest from 'react-autosuggest';
 import './AutoComplete.scss';
 
@@ -23,13 +23,12 @@ const buses = [
   {
     name: 'Sutton Coldfield To Longbridge '
   },
-   {
-     name: 'Sutton Coldfield to New Street Station'
-    
+  {
+    name: 'Sutton Coldfield to New Street Station'
   },
-   {
-     name: 'New Station Street to Sutton Coldfield'
-  },
+  {
+    name: 'New Station Street to Sutton Coldfield'
+  }
 ];
 
 // Teach Autosuggest how to calculate suggestions for any given input value.
@@ -37,9 +36,7 @@ const getSuggestions = value => {
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
 
-  return inputLength === 0 ? [] : buses.filter(buses =>
-    buses.name.toLowerCase().slice(0, inputLength) === inputValue
-  );
+  return inputLength === 0 ? [] : buses.filter(bus => bus.name.toLowerCase().slice(0, inputLength) === inputValue);
 };
 
 // When suggestion is clicked, Autosuggest needs to populate the input
@@ -48,14 +45,10 @@ const getSuggestions = value => {
 const getSuggestionValue = suggestion => suggestion.name;
 
 // Use your imagination to render suggestions.
-const renderSuggestion = suggestion => (
-  <div>
-    {suggestion.name}
-  </div>
-);
+const renderSuggestion = suggestion => <div>{suggestion.name}</div>;
 
 class AutoComplete extends Component {
-     constructor() {
+  constructor() {
     super();
 
     // Autosuggest is a controlled component.
@@ -69,26 +62,26 @@ class AutoComplete extends Component {
     };
   }
 
-  onChange = (event, { newValue }) => {
+  onChange(event, { newValue }) {
     this.setState({
       value: newValue
     });
-  };
+  }
 
   // Autosuggest will call this function every time you need to update suggestions.
   // You already implemented this logic above, so just use it.
-  onSuggestionsFetchRequested = ({ value }) => {
+  onSuggestionsFetchRequested({ value }) {
     this.setState({
       suggestions: getSuggestions(value)
     });
-  };
+  }
 
   // Autosuggest will call this function every time you need to clear suggestions.
-  onSuggestionsClearRequested = () => {
+  onSuggestionsClearRequested() {
     this.setState({
       suggestions: []
     });
-  };
+  }
 
   render() {
     const { value, suggestions } = this.state;
@@ -101,23 +94,24 @@ class AutoComplete extends Component {
     };
 
     // Finally, render it!
-    //Will hook up the go btn soon.
+    // Will hook up the go btn soon.
     return (
-      <Fragment>
-      <Autosuggest
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        getSuggestionValue={getSuggestionValue}
-        renderSuggestion={renderSuggestion}
-        inputProps={inputProps}
-      />
+      <>
+        <Autosuggest
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+          getSuggestionValue={getSuggestionValue}
+          renderSuggestion={renderSuggestion}
+          inputProps={inputProps}
+        />
 
-      
-        <button className="wmnds-btn">Go</button>
-      </Fragment>
+        <button type="button" className="wmnds-btn">
+          Go
+        </button>
+      </>
     );
   }
 }
 
-export default AutoComplete
+export default AutoComplete;
