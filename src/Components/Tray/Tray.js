@@ -6,12 +6,13 @@ import { connect } from 'react-redux';
 
 // Import components
 import When from './When/When';
-import Mode from './Mode/Mode';
+// import Mode from './Mode/Mode';
 // import Search from './Search/Search';
 import AutoComplete from './AutoComplete/AutoComplete';
 // import Bus from './Bus/Bus';
 // import Train from './Train/Train';
 // import SingleBus from './Bus/SingleBus';
+import ModeExtended from './Mode/ModeExtended';
 
 // Import styles
 import s from './Tray.module.scss';
@@ -40,7 +41,8 @@ const Tray = props => {
         </div>
       </div>
       <When />
-      <Mode />
+
+      <ModeExtended />
 
       <div className="autoCompleteNew">
         <AutoComplete />

@@ -18,23 +18,22 @@ class BusInfo extends Component {
       busData: []
     });
 
-    console.log(`s data!`, res);
+    console.log(`Bus Data!`, res);
   }
 
   render() {
-    const listItems = this.state.busData.map(res => (
+    const { state } = this;
+    const listItems = state.busData.map(res => (
       <div key={res.id}>
-            {res.operatorName}
-            <br />
-            {res.routeDesc}
-            <br />
-            {res.serviceNumber}
-            {' '}
-            <br />
-            {res.direction}
-            {' '}
-            <br />
-          </div>
+        {res.operatorName}
+        <br />
+        {res.routeDesc}
+        <br />
+        {res.serviceNumber}
+        <br />
+        {res.direction}
+        <br />
+      </div>
     ));
 
     return <div className="bus-info">{listItems}</div>;
