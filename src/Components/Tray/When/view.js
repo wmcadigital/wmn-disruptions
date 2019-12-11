@@ -27,22 +27,32 @@ const WhenView = props => {
       </div>
       <div className="pure-g gutters">
         <div className={`wmnds-col-1 ${s.buttons}`}>
-          <Button type="mode" isSmall isActive={nowActive} onClick={() => selectDate(NOW)} className={s.btn}>
-            {BTN_NOW}
-          </Button>
-          <Button type="mode" isSmall isActive={tomorrowActive} onClick={() => selectDate(TOMORROW)} className={s.btn}>
-            {BTN_TOMORROW}
-          </Button>
+          {/* Now button */}
+          <Button
+            btnClass="wmnds-btn--secondary"
+            isActive={nowActive}
+            onClick={() => selectDate(NOW)}
+            className={s.btn}
+            text={BTN_NOW}
+          />
+          {/* Tomorrow button */}
+          <Button
+            btnClass="wmnds-btn--secondary"
+            isActive={tomorrowActive}
+            onClick={() => selectDate(TOMORROW)}
+            className={s.btn}
+            text={BTN_TOMORROW}
+          />
+          {/* Choose date button */}
           <div className={s.chooseDateWrapper}>
             <Button
-              type="mode"
-              isSmall
+              btnClass="wmnds-btn--secondary"
               isActive={chooseDateActive}
               className={`${s.btn} ${s.chooseDateBtn}`}
               onClick={e => e.preventDefault}
-            >
-              {BTN_CHOOSE_DATE}
-            </Button>
+              text={BTN_CHOOSE_DATE}
+            />
+
             <span className={s.datePicker}>
               <DatePicker selected={time} onSelect={datePicker} withPortal />
             </span>
