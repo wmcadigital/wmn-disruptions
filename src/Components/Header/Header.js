@@ -1,6 +1,6 @@
 // Import packages
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import MainHeader from '../MainHeader/MainHeader';
 
@@ -66,10 +66,10 @@ class Header extends React.Component {
   }
 }
 
-Header.propTypes = {
-  viewMode: PropTypes.string,
-  SetViewMode: PropTypes.func
-};
+// Header.propTypes = {
+//   viewMode: PropTypes.string,
+//   SetViewMode: PropTypes.func
+// };
 
 Header.defaultProps = {
   viewMode: MAP_VIEW,

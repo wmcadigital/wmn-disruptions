@@ -4,7 +4,9 @@ import thunk from 'redux-thunk';
 
 // Import reducers
 import appReducer from '../Components/Tray/When/reducer';
+// eslint-disable-next-line import/no-duplicates
 import timeReducer from '../Components/Tray/Mode/reducer';
+// eslint-disable-next-line import/no-duplicates
 import modeReducer from '../Components/Tray/Mode/reducer';
 import searchReducer from '../Components/Tray/Search/reducer';
 // import initialState from './initialState.json'
@@ -24,6 +26,7 @@ const reducer = combineReducers({
 
 // console.log('initial store here:', store.getState());
 
+/* eslint-disable no-underscore-dangle */
 export default createStore(
   reducer,
   // initialState,
