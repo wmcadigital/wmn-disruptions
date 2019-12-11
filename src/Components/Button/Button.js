@@ -2,23 +2,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Button = props => {
-    const { props } = this;
-    const { type, isSmall, isBlock, isActive, children, onClick, className } = props || {};
-
-    return (
-      <button
-        className={`wmnds-btn wmnds-btn--secondary wmnds-btn__${type}
-                    ${className} ${isSmall ? `wmnds-btn-small` : ''}
-                    ${isActive ? 'wmnds-is--active' : ''}
-                    ${isBlock ? 'wmnds-is-block' : ''}`}
-        tabIndex="0"
-        onClick={e => onClick(e)}
-      >
-        {children}
-      </button>
-    );
-}
+const Button = ({ type, isSmall, isBlock, isActive, children, onClick, className }) => {
+  return (
+    <button
+      className={`wmnds-btn wmnds-btn--secondary wmnds-btn__${type} ${className} ${isSmall ? `wmnds-btn-small` : ''} ${
+        isActive ? 'wmnds-is--active' : ''
+      } ${isBlock ? 'wmnds-is-block' : ''}`}
+      tabIndex="0"
+      onClick={e => onClick(e)}
+      type="button"
+    >
+      {children}
+    </button>
+  );
+};
 
 Button.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
