@@ -34,7 +34,6 @@ class Mode extends React.Component {
         const { ChangeModeToCheck } = this;
         return (
             <div>
-            <h6>Test</h6>
             <ModeView
                 changeModeToCheck={ChangeModeToCheck}
             />

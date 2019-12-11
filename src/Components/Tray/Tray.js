@@ -7,14 +7,14 @@ import { connect } from 'react-redux';
 
 // Import components
 import When from './When/When';
-import Mode from './Mode/Mode';
+//import Mode from './Mode/Mode';
 //import Search from './Search/Search';
 import AutoComplete from './AutoComplete/AutoComplete';
 //import Bus from './Bus/Bus';
 //import Train from './Train/Train';
 //import SingleBus from './Bus/SingleBus';
 import ModeExtended from './Mode/ModeExtended';
-import Fun from './Mode/Fun';
+
 
 // Import styles
 import s from './Tray.module.scss';
@@ -43,42 +43,12 @@ const Tray = (props) => {
                 </div>
             </div>
             <When />
-            <Mode />
+            
             <ModeExtended />
             
             <div className="autoCompleteNew">                
                 <AutoComplete />
-            </div>
-            
-
-            <em>Funfnu</em>
-            <Fun />
-
-
-            <em>Test SVG HERE</em>
-            
-            <div className="wmnds-disruption-indicator-large wmnds-disruption-indicator-large--undefined">
-                <div className="wmnds-disruption-indicator-large__left-wrapper">
-                    <span className="wmnds-disruption-indicator-large__left-icon-wrapper">
-                        <svg className="wmnds-disruption-indicator-large__icon">
-                            <use 
-                            xlinkHref="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-modes-isolated-rail" 
-                            href="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-modes-isolated-rail">
-                            </use>
-                        </svg>
-                            <br />Train
-                    </span>
-
-                    <span className="wmnds-disruption-indicator-large__text">
-                        <strong>Good service</strong><br/>Cross City Line
-                    </span>
-                </div>
-            </div>
-                  
-            
-
-            
-            
+            </div>   
         </div>
     ); 
     const mobTray = (

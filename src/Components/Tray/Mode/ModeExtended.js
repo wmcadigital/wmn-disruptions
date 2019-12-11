@@ -1,4 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+
+//Import Styles
+import './mode.scss'
 
 class ModeExtended extends Component {
 
@@ -39,7 +42,6 @@ class ModeExtended extends Component {
                 isHiddenBus: false,
                 isHiddenTram: false,
                 isHiddenRoad: false
-
             };
         });
     }
@@ -72,21 +74,19 @@ class ModeExtended extends Component {
     render() {
         return (
             <div>   
-                <h5>Mode Extended</h5>
 
-                <button onClick={this.busButton}>Bus</button>
-                <button onClick={this.trainButton}>Train</button>
-                <button onClick={this.tramButton}>Tram</button>
-                <button onClick={this.roadButton}>Roads</button>
-                
-
-
-
-
+           <div className="pure-g gutters">      
+            <div className="modeBtns">
+                <button className="wmnds-btn wmnds-btn--secondary wmnds-btn-small" onClick={this.busButton}>Bus</button>
+                <button className="wmnds-btn wmnds-btn--secondary wmnds-btn-small" onClick={this.trainButton}>Train</button>
+                <button className="wmnds-btn wmnds-btn--secondary wmnds-btn-small" onClick={this.tramButton}>Tram</button>
+                <button className="wmnds-btn wmnds-btn--secondary wmnds-btn-small" onClick={this.roadButton}>Roads</button>
+            </div>                
+            </div>    
                 {this.state.isHiddenBus && (
-                    <div>
+                    <Fragment>
                         <h6>You can show Bus Data Now....</h6>
-                    </div>
+                    </Fragment>
                 )}
 
                 {this.state.isHiddenTrain && (
@@ -106,9 +106,7 @@ class ModeExtended extends Component {
                         <h6>You roads dsedede....</h6>
                     </div>
                 )}
-                
-                
-            </div>
+        </div>
         )
     }
 }
