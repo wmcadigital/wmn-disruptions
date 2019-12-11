@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 // Import Styles
 import './mode.scss';
+import Button from '../../Button/Button';
 
 class ModeExtended extends Component {
   constructor() {
@@ -75,9 +76,13 @@ class ModeExtended extends Component {
       <div>
         <div className="pure-g gutters">
           <div className="modeBtns">
-            <button className="wmnds-btn wmnds-btn--secondary wmnds-btn-small" onClick={this.busButton} type="button">
+            {/* <button className="wmnds-btn wmnds-btn--secondary wmnds-btn-small" onClick={this.busButton} type="button">
               Bus
-            </button>
+            </button> */}
+
+            <Button btnClass="wmnds-btn--small wmnds-btn--mode" onClick={this.busButton} iconLeft="modes-isolated-bus">
+              Bus
+            </Button>
             <button className="wmnds-btn wmnds-btn--secondary wmnds-btn-small" onClick={this.trainButton} type="button">
               Train
             </button>
