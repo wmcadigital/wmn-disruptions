@@ -1,6 +1,6 @@
 // Import packages
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // Import components
@@ -19,7 +19,6 @@ class When extends React.Component {
     this.ChangeTimeToCheck = this.ChangeTimeToCheck.bind(this);
     this.SelectDate = this.SelectDate.bind(this);
     this.DatePicker = this.DatePicker.bind(this);
-    this.ModeOfTransport = this.ModeOfTransport(this);
   }
 
   componentDidMount() {
@@ -57,10 +56,6 @@ class When extends React.Component {
     ChangeTimeToCheck(CHOOSE_DATE);
   }
 
-  ModeOfTransport() {
-    // Still to be set up with API
-  }
-
   render() {
     const { props, SelectDate, DatePicker } = this;
     const { time, timeToCheck } = props || {};
@@ -69,9 +64,9 @@ class When extends React.Component {
   }
 }
 
-When.propTypes = {
-  timeToCheck: PropTypes.string
-};
+// When.propTypes = {
+//   timeToCheck: PropTypes.string
+// };
 
 When.defaultProps = {
   timeToCheck: ''

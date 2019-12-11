@@ -1,6 +1,6 @@
 // Import packages
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import Draggable from 'react-draggable';
 import { connect } from 'react-redux';
 
@@ -55,10 +55,10 @@ const Tray = props => {
   return <>{isMob ? mobTray : tray}</>;
 };
 
-Tray.propTypes = {
-  searchPhrase: PropTypes.string,
-  viewMode: PropTypes.string
-};
+// Tray.propTypes = {
+//   searchPhrase: PropTypes.string,
+//   viewMode: PropTypes.string
+// };
 
 Tray.defaultProps = {
   searchPhrase: undefined,

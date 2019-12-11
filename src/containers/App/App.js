@@ -1,6 +1,6 @@
 // Import packages
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types'; // Commented out, as with the viewMode propType below
 import { connect } from 'react-redux';
 
 // Import components
@@ -48,13 +48,14 @@ class App extends React.Component {
   }
 }
 
-App.propTypes = {
-  viewMode: PropTypes.string
-};
+// Commented out as viewMode isn't being used (yet)
+// App.propTypes = {
+//   viewMode: PropTypes.string
+// };
 
-App.defaultProps = {
-  viewMode: MAP_VIEW
-};
+// App.defaultProps = {
+//   viewMode: MAP_VIEW
+// };
 
 const mapStateToProps = state => {
   const { app } = state || {};

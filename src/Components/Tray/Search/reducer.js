@@ -11,13 +11,15 @@ export default function search(state = INITAL_STATE, action) {
   const { payload, type } = action || {};
 
   switch (type) {
-    case a.FETCH_RESULTS:
+    case a.FETCH_RESULTS: {
       const { searchPhrase, results } = payload || {};
+
       return {
         ...state,
         searchPhrase,
         results
       };
+    }
     case a.RESET_SEARCH:
       return {
         ...state,

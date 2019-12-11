@@ -1,6 +1,6 @@
 // Import packages
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 
 // Import components
@@ -53,12 +53,12 @@ const WhenView = props => {
   );
 };
 
-WhenView.propTypes = {
-  timeToCheck: PropTypes.string,
-  time: PropTypes.string,
-  selectDate: PropTypes.func,
-  datePicker: PropTypes.func
-};
+// WhenView.propTypes = {
+//   timeToCheck: PropTypes.string,
+//   time: PropTypes.string,
+//   selectDate: PropTypes.func,
+//   datePicker: PropTypes.func
+// };
 
 WhenView.defaultProps = {
   timeToCheck: '',
