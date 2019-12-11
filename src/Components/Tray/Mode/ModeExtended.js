@@ -80,18 +80,33 @@ class ModeExtended extends Component {
               Bus
             </button> */}
 
-            <Button btnClass="wmnds-btn--small wmnds-btn--mode" onClick={this.busButton} iconLeft="modes-isolated-bus">
-              Bus
-            </Button>
-            <button className="wmnds-btn wmnds-btn--secondary wmnds-btn-small" onClick={this.trainButton} type="button">
-              Train
-            </button>
-            <button className="wmnds-btn wmnds-btn--secondary wmnds-btn-small" onClick={this.tramButton} type="button">
-              Tram
-            </button>
-            <button className="wmnds-btn wmnds-btn--secondary wmnds-btn-small" onClick={this.roadButton} type="button">
-              Roads
-            </button>
+            <Button
+              btnClass="wmnds-btn--small wmnds-btn--mode"
+              onClick={this.busButton}
+              iconLeft="modes-isolated-bus"
+              text="Bus"
+            />
+
+            <Button
+              btnClass="wmnds-btn--small wmnds-btn--mode"
+              onClick={this.trainButton}
+              iconLeft="modes-isolated-rail"
+              text="Train"
+            />
+
+            <Button
+              btnClass="wmnds-btn--small wmnds-btn--mode"
+              onClick={this.tramButton}
+              iconLeft="modes-isolated-rail"
+              text="Tram"
+            />
+
+            <Button
+              btnClass="wmnds-btn--small wmnds-btn--mode"
+              onClick={this.troadButton}
+              iconLeft="modes-isolated-rail"
+              text="Roads"
+            />
           </div>
         </div>
         {state.isHiddenBus && (

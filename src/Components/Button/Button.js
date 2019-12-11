@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../Icon/Icon';
 
-const Button = ({ type, isActive, children, onClick, btnClass, iconLeft, iconRight }) => {
+const Button = ({ type, isActive, text, onClick, btnClass, iconLeft, iconRight }) => {
   return (
     // eslint-disable-next-line react/button-has-type
     <button
@@ -14,7 +14,7 @@ const Button = ({ type, isActive, children, onClick, btnClass, iconLeft, iconRig
     >
       {iconLeft ? <Icon iconClass="wmnds-btn__icon" iconName={iconLeft} /> : null}
 
-      {children}
+      {text}
 
       {iconRight ? <Icon iconClass="wmnds-btn__icon wmnds-btn__icon--right" iconName={iconRight} /> : null}
     </button>
@@ -22,7 +22,7 @@ const Button = ({ type, isActive, children, onClick, btnClass, iconLeft, iconRig
 };
 
 Button.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  text: PropTypes.string,
   type: PropTypes.string,
   onClick: PropTypes.func,
   isActive: PropTypes.bool,
@@ -32,7 +32,7 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
-  children: '',
+  text: '',
   type: 'button',
   onClick: () => {},
   isActive: false,
