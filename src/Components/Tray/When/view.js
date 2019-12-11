@@ -20,13 +20,13 @@ const WhenView = props => {
   const chooseDateActive = timeToCheck === CHOOSE_DATE;
   return (
     <>
-      <div className="pure-g gutters">
+      <div className="wmnds-grid">
         <div className="wmnds-col-1">
           <h5>{TITLE}</h5>
         </div>
       </div>
-      <div className="pure-g gutters">
-        <div className={`wmnds-col-1 ${s.buttons}`}>
+      <div className="wmnds-grid">
+        <div className="wmnds-col-1-3">
           {/* Now button */}
           <Button
             btnClass="wmnds-btn--secondary"
@@ -35,6 +35,8 @@ const WhenView = props => {
             className={s.btn}
             text={BTN_NOW}
           />
+        </div>
+        <div className="wmnds-col-1-3">
           {/* Tomorrow button */}
           <Button
             btnClass="wmnds-btn--secondary"
@@ -43,6 +45,8 @@ const WhenView = props => {
             className={s.btn}
             text={BTN_TOMORROW}
           />
+        </div>
+        <div className="wmnds-col-1-3">
           {/* Choose date button */}
           <div className={s.chooseDateWrapper}>
             <Button
