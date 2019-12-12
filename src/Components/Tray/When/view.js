@@ -25,8 +25,8 @@ const WhenView = props => {
           <h5>{TITLE}</h5>
         </div>
       </div>
-      <div className="wmnds-grid">
-        <div className="wmnds-col-1-3">
+      <div className="wmnds-grid wmnds-grid--justify-between">
+        <div className="wmnds-col-1-auto">
           {/* Now button */}
           <Button
             btnClass="wmnds-btn--secondary"
@@ -36,7 +36,7 @@ const WhenView = props => {
             text={BTN_NOW}
           />
         </div>
-        <div className="wmnds-col-1-3">
+        <div className="wmnds-col-1-auto">
           {/* Tomorrow button */}
           <Button
             btnClass="wmnds-btn--secondary"
@@ -46,7 +46,7 @@ const WhenView = props => {
             text={BTN_TOMORROW}
           />
         </div>
-        <div className="wmnds-col-1-3">
+        <div className="wmnds-col-1-auto">
           {/* Choose date button */}
           <div className={s.chooseDateWrapper}>
             <Button
