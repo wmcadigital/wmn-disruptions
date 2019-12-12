@@ -26,26 +26,22 @@ const WhenView = props => {
         </div>
       </div>
       <div className="wmnds-grid wmnds-grid--justify-between">
-        <div className="wmnds-col-auto">
-          {/* Now button */}
-          <Button
-            btnClass="wmnds-btn--secondary wmnds-btn--small"
-            isActive={nowActive}
-            onClick={() => selectDate(NOW)}
-            className={s.btn}
-            text={BTN_NOW}
-          />
-        </div>
-        <div className="wmnds-col-auto">
-          {/* Tomorrow button */}
-          <Button
-            btnClass="wmnds-btn--secondary wmnds-btn--small"
-            isActive={tomorrowActive}
-            onClick={() => selectDate(TOMORROW)}
-            className={s.btn}
-            text={BTN_TOMORROW}
-          />
-        </div>
+        {/* Now button */}
+        <Button
+          btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-col-auto"
+          isActive={nowActive}
+          onClick={() => selectDate(NOW)}
+          className={s.btn}
+          text={BTN_NOW}
+        />
+        {/* Tomorrow button */}
+        <Button
+          btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-col-auto"
+          isActive={tomorrowActive}
+          onClick={() => selectDate(TOMORROW)}
+          className={s.btn}
+          text={BTN_TOMORROW}
+        />
         <div className="wmnds-col-auto">
           {/* Choose date button */}
           <div className={s.chooseDateWrapper}>
