@@ -73,38 +73,39 @@ class ModeExtended extends Component {
     const { state } = this;
 
     return (
-      <div>
-        <div className="pure-g gutters">
-          <div className="modeBtns">
-            {/* Bus mode button */}
-            <Button
-              btnClass="wmnds-btn--small wmnds-btn--mode"
-              onClick={this.busButton}
-              iconLeft="modes-isolated-bus"
-              text="Bus"
-            />
-            {/* Train mode button */}
-            <Button
-              btnClass="wmnds-btn--small wmnds-btn--mode"
-              onClick={this.trainButton}
-              iconLeft="modes-isolated-rail"
-              text="Train"
-            />
-            {/* Tram mode button */}
-            <Button
-              btnClass="wmnds-btn--small wmnds-btn--mode"
-              onClick={this.tramButton}
-              iconLeft="modes-isolated-rail"
-              text="Tram"
-            />
-            {/* Roads mode button */}
-            <Button
-              btnClass="wmnds-btn--small wmnds-btn--mode"
-              onClick={this.troadButton}
-              iconLeft="modes-isolated-rail"
-              text="Roads"
-            />
+      <>
+        <div className="wmnds-grid wmnds-grid--justify-between">
+          <div className="wmnds-col-1">
+            <h5>Select a mode of travel</h5>
           </div>
+          {/* Bus mode button */}
+          <Button
+            btnClass="wmnds-col-auto wmnds-btn--small wmnds-btn--mode"
+            onClick={this.busButton}
+            iconLeft="modes-isolated-bus"
+            text="Bus"
+          />
+          {/* Train mode button */}
+          <Button
+            btnClass="wmnds-col-auto wmnds-btn--small wmnds-btn--mode"
+            onClick={this.trainButton}
+            iconLeft="modes-isolated-rail"
+            text="Train"
+          />
+          {/* Tram mode button */}
+          <Button
+            btnClass="wmnds-col-auto wmnds-btn--small wmnds-btn--mode"
+            onClick={this.tramButton}
+            iconLeft="modes-isolated-rail"
+            text="Tram"
+          />
+          {/* Roads mode button */}
+          <Button
+            btnClass="wmnds-col-auto wmnds-btn--small wmnds-btn--mode"
+            onClick={this.troadButton}
+            iconLeft="modes-isolated-rail"
+            text="Roads"
+          />
         </div>
         {state.isHiddenBus && (
           <>
@@ -129,7 +130,7 @@ class ModeExtended extends Component {
             <h6>You roads dsedede....</h6>
           </div>
         )}
-      </div>
+      </>
     );
   }
 }
