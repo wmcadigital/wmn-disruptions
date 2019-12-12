@@ -8,7 +8,7 @@ button,
 input,
 select,
 textarea,
-.pure-g gutters [class*='pure-u'] {
+.wmnds-grid gutters [class*='pure-u'] {
 	-webkit-font-smoothing: antialiased;
 	font-family: $x-font-family;
 }
@@ -53,11 +53,11 @@ a {
 	  text-align: center;
 	}
 }
-  
+
 .text-bold {
 	font-weight: 600;
 }
-  
+
 // Text colors
 .text-color {
 	&-primary {
@@ -73,7 +73,7 @@ a {
 	  color: getColor(secondary);
 	}
 }
- 
+
 h1 {
 	@include type-setting(5);
 	margin: $margin-lg 0;

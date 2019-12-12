@@ -46,19 +46,16 @@ class Header extends React.Component {
       <>
         <MainHeader />
 
-        <div className={`pure-g gutters ${s.container}`}>
+        <div className={`wmnds-grid gutters ${s.container}`}>
           <h1 className={s.title}>{TITLE}</h1>
 
           <div className={`${s.btnContainer}`}>
-            <Button type="secondary" onClick={() => ToggleViewMode()}>
-              {listView ? BTN_MAP : BTN_LIST}
-              <svg className="wmnds-btn__icon wmnds-btn__icon--right">
-                <use
-                  xlinkHref="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-general-chevron-right"
-                  href="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-general-chevron-right"
-                />
-              </svg>
-            </Button>
+            <Button
+              btnClass="wmnds-btn--secondary"
+              onClick={() => ToggleViewMode()}
+              iconRight="general-chevron-right"
+              text={listView ? BTN_MAP : BTN_LIST}
+            />
           </div>
         </div>
       </>

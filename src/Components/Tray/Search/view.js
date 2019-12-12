@@ -27,21 +27,21 @@ const SearchView = (props) => {
         results,
         isOpen,
         search,
-        viewMode, 
-        modeToCheck, 
-        
+        viewMode,
+        modeToCheck,
+
     } = props;
-   
+
     const mapView = viewMode === MAP_VIEW;
 
     //const busActive = modeToCheck === BUS;
-    
+
     // if (modeToCheck === BUS ) {
     //     console.log('Show Bus Info Now - New', );
     // }
 
     return (
-        <div className={`pure-g ${s.container}`}>
+        <div className={`wmnds-grid ${s.container}`}>
             <div className="wmnds-col-1">
                 {!resultSelected ? (
                     <Fragment>
@@ -57,10 +57,10 @@ const SearchView = (props) => {
                     </Fragment>
                 ) : <SelectedResult />}
 
-                    
+
                     <NewBusses />
 
-                    <div className="transport-info">                    
+                    <div className="transport-info">
                         <BusInfo />
                     </div>
             </div>
