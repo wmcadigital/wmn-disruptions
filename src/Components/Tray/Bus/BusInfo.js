@@ -23,9 +23,8 @@ class BusInfo extends Component {
   }
 
   render() {
-    const { state } = this;
-
-    const listItems = state.busData.map(res => (
+    // eslint-disable-next-line react/destructuring-assignment
+    const listItems = this.state.busData.map(res => (
       <div key={res.id}>
         {res.operatorName}
         <br />

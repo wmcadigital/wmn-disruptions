@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 // Import components
 import When from './When/When';
-import AutoComplete from './AutoComplete/AutoComplete';
 import ModeExtended from './Mode/ModeExtended';
 
 // Import styles
@@ -35,10 +34,8 @@ const Tray = props => {
         </div>
       </div>
       <When />
+
       <ModeExtended />
-      <div className="autoCompleteNew">
-        <AutoComplete />
-      </div>
     </div>
   );
   const mobTray = (
@@ -48,11 +45,6 @@ const Tray = props => {
   );
   return <>{isMob ? mobTray : tray}</>;
 };
-
-// Tray.propTypes = {
-//   searchPhrase: PropTypes.string,
-//   viewMode: PropTypes.string
-// };
 
 Tray.defaultProps = {
   searchPhrase: undefined,

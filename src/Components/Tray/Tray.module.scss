@@ -1,5 +1,5 @@
-@import "../../assets/styles/vars";
-@import "../../assets/styles/mixins";
+@import '../../assets/styles/vars';
+@import '../../assets/styles/mixins';
 
 // Tray vars
 $t-height: 105vh;
@@ -71,9 +71,4 @@ $t-bar-margin: $margin-sm;
   @media only screen and (min-width: 1200px) {
     display: none;
   }
-}
-
-.autoCompleteNew {
-  margin-top: 40px;
-  display: block;
 }

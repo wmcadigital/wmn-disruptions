@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 /*
 Importing Modes of travel
 */
-import BusInfo from '../Bus/BusInfo';
+import Bus from '../Bus/Bus';
 
 // Import Styles
 import './mode.scss';
@@ -76,16 +76,32 @@ class ModeExtended extends Component {
       <div>
         <div className="pure-g gutters">
           <div className="modeBtns">
-            <button className="wmnds-btn wmnds-btn--secondary wmnds-btn-small" onClick={this.busButton} type="button">
+            {/* Icons still not coming through! 
+            
+              Will leave this here for now.
+            
+          <button type="button" className="wmnds-btn wmnds-btn--secondary">
+              Secondary icon button
+              <svg className="wmnds-btn__icon wmnds-btn__icon--right">
+                <use
+                  xlinkHref="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-general-chevron-right"
+                  href="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-general-chevron-right"
+                />
+              </svg>
+            </button>
+
+              */}
+
+            <button className="wmnds-btn wmnds-btn--secondary" onClick={this.busButton} type="button">
               Bus
             </button>
-            <button className="wmnds-btn wmnds-btn--secondary wmnds-btn-small" onClick={this.trainButton} type="button">
+            <button className="wmnds-btn wmnds-btn--secondary" onClick={this.trainButton} type="button">
               Train
             </button>
-            <button className="wmnds-btn wmnds-btn--secondary wmnds-btn-small" onClick={this.tramButton} type="button">
+            <button className="wmnds-btn wmnds-btn--secondary" onClick={this.tramButton} type="button">
               Tram
             </button>
-            <button className="wmnds-btn wmnds-btn--secondary wmnds-btn-small" onClick={this.roadButton} type="button">
+            <button className="wmnds-btn wmnds-btn--secondary" onClick={this.roadButton} type="button">
               Roads
             </button>
           </div>
@@ -93,8 +109,8 @@ class ModeExtended extends Component {
 
         {state.isHiddenBus && (
           <div>
-            <h6>New Bus Data Being Shown Below:</h6>
-            <BusInfo />
+            <h6>Bus Info</h6>
+            <Bus />
           </div>
         )}
 

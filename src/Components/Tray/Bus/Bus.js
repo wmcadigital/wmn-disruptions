@@ -1,10 +1,13 @@
 import React from 'react';
-import BusInfo from './BusInfo';
+import NewSearch from '../../Search/NewSearch';
 
-export default function Bus() {
+function Bus() {
   return (
     <div>
-      <BusInfo />
+      <h6>This is the Bus Search</h6>
+      <NewSearch />
     </div>
   );
 }
+
+export default Bus;
