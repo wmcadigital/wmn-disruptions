@@ -46,7 +46,7 @@ class Header extends React.Component {
       <>
         <MainHeader />
 
-        <div className={`pure-g gutters ${s.container}`}>
+        <div className={`wmnds-grid gutters ${s.container}`}>
           <h1 className={s.title}>{TITLE}</h1>
 
           <div className={`${s.btnContainer}`}>

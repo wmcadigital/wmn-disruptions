@@ -29,7 +29,7 @@ const WhenView = props => {
         <div className="wmnds-col-auto">
           {/* Now button */}
           <Button
-            btnClass="wmnds-btn--secondary"
+            btnClass="wmnds-btn--secondary wmnds-btn--small"
             isActive={nowActive}
             onClick={() => selectDate(NOW)}
             className={s.btn}
@@ -39,7 +39,7 @@ const WhenView = props => {
         <div className="wmnds-col-auto">
           {/* Tomorrow button */}
           <Button
-            btnClass="wmnds-btn--secondary"
+            btnClass="wmnds-btn--secondary wmnds-btn--small"
             isActive={tomorrowActive}
             onClick={() => selectDate(TOMORROW)}
             className={s.btn}
@@ -50,7 +50,7 @@ const WhenView = props => {
           {/* Choose date button */}
           <div className={s.chooseDateWrapper}>
             <Button
-              btnClass="wmnds-btn--secondary"
+              btnClass="wmnds-btn--secondary wmnds-btn--small"
               isActive={chooseDateActive}
               className={`${s.btn} ${s.chooseDateBtn}`}
               onClick={e => e.preventDefault}

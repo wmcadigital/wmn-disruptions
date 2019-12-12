@@ -32,7 +32,7 @@ const SearchView = props => {
   // }
 
   return (
-    <div className={`pure-g ${s.container}`}>
+    <div className={`wmnds-grid ${s.container}`}>
       <div className="wmnds-col-1">
         {!resultSelected ? (
           <>
