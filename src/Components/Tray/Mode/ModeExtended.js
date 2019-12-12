@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 // Import Styles
-import './mode.scss';
 import Button from '../../Button/Button';
 
 class ModeExtended extends Component {
