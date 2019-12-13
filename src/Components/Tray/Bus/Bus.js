@@ -1,11 +1,11 @@
 import React from 'react';
-import NewSearch from '../../Search/NewSearch';
+import BusInfo from './BusInfo';
 
 function Bus() {
   return (
     <div>
-      <h6>This is the Bus Search</h6>
-      <NewSearch />
+      <h6>Bus Data:</h6>
+      <BusInfo />
     </div>
   );
 }

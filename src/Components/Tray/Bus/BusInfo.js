@@ -1,43 +1,90 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 class BusInfo extends Component {
   constructor() {
     super();
-    this.state = {
-      busData: []
-    };
+    this.state = { data: [] };
   }
 
-  async componentDidMount() {
-    const res = await axios.get(
-      'https://raw.githubusercontent.com/wmcadigital/wmn-disruptions/master/public/newBusData.json'
-    );
-
-    this.setState({
-      busData: []
-    });
-
-    // eslint-disable-next-line no-console
-    console.log(`Bus Data!`, res);
+  componentDidMount() {
+    fetch(`https://raw.githubusercontent.com/wmcadigital/wmn-disruptions/master/public/newBusData.json`)
+      .then(res => res.json())
+      .then(json => this.setState({ data: json }));
   }
 
   render() {
-    // eslint-disable-next-line react/destructuring-assignment
-    const listItems = this.state.busData.map(res => (
-      <div key={res.id}>
-        {res.operatorName}
-        <br />
-        {res.routeDesc}
-        <br />
-        {res.serviceNumber}
-        <br />
-        {res.direction}
-        <br />
-      </div>
-    ));
+    const { data } = this.state;
 
-    return <div className="bus-info">{listItems}</div>;
+    return (
+      <div>
+        <ul>
+          {data.map(el => (
+            <>
+              <em>{el.operatorName}</em>
+              <br />
+              <em>{el.routeDesc}</em>
+              <br />
+              <em>{el.direction}</em>
+              <hr />
+            </>
+          ))}
+        </ul>
+
+        <div className="wmnds-disruption-indicator-large wmnds-disruption-indicator-large--undefined">
+          <div className="wmnds-disruption-indicator-large__left-wrapper">
+            <span className="wmnds-disruption-indicator-large__left-icon-wrapper">
+              <svg className="wmnds-disruption-indicator-large__icon">
+                <use
+                  xlinkHref="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-modes-isolated-rail"
+                  href="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-modes-isolated-rail"
+                />
+              </svg>
+              <br />
+              Train
+            </span>
+            <span className="wmnds-disruption-indicator-large__text">
+              <strong>Good service</strong>
+              <br />
+              Cross City Line
+            </span>
+          </div>
+          <svg className="wmnds-disruption-indicator-large__icon wmnds-disruption-indicator-large__icon--right">
+            <use
+              xlinkHref="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-general-success"
+              href="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-general-success"
+            />
+          </svg>
+        </div>
+
+        <br />
+
+        <div className="wmnds-disruption-indicator-large wmnds-disruption-indicator-large--undefined">
+          <div className="wmnds-disruption-indicator-large__left-wrapper">
+            <span className="wmnds-disruption-indicator-large__left-icon-wrapper">
+              <svg className="wmnds-disruption-indicator-large__icon">
+                <use
+                  xlinkHref="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-modes-isolated-rail"
+                  href="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-modes-isolated-rail"
+                />
+              </svg>
+              <br />
+              Train
+            </span>
+            <span className="wmnds-disruption-indicator-large__text">
+              <strong>Good service</strong>
+              <br />
+              Cross City Line
+            </span>
+          </div>
+          <svg className="wmnds-disruption-indicator-large__icon wmnds-disruption-indicator-large__icon--right">
+            <use
+              xlinkHref="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-general-success"
+              href="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-general-success"
+            />
+          </svg>
+        </div>
+      </div>
+    );
   }
 }
 

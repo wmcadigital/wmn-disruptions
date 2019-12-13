@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 
 class NewSearch extends Component {
-  state = { term: '' };
+  constructor() {
+    super();
+
+    this.state = {
+      term: ''
+    };
+  }
 
   render() {
     return (

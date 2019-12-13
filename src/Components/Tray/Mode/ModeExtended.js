@@ -109,7 +109,6 @@ class ModeExtended extends Component {
 
         {state.isHiddenBus && (
           <div>
-            <h6>Bus Info</h6>
             <Bus />
           </div>
         )}
