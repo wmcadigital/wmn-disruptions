@@ -1,17 +1,10 @@
 // Import packages
 import React from 'react';
-// import PropTypes from 'prop-types';
 import Draggable from 'react-draggable';
 import { connect } from 'react-redux';
 
 // Import components
 import When from './When/When';
-// import Mode from './Mode/Mode';
-// import Search from './Search/Search';
-import AutoComplete from './AutoComplete/AutoComplete';
-// import Bus from './Bus/Bus';
-// import Train from './Train/Train';
-// import SingleBus from './Bus/SingleBus';
 import ModeExtended from './Mode/ModeExtended';
 
 // Import styles
@@ -43,10 +36,6 @@ const Tray = props => {
       <When />
 
       <ModeExtended />
-
-      <div className="autoCompleteNew">
-        <AutoComplete />
-      </div>
     </div>
   );
   const mobTray = (
@@ -56,11 +45,6 @@ const Tray = props => {
   );
   return <>{isMob ? mobTray : tray}</>;
 };
-
-// Tray.propTypes = {
-//   searchPhrase: PropTypes.string,
-//   viewMode: PropTypes.string
-// };
 
 Tray.defaultProps = {
   searchPhrase: undefined,
