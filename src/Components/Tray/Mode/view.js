@@ -40,34 +40,26 @@ class ModeView extends React.Component {
         </div>
         <div className="wmnds-grid">
           <div className={`wmnds-col-1 ${s.buttons}`}>
-            <Button type="mode" isSmall isActive={busActive} className={s.btn} onClick={() => changeModeToCheck(BUS)}>
-              <Icon class="wmnds-btn__icon" iconName="modes-isolated-bus" />
+            <Button
+              isActive={busActive}
+              className={s.btn}
+              onClick={() => changeModeToCheck(BUS)}
+              iconLeft="modes-isolated-bus"
+            >
               Bus
             </Button>
 
-            <Button
-              type="mode"
-              isSmall
-              isActive={trainActive}
-              className={s.btn}
-              onClick={() => changeModeToCheck(TRAIN)}
-            >
+            <Button isActive={trainActive} className={s.btn} onClick={() => changeModeToCheck(TRAIN)}>
               <Icon class="wmnds-btn__icon" iconName="modes-isolated-rail" />
               Train
             </Button>
 
-            <Button type="mode" isSmall isActive={tramActive} className={s.btn} onClick={() => changeModeToCheck(TRAM)}>
+            <Button isActive={tramActive} className={s.btn} onClick={() => changeModeToCheck(TRAM)}>
               <Icon class="wmnds-btn__icon" iconName="modes-isolated-metro" />
               Tram
             </Button>
 
-            <Button
-              type="mode"
-              isSmall
-              isActive={roadsActive}
-              className={s.btn}
-              onClick={() => changeModeToCheck(ROADS)}
-            >
+            <Button isActive={roadsActive} className={s.btn} onClick={() => changeModeToCheck(ROADS)}>
               <Icon class="wmnds-btn__icon" iconName="modes-isolated-roads" />
               Roads
             </Button>

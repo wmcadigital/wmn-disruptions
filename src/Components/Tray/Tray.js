@@ -28,7 +28,7 @@ const Tray = props => {
             ${searchOpen && isMob ? s.searchOpen : s.searchClosed}
             ${listView ? s.listView : ''}`}
     >
-      <div className="pure-g gutters">
+      <div className="wmnds-grid gutters">
         <div className="wmnds-col-1">
           <div className={s.bar} />
         </div>

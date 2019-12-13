@@ -78,8 +78,8 @@ const SearchResultView = (props) => {
                         <strong>{TITLE_WHAT}</strong>
                         <p>{whatDetails}</p>
                         <strong>{TITLE_DIVERSION}</strong>
-                        
-                        <div className="pure-g">
+
+                        <div className="wmnds-grid">
                             <div className="wmnds-col-1-2">
                                 <Button
                                     type="start"

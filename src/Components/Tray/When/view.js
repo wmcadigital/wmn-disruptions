@@ -20,29 +20,39 @@ const WhenView = props => {
   const chooseDateActive = timeToCheck === CHOOSE_DATE;
   return (
     <>
-      <div className="pure-g gutters">
+      <div className="wmnds-grid">
         <div className="wmnds-col-1">
           <h5>{TITLE}</h5>
         </div>
       </div>
-      <div className="pure-g gutters">
-        <div className={`wmnds-col-1 ${s.buttons}`}>
-          <Button type="mode" isSmall isActive={nowActive} onClick={() => selectDate(NOW)} className={s.btn}>
-            {BTN_NOW}
-          </Button>
-          <Button type="mode" isSmall isActive={tomorrowActive} onClick={() => selectDate(TOMORROW)} className={s.btn}>
-            {BTN_TOMORROW}
-          </Button>
+      <div className="wmnds-grid wmnds-grid--justify-between">
+        {/* Now button */}
+        <Button
+          btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-col-auto"
+          isActive={nowActive}
+          onClick={() => selectDate(NOW)}
+          className={s.btn}
+          text={BTN_NOW}
+        />
+        {/* Tomorrow button */}
+        <Button
+          btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-col-auto"
+          isActive={tomorrowActive}
+          onClick={() => selectDate(TOMORROW)}
+          className={s.btn}
+          text={BTN_TOMORROW}
+        />
+        <div className="wmnds-col-auto">
+          {/* Choose date button */}
           <div className={s.chooseDateWrapper}>
             <Button
-              type="mode"
-              isSmall
+              btnClass="wmnds-btn--secondary wmnds-btn--small"
               isActive={chooseDateActive}
               className={`${s.btn} ${s.chooseDateBtn}`}
               onClick={e => e.preventDefault}
-            >
-              {BTN_CHOOSE_DATE}
-            </Button>
+              text={BTN_CHOOSE_DATE}
+            />
+
             <span className={s.datePicker}>
               <DatePicker selected={time} onSelect={datePicker} withPortal />
             </span>
