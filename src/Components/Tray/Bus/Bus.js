@@ -4,7 +4,6 @@ import BusInfo from './BusInfo';
 function Bus() {
   return (
     <div>
-      <h6>Bus Data:</h6>
       <BusInfo />
     </div>
   );

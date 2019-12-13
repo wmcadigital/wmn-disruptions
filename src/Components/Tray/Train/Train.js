@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import TrainInfo from './TrainInfo';
 
-class Train extends Component {
-    render() {
-        return <TrainInfo />
-    }
+function Train() {
+  return (
+    <div>
+      <TrainInfo />
+    </div>
+  );
 }
 
 export default Train;

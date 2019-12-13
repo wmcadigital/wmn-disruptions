@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Icon from '../../Icon/Icon';
 
 class BusInfo extends Component {
   constructor() {
@@ -34,13 +35,10 @@ class BusInfo extends Component {
           <div className="wmnds-disruption-indicator-large__left-wrapper">
             <span className="wmnds-disruption-indicator-large__left-icon-wrapper">
               <svg className="wmnds-disruption-indicator-large__icon">
-                <use
-                  xlinkHref="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-modes-isolated-rail"
-                  href="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-modes-isolated-rail"
-                />
+                <Icon iconName="modes-isolated-bus" iconClass="wmnds-disruption-indicator-large__icon" />
               </svg>
               <br />
-              Train
+              Trains
             </span>
             <span className="wmnds-disruption-indicator-large__text">
               <strong>Good service</strong>
@@ -49,38 +47,7 @@ class BusInfo extends Component {
             </span>
           </div>
           <svg className="wmnds-disruption-indicator-large__icon wmnds-disruption-indicator-large__icon--right">
-            <use
-              xlinkHref="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-general-success"
-              href="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-general-success"
-            />
-          </svg>
-        </div>
-
-        <br />
-
-        <div className="wmnds-disruption-indicator-large wmnds-disruption-indicator-large--undefined">
-          <div className="wmnds-disruption-indicator-large__left-wrapper">
-            <span className="wmnds-disruption-indicator-large__left-icon-wrapper">
-              <svg className="wmnds-disruption-indicator-large__icon">
-                <use
-                  xlinkHref="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-modes-isolated-rail"
-                  href="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-modes-isolated-rail"
-                />
-              </svg>
-              <br />
-              Train
-            </span>
-            <span className="wmnds-disruption-indicator-large__text">
-              <strong>Good service</strong>
-              <br />
-              Cross City Line
-            </span>
-          </div>
-          <svg className="wmnds-disruption-indicator-large__icon wmnds-disruption-indicator-large__icon--right">
-            <use
-              xlinkHref="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-general-success"
-              href="https://wmnetwork.netlify.com/img/svg-sprite.min.svg#wmnds-general-success"
-            />
+            <Icon iconName="general-success" iconClass="disruption-indicator-large__icon--right" />
           </svg>
         </div>
       </div>

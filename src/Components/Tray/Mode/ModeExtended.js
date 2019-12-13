@@ -102,7 +102,7 @@ class ModeExtended extends Component {
           {/* Roads mode button */}
           <Button
             btnClass="wmnds-col-auto wmnds-btn--small wmnds-btn--mode"
-            onClick={this.troadButton}
+            onClick={this.roadButton}
             iconLeft="modes-isolated-rail"
             text="Roads"
           />
