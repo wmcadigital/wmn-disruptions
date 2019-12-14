@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Icon from '../../Icon/Icon';
 
 class BusInfo extends Component {
   constructor() {
@@ -30,26 +29,6 @@ class BusInfo extends Component {
             </>
           ))}
         </ul>
-
-        <div className="wmnds-disruption-indicator-large wmnds-disruption-indicator-large--undefined">
-          <div className="wmnds-disruption-indicator-large__left-wrapper">
-            <span className="wmnds-disruption-indicator-large__left-icon-wrapper">
-              <svg className="wmnds-disruption-indicator-large__icon">
-                <Icon iconName="modes-isolated-bus" iconClass="wmnds-disruption-indicator-large__icon" />
-              </svg>
-              <br />
-              Trains
-            </span>
-            <span className="wmnds-disruption-indicator-large__text">
-              <strong>Good service</strong>
-              <br />
-              Cross City Line
-            </span>
-          </div>
-          <svg className="wmnds-disruption-indicator-large__icon wmnds-disruption-indicator-large__icon--right">
-            <Icon iconName="general-success" iconClass="disruption-indicator-large__icon--right" />
-          </svg>
-        </div>
       </div>
     );
   }

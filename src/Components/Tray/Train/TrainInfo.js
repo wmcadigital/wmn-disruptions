@@ -1,46 +1,37 @@
 import React, { Component } from 'react';
 
 class BusInfo extends Component {
-    constructor() {
-        super();
-        this.state = {
-            busData: []
-        };
-    }
+  constructor() {
+    super();
+    this.state = { data: [] };
+  }
 
-    componentDidMount() {
-        const url = 'https://raw.githubusercontent.com/wmcadigital/wmn-disruptions/master/public/newBusData.json';
-        fetch(url)
-            .then(response => response.json())
-            .then(results => {
-                const busRoutes = results.map(item => {
-                    return item;
-                });
-                this.setState({
-                    busData: busRoutes
-                });
-            });
-        console.log(url);
-    }
+  componentDidMount() {
+    fetch(`https://raw.githubusercontent.com/wmcadigital/wmn-disruptions/master/public/newBusData.json`)
+      .then(res => res.json())
+      .then(json => this.setState({ data: json }));
+  }
+  // eslint-disable-next-line no-console
 
-    render() {
-        const listItems = this.state.busData.map(item => (
-            <div key={item.id}>
-                Train:{item.operatorName}<br />
-                Train:{item.routeDesc}<br />
-                Train:{item.serviceNumber} <br />
-                Train:{item.direction} <br />
-            </div>
-        ));
-
-        return (
-            <div className="train-info">
-                <h2>Train Information</h2>
-                {listItems}
-            </div>
-        )
-    }
+  render() {
+    const { data } = this.state;
+    return (
+      <div>
+        <ul>
+          {data.map(el => (
+            <>
+              <em>{el.operatorName}</em>
+              <br />
+              <em>{el.routeDesc}</em>
+              <br />
+              <em>{el.direction}</em>
+              <hr />
+            </>
+          ))}
+        </ul>
+      </div>
+    );
+  }
 }
-
 
 export default BusInfo;
