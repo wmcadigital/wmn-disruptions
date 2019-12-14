@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 Importing Modes of travel
 */
 import Bus from '../Bus/Bus';
+import Tram from '../Tram/Tram';
+import Train from '../Train/Train';
 
 // Import Styles
 import Button from '../../Button/Button';
@@ -116,17 +118,17 @@ class ModeExtended extends Component {
 
         {state.isHiddenTrain && (
           <div>
-            <h6>You can show Train Data Now....</h6>
+            <Train />
           </div>
         )}
         {state.isHiddenTram && (
           <div>
-            <h6>You can show Tram Data Now....</h6>
+            <Tram />
           </div>
         )}
         {state.isHiddenRoad && (
           <div>
-            <h6>You roads dsedede....</h6>
+            <h6>Roads Data Here</h6>
           </div>
         )}
       </>

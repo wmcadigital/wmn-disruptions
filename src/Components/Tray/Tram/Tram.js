@@ -1,11 +1,11 @@
 import React from 'react';
-import TrainInfo from './TrainInfo';
 import TramSearch from '../../Search/TramSearch';
+import TrainInfo from '../Train/TrainInfo';
 
-function Train() {
+function Tram() {
   return (
     <div>
-      <h6>Train Info</h6>
+      <h6>Bus Info</h6>
       <TramSearch />
       <h6>API Loaded Data</h6>
       <TrainInfo />
@@ -13,4 +13,4 @@ function Train() {
   );
 }
 
-export default Train;
+export default Tram;
