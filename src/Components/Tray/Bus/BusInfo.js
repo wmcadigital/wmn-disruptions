@@ -53,7 +53,7 @@ class BusInfo extends Component {
                 </div>
               )}
             </div>
-
+            {/* Right section */}
             <div className="wmnds-col-1-2 wmnds-col-sm-2-3">
               <strong>{el.routes[0].routeName}</strong>
               <br />
