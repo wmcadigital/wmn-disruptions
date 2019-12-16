@@ -7,7 +7,6 @@ function Bus() {
     <div>
       <h6>Bus Info</h6>
       <NewSearch />
-      <h6>API Loaded Data</h6>
       <BusInfo />
     </div>
   );

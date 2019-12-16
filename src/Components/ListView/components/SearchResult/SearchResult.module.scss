@@ -13,7 +13,7 @@
     transition: background-color ease .2s;
 
     &.disruption {
-        background-color: getColor(warning);
+        background-color: get-color(warning);
         color: white;
 
         .expandWrapper > i {
@@ -34,13 +34,13 @@
     width: 60px;
 
     &.minor {
-        background-color: getColor(minorWarning);
+        background-color: get-color(minorWarning);
         color: white;
     }
 
     &.major {
         background-color: white;
-        color: getColor(warning);
+        color: get-color(warning);
     }
 
     i {
@@ -70,7 +70,7 @@
     i {
         font-size: 30px;
         margin-right: $margin-sm;
-        color: getColor(secondary);
+        color: get-color(secondary);
         cursor: pointer;
     }
 }

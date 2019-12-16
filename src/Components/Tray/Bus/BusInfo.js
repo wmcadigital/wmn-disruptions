@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
 
+// Import styles
+import s from './bus.module.scss';
+
+// Import components
+import Icon from '../../Icon/Icon';
+
 class BusInfo extends Component {
   constructor() {
     super();
@@ -7,33 +13,55 @@ class BusInfo extends Component {
   }
 
   componentDidMount() {
-    fetch(`https://trasnport-api-isruptions-v2.azure-api.net/bus/v1/service?q=2`, {
+    fetch(`https://trasnport-api-isruptions-v2.azure-api.net/bus/v1/service?q=x14`, {
       headers: {
         'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
       }
     })
       .then(res => res.json())
-      .then(json => this.setState({ data: json }));
+      .then(json => {
+        console.log(json);
+        this.setState({ data: json.services });
+      });
   }
 
   render() {
     const { data } = this.state;
 
     return (
-      <div>
-        <ul>
-          {data.map(el => (
-            <>
-              <em>{el.operatorName}</em>
+      <ul className={s.results}>
+        {data.map(el => (
+          <li className="wmnds-grid">
+            <div className={`${s.indicator} wmnds-col-auto`}>
+              {el.hasDisruptions ? (
+                // Has disruptions
+                <div className="wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium--with-icon wmnds-disruption-indicator-medium--warning">
+                  {el.serviceNumber}
+                  <Icon
+                    iconClass="wmnds-disruption-indicator-medium__icon wmnds-disruption-indicator-medium__icon--right"
+                    iconName="general-warning-circle"
+                  />
+                </div>
+              ) : (
+                // No disruptions
+                <div className="wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium--with-icon wmnds-disruption-indicator-medium--success">
+                  {el.serviceNumber}
+                  <Icon
+                    iconClass="wmnds-disruption-indicator-medium__icon wmnds-disruption-indicator-medium__icon--right"
+                    iconName="general-success"
+                  />
+                </div>
+              )}
+            </div>
+
+            <div className="wmnds-col-1-2 wmnds-col-sm-2-3">
+              <strong>{el.routes[0].routeName}</strong>
               <br />
-              <em>{el.routeDesc}</em>
-              <br />
-              <em>{el.direction}</em>
-              <hr />
-            </>
-          ))}
-        </ul>
-      </div>
+              and return journey
+            </div>
+          </li>
+        ))}
+      </ul>
     );
   }
 }

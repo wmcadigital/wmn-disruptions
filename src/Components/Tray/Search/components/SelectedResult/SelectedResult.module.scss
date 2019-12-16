@@ -21,16 +21,16 @@
 }
 
 .tramIcon {
-    color: getColor(success);
+    color: get-color(success);
     font-size: 30px;
 
     &.disruption {
-        color: getColor(warning) !important;
+        color: get-color(warning) !important;
     }
 }
 
 .iconRouteTop {
-    background-color: getColor(success);
+    background-color: get-color(success);
     display: block;
     border-radius: 5px;
     color: white;
@@ -39,12 +39,12 @@
     margin-bottom: 2px;
 
     &.disruption {
-        background-color: getColor(warning) !important;
+        background-color: get-color(warning) !important;
     }
 }
 
 .iconRouteBottom {
-    background-color: getColor(coolGrey);
+    background-color: get-color(coolGrey);
     display: block;
     border-radius: 5px;
     color: white;
@@ -69,7 +69,7 @@
 
 .close {
     font-size: 30px;
-    color: getColor(secondary);
+    color: get-color(secondary);
 }
 
 .favContainer {
@@ -78,7 +78,7 @@
     display: block;
 
     i {
-        color: getColor(secondary);
+        color: get-color(secondary);
         font-size: 30px;
         margin-left: $margin-md;
     }
@@ -87,7 +87,7 @@
 .disruption {
     margin-top: $margin-md;
     color: white;
-    background-color: getColor(warning);
+    background-color: get-color(warning);
     padding: $padding-sm;
     display: flex;
 
