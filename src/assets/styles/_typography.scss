@@ -16,7 +16,7 @@ textarea,
 html,
 body {
   font-size: $font-size;
-  color: getColor(black);
+  color: get-color(black);
   line-height: $base-line-height;
   @include type-setting(0);
   font-family: $x-font-family;
@@ -61,23 +61,23 @@ a {
 // Text colors
 .text-color {
 	&-primary {
-	  color: getColor(primary);
+	  color: get-color(primary);
 	}
 	&-secondary {
-	  color: getColor(secondary);
+	  color: get-color(secondary);
 	}
 	&-white {
 	  color: $x-palette-white;
 	}
 	&-gray {
-	  color: getColor(secondary);
+	  color: get-color(secondary);
 	}
 }
 
 h1 {
 	@include type-setting(5);
 	margin: $margin-lg 0;
-	color: getColor(primary);
+	color: get-color(primary);
 
 	@media only screen and (max-width: 567px) {
 		@include type-setting(4);
@@ -88,7 +88,7 @@ h1 {
 h2 {
 	@include type-setting(4);
 	margin: $margin-md 0;
-	color: getColor(primary);
+	color: get-color(primary);
 }
 
 h3 {
@@ -153,6 +153,6 @@ p {
 		font-feature-settings: 'liga';
 	}
 	&:hover {
-		color: getColor(primary);
+		color: get-color(primary);
 	}
 }

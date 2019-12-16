@@ -11,11 +11,17 @@ class NewSearch extends Component {
   }
 
   render() {
+    const { term } = this.state;
     return (
-      <div>
-        <form>
-          <input type="text" value="Search for a route" onChange={e => this.setState({ term: e.target.value })} />
-        </form>
+      <div className="wmnds-fe-input">
+        <input
+          type="text"
+          name="busSearch"
+          className="wmnds-col-1"
+          placeholder="Search for a service or a stop"
+          value={term}
+          onChange={e => this.setState({ term: e.target.value })}
+        />
       </div>
     );
   }
