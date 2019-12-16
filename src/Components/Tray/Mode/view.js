@@ -50,17 +50,17 @@ class ModeView extends React.Component {
             </Button>
 
             <Button isActive={trainActive} className={s.btn} onClick={() => changeModeToCheck(TRAIN)}>
-              <Icon class="wmnds-btn__icon" iconName="modes-isolated-rail" />
+              <Icon iconClass="wmnds-btn__icon" iconName="modes-isolated-rail" />
               Train
             </Button>
 
             <Button isActive={tramActive} className={s.btn} onClick={() => changeModeToCheck(TRAM)}>
-              <Icon class="wmnds-btn__icon" iconName="modes-isolated-metro" />
+              <Icon iconClass="wmnds-btn__icon" iconName="modes-isolated-metro" />
               Tram
             </Button>
 
             <Button isActive={roadsActive} className={s.btn} onClick={() => changeModeToCheck(ROADS)}>
-              <Icon class="wmnds-btn__icon" iconName="modes-isolated-roads" />
+              <Icon iconClass="wmnds-btn__icon" iconName="modes-isolated-roads" />
               Roads
             </Button>
           </div>
