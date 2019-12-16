@@ -6,15 +6,16 @@ class NewSearch extends Component {
     super();
 
     this.state = {
-      term: ''
+      term: 'Search for a service or a stop'
     };
   }
 
   render() {
+    const { term } = this.state;
     return (
       <div>
         <form>
-          <input type="text" value="Search for a route" onChange={e => this.setState({ term: e.target.value })} />
+          <input type="text" value={term} onChange={e => this.setState({ term: e.target.value })} />
         </form>
       </div>
     );
