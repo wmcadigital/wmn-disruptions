@@ -98,14 +98,14 @@ class ModeExtended extends Component {
           <Button
             btnClass="wmnds-col-auto wmnds-btn--small wmnds-btn--mode"
             onClick={this.tramButton}
-            iconLeft="modes-isolated-rail"
+            iconLeft="modes-isolated-metro"
             text="Tram"
           />
           {/* Roads mode button */}
           <Button
             btnClass="wmnds-col-auto wmnds-btn--small wmnds-btn--mode"
             onClick={this.roadButton}
-            iconLeft="modes-isolated-rail"
+            iconLeft="modes-isolated-roads"
             text="Roads"
           />
         </div>
