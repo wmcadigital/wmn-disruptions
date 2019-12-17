@@ -13,6 +13,7 @@ export default class Bus extends Component {
     };
   }
 
+  // Update the users "query" in state
   updateQuery(e) {
     this.setState({ query: e.target.value });
   }
