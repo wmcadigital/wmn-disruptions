@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 // Import styles
 import s from './bus.module.scss';
@@ -12,17 +13,29 @@ class BusInfo extends Component {
     this.state = { data: [] };
   }
 
-  componentDidMount() {
-    fetch(`https://trasnport-api-isruptions-v2.azure-api.net/bus/v1/service?q=x14`, {
-      headers: {
-        'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
-      }
-    })
-      .then(res => res.json())
-      .then(json => {
-        console.log(json);
-        this.setState({ data: json.services });
-      });
+  componentDidUpdate(prevProps) {
+    const { query } = this.props;
+    console.log(prevProps, query);
+
+    // If the previous query doesn't equal the current query, hit API
+    if (prevProps.query !== query) {
+      fetch(`https://trasnport-api-isruptions-v2.azure-api.net/bus/v1/service?q=${query}`, {
+        headers: {
+          'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
+        }
+      })
+        .then(res => {
+          // If response is bad, then throw error
+          if (!res.ok) {
+            throw Error(res.statusText);
+          }
+          return res.json(); // Else return response
+        })
+        .then(json => {
+          console.log(json);
+          this.setState({ data: json.services });
+        });
+    }
   }
 
   render() {
@@ -65,5 +78,10 @@ class BusInfo extends Component {
     );
   }
 }
+
+// Set Props
+BusInfo.propTypes = {
+  query: PropTypes.string.isRequired
+};
 
 export default BusInfo;

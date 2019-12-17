@@ -1,30 +1,25 @@
-/* eslint-disable react/no-unused-state */
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-class NewSearch extends Component {
-  constructor() {
-    super();
+const NewSearch = ({ query, updateQuery }) => {
+  return (
+    <div className="wmnds-fe-input">
+      <input
+        type="text"
+        name="busSearch"
+        className="wmnds-col-1"
+        placeholder="Search for a service or a stop"
+        value={query}
+        onChange={updateQuery}
+      />
+    </div>
+  );
+};
 
-    this.state = {
-      term: ''
-    };
-  }
-
-  render() {
-    const { term } = this.state;
-    return (
-      <div className="wmnds-fe-input">
-        <input
-          type="text"
-          name="busSearch"
-          className="wmnds-col-1"
-          placeholder="Search for a service or a stop"
-          value={term}
-          onChange={e => this.setState({ term: e.target.value })}
-        />
-      </div>
-    );
-  }
-}
+// Set Props
+NewSearch.propTypes = {
+  query: PropTypes.string.isRequired,
+  updateQuery: PropTypes.func.isRequired
+};
 
 export default NewSearch;
