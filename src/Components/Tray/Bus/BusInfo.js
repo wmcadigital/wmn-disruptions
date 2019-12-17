@@ -13,12 +13,18 @@ class BusInfo extends Component {
   }
 
   componentDidMount() {
-    fetch(`https://trasnport-api-isruptions-v2.azure-api.net/bus/v1/service?q=x14`, {
+    fetch(`https://trasnport-api-isruptions-v2.azure-api.net/bus/v1/service?q=167`, {
       headers: {
         'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
       }
     })
-      .then(res => res.json())
+      .then(res => {
+        // If response is bad, then throw error
+        if (!res.ok) {
+          throw Error(res.statusText);
+        }
+        return res.json(); // Else return response
+      })
       .then(json => {
         console.log(json);
         this.setState({ data: json.services });
