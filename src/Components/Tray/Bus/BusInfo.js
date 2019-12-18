@@ -41,37 +41,37 @@ class BusInfo extends Component {
 
     return (
       <ul className={s.results}>
-        {data.map(el => (
-          <li className="wmnds-grid" key={el.id}>
-            <div className={`${s.indicator} wmnds-col-auto`}>
-              {el.hasDisruptions ? (
-                // Has disruptions
-                <div className="wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium--with-icon wmnds-disruption-indicator-medium--warning">
-                  {el.serviceNumber}
-                  <Icon
-                    iconClass="wmnds-disruption-indicator-medium__icon wmnds-disruption-indicator-medium__icon--right"
-                    iconName="general-warning-circle"
-                  />
-                </div>
-              ) : (
-                // No disruptions
-                <div className="wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium--with-icon wmnds-disruption-indicator-medium--success">
+        {data.map(el => {
+          let type;
+          if (el.hasDisruptions) {
+            type = 'warning';
+          } else {
+            // No disruptions
+            type = 'success';
+          }
+
+          return (
+            <li className="wmnds-grid" key={el.id}>
+              <div className={`${s.indicator} wmnds-col-auto`}>
+                <div
+                  className={`wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium--with-icon wmnds-disruption-indicator-medium--${type}`}
+                >
                   {el.serviceNumber}
                   <Icon
                     iconClass="wmnds-disruption-indicator-medium__icon wmnds-disruption-indicator-medium__icon--right"
                     iconName="general-success"
                   />
                 </div>
-              )}
-            </div>
-            {/* Right section */}
-            <div className="wmnds-col-1-2 wmnds-col-sm-2-3">
-              <strong>{el.routes[0].routeName}</strong>
-              <br />
-              and return journey
-            </div>
-          </li>
-        ))}
+              </div>
+              {/* Right section */}
+              <div className="wmnds-col-1-2 wmnds-col-sm-2-3">
+                <strong>{el.routes[0].routeName}</strong>
+                <br />
+                and return journey
+              </div>
+            </li>
+          );
+        })}
       </ul>
     );
   }
