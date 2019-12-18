@@ -1,7 +1,9 @@
+// Using https://developers.arcgis.com/labs/browse/?product=javascript&topic=any and ESRI JS API
 import React from 'react';
 import { loadModules } from 'esri-loader';
+import locateCircle from '../../assets/svgs/map/locate-circle.svg';
 
-export default class WebMapView extends React.Component {
+class WebMapView extends React.Component {
   constructor(props) {
     super(props);
     this.mapRef = React.createRef();
@@ -9,19 +11,38 @@ export default class WebMapView extends React.Component {
 
   componentDidMount() {
     // lazy load the required ArcGIS API for JavaScript modules and CSS
-    loadModules(['esri/Map', 'esri/views/MapView', 'esri/layers/VectorTileLayer'], {
-      css: true
-    }).then(([Map, MapView, VectorTileLayer]) => {
-      // eslint-disable-next-line no-param-reassign
+    // Make sure that the referenced module is also injected as a param in the .then function below
+    loadModules(
+      [
+        'esri/Map',
+        'esri/views/MapView',
+        'esri/Basemap',
+        'esri/layers/VectorTileLayer',
+        'esri/widgets/Locate',
+        'esri/Graphic'
+      ],
+      {
+        css: true
+      }
+    ).then(([Map, MapView, Basemap, VectorTileLayer, Locate, Graphic]) => {
+      // When loaded, create a new basemap
+      const basemap = new Basemap({
+        baseLayers: [
+          new VectorTileLayer({
+            portalItem: {
+              // set the basemap to the one being used: https://tfwm.maps.arcgis.com/home/item.html?id=53f165a8863c4d40ba017042e248355e
+              id: '53f165a8863c4d40ba017042e248355e'
+            }
+          })
+        ]
+      });
 
-      // const map = new WebMap({
-      //   portalItem: {
-      //     // autocasts as new PortalItem()
-      //     id: '53f165a8863c4d40ba017042e248355e'
-      //   }
-      // });
-      const map = new Map();
+      // Create a new map with the basemap set above
+      const map = new Map({
+        basemap
+      });
 
+      // Create a new map view with settings
       this.view = new MapView({
         container: this.mapRef.current,
         map,
@@ -29,12 +50,23 @@ export default class WebMapView extends React.Component {
         zoom: 10
       });
 
-      // The URL referenced in the constructor may point to a style url JSON (as in this sample)
-      // or directly to a vector tile service
-      const vtlayer = new VectorTileLayer({
-        url: 'https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer'
+      const locateBtn = new Locate({
+        view: this.view, // Attaches the Locate button to the view
+        graphic: new Graphic({
+          // overwrites the default symbol used for the graphic placed at the location of the user when found
+          symbol: {
+            type: 'picture-marker',
+            url: locateCircle, // Set to svg circle when user hits 'locate' button
+            height: '150px',
+            width: '150px'
+          }
+        })
       });
-      map.add(vtlayer);
+
+      // Add the locate widget to the top left corner of the view
+      this.view.ui.add(locateBtn, {
+        position: 'top-left'
+      });
     });
   }
 
@@ -49,3 +81,5 @@ export default class WebMapView extends React.Component {
     return <div className="webmap" ref={this.mapRef} style={{ width: '100vw', height: '100vh' }} />;
   }
 }
+
+export default WebMapView;
