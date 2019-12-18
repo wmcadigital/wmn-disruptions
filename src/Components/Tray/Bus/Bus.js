@@ -23,6 +23,7 @@ export default class Bus extends Component {
     const { query } = this.state;
     return (
       <div>
+        <br />
         <NewSearch query={query} updateQuery={this.updateQuery} />
         <Debounce ms={1000}>
           <BusInfo query={query} />
