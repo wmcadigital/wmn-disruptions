@@ -15,7 +15,6 @@ class BusInfo extends Component {
 
   componentDidUpdate(prevProps) {
     const { query } = this.props;
-    console.log(prevProps, query);
 
     // If the previous query doesn't equal the current query, hit API
     if (prevProps.query !== query) {
@@ -32,7 +31,6 @@ class BusInfo extends Component {
           return res.json(); // Else return response
         })
         .then(json => {
-          console.log(json);
           this.setState({ data: json.services });
         });
     }
@@ -44,7 +42,7 @@ class BusInfo extends Component {
     return (
       <ul className={s.results}>
         {data.map(el => (
-          <li className="wmnds-grid">
+          <li className="wmnds-grid" key={el.id}>
             <div className={`${s.indicator} wmnds-col-auto`}>
               {el.hasDisruptions ? (
                 // Has disruptions
