@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Debounce from 'react-debounce-component';
 import BusInfo from './BusInfo';
 import NewSearch from '../../Search/NewSearch';
 
@@ -22,9 +23,10 @@ export default class Bus extends Component {
     const { query } = this.state;
     return (
       <div>
-        <br />
         <NewSearch query={query} updateQuery={this.updateQuery} />
-        <BusInfo query={query} />
+        <Debounce ms={1000}>
+          <BusInfo query={query} />
+        </Debounce>
       </div>
     );
   }
