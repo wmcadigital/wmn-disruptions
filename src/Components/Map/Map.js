@@ -1,7 +1,9 @@
+// Using https://developers.arcgis.com/labs/browse/?product=javascript&topic=any and ESRI JS API
 import React from 'react';
 import { loadModules } from 'esri-loader';
+import locateCircle from '../../assets/svgs/map/locate-circle.svg';
 
-export default class WebMapView extends React.Component {
+class WebMapView extends React.Component {
   constructor(props) {
     super(props);
     this.mapRef = React.createRef();
@@ -9,9 +11,20 @@ export default class WebMapView extends React.Component {
 
   componentDidMount() {
     // lazy load the required ArcGIS API for JavaScript modules and CSS
-    loadModules(['esri/Map', 'esri/views/MapView', 'esri/Basemap', 'esri/layers/VectorTileLayer'], {
-      css: true
-    }).then(([Map, MapView, Basemap, VectorTileLayer]) => {
+    // Make sure that the referenced module is also injected as a param in the .then function below
+    loadModules(
+      [
+        'esri/Map',
+        'esri/views/MapView',
+        'esri/Basemap',
+        'esri/layers/VectorTileLayer',
+        'esri/widgets/Locate',
+        'esri/Graphic'
+      ],
+      {
+        css: true
+      }
+    ).then(([Map, MapView, Basemap, VectorTileLayer, Locate, Graphic]) => {
       // When loaded, create a new basemap
       const basemap = new Basemap({
         baseLayers: [
@@ -36,6 +49,24 @@ export default class WebMapView extends React.Component {
         center: [-2.0047209, 52.4778132],
         zoom: 10
       });
+
+      const locateBtn = new Locate({
+        view: this.view, // Attaches the Locate button to the view
+        graphic: new Graphic({
+          // overwrites the default symbol used for the graphic placed at the location of the user when found
+          symbol: {
+            type: 'picture-marker',
+            url: locateCircle, // Set to svg circle when user hits 'locate' button
+            height: '150px',
+            width: '150px'
+          }
+        })
+      });
+
+      // Add the locate widget to the top left corner of the view
+      this.view.ui.add(locateBtn, {
+        position: 'top-left'
+      });
     });
   }
 
@@ -50,3 +81,5 @@ export default class WebMapView extends React.Component {
     return <div className="webmap" ref={this.mapRef} style={{ width: '100vw', height: '100vh' }} />;
   }
 }
+
+export default WebMapView;
