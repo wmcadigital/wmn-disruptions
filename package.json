@@ -38,6 +38,7 @@
     "react": "^16.10.2",
     "react-app-polyfill": "^1.0.5",
     "react-datepicker": "^2.9.6",
+    "react-debounce-component": "^1.0.0",
     "react-dev-utils": "^9.1.0",
     "react-device-detect": "^1.9.10",
     "react-dom": "^16.10.2",
