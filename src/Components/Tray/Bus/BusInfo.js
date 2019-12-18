@@ -44,6 +44,7 @@ class BusInfo extends Component {
         {data.map(el => {
           let type;
           let iconName;
+          let text;
           // If the current service has disruption
           if (el.hasDisruptions) {
             // Do a switch on the disruption severity, then map the type and iconName to the correct vars
@@ -52,31 +53,36 @@ class BusInfo extends Component {
               case 'normal':
                 type = 'warning';
                 iconName = 'warning-circle';
+                text = 'Minor disruption';
                 break;
               // Major disruption (high)
               case 'high':
                 type = 'error';
                 iconName = 'warning-triangle';
+                text = 'Major disruption';
                 break;
-              // Major disruption (veryHigh)
+              // Severe disruption (veryHigh)
               case 'veryHigh':
                 type = 'severe';
                 iconName = 'warning-triangle';
+                text = 'Severe disruption';
                 break;
               // Good service (low)
               default:
                 type = 'success';
                 iconName = 'success';
+                text = 'Good service';
                 break;
             }
           } else {
             // No disruptions, so show success
             type = 'success';
             iconName = 'success';
+            text = 'Good service';
           }
           // Return service with the above disruption logic, replace type and iconName with correc icon and class depending on disruption type
           return (
-            <li className="wmnds-grid" key={el.id}>
+            <li className="wmnds-grid" key={el.id} title={`${text} on ${el.serviceNumber}`}>
               <div className={`${s.indicator} wmnds-col-auto`}>
                 <div
                   className={`wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium--with-icon wmnds-disruption-indicator-medium--${type}`}
