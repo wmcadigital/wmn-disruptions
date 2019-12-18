@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 // Import components
 import Header from '../../Components/Header/Header';
-import Map from '../../Components/Map/Map';
+import WebMapView from '../../Components/Map/Map';
 import Tray from '../../Components/Tray/Tray';
 
 // Import actions
@@ -35,7 +35,7 @@ class App extends React.Component {
     return (
       <div className={s.app}>
         <Header />
-        <Map />
+        <WebMapView />
         <Tray />
       </div>
     );
