@@ -9,7 +9,3 @@ $t-width: 400px;
     margin-left: calc(#{$t-width} + (#{$margin-lg} * 2));
   }
 
-//Do not display the map when list view is in action.
-.webmap {
-  display: none;
-}

@@ -8,7 +8,7 @@ import MainHeader from '../MainHeader/MainHeader';
 import Button from '../Button/Button';
 
 // New List View
-import NewListView from '../ListView/NewListView';
+import NewListView from '../NewListViews/NewListView';
 
 // Import actions
 import * as a from '../../redux/actions';

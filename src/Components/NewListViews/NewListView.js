@@ -1,11 +1,10 @@
 import React from 'react';
-import BusInfo from '../Tray/Bus/BusInfo';
+import Bus from '../Tray/Bus/Bus';
 
 function NewListView() {
   return (
     <div>
-      <p>Bus Information</p>
-      <BusInfo />
+      <Bus />
     </div>
   );
 }
