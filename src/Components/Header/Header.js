@@ -48,10 +48,11 @@ class Header extends React.Component {
     return (
       <>
         <MainHeader />
-        <div className={`wmnds-grid gutters ${s.container}`}>
-          <h1 className={s.title}>{TITLE}</h1>
 
-          <div className={`${s.btnContainer}`}>
+        <div className={`wmnds-grid ${s.container} wmnds-grid--justify-between wmnds-grid--justify-center`}>
+          <h1 className={`${s.title} wmnds-col-1 wmnds-col-sm-auto`}>{TITLE}</h1>
+
+          <div className={`${s.btnContainer} wmnds-col-1 wmnds-col-sm-auto`}>
             <Button
               btnClass="wmnds-btn--secondary wmnds-float--right"
               onClick={this.NewToggleView}
