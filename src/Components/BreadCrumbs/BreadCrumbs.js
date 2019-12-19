@@ -1,14 +1,11 @@
-import React, {Component} from 'react';
-class BreadCrumbs extends Component {
+import React from 'react';
 
-    render(){
-        return(
-            <div>
-                <h4>Bread Crumbs Here</h4>
-            </div>
-        )
-    }
+function BreadCrumbs() {
+  return (
+    <div>
+      <h4>Bread Crumbs Here</h4>
+    </div>
+  );
 }
 
 export default BreadCrumbs;
-
