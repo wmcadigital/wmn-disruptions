@@ -1,4 +1,4 @@
-@import "../../assets/styles/vars";
+@import '../../assets/styles/vars';
 
 $t-width: 400px;
 
@@ -8,4 +8,8 @@ $t-width: 400px;
     padding-top: 134px;
     margin-left: calc(#{$t-width} + (#{$margin-lg} * 2));
   }
+
+//Do not display the map when list view is in action.
+.webmap {
+  display: none;
 }

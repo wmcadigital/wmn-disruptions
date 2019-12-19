@@ -7,11 +7,14 @@ import MainHeader from '../MainHeader/MainHeader';
 // Import components
 import Button from '../Button/Button';
 
+// New List View
+import NewListView from '../ListView/NewListView';
+
 // Import actions
 import * as a from '../../redux/actions';
 
 // Import consts
-import { TITLE, BTN_LIST, BTN_MAP } from './data';
+import { TITLE } from './data';
 
 // Import style
 import s from './Header.module.scss';
@@ -24,24 +27,24 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
 
-    this.ToggleViewMode = this.ToggleViewMode.bind(this);
+    this.NewToggleView = this.NewToggleView.bind(this);
+
+    this.state = {
+      visibility: false
+    };
   }
 
-  ToggleViewMode() {
-    const { props } = this;
-    const { viewMode, SetViewMode } = props || {};
-
-    if (viewMode === MAP_VIEW) {
-      SetViewMode(LIST_VIEW);
-    } else if (viewMode === LIST_VIEW) {
-      SetViewMode(MAP_VIEW);
-    }
+  NewToggleView() {
+    this.setState(prevState => {
+      return {
+        visibility: !prevState.visibility
+      };
+    });
   }
 
   render() {
-    const { props, ToggleViewMode } = this;
-    const { viewMode } = props || {};
-    const listView = viewMode === LIST_VIEW;
+    const { state } = this;
+
     return (
       <>
         <MainHeader />
@@ -51,13 +54,19 @@ class Header extends React.Component {
 
           <div className={`${s.btnContainer} wmnds-col-1 wmnds-col-sm-auto`}>
             <Button
-              btnClass="wmnds-btn--secondary"
-              onClick={() => ToggleViewMode()}
+              btnClass="wmnds-btn--secondary wmnds-float--right"
+              onClick={this.NewToggleView}
               iconRight="general-chevron-right"
-              text={listView ? BTN_MAP : BTN_LIST}
-            />
+            >
+              {this.visibility ? LIST_VIEW : MAP_VIEW}
+            </Button>
           </div>
         </div>
+        {state.visibility && (
+          <div>
+            <NewListView />
+          </div>
+        )}
       </>
     );
   }
