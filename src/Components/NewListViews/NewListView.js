@@ -1,10 +1,9 @@
 import React from 'react';
-import Bus from '../Tray/Bus/Bus';
 
 function NewListView() {
   return (
     <div>
-      <Bus />
+      <h6>List View</h6>
     </div>
   );
 }
