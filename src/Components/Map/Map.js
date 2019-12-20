@@ -78,7 +78,9 @@ class WebMapView extends React.Component {
   }
 
   render() {
-    return <div className="webmap" ref={this.mapRef} style={{ width: '100vw', height: '100vh' }} />;
+    return (
+      <div className="webmap" ref={this.mapRef} style={{ width: '100vw', height: '100vh' }} title="Disruptions map" />
+    );
   }
 }
 
