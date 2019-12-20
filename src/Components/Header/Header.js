@@ -1,6 +1,5 @@
 // Import packages
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import MainHeader from '../MainHeader/MainHeader';
 
@@ -8,7 +7,7 @@ import MainHeader from '../MainHeader/MainHeader';
 import Button from '../Button/Button';
 
 // New List View
-import NewListView from '../ListView/NewListView';
+import NewListView from '../NewListViews/NewListView';
 
 // Import actions
 import * as a from '../../redux/actions';
@@ -18,10 +17,6 @@ import { TITLE } from './data';
 
 // Import style
 import s from './Header.module.scss';
-
-// Define consts
-const MAP_VIEW = 'map view';
-const LIST_VIEW = 'list view';
 
 class Header extends React.Component {
   constructor(props) {
@@ -48,8 +43,7 @@ class Header extends React.Component {
     return (
       <>
         <MainHeader />
-
-        <div className={`wmnds-grid ${s.container} wmnds-grid--justify-between wmnds-grid--justify-center`}>
+        <div className={`wmnds-grid wmnds-grid--justify-between ${s.container}`}>
           <h1 className={`${s.title} wmnds-col-1 wmnds-col-sm-auto`}>{TITLE}</h1>
 
           <div className={`${s.btnContainer} wmnds-col-1 wmnds-col-sm-auto`}>
@@ -57,9 +51,8 @@ class Header extends React.Component {
               btnClass="wmnds-btn--secondary wmnds-float--right"
               onClick={this.NewToggleView}
               iconRight="general-chevron-right"
-            >
-              {this.visibility ? LIST_VIEW : MAP_VIEW}
-            </Button>
+              text={state.visibility ? 'Map View' : 'List View'}
+            />
           </div>
         </div>
         {state.visibility && (
@@ -76,11 +69,6 @@ class Header extends React.Component {
 //   viewMode: PropTypes.string,
 //   SetViewMode: PropTypes.func
 // };
-
-Header.defaultProps = {
-  viewMode: MAP_VIEW,
-  SetViewMode: () => {}
-};
 
 const mapStateToProps = state => {
   const { app } = state || {};
