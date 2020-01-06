@@ -1,8 +1,6 @@
 import React from 'react';
 import Icon from '../Icon/Icon';
 
-// {import Accordion from './Accordion';}
-
 function NewListView() {
   return (
     <div>
@@ -82,6 +80,7 @@ function NewListView() {
               <Icon iconName="general-warning-circle" iconClass="disruption-indicator-large__icon--right" />
             </svg>
           </div>
+          <br />
         </div>
       </div>
     </div>
