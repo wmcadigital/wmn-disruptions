@@ -1,5 +1,8 @@
 import React from 'react';
+import Collapsible from 'react-collapsible';
 import Icon from '../Icon/Icon';
+
+import './NewListView.scss';
 
 function NewListView() {
   return (
@@ -7,6 +10,69 @@ function NewListView() {
       <div className="wmnds-grid">
         <div className="wmnds-col-2-5" />
         <div className="wmnds-col-3-5">
+          <Collapsible trigger="No Tram Service Between The Hawthorns and Grand Central">
+            <div className="wmnds-disruption-indicator-large wmnds-disruption-indicator-large--error">
+              <div className="wmnds-disruption-indicator-large__left-wrapper">
+                <span className="wmnds-disruption-indicator-large__left-icon-wrapper">
+                  <svg className="wmnds-disruption-indicator-large__icon">
+                    <Icon iconName="modes-isolated-bus" iconClass="wmnds-disruption-indicator-large__icon" />
+                  </svg>
+                  <br />
+                  Trains
+                </span>
+                <span className="wmnds-disruption-indicator-large__text">
+                  <strong>Major Disruption</strong>
+                  <br />
+                  Cross City Line
+                </span>
+              </div>
+              <svg className="wmnds-disruption-indicator-large__icon wmnds-disruption-indicator-large__icon--right">
+                <Icon iconName="general-warning" iconClass="disruption-indicator-large__icon--right" />
+              </svg>
+            </div>
+          </Collapsible>
+          <Collapsible trigger="No Tram Service Between The Hawthorns and Grand Central">
+            <div className="wmnds-disruption-indicator-large wmnds-disruption-indicator-large--error">
+              <div className="wmnds-disruption-indicator-large__left-wrapper">
+                <span className="wmnds-disruption-indicator-large__left-icon-wrapper">
+                  <svg className="wmnds-disruption-indicator-large__icon">
+                    <Icon iconName="modes-isolated-bus" iconClass="wmnds-disruption-indicator-large__icon" />
+                  </svg>
+                  <br />
+                  Trains
+                </span>
+                <span className="wmnds-disruption-indicator-large__text">
+                  <strong>Major Disruption</strong>
+                  <br />
+                  Cross City Line
+                </span>
+              </div>
+              <svg className="wmnds-disruption-indicator-large__icon wmnds-disruption-indicator-large__icon--right">
+                <Icon iconName="general-warning" iconClass="disruption-indicator-large__icon--right" />
+              </svg>
+            </div>
+          </Collapsible>
+          <Collapsible trigger="No Tram Service Between The Hawthorns and Grand Central">
+            <div className="wmnds-disruption-indicator-large wmnds-disruption-indicator-large--error">
+              <div className="wmnds-disruption-indicator-large__left-wrapper">
+                <span className="wmnds-disruption-indicator-large__left-icon-wrapper">
+                  <svg className="wmnds-disruption-indicator-large__icon">
+                    <Icon iconName="modes-isolated-bus" iconClass="wmnds-disruption-indicator-large__icon" />
+                  </svg>
+                  <br />
+                  Trains
+                </span>
+                <span className="wmnds-disruption-indicator-large__text">
+                  <strong>Major Disruption</strong>
+                  <br />
+                  Cross City Line
+                </span>
+              </div>
+              <svg className="wmnds-disruption-indicator-large__icon wmnds-disruption-indicator-large__icon--right">
+                <Icon iconName="general-warning" iconClass="disruption-indicator-large__icon--right" />
+              </svg>
+            </div>
+          </Collapsible>
           <br />
           <div className="wmnds-disruption-indicator-large wmnds-disruption-indicator-large--undefined">
             <div className="wmnds-disruption-indicator-large__left-wrapper">
