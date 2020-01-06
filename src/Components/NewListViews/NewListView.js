@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from '../Icon/Icon';
 
-import Accordion from './Accordion';
+// {import Accordion from './Accordion';}
 
 function NewListView() {
   return (
@@ -82,39 +82,6 @@ function NewListView() {
               <Icon iconName="general-warning-circle" iconClass="disruption-indicator-large__icon--right" />
             </svg>
           </div>
-
-          <br />
-          <Accordion allowMultipleOpen>
-            <div label="Alligator Mississippiensis" isOpen>
-              <p>
-                <strong>Common Name:</strong>
-                American Alligator
-              </p>
-              <p>
-                <strong>Distribution:</strong>
-                Texas to North Carolina, US
-              </p>
-              <p>
-                <strong>Endangered Status:</strong>
-                Currently Not Endangered
-              </p>
-            </div>
-            <div label="Alligator Sinensis">
-              <p>
-                <strong>Common Name:</strong>
-                Chinese Alligator
-              </p>
-              <p>
-                <strong>Distribution:</strong>
-                Eastern China
-              </p>
-              <p>
-                <strong>Endangered Status:</strong>
-                Critically Endangered
-              </p>
-            </div>
-          </Accordion>
-          <br />
         </div>
       </div>
     </div>
