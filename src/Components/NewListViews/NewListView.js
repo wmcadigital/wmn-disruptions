@@ -3,6 +3,7 @@ import Collapsible from 'react-collapsible';
 import Icon from '../Icon/Icon';
 
 import './NewListView.scss';
+import RestInfo from './RestInfo';
 
 function NewListView() {
   return (
@@ -10,6 +11,8 @@ function NewListView() {
       <div className="wmnds-grid">
         <div className="wmnds-col-2-5" />
         <div className="wmnds-col-3-5">
+          <h5>Other List View Data</h5>
+          <RestInfo />
           <Collapsible trigger="No Tram Service Between The Hawthorns and Grand Central">
             <div className="wmnds-disruption-indicator-large wmnds-disruption-indicator-large--error">
               <div className="wmnds-disruption-indicator-large__left-wrapper">
@@ -114,32 +117,26 @@ function NewListView() {
             </svg>
           </div>
           <br />
-
           <p>
             Gas Main Repairs at
             <span className="bolder"> Long Lane, Halesowen</span>
           </p>
-
           <p>Affected Service(s):</p>
-
           <div className="wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium--with-icon wmnds-disruption-indicator-medium--warning">
             X15
             <svg className="wmnds-disruption-indicator-medium__icon wmnds-disruption-indicator-medium__icon--right">
               <Icon iconName="general-warning-circle" iconClass="disruption-indicator-large__icon--right" />
             </svg>
           </div>
-
           <svg>
             <Icon iconName="general-star-empty" iconClass="disruption-indicator-large__icon--right" />
           </svg>
-
           <div className="wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium--with-icon wmnds-disruption-indicator-medium--warning">
             15A
             <svg className="wmnds-disruption-indicator-medium__icon wmnds-disruption-indicator-medium__icon--right">
               <Icon iconName="general-warning-circle" iconClass="disruption-indicator-large__icon--right" />
             </svg>
           </div>
-
           <div className="wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium--with-icon wmnds-disruption-indicator-medium--warning">
             15
             <svg className="wmnds-disruption-indicator-medium__icon wmnds-disruption-indicator-medium__icon--right">
