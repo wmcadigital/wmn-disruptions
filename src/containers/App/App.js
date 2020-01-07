@@ -4,9 +4,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // Import components
-import Header from '../../Components/Header/Header';
+import MainHeader from '../../Components/MainHeader/MainHeader';
 import WebMapView from '../../Components/Map/Map';
 import Tray from '../../Components/Tray/Tray';
+
+import NewListView from '../../Components/NewListViews/NewListView';
+// Import components
+import Button from '../../Components/Button/Button';
+// Import consts
+import { TITLE } from '../../Components/Header/data';
 
 // Import actions
 import * as a from '../../redux/actions';
@@ -22,6 +28,16 @@ class App extends React.Component {
     return typeof window.orientation !== 'undefined' || navigator.userAgent.indexOf('IEMobile') !== -1;
   }
 
+  constructor(props) {
+    super(props);
+
+    this.NewToggleView = this.NewToggleView.bind(this);
+
+    this.state = {
+      visibility: false
+    };
+  }
+
   componentDidMount() {
     const { props } = this;
     const { SetViewMode } = props || {};
@@ -31,11 +47,43 @@ class App extends React.Component {
     SetViewMode(MAP_VIEW);
   }
 
+  NewToggleView() {
+    this.setState(prevState => {
+      return {
+        visibility: !prevState.visibility
+      };
+    });
+  }
+
   render() {
+    const { state } = this;
     return (
       <div className={s.app}>
-        <Header />
-        <WebMapView />
+        <MainHeader />
+        <div className={`wmnds-grid wmnds-grid--justify-between ${s.container}`}>
+          <h1 className={`${s.title} wmnds-col-1 wmnds-col-sm-auto`}>{TITLE}</h1>
+
+          <div className={`${s.btnContainer} wmnds-col-1 wmnds-col-sm-auto`}>
+            <Button
+              btnClass="wmnds-btn--secondary wmnds-float--right"
+              onClick={this.NewToggleView}
+              iconRight="general-chevron-right"
+              text={state.visibility ? 'Map View' : 'List View'}
+            />
+          </div>
+        </div>
+        {state.visibility && (
+          <div>
+            <NewListView />
+          </div>
+        )}
+
+        {!state.visibility && (
+          <div>
+            <WebMapView />
+          </div>
+        )}
+
         <Tray />
       </div>
     );

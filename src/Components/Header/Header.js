@@ -2,6 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import MainHeader from '../MainHeader/MainHeader';
+// import WebMapView from '../Map/Map';
 
 // Import components
 import Button from '../Button/Button';
