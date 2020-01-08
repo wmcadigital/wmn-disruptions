@@ -2,7 +2,6 @@ import React from 'react';
 import Collapsible from 'react-collapsible';
 import RestInfo from './RestInfo';
 import Icon from '../Icon/Icon';
-
 import './NewListView.scss';
 
 function NewListView() {

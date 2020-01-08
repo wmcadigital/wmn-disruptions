@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+// This is just a test to see if the API is working.
 class RestInfo extends Component {
   componentDidMount() {
     axios
