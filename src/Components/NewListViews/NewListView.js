@@ -10,7 +10,7 @@ function NewListView() {
       <div className="wmnds-grid">
         <div className="wmnds-col-2-5" />
         <div className="wmnds-col-3-5">
-          <h5>Other List View Data</h5>
+          <h5>RestInfo Below:</h5>
           <RestInfo />
           <Collapsible trigger="No Tram Service Between The Hawthorns and Grand Central">
             <div className="wmnds-disruption-indicator-large wmnds-disruption-indicator-large--error">

@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-// This is just a test to see if the API is working.
 class RestInfo extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      disruptions: []
+    };
+  }
+
   componentDidMount() {
     axios
       .get('https://trasnport-api-isruptions-v2.azure-api.net/Disruption/v2/', {
@@ -11,14 +18,30 @@ class RestInfo extends Component {
         }
       })
       .then(response => {
-        console.log(`this is the ${response}`);
+        this.setState({
+          disruptions: response.data
+        });
       });
   }
 
   render() {
+    const { disruptions } = this.state;
+
+    disruptions.map(disruption => {
+      return (
+        <div>
+          {disruption.title}
+          <br />
+          {disruption.mode}
+          <br />
+          {disruption.title}
+        </div>
+      );
+    });
+
     return (
       <div>
-        <h1>The Disruptions</h1>
+        <h5>The Disruptions</h5>
       </div>
     );
   }
