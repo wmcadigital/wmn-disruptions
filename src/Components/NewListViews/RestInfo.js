@@ -19,7 +19,7 @@ class RestInfo extends Component {
       })
       .then(response => {
         this.setState({
-          disruptions: response.data
+          disruptions: response.disruptions
         });
       });
   }
