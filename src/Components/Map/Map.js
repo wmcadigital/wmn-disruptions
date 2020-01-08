@@ -1,9 +1,9 @@
 // Using https://developers.arcgis.com/labs/browse/?product=javascript&topic=any and ESRI JS API
-import React from 'react';
+import React, { Component } from 'react';
 import { loadModules } from 'esri-loader';
 import locateCircle from '../../assets/svgs/map/locate-circle.svg';
 
-class WebMapView extends React.Component {
+class WebMapView extends Component {
   constructor(props) {
     super(props);
     this.mapRef = React.createRef();
