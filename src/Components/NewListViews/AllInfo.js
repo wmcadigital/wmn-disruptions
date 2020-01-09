@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Debounce from 'react-debounce-component';
 
-class AllInfo extends Component {
+class RestInfo extends Component {
   constructor() {
     super();
 
@@ -27,25 +28,23 @@ class AllInfo extends Component {
   render() {
     const { disruptions } = this.state;
 
-    const dis = disruptions.map(disruption => {
-      return (
-        <div>
-          {disruption.title}
-          <br />
-          {disruption.mode}
-          <br />
-          {disruption.title}
-        </div>
-      );
-    });
-
     return (
       <div>
-        <h5>The Disruptions All Info:</h5>
-        {dis}
+        <h5>Info Below</h5>
+        <Debounce ms={7000}>
+          {disruptions.map(disruption => (
+            <div>
+              {disruption.title}
+              <br />
+              {disruption.mode}
+              <br />
+              {disruption.title}
+            </div>
+          ))}
+        </Debounce>
       </div>
     );
   }
 }
 
-export default AllInfo;
+export default RestInfo;
