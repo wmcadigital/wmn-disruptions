@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Debounce from 'react-debounce-component';
 
 class RestInfo extends Component {
   constructor() {
@@ -31,17 +30,23 @@ class RestInfo extends Component {
     return (
       <div>
         <h5>Info Below</h5>
-        <Debounce ms={7000}>
-          {disruptions.map(disruption => (
-            <div>
-              {disruption.title}
-              <br />
-              {disruption.mode}
-              <br />
-              {disruption.title}
-            </div>
-          ))}
-        </Debounce>
+        {disruptions.length > 0 ? (
+          disruptions.map(post => {
+            return (
+              <div>
+                {post.title}
+                <br />
+                {post.mode}
+                <br />
+                {post.title}
+              </div>
+            );
+          })
+        ) : (
+          <div>
+            <div className="wmnds-loader" />
+          </div>
+        )}
       </div>
     );
   }
