@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-class RestInfo extends Component {
+class AllInfo extends Component {
   constructor() {
     super();
 
@@ -19,7 +19,7 @@ class RestInfo extends Component {
       })
       .then(response => {
         this.setState({
-          disruptions: response.disruptions
+          disruptions: response.data.disruptions
         });
       });
   }
@@ -30,26 +30,20 @@ class RestInfo extends Component {
     return (
       <div>
         <h5>Info Below</h5>
-        {disruptions.length > 0 ? (
-          disruptions.map(post => {
-            return (
-              <div>
-                {post.title}
-                <br />
-                {post.mode}
-                <br />
-                {post.title}
-              </div>
-            );
-          })
-        ) : (
-          <div>
-            <div className="wmnds-loader" />
+
+        {disruptions.map(({ disruption, serviceAffected }) => (
+          <div key={disruption.id}>
+            <div>
+              <h1>{disruption.title}</h1>
+              {serviceAffected.map(service => (
+                <p key={service.id}>{service.id}</p>
+              ))}
+            </div>
           </div>
-        )}
+        ))}
       </div>
     );
   }
 }
 
-export default RestInfo;
+export default AllInfo;

@@ -1,7 +1,7 @@
 import React from 'react';
 import Collapsible from 'react-collapsible';
-import AllInfo from './AllInfo';
 
+import RestInfo from './RestInfo';
 import Icon from '../Icon/Icon';
 import './NewListView.scss';
 
@@ -12,7 +12,7 @@ function NewListView() {
         <div className="wmnds-col-2-5" />
         <div className="wmnds-col-3-5">
           <h5>RestInfo Below:</h5>
-          <AllInfo />
+          <RestInfo />
 
           <Collapsible trigger="No Tram Service Between The Hawthorns and Grand Central">
             <div className="wmnds-disruption-indicator-large wmnds-disruption-indicator-large--error">

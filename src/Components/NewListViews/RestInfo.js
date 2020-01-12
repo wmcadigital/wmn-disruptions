@@ -19,7 +19,7 @@ class RestInfo extends Component {
       })
       .then(response => {
         this.setState({
-          disruptions: response.disruptions
+          disruptions: response.data.disruptions
         });
       });
   }
@@ -27,21 +27,34 @@ class RestInfo extends Component {
   render() {
     const { disruptions } = this.state;
 
-    disruptions.map(disruption => {
-      return (
-        <div>
-          {disruption.title}
-          <br />
-          {disruption.mode}
-          <br />
-          {disruption.title}
-        </div>
-      );
-    });
-
     return (
       <div>
-        <h5>The Disruptions</h5>
+        {disruptions.length > 0 ? (
+          disruptions.map(post => {
+            return (
+              <div key={post.id}>
+                <p>hello </p>
+                {post.serviceAffected.operatorCode}
+                <br />
+                {post.title}
+                <br />
+                {post.description}
+                <br />
+                {post.disruptionSeverity}
+                <br />
+                {post.id}
+                <br />
+                {post.title}
+                <br />
+                {post.mode}
+              </div>
+            );
+          })
+        ) : (
+          <div>
+            <div className="wmnds-loader" />
+          </div>
+        )}
       </div>
     );
   }
