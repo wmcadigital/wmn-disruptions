@@ -1,5 +1,4 @@
 import React from 'react';
-import Collapsible from 'react-collapsible';
 
 import RestInfo from './RestInfo';
 import Icon from '../Icon/Icon';
@@ -14,69 +13,6 @@ function NewListView() {
           <h5>RestInfo Below:</h5>
           <RestInfo />
 
-          <Collapsible trigger="No Tram Service Between The Hawthorns and Grand Central">
-            <div className="wmnds-disruption-indicator-large wmnds-disruption-indicator-large--error">
-              <div className="wmnds-disruption-indicator-large__left-wrapper">
-                <span className="wmnds-disruption-indicator-large__left-icon-wrapper">
-                  <svg className="wmnds-disruption-indicator-large__icon">
-                    <Icon iconName="modes-isolated-bus" iconClass="wmnds-disruption-indicator-large__icon" />
-                  </svg>
-                  <br />
-                  Trains
-                </span>
-                <span className="wmnds-disruption-indicator-large__text">
-                  <strong>Major Disruption</strong>
-                  <br />
-                  Cross City Line
-                </span>
-              </div>
-              <svg className="wmnds-disruption-indicator-large__icon wmnds-disruption-indicator-large__icon--right">
-                <Icon iconName="general-warning" iconClass="disruption-indicator-large__icon--right" />
-              </svg>
-            </div>
-          </Collapsible>
-          <Collapsible trigger="No Tram Service Between The Hawthorns and Grand Central">
-            <div className="wmnds-disruption-indicator-large wmnds-disruption-indicator-large--error">
-              <div className="wmnds-disruption-indicator-large__left-wrapper">
-                <span className="wmnds-disruption-indicator-large__left-icon-wrapper">
-                  <svg className="wmnds-disruption-indicator-large__icon">
-                    <Icon iconName="modes-isolated-bus" iconClass="wmnds-disruption-indicator-large__icon" />
-                  </svg>
-                  <br />
-                  Trains
-                </span>
-                <span className="wmnds-disruption-indicator-large__text">
-                  <strong>Major Disruption</strong>
-                  <br />
-                  Cross City Line
-                </span>
-              </div>
-              <svg className="wmnds-disruption-indicator-large__icon wmnds-disruption-indicator-large__icon--right">
-                <Icon iconName="general-warning" iconClass="disruption-indicator-large__icon--right" />
-              </svg>
-            </div>
-          </Collapsible>
-          <Collapsible trigger="No Tram Service Between The Hawthorns and Grand Central">
-            <div className="wmnds-disruption-indicator-large wmnds-disruption-indicator-large--error">
-              <div className="wmnds-disruption-indicator-large__left-wrapper">
-                <span className="wmnds-disruption-indicator-large__left-icon-wrapper">
-                  <svg className="wmnds-disruption-indicator-large__icon">
-                    <Icon iconName="modes-isolated-bus" iconClass="wmnds-disruption-indicator-large__icon" />
-                  </svg>
-                  <br />
-                  Trains
-                </span>
-                <span className="wmnds-disruption-indicator-large__text">
-                  <strong>Major Disruption</strong>
-                  <br />
-                  Cross City Line
-                </span>
-              </div>
-              <svg className="wmnds-disruption-indicator-large__icon wmnds-disruption-indicator-large__icon--right">
-                <Icon iconName="general-warning" iconClass="disruption-indicator-large__icon--right" />
-              </svg>
-            </div>
-          </Collapsible>
           <br />
           <div className="wmnds-disruption-indicator-large wmnds-disruption-indicator-large--undefined">
             <div className="wmnds-disruption-indicator-large__left-wrapper">
