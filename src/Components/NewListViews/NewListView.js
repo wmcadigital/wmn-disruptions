@@ -10,7 +10,6 @@ function NewListView() {
       <div className="wmnds-grid">
         <div className="wmnds-col-2-5" />
         <div className="wmnds-col-3-5">
-          <h5>RestInfo Below:</h5>
           <RestInfo />
 
           <br />
