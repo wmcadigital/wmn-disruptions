@@ -44,6 +44,9 @@ $palettes: (
 $white: #ffffff;
 $black: #000000;
 
+//Added in the background for breadcrumbs and list views
+$main-background: #f3f2f1;
+
 // TEXT
 $text-color: get-color($black);
 $x-font-family: 'Noto Sans', sans-serif;

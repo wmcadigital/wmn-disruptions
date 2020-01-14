@@ -33,8 +33,6 @@ class RestInfo extends Component {
           disruptions.map(post => {
             return (
               <div key={post.id}>
-                <p>hello </p>
-                {post.serviceAffected.operatorCode}
                 <br />
                 {post.title}
                 <br />

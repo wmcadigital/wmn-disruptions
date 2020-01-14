@@ -1,9 +1,8 @@
 import React from 'react';
-import './MainHeader.scss';
 
 function MainHeader() {
   return (
-    <div>
+    <div className="header">
       <header className="wmnds-header wmnds-grid">
         <div className="wmnds-header__vertical-align wmnds-col-1 wmnds-col-md-1-3">
           <a className="wmnds-header__logo-link" href="/" title="West Midlands Network Design System">
