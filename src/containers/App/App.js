@@ -7,12 +7,11 @@ import { connect } from 'react-redux';
 import MainHeader from '../../Components/MainHeader/MainHeader';
 import WebMapView from '../../Components/Map/Map';
 import Tray from '../../Components/Tray/Tray';
+import Breadcrumbs from '../../Components/Breadcrumbs/Breadcrumbs';
 
 import NewListView from '../../Components/NewListViews/NewListView';
 // Import components
 import Button from '../../Components/Button/Button';
-// Import consts
-import { TITLE } from '../../Components/Header/data';
 
 // Import actions
 import * as a from '../../redux/actions';
@@ -58,10 +57,11 @@ class App extends React.Component {
   render() {
     const { state } = this;
     return (
-      <div className={s.app}>
+      <div className={`{s.app} header`}>
         <MainHeader />
+        <Breadcrumbs />
         <div className={`wmnds-grid wmnds-grid--justify-between ${s.container}`}>
-          <h1 className={`${s.title} wmnds-col-1 wmnds-col-sm-auto`}>{TITLE}</h1>
+          <h1 className={`${s.title} wmnds-col-1 wmnds-col-sm-auto`}>Disruptions</h1>
 
           <div className={`${s.btnContainer} wmnds-col-1 wmnds-col-sm-auto`}>
             <Button
