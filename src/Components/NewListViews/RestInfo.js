@@ -33,6 +33,8 @@ class RestInfo extends Component {
           disruptions.map(post => {
             return (
               <div key={post.id}>
+                <h2>Disruptions:</h2>
+                <em>operatorCode below</em>
                 <br />
                 {post.title}
                 <br />
@@ -45,6 +47,20 @@ class RestInfo extends Component {
                 {post.title}
                 <br />
                 {post.mode}
+
+                <h2>serviceAffected:</h2>
+                {post.serviceAffected.map(affected => (
+                  <div key={affected.id}>
+                    <h5>Operator code:</h5>
+                    {affected.operatorCode}
+                    <h5>routeDesc:</h5>
+                    {affected.routeDesc}
+                    <h5>serviceNumber:</h5>
+                    {affected.serviceNumber}
+                    <h5>direction</h5>
+                    {affected.direction}
+                  </div>
+                ))}
               </div>
             );
           })
