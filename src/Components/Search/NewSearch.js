@@ -4,7 +4,7 @@ import Icon from '../Icon/Icon';
 
 const NewSearch = ({ query, updateQuery }) => {
   return (
-    <div className="wmnds-autocomplete wmnds-grid ">
+    <div>
       <Icon iconName="general-search" iconClass="wmnds-autocomplete__icon" />
       <div className="wmnds-loader" role="alert" aria-live="assertive">
         <p className="wmnds-loader__content">Content is loading...</p>
