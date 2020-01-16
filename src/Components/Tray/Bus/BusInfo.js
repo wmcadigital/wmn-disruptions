@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 // Import styles
 import s from './bus.module.scss';
@@ -16,19 +17,23 @@ class BusInfo extends Component {
     };
   }
 
-  componentDidUpdate() {
-    axios
-      .get('https://trasnport-api-isruptions-v2.azure-api.net/Disruption/v2/', {
-        headers: {
-          'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
-        }
-      })
-      .then(bus => {
-        console.log(`This is the data :`, bus);
-        this.setState({
-          data: bus.data.data
+  componentDidUpdate(prevProps) {
+    const { query } = this.props;
+    // If the previous query doesn't equal the current query, hit API
+    if (prevProps.query !== query) {
+      axios
+        .get(`https://trasnport-api-isruptions-v2.azure-api.net/bus/v1/service?q=${query}`, {
+          headers: {
+            'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
+          }
+        })
+        .then(bus => {
+          console.log(`This is the data :`, bus);
+          this.setState({
+            data: bus.data.services
+          });
         });
-      });
+    }
   }
 
   render() {
@@ -104,5 +109,10 @@ class BusInfo extends Component {
     );
   }
 }
+
+// Set Props
+BusInfo.propTypes = {
+  query: PropTypes.string.isRequired
+};
 
 export default BusInfo;
