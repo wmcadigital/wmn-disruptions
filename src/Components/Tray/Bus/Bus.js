@@ -4,8 +4,8 @@ import BusInfo from './BusInfo';
 import NewSearch from '../../Search/NewSearch';
 
 export default class Bus extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.updateQuery = this.updateQuery.bind(this);
 
@@ -14,25 +14,22 @@ export default class Bus extends Component {
     };
   }
 
-  // Update the users "query" in state
   updateQuery(e) {
-    this.setState({ query: e.target.value });
-
-    const optionValue = e.target.value.length;
-
-    if (optionValue >= 2) {
-      console.log('more than 2');
-    } else {
-      console.log('none');
-    }
+    this.setState({
+      query: e.target.value,
+      optionValue: e.target.value.length
+    });
   }
 
   render() {
-    const { query } = this.state;
+    const { query, optionValue } = this.state;
+
     return (
       <div>
         <br />
-        <NewSearch query={query} updateQuery={this.updateQuery} />
+        <div className={`wmnds-autocomplete wmnds-grid ${optionValue > 1 ? 'wmnds-is--loading' : ''}`}>
+          <NewSearch query={query} updateQuery={this.updateQuery} />
+        </div>
         <Debounce ms={1000}>
           <BusInfo query={query} />
         </Debounce>
