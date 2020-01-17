@@ -22,7 +22,7 @@ const WhenView = props => {
     <>
       <div className="wmnds-grid">
         <div className="wmnds-col-1">
-          <h5>{TITLE}</h5>
+          <h4>{TITLE}</h4>
         </div>
       </div>
       <div className="wmnds-grid wmnds-grid--justify-between">

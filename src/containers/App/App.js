@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 // Import components
 import MainHeader from '../../Components/MainHeader/MainHeader';
 import WebMapView from '../../Components/Map/Map';
-import Tray from '../../Components/Tray/Tray';
+import TrayNew from '../../Components/TrayNew/TrayNew';
 import Breadcrumbs from '../../Components/Breadcrumbs/Breadcrumbs';
 
 import NewListView from '../../Components/NewListViews/NewListView';
@@ -84,7 +84,7 @@ class App extends React.Component {
           </div>
         )}
 
-        <Tray />
+        <TrayNew />
       </div>
     );
   }
