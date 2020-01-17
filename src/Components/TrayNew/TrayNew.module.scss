@@ -1,0 +1,41 @@
+@import '../../assets/styles/vars';
+@import '../../assets/styles/mixins';
+
+// Tray vars
+$t-height: 105vh;
+$t-width: 100%;
+$t-bg: white;
+$t-border-radius: 10px;
+$t-y-pos: calc(50vh - 210px);
+$d-t-width: 400px;
+$d-t-height: 500px;
+$d-t-height-lv: 300px;
+
+.tray {
+  position: absolute;
+  z-index: 1;
+  top: $t-y-pos;
+  background-color: $t-bg;
+  border-radius: $t-border-radius;
+  width: $t-width;
+  min-height: $t-height;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+
+  @media only screen and (min-width: 1200px) {
+    top: 3 50px;
+    left: $margin-lg;
+    width: $d-t-width;
+    //Was 500px;
+    // height: 500px;
+
+    //Now set to
+    height: auto;
+    min-height: 500px;
+  }
+
+  &.listView {
+    height: $d-t-height-lv;
+    min-height: $d-t-height-lv;
+    transition: height ease 0.5s;
+  }
+}
