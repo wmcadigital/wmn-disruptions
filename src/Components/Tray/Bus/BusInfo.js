@@ -39,6 +39,8 @@ class BusInfo extends Component {
   render() {
     const { data } = this.state;
 
+    console.log(data);
+
     return (
       <div>
         <ul className={s.results}>
