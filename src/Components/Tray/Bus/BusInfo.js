@@ -28,7 +28,6 @@ class BusInfo extends Component {
           }
         })
         .then(bus => {
-          console.log(`This is the data :`, bus);
           this.setState({
             data: bus.data.services
           });
@@ -38,8 +37,6 @@ class BusInfo extends Component {
 
   render() {
     const { data } = this.state;
-
-    console.log(data);
 
     return (
       <div>

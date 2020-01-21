@@ -43,6 +43,43 @@ class RestInfo extends Component {
       <div>
         {disruptions.length > 0 ? (
           disruptions.map((post, key) => {
+            let type;
+            let iconName;
+
+            // If the current service has disruption
+            if (post.hasDisruptions) {
+              // Do a switch on the disruption severity, then map the type and iconName to the correct vars
+              switch (post.disruptionSeverity) {
+                // Minor disruption (normal)
+                case 'normal':
+                  type = 'warning';
+                  iconName = 'warning-circle';
+
+                  break;
+                // Major disruption (high)
+                case 'high':
+                  type = 'error';
+                  iconName = 'warning-triangle';
+
+                  break;
+                // Severe disruption (veryHigh)
+                case 'veryHigh':
+                  type = 'severe';
+                  iconName = 'warning-triangle';
+
+                  break;
+                // Good service (low)
+                default:
+                  type = 'success';
+                  iconName = 'success';
+
+                  break;
+              }
+            } else {
+              // No disruptions, so show success
+              type = 'success';
+              iconName = 'success';
+            }
             return (
               <div key={post.id}>
                 <div className={`wmnds-accordion ${activeAcc === key ? 'wmnds-is--open' : ''}`}>
@@ -59,8 +96,8 @@ class RestInfo extends Component {
                           <svg className="wmnds-disruption-indicator-small__icon">
                             <Icon iconName="modes-isolated-bus" iconClass="modes-isolated-bus" />
                           </svg>
-                          <svg className="wmnds-disruption-indicator-small__icon">
-                            <Icon iconName="general-warning-circle" iconClass="general-warning-circle" />
+                          <svg className={`wmnds-disruption-indicator-small__${type}`}>
+                            <Icon iconName={`general-warning-${iconName}`} />
                           </svg>
                         </span>
                         <div className="wmnds-col-auto">
