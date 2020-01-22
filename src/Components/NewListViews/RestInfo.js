@@ -10,7 +10,7 @@ class RestInfo extends Component {
 
     this.state = {
       disruptions: [],
-      activeAcc: 0
+      activeAcc: ''
     };
   }
 
@@ -43,70 +43,105 @@ class RestInfo extends Component {
       <div>
         {disruptions.length > 0 ? (
           disruptions.map((post, key) => {
+            let iconName;
+
+            // If the current service has disruption
+            if (post.hasDisruptions) {
+              // Do a switch on the disruption severity, then map the type and iconName to the correct vars
+              switch (post.disruptionSeverity) {
+                // Minor disruption (normal)
+                case 'normal':
+                  iconName = 'warning-circle';
+                  break;
+                // Major disruption (high)
+                case 'high':
+                  iconName = 'triangle';
+                  break;
+                // Severe disruption (veryHigh)
+                case 'veryHigh':
+                  iconName = 'triangle';
+                  break;
+                // Good service (low)
+                default:
+                  iconName = 'success';
+                  break;
+              }
+            } else {
+              // No disruptions, so show success
+              iconName = 'success';
+            }
             return (
-              <div key={post.id}>
-                <div className={`wmnds-accordion ${activeAcc === key ? 'wmnds-is--open' : ''}`}>
-                  <button
-                    type="button"
-                    aria-controls="accordion-custom-01"
-                    className="wmnds-accordion__summary-wrapper"
-                    aria-expanded="true"
-                    onClick={() => this.toggle(key)}
-                  >
-                    <div className="wmnds-accordion__summary">
-                      <div className="wmnds-grid wmnds-grid--align-center">
-                        <span className="wmnds-disruption-indicator-small wmnds-col-auto wmnds-m-r-md">
-                          <svg className="wmnds-disruption-indicator-small__icon">
-                            <Icon iconName="modes-isolated-bus" iconClass="modes-isolated-bus" />
-                          </svg>
-                          <svg className="wmnds-disruption-indicator-small__icon">
-                            <Icon iconName="general-warning-circle" iconClass="general-warning-circle" />
-                          </svg>
-                        </span>
-                        <div className="wmnds-col-auto">
-                          <strong>{post.title}</strong>
+              <div className="wmnds-container wmnds-container--main">
+                <div key={post.id}>
+                  <div className={`wmnds-accordion ${activeAcc === key ? 'wmnds-is--open' : ''}`}>
+                    <button
+                      type="button"
+                      aria-controls="accordion-custom-01"
+                      className="wmnds-accordion__summary-wrapper"
+                      aria-expanded="true"
+                      onClick={() => this.toggle(key)}
+                    >
+                      <div className="wmnds-accordion__summary">
+                        <div className="wmnds-grid wmnds-grid--align-center">
+                          <span className="wmnds-disruption-indicator-small wmnds-col-auto wmnds-m-r-md">
+                            {/* Bus Icon */}
+
+                            <svg className="wmnds-disruption-indicator-small__icon">
+                              <Icon iconName="modes-isolated-bus" iconClass="modes-isolated-bus" />
+                            </svg>
+
+                            <svg className="wmnds-disruption-indicator-small__icon">
+                              <Icon
+                                iconName={`general-warning-${iconName}`}
+                                iconClass={`general-warning-${iconName}`}
+                              />
+                            </svg>
+                          </span>
+                          <div className="wmnds-col-auto">
+                            <strong>{post.title}</strong>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <svg className="wmnds-accordion__icon">
-                      <Icon iconName="general-expand" iconClass="general-expand" />
-                    </svg>
+                      <svg className="wmnds-accordion__icon">
+                        <Icon iconName="general-expand" iconClass="general-expand" />
+                      </svg>
 
-                    <svg className="wmnds-accordion__icon wmnds-accordion__icon--minimise">
-                      <Icon iconName="general-minimise" iconClass="general-minimise" />
-                    </svg>
-                  </button>
+                      <svg className="wmnds-accordion__icon wmnds-accordion__icon--minimise">
+                        <Icon iconName="general-minimise" iconClass="general-minimise" />
+                      </svg>
+                    </button>
 
-                  <div className="wmnds-accordion__content" id="accordion-custom-01">
-                    <h4 className="serviceAffected">Affected Service(s) </h4>
-                    {post.servicesAffected.map(affected => (
-                      <div key={affected.id}>
-                        <span className="wmnds-disruption-indicator-small wmnds-col-auto wmnds-m-r-md">
-                          <svg className="wmnds-disruption-indicator-small__icon">
-                            <Icon iconName="modes-isolated-bus" iconClass="modes-isolated-bus">
-                              {affected.serviceNumber}
-                            </Icon>
-                          </svg>
-                          <svg className="wmnds-disruption-indicator-small__icon">
-                            <Icon iconName="general-warning-circle" iconClass="general-warning-circle" />
-                          </svg>
-                        </span>
-
-                        <h5>routeDesc:</h5>
-                        {affected.routeDesc}
-                        <h5>serviceNumber:</h5>
-                        {affected.serviceNumber}
-                        <h5>direction</h5>
-                        {affected.direction}
+                    <div className="wmnds-accordion__content" id="accordion-custom-01">
+                      <h4 className="serviceAffected">Affected Service(s) </h4>
+                      <div className="wmnds-grid">
+                        {post.servicesAffected.map(affected => (
+                          <div className="wmnds-col-1-5">
+                            <div key={affected.id}>
+                              <span className="wmnds-disruption-indicator-small wmnds-col-auto wmnds-m-r-md">
+                                <svg className="wmnds-disruption-indicator-small__icon">
+                                  <Icon iconName="modes-isolated-bus" iconClass="modes-isolated-bus" />
+                                </svg>
+                                {affected.serviceNumber}
+                              </span>
+                              <div className="isFav">
+                                <svg>
+                                  <Icon iconName="general-star-empty" iconClass="disruption-indicator-small__icon" />
+                                </svg>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    ))}
 
-                    <p>{post.title}</p>
-                    <p>{post.description}</p>
-                    <p>{post.disruptionSeverity}</p>
-                    <p>{post.mode}</p>
-                    <p>{post.disruptionSeverity}</p>
+                      <div className="clear">
+                        <hr />
+                        <p>{post.title}</p>
+                        <p>{post.description}</p>
+                        <p>{post.disruptionSeverity}</p>
+                        <p>{post.mode}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
