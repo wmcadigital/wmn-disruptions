@@ -42,11 +42,11 @@ class RestInfo extends Component {
     return (
       <div>
         {disruptions.length > 0 ? (
-          disruptions.map((post, key) => {
+          disruptions.map((post, key, servicesAffected) => {
             let iconName;
 
             // If the current service has disruption
-            if (post.hasDisruptions) {
+            if (post.disruptions) {
               // Do a switch on the disruption severity, then map the type and iconName to the correct vars
               switch (post.disruptionSeverity) {
                 // Minor disruption (normal)
@@ -115,7 +115,10 @@ class RestInfo extends Component {
                     <div className="wmnds-accordion__content" id="accordion-custom-01">
                       <h4 className="serviceAffected">Affected Service(s) </h4>
                       <div className="wmnds-grid">
-                        {post.servicesAffected.map(affected => (
+                        <h1>Disruptions</h1>
+                        <br />
+
+                        {servicesAffected.map(affected => (
                           <div className="wmnds-col-1-5">
                             <div key={affected.id}>
                               <span className="wmnds-disruption-indicator-small wmnds-col-auto wmnds-m-r-md">
