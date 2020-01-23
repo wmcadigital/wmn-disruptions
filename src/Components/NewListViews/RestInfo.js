@@ -42,7 +42,7 @@ class RestInfo extends Component {
     return (
       <div>
         {disruptions.length > 0 ? (
-          disruptions.map((post, key, servicesAffected) => {
+          disruptions.map((post, key) => {
             let iconName;
 
             // If the current service has disruption
@@ -115,26 +115,24 @@ class RestInfo extends Component {
                     <div className="wmnds-accordion__content" id="accordion-custom-01">
                       <h4 className="serviceAffected">Affected Service(s) </h4>
                       <div className="wmnds-grid">
-                        <h1>Disruptions</h1>
-                        <br />
-
-                        {servicesAffected.map(affected => (
-                          <div className="wmnds-col-1-5">
-                            <div key={affected.id}>
-                              <span className="wmnds-disruption-indicator-small wmnds-col-auto wmnds-m-r-md">
-                                <svg className="wmnds-disruption-indicator-small__icon">
-                                  <Icon iconName="modes-isolated-bus" iconClass="modes-isolated-bus" />
-                                </svg>
-                                {affected.serviceNumber}
-                              </span>
-                              <div className="isFav">
-                                <svg>
-                                  <Icon iconName="general-star-empty" iconClass="disruption-indicator-small__icon" />
-                                </svg>
+                        {post.servicesAffected &&
+                          post.servicesAffected.map(affected => (
+                            <div className="wmnds-col-1-5">
+                              <div key={affected.id}>
+                                <span className="wmnds-disruption-indicator-small wmnds-col-auto wmnds-m-r-md">
+                                  <svg className="wmnds-disruption-indicator-small__icon">
+                                    <Icon iconName="modes-isolated-bus" iconClass="modes-isolated-bus" />
+                                  </svg>
+                                  {affected.serviceNumber}
+                                </span>
+                                <div className="isFav">
+                                  <svg>
+                                    <Icon iconName="general-star-empty" iconClass="disruption-indicator-small__icon" />
+                                  </svg>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
                       </div>
 
                       <div className="clear">
