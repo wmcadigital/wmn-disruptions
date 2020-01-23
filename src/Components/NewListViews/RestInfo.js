@@ -44,24 +44,29 @@ class RestInfo extends Component {
         {disruptions.length > 0 ? (
           disruptions.map((post, key) => {
             let iconName;
+            let newClass;
             // Removed the if statement - Icon now showing.
             // Do a switch on the disruption severity, then map the type and iconName to the correct vars
             switch (post.disruptionSeverity) {
               // Minor disruption (normal)
               case 'normal':
                 iconName = 'warning-circle';
+                newClass = 'warning';
                 break;
               // Major disruption (high)
               case 'high':
                 iconName = 'warning-triangle';
+                newClass = 'error';
                 break;
               // Severe disruption (veryHigh)
               case 'veryHigh':
                 iconName = 'warning-triangle';
+                newClass = 'severe';
                 break;
               // Good service (low)
               default:
                 iconName = 'success';
+                newClass = 'success';
                 break;
             }
 
@@ -78,17 +83,20 @@ class RestInfo extends Component {
                     >
                       <div className="wmnds-accordion__summary">
                         <div className="wmnds-grid wmnds-grid--align-center">
-                          <span className="wmnds-disruption-indicator-small wmnds-col-auto wmnds-m-r-md">
+                          <div
+                            className={`wmnds-disruption-indicator-small wmnds-col-auto wmnds-m-r-md wmnds-disruption-indicator-medium--${newClass}`}
+                          >
                             {/* Bus Icon Only */}
                             <svg className="wmnds-disruption-indicator-small__icon">
                               <Icon iconName="modes-isolated-bus" iconClass="modes-isolated-bus" />
                             </svg>
 
-                            <svg className="wmnds-disruption-indicator-small__icon switchStatementIcon">
+                            <svg className="wmnds-disruption-indicator-small__icon">
                               <Icon iconName={`general-${iconName}`} iconClass={`general-${iconName}`} />
                             </svg>
-                          </span>
+                          </div>
                           <div className="wmnds-col-auto">
+                            {/* Title of disruptions */}
                             <strong>{post.title}</strong>
                           </div>
                         </div>
@@ -109,18 +117,26 @@ class RestInfo extends Component {
                         {post.servicesAffected &&
                           post.servicesAffected.map(affected => (
                             <div className="wmnds-col-1-5">
+                              {/* Key ID */}
                               <div key={affected.id}>
-                                <span className="wmnds-disruption-indicator-small wmnds-col-auto wmnds-m-r-md">
-                                  {affected.serviceNumber}
-                                  <svg className="wmnds-disruption-indicator-small__icon">
-                                    <Icon
-                                      iconName="general-warning-circle"
-                                      iconClass="disruption-indicator-large__icon--right"
-                                    />
-                                  </svg>
+                                <span>
+                                  {/* Services Affected */}
+                                  <div
+                                    className={`wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium--with-icon wmnds-disruption-indicator-medium--${newClass}`}
+                                  >
+                                    <span className="serviceNumber">{affected.serviceNumber}</span>
+                                    {/* Affected Icon */}
+                                    <svg className="wmnds-disruption-indicator-small__icon">
+                                      <Icon
+                                        iconName={`general-${iconName}`}
+                                        iconClass="disruption-indicator-large__icon--right"
+                                      />
+                                    </svg>
+                                  </div>
                                 </span>
+                                {/* Faved Routed to be saved to local storage */}
                                 <div className="isFav">
-                                  <svg>
+                                  <svg className="favStar">
                                     <Icon iconName="general-star-empty" iconClass="disruption-indicator-small__icon" />
                                   </svg>
                                 </div>
