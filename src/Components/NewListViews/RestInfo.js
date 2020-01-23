@@ -44,32 +44,27 @@ class RestInfo extends Component {
         {disruptions.length > 0 ? (
           disruptions.map((post, key) => {
             let iconName;
-
-            // If the current service has disruption
-            if (post.disruptions) {
-              // Do a switch on the disruption severity, then map the type and iconName to the correct vars
-              switch (post.disruptionSeverity) {
-                // Minor disruption (normal)
-                case 'normal':
-                  iconName = 'warning-circle';
-                  break;
-                // Major disruption (high)
-                case 'high':
-                  iconName = 'triangle';
-                  break;
-                // Severe disruption (veryHigh)
-                case 'veryHigh':
-                  iconName = 'triangle';
-                  break;
-                // Good service (low)
-                default:
-                  iconName = 'success';
-                  break;
-              }
-            } else {
-              // No disruptions, so show success
-              iconName = 'success';
+            // Removed the if statement - Icon now showing.
+            // Do a switch on the disruption severity, then map the type and iconName to the correct vars
+            switch (post.disruptionSeverity) {
+              // Minor disruption (normal)
+              case 'normal':
+                iconName = 'warning-circle';
+                break;
+              // Major disruption (high)
+              case 'high':
+                iconName = 'warning-triangle';
+                break;
+              // Severe disruption (veryHigh)
+              case 'veryHigh':
+                iconName = 'warning-triangle';
+                break;
+              // Good service (low)
+              default:
+                iconName = 'success';
+                break;
             }
+
             return (
               <div className="wmnds-container wmnds-container--main">
                 <div key={post.id}>
@@ -84,17 +79,13 @@ class RestInfo extends Component {
                       <div className="wmnds-accordion__summary">
                         <div className="wmnds-grid wmnds-grid--align-center">
                           <span className="wmnds-disruption-indicator-small wmnds-col-auto wmnds-m-r-md">
-                            {/* Bus Icon */}
-
+                            {/* Bus Icon Only */}
                             <svg className="wmnds-disruption-indicator-small__icon">
                               <Icon iconName="modes-isolated-bus" iconClass="modes-isolated-bus" />
                             </svg>
 
-                            <svg className="wmnds-disruption-indicator-small__icon">
-                              <Icon
-                                iconName={`general-warning-${iconName}`}
-                                iconClass={`general-warning-${iconName}`}
-                              />
+                            <svg className="wmnds-disruption-indicator-small__icon switchStatementIcon">
+                              <Icon iconName={`general-${iconName}`} iconClass={`general-${iconName}`} />
                             </svg>
                           </span>
                           <div className="wmnds-col-auto">
@@ -102,16 +93,16 @@ class RestInfo extends Component {
                           </div>
                         </div>
                       </div>
-
+                      {/* Expand Icon Only */}
                       <svg className="wmnds-accordion__icon">
                         <Icon iconName="general-expand" iconClass="general-expand" />
                       </svg>
-
+                      {/* Minimise Icon Only */}
                       <svg className="wmnds-accordion__icon wmnds-accordion__icon--minimise">
                         <Icon iconName="general-minimise" iconClass="general-minimise" />
                       </svg>
                     </button>
-
+                    {/* Accordion Start */}
                     <div className="wmnds-accordion__content" id="accordion-custom-01">
                       <h4 className="serviceAffected">Affected Service(s) </h4>
                       <div className="wmnds-grid">
@@ -120,10 +111,13 @@ class RestInfo extends Component {
                             <div className="wmnds-col-1-5">
                               <div key={affected.id}>
                                 <span className="wmnds-disruption-indicator-small wmnds-col-auto wmnds-m-r-md">
-                                  <svg className="wmnds-disruption-indicator-small__icon">
-                                    <Icon iconName="modes-isolated-bus" iconClass="modes-isolated-bus" />
-                                  </svg>
                                   {affected.serviceNumber}
+                                  <svg className="wmnds-disruption-indicator-small__icon">
+                                    <Icon
+                                      iconName="general-warning-circle"
+                                      iconClass="disruption-indicator-large__icon--right"
+                                    />
+                                  </svg>
                                 </span>
                                 <div className="isFav">
                                   <svg>
@@ -134,7 +128,9 @@ class RestInfo extends Component {
                             </div>
                           ))}
                       </div>
+                      {/* Accordion End */}
 
+                      {/* Description Start */}
                       <div className="clear">
                         <hr />
                         <p>{post.title}</p>
@@ -142,6 +138,7 @@ class RestInfo extends Component {
                         <p>{post.disruptionSeverity}</p>
                         <p>{post.mode}</p>
                       </div>
+                      {/* Description End */}
                     </div>
                   </div>
                 </div>
