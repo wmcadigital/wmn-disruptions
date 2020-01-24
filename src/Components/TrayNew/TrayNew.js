@@ -8,7 +8,10 @@ import Button from '../Button/Button';
 import s from './TrayNew.module.scss';
 
 const TrayNew = props => {
-  const { handleWhen, when, time, datePicker } = props || {};
+  const { handleWhen, when, datePicker } = props || {};
+
+  const today = new Date(); // Get today's date
+  const nowText = `Now ${today.getHours()}:${today.getMinutes()}`; // Set nowText to be 'Now HH:MM'
 
   return (
     <div className={`${s.tray} wmnds-grid wmnds-p-md`}>
@@ -25,12 +28,13 @@ const TrayNew = props => {
           isActive={when === 'now'}
           onClick={() => handleWhen('now')}
           className={s.btn}
-          text="Now 14:44"
+          text={nowText}
         />
         {/* Tomorrow button */}
         <Button
           btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm wmnds-p-xsm"
           isActive={when === 'tomorrow'}
+          onClick={() => handleWhen('tomorrow')}
           className={s.btn}
           text="Tomorrow"
         />
@@ -40,13 +44,13 @@ const TrayNew = props => {
             <Button
               btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-p-xsm"
               isActive={when === 'customDate'}
+              onClick={() => handleWhen('customDate')}
               className={`${s.btn} ${s.chooseDateBtn}`}
-              onClick={e => e.preventDefault}
               text="Choose date"
             />
 
             <span className={s.datePicker} style={{ display: 'none' }}>
-              <DatePicker selected={time} onSelect={datePicker} withPortal />
+              <DatePicker selected={today} onSelect={datePicker} withPortal />
             </span>
           </div>
         </div>
