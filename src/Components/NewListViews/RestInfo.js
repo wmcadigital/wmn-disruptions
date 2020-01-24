@@ -156,7 +156,7 @@ class RestInfo extends Component {
                       <div className="clear">
                         <hr />
                         <p>{post.title}</p>
-                        <p>{post.description}</p>
+                        <div dangerouslySetInnerHTML={{ __html: post.description }} />
                       </div>
                       {/* Description End */}
                     </div>
