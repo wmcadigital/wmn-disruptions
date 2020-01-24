@@ -30,7 +30,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleWhen = this.handleWhen.bind(this);
+    this.setWhen = this.setWhen.bind(this);
     this.NewToggleView = this.NewToggleView.bind(this);
 
     this.state = {
@@ -49,7 +49,7 @@ class App extends React.Component {
     SetViewMode(MAP_VIEW);
   }
 
-  handleWhen(val) {
+  setWhen(val) {
     console.log(val);
     this.setState({
       when: val
@@ -94,7 +94,7 @@ class App extends React.Component {
           </div>
         )}
 
-        <TrayNew when={state.when} mode={state.mode} handleWhen={this.handleWhen} />
+        <TrayNew when={state.when} mode={state.mode} setWhen={this.setWhen} />
       </div>
     );
   }

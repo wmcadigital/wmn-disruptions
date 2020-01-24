@@ -8,7 +8,7 @@ import Button from '../Button/Button';
 import s from './TrayNew.module.scss';
 
 const TrayNew = props => {
-  const { handleWhen, when, datePicker } = props || {};
+  const { setWhen, when, datePicker } = props || {};
 
   const today = new Date(); // Get today's date
   const nowText = `Now ${today.getHours()}:${today.getMinutes()}`; // Set nowText to be 'Now HH:MM'
@@ -26,7 +26,7 @@ const TrayNew = props => {
         <Button
           btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm wmnds-p-xsm"
           isActive={when === 'now'}
-          onClick={() => handleWhen('now')}
+          onClick={() => setWhen('now')}
           className={s.btn}
           text={nowText}
         />
@@ -34,7 +34,7 @@ const TrayNew = props => {
         <Button
           btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm wmnds-p-xsm"
           isActive={when === 'tomorrow'}
-          onClick={() => handleWhen('tomorrow')}
+          onClick={() => setWhen('tomorrow')}
           className={s.btn}
           text="Tomorrow"
         />
@@ -44,7 +44,7 @@ const TrayNew = props => {
             <Button
               btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-p-xsm"
               isActive={when === 'customDate'}
-              onClick={() => handleWhen('customDate')}
+              onClick={() => setWhen('customDate')}
               className={`${s.btn} ${s.chooseDateBtn}`}
               text="Choose date"
             />
