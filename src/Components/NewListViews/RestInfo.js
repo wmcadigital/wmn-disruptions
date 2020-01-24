@@ -111,9 +111,15 @@ class RestInfo extends Component {
                       </svg>
                     </button>
                     {/* Accordion Start */}
+
                     <div className="wmnds-accordion__content" id="accordion-custom-01">
-                      <h4 className="serviceAffected">Affected Service(s) </h4>
                       <div className="wmnds-grid">
+                        {disruptions.length > 1 && (
+                          <div className="wmnds-col-1-1">
+                            <h4 className="serviceAffected">Affected Service(s) </h4>
+                          </div>
+                        )}
+
                         {post.servicesAffected &&
                           post.servicesAffected.map(affected => (
                             <div className="wmnds-col-1-5">
@@ -151,8 +157,6 @@ class RestInfo extends Component {
                         <hr />
                         <p>{post.title}</p>
                         <p>{post.description}</p>
-                        <p>{post.disruptionSeverity}</p>
-                        <p>{post.mode}</p>
                       </div>
                       {/* Description End */}
                     </div>
