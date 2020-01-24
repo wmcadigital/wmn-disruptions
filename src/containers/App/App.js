@@ -36,6 +36,7 @@ class App extends React.Component {
     this.state = {
       visibility: false,
       when: '',
+      whenCustom: '',
       mode: ''
     };
   }
@@ -49,10 +50,11 @@ class App extends React.Component {
     SetViewMode(MAP_VIEW);
   }
 
-  setWhen(val) {
-    console.log(val);
+  // Update the state of when
+  setWhen(val, custom) {
     this.setState({
-      when: val
+      when: val,
+      whenCustom: custom || ''
     });
   }
 
@@ -94,7 +96,7 @@ class App extends React.Component {
           </div>
         )}
 
-        <TrayNew when={state.when} mode={state.mode} setWhen={this.setWhen} />
+        <TrayNew when={state.when} whenCustom={state.whenCustom} mode={state.mode} setWhen={this.setWhen} />
       </div>
     );
   }
