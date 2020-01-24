@@ -8,8 +8,7 @@ import Button from '../Button/Button';
 import s from './TrayNew.module.scss';
 
 const TrayNew = props => {
-  const { timeToCheck, time, datePicker } = props || {};
-  const nowActive = timeToCheck === '';
+  const { handleWhen, when, time, datePicker } = props || {};
 
   return (
     <div className={`${s.tray} wmnds-grid wmnds-p-md`}>
@@ -23,16 +22,15 @@ const TrayNew = props => {
         {/* Now button */}
         <Button
           btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm wmnds-p-xsm"
-          isActive={nowActive}
-          onClick=""
+          isActive={when === 'now'}
+          onClick={() => handleWhen('now')}
           className={s.btn}
           text="Now 14:44"
         />
         {/* Tomorrow button */}
         <Button
           btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm wmnds-p-xsm"
-          isActive=""
-          onClick=""
+          isActive={when === 'tomorrow'}
           className={s.btn}
           text="Tomorrow"
         />
@@ -41,7 +39,7 @@ const TrayNew = props => {
           <div className={s.chooseDateWrapper}>
             <Button
               btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-p-xsm"
-              isActive=""
+              isActive={when === 'customDate'}
               className={`${s.btn} ${s.chooseDateBtn}`}
               onClick={e => e.preventDefault}
               text="Choose date"

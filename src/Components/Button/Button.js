@@ -6,11 +6,7 @@ import Icon from '../Icon/Icon';
 const Button = ({ type, isActive, text, onClick, btnClass, iconLeft, iconRight }) => {
   return (
     // eslint-disable-next-line react/button-has-type
-    <button
-      type={type}
-      className={`wmnds-btn ${btnClass} ${isActive ? 'wmnds-is--active' : null}`}
-      onClick={e => onClick(e)}
-    >
+    <button type={type} className={`wmnds-btn ${btnClass} ${isActive ? 'wmnds-is--active' : null}`} onClick={onClick}>
       {/* If icon left is set then call icon component and inject correct svg */}
       {iconLeft ? <Icon iconClass="wmnds-btn__icon" iconName={iconLeft} /> : null}
 
@@ -37,7 +33,7 @@ Button.propTypes = {
 Button.defaultProps = {
   text: '',
   type: 'button',
-  onClick: () => {},
+  onClick: null,
   isActive: false,
   btnClass: '',
   iconLeft: null,

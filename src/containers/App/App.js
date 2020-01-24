@@ -30,10 +30,13 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
+    this.handleWhen = this.handleWhen.bind(this);
     this.NewToggleView = this.NewToggleView.bind(this);
 
     this.state = {
-      visibility: false
+      visibility: false,
+      when: '',
+      mode: ''
     };
   }
 
@@ -44,6 +47,13 @@ class App extends React.Component {
     App.IsMobileDevice();
 
     SetViewMode(MAP_VIEW);
+  }
+
+  handleWhen(val) {
+    console.log(val);
+    this.setState({
+      when: val
+    });
   }
 
   NewToggleView() {
@@ -84,7 +94,7 @@ class App extends React.Component {
           </div>
         )}
 
-        <TrayNew />
+        <TrayNew when={state.when} mode={state.mode} handleWhen={this.handleWhen} />
       </div>
     );
   }
