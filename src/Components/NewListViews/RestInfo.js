@@ -16,7 +16,7 @@ class RestInfo extends Component {
 
   componentDidMount() {
     axios
-      .get('https://trasnport-api-isruptions-v2.azure-api.net/Disruption/v2/', {
+      .get('https://trasnport-api-isruptions-v2.azure-api.net/Disruption/v2', {
         headers: {
           'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
         }
@@ -38,6 +38,12 @@ class RestInfo extends Component {
 
   render() {
     const { disruptions, activeAcc } = this.state;
+
+    /* 
+    API call in the componentDidMount
+    I have added bus for the time being - 
+    Just remove /Mode/bus to get all results.  
+    */
 
     return (
       <div>
@@ -63,6 +69,11 @@ class RestInfo extends Component {
                 iconName = 'warning-triangle';
                 newClass = 'severe';
                 break;
+              // Major Disruption - Notice that the disruptionSeverity is capitalised in this case - Maybe ask Jon to make it lowercase?
+              case 'Major':
+                iconName = 'warning-triangle';
+                newClass = 'error';
+                break;
               // Good service (low)
               default:
                 iconName = 'success';
@@ -82,6 +93,7 @@ class RestInfo extends Component {
                       onClick={() => this.toggle(key)}
                     >
                       <div className="wmnds-accordion__summary">
+                        {post.mode}
                         <div className="wmnds-grid wmnds-grid--align-center">
                           <div
                             className={`wmnds-disruption-indicator-small wmnds-col-auto wmnds-m-r-md wmnds-disruption-indicator-medium--${newClass}`}
@@ -155,7 +167,7 @@ class RestInfo extends Component {
                       {/* Description Start */}
                       <div className="clear">
                         <hr />
-                        <p>{post.title}</p>
+                        <h3>{post.title}</h3>
                         <div dangerouslySetInnerHTML={{ __html: post.description }} />
                       </div>
                       {/* Description End */}
