@@ -19,18 +19,18 @@ const TrayNew = props => {
         <h4>When</h4>
       </div>
 
-      <div className="wmnds-grid wmnds-grid--justify-between">
+      <div className="wmnds-grid">
         {/* Now button */}
         <Button
-          btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-col-auto"
+          btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm wmnds-p-xsm"
           isActive={nowActive}
           onClick=""
           className={s.btn}
-          text="Now"
+          text="Now 14:44"
         />
         {/* Tomorrow button */}
         <Button
-          btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-col-auto"
+          btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm wmnds-p-xsm"
           isActive=""
           onClick=""
           className={s.btn}
@@ -40,14 +40,14 @@ const TrayNew = props => {
           {/* Choose date button */}
           <div className={s.chooseDateWrapper}>
             <Button
-              btnClass="wmnds-btn--secondary wmnds-btn--small"
+              btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-p-xsm"
               isActive=""
               className={`${s.btn} ${s.chooseDateBtn}`}
               onClick={e => e.preventDefault}
               text="Choose date"
             />
 
-            <span className={s.datePicker}>
+            <span className={s.datePicker} style={{ display: 'none' }}>
               <DatePicker selected={time} onSelect={datePicker} withPortal />
             </span>
           </div>
