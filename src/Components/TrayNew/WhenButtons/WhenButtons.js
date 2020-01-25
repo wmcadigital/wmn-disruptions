@@ -11,10 +11,13 @@ class WhenButtons extends Component {
   constructor(props) {
     super(props);
 
+    // const { state } = this;
+
     this.state = {
       when: '',
       whenCustom: '',
-      isMapOpen: false
+      isMapOpen: false,
+      datePickerText: 'Choose date'
     };
 
     this.toggleDate = this.toggleDate.bind(this);
@@ -24,9 +27,17 @@ class WhenButtons extends Component {
   // Update the state of when
   setWhen(val, custom) {
     this.setState({
-      when: val,
-      whenCustom: custom || ''
+      when: val
     });
+
+    if (val === 'customDate' && custom) {
+      const chosenDate = `${custom.getDate()}/${custom.getMonth() + 1}/${custom.getFullYear()}`;
+
+      this.setState({
+        datePickerText: chosenDate,
+        whenCustom: custom
+      });
+    }
   }
 
   toggleDate() {
@@ -70,7 +81,7 @@ class WhenButtons extends Component {
                 btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-p-xsm"
                 isActive={state.when === 'customDate'}
                 onClick={() => this.toggleDate()}
-                text={state.whenCustom.ToString || 'Choose date'}
+                text={state.datePickerText}
               />
             </div>
           </div>
