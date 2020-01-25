@@ -30,14 +30,10 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.setWhen = this.setWhen.bind(this);
     this.NewToggleView = this.NewToggleView.bind(this);
 
     this.state = {
-      visibility: false,
-      when: '',
-      whenCustom: '',
-      mode: ''
+      visibility: false
     };
   }
 
@@ -48,14 +44,6 @@ class App extends React.Component {
     App.IsMobileDevice();
 
     SetViewMode(MAP_VIEW);
-  }
-
-  // Update the state of when
-  setWhen(val, custom) {
-    this.setState({
-      when: val,
-      whenCustom: custom || ''
-    });
   }
 
   NewToggleView() {
@@ -96,7 +84,7 @@ class App extends React.Component {
           </div>
         )}
 
-        <TrayNew when={state.when} whenCustom={state.whenCustom} mode={state.mode} setWhen={this.setWhen} />
+        <TrayNew />
       </div>
     );
   }
