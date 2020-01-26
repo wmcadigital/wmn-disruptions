@@ -20,14 +20,12 @@ const When = () => {
     if (val === 'customDate' && custom) {
       const chosenDate = `${custom.getDate()}/${custom.getMonth() + 1}/${custom.getFullYear()}`;
 
-      setWhenState(state => ({ ...state, datePickerText: chosenDate }));
-      setWhenState(state => ({ ...state, whenCustom: custom }));
+      setWhenState(state => ({ ...state, datePickerText: chosenDate, whenCustom: custom }));
     }
   };
 
   const toggleDate = () => {
-    setWhenState(state => ({ ...state, isMapOpen: !state.isMapOpen }));
-    setWhenState(state => ({ ...state, when: 'customDate' }));
+    setWhenState(state => ({ ...state, isMapOpen: !state.isMapOpen, when: 'customDate' }));
   };
 
   const today = new Date(); // Get today's date
