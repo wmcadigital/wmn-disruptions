@@ -1,15 +1,18 @@
 import React from 'react';
 
 // Import components
-import WhenButton from './WhenButtons/WhenButtons';
+import When from './When/When';
 
 // Import styles
 import s from './TrayNew.module.scss';
+import { WhenProvider } from './When/WhenContext';
 
 const TrayNew = () => {
   return (
     <div className={`${s.tray} wmnds-grid wmnds-p-md`}>
-      <WhenButton />
+      <WhenProvider>
+        <When />
+      </WhenProvider>
     </div>
   );
 };
