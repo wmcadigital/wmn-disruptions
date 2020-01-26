@@ -1,23 +1,16 @@
 import React, { useState, createContext } from 'react';
-import PropTypes from 'prop-types';
 
 export const WhenContext = createContext();
 
-export const WhenProvider = ({ children }) => {
-  const [when, setWhen] = useState(null);
-  const [whenCustom, setWhenCustom] = useState(null);
-  const [isMapOpen, setisMapOpen] = useState(false);
-  const [datePickerText, setDatePickerText] = useState('Choose date');
+export const WhenProvider = props => {
+  const { children } = props || {};
 
-  return (
-    <WhenContext.Provider
-      value={[when, setWhen, whenCustom, setWhenCustom, isMapOpen, setisMapOpen, datePickerText, setDatePickerText]}
-    >
-      {children}
-    </WhenContext.Provider>
-  );
-};
+  const [whenState, setWhenState] = useState({
+    when: null,
+    whenCustom: null,
+    isMapOpen: false,
+    datePickerText: 'Choose date'
+  });
 
-WhenProvider.propTypes = {
-  children: PropTypes.isRequired
+  return <WhenContext.Provider value={[whenState, setWhenState]}>{children}</WhenContext.Provider>;
 };

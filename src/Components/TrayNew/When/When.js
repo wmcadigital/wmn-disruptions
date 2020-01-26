@@ -11,39 +11,30 @@ import Button from '../../Button/Button';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const When = () => {
-  const [
-    when,
-    setWhen,
-    whenCustom,
-    setWhenCustom,
-    isMapOpen,
-    setisMapOpen,
-    datePickerText,
-    setDatePickerText
-  ] = useContext(WhenContext);
+  const [whenState, setWhenState] = useContext(WhenContext);
 
   //  Update the state of when
   const updateWhen = (val, custom) => {
-    setWhen(val);
+    setWhenState(state => ({ ...state, when: val }));
 
     if (val === 'customDate' && custom) {
       const chosenDate = `${custom.getDate()}/${custom.getMonth() + 1}/${custom.getFullYear()}`;
 
-      setDatePickerText(chosenDate);
-      setWhenCustom(custom);
+      setWhenState(state => ({ ...state, datePickerText: chosenDate }));
+      setWhenState(state => ({ ...state, whenCustom: custom }));
     }
   };
 
   const toggleDate = () => {
-    setisMapOpen(prevIsMapOpen => !prevIsMapOpen);
-    setWhen('customDate');
+    setWhenState(state => ({ ...state, isMapOpen: !state.isMapOpen }));
+    setWhenState(state => ({ ...state, when: 'customDate' }));
   };
 
   const today = new Date(); // Get today's date
   const nowText = `Now ${today.getHours()}:${today.getMinutes()}`; // Set nowText to be 'Now HH:MM'
 
   return (
-    <div>
+    <>
       <div className="wmnds-col-1">
         <h4>When</h4>
       </div>
@@ -52,14 +43,14 @@ const When = () => {
         {/* Now button */}
         <Button
           btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm wmnds-p-xsm"
-          isActive={when === 'now'}
+          isActive={whenState.when === 'now'}
           onClick={() => updateWhen('now')}
           text={nowText}
         />
         {/* Tomorrow button */}
         <Button
           btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm wmnds-p-xsm"
-          isActive={when === 'tomorrow'}
+          isActive={whenState.when === 'tomorrow'}
           onClick={() => updateWhen('tomorrow')}
           text="Tomorrow"
         />
@@ -68,23 +59,23 @@ const When = () => {
           <div>
             <Button
               btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-p-xsm"
-              isActive={when === 'customDate'}
+              isActive={whenState.when === 'customDate'}
               onClick={() => toggleDate()}
-              text={datePickerText}
+              text={whenState.datePickerText}
             />
           </div>
         </div>
         {/* Only show datepicker if when = customDate */}
-        <div className="wmnds-col-1" style={{ display: isMapOpen ? 'inline-block' : 'none' }}>
+        <div className="wmnds-col-1" style={{ display: whenState.isMapOpen ? 'inline-block' : 'none' }}>
           <DatePicker
-            selected={whenCustom || today}
+            selected={whenState.whenCustom || today}
             minDate={today}
             onChange={date => updateWhen('customDate', date)}
             inline
           />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
