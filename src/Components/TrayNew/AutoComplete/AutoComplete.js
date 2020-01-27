@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 
 // Import contexts
 import { ModeContext } from '../Mode/ModeContext';
+import { AutoCompleteProvider } from './AutoCompleteContext';
+
 // Import components
 import BusAutoComplete from './Bus/BusAutoComplete';
 
@@ -34,7 +36,7 @@ const AutoComplete = () => {
   };
 
   // Render the correct component based on logic in switch statement above
-  return <>{autoCompleteToShow()}</>;
+  return <AutoCompleteProvider>{autoCompleteToShow()}</AutoCompleteProvider>;
 };
 
 export default AutoComplete;
