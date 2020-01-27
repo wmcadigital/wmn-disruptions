@@ -8,6 +8,7 @@ import BusAutoComplete from './Bus/BusAutoComplete';
 const AutoComplete = () => {
   const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
 
+  // Do a switch on the mode, then return the component related to that
   const autoCompleteToShow = () => {
     switch (modeState.mode) {
       case 'bus':
@@ -18,7 +19,8 @@ const AutoComplete = () => {
     }
   };
 
-  return <div>{autoCompleteToShow()}</div>;
+  // Render the correct component based on logic in switch statement above
+  return <>{autoCompleteToShow()}</>;
 };
 
 export default AutoComplete;

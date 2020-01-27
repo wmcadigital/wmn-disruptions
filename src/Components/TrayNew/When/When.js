@@ -44,9 +44,7 @@ const When = () => {
         {/* Only show datepicker if when = customDate */}
         <div className="wmnds-col-1" style={{ display: whenState.isDatePickerOpen ? 'inline-block' : 'none' }}>
           <DatePicker
-            dateFormat="yyyy/MM/dd"
             selected={whenState.whenCustomDate || today}
-            locale="en-GB"
             minDate={today}
             onChange={date => whenDispatch({ type: 'UPDATE_CUSTOMDATE', date })}
             inline
