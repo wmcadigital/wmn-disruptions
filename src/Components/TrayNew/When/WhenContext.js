@@ -21,7 +21,8 @@ export const WhenProvider = props => {
       case 'UPDATE_WHEN':
         return {
           ...state,
-          when: action.when
+          when: action.when,
+          isDatePickerOpen: false
         };
       // Toggle datepicker open/closed
       case 'TOGGLE_DATEPICKER':
