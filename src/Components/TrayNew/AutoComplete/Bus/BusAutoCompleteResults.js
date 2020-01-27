@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 
 // Import contexts
@@ -6,28 +7,25 @@ import { AutoCompleteContext } from '../AutoCompleteContext';
 // Import components
 import Icon from '../../../Icon/Icon';
 
-const BusAutoCompleteResults = () => {
+// Import styles
+import s from './bus.module.scss';
+
+const BusAutoCompleteResults = ({ query }) => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
 
-  useEffect(prevProps => {
-    const { query } = this.props;
-    // If the previous query doesn't equal the current query, hit API
-    if (prevProps.query !== query) {
-      axios
-        .get(`https://trasnport-api-isruptions-v2.azure-api.net/bus/v1/service?q=${query}`, {
-          headers: {
-            'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
-          }
-        })
-        .then(bus => {
-          this.setState({
-            data: bus.data.services
-          });
-        });
-    }
-  });
+  useEffect(() => {
+    axios
+      .get(`https://trasnport-api-isruptions-v2.azure-api.net/bus/v1/service?q=${query}`, {
+        headers: {
+          'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
+        }
+      })
+      .then(bus => {
+        autoCompleteDispatch({ type: 'UPDATE_DATA', data: bus.data.services });
+      });
+  }, [autoCompleteDispatch, query]);
 
-  const { data } = this.state;
+  const { data } = autoCompleteState;
 
   return (
     <div>
@@ -97,6 +95,11 @@ const BusAutoCompleteResults = () => {
       </ul>
     </div>
   );
+};
+
+// Set Props
+BusAutoCompleteResults.propTypes = {
+  query: PropTypes.string.isRequired
 };
 
 export default BusAutoCompleteResults;

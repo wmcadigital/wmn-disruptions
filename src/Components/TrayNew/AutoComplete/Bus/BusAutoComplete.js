@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 import { AutoCompleteContext } from '../AutoCompleteContext';
 // Import components
 import Icon from '../../../Icon/Icon';
-// import BusAutoCompleteResults from './BusAutoCompleteResults';
+import BusAutoCompleteResults from './BusAutoCompleteResults';
 
 const BusAutoComplete = () => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
@@ -26,7 +26,7 @@ const BusAutoComplete = () => {
           aria-label="Search for a service"
         />
       </div>
-      {/* <BusAutoCompleteResults /> */}
+      <BusAutoCompleteResults query={autoCompleteState.query} />
     </>
   );
 };

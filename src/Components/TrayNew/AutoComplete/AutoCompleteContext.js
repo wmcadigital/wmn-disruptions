@@ -14,13 +14,12 @@ export const AutoCompleteProvider = props => {
 
   // Set up a reducer so we can change state based on centralised logic here
   const reducer = (state, action) => {
-    console.log(action);
     // Update the mode to chosen
     switch (action.type) {
       case 'UPDATE_DATA':
         return {
           ...state,
-          data: action.mode
+          data: action.data
         };
       case 'UPDATE_QUERY':
         return {
