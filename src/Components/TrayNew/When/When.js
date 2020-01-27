@@ -1,13 +1,11 @@
 import React, { useContext } from 'react';
 import DatePicker from 'react-datepicker'; // Uses https://reactdatepicker.com/
 
-// Import context
+// Import contexts
 import { WhenContext } from './WhenContext';
-
 // Import components
 import Button from '../../Button/Button';
-
-// Import Styles
+// Import styles
 import 'react-datepicker/dist/react-datepicker.css';
 
 const When = () => {
@@ -21,7 +19,6 @@ const When = () => {
       <div className="wmnds-col-1">
         <h4>When</h4>
       </div>
-
       <div className="wmnds-grid">
         {/* Now button */}
         <Button
@@ -49,9 +46,9 @@ const When = () => {
           </div>
         </div>
         {/* Only show datepicker if when = customDate */}
-        <div className="wmnds-col-1" style={{ display: whenState.isMapOpen ? 'inline-block' : 'none' }}>
+        <div className="wmnds-col-1" style={{ display: whenState.isDatePickerOpen ? 'inline-block' : 'none' }}>
           <DatePicker
-            selected={whenState.whenCustom || today}
+            selected={whenState.whenCustomDate || today}
             minDate={today}
             onChange={date => whenDispatch({ type: 'UPDATE_CUSTOMDATE', date })}
             inline
