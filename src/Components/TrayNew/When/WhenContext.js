@@ -7,7 +7,7 @@ export const WhenProvider = props => {
 
   // Set intial state of when
   const initialState = {
-    when: null, // Can be 'now','tomorrow' or 'customDate'
+    when: 'now', // Can be 'now','tomorrow' or 'customDate'
     // The below state is to help with datepicker(users custom date)
     whenCustomDate: null, // Used to map the datetime of chosen date in datepicker
     isDatePickerOpen: false, // For toggling datepicker open/closed

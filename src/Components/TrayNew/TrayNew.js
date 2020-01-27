@@ -15,6 +15,7 @@ const TrayNew = () => {
       <WhenProvider>
         <When />
       </WhenProvider>
+
       <ModeProvider>
         <Mode />
       </ModeProvider>
