@@ -34,17 +34,13 @@ const When = () => {
           onClick={() => whenDispatch({ type: 'UPDATE_WHEN', when: 'tomorrow' })}
           text="Tomorrow"
         />
-        <div className="wmnds-col-auto">
-          {/* Choose date button */}
-          <div>
-            <Button
-              btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-p-xsm"
-              isActive={whenState.when === 'customDate'}
-              onClick={() => whenDispatch({ type: 'TOGGLE_DATEPICKER' })}
-              text={whenState.datePickerText}
-            />
-          </div>
-        </div>
+        {/* Choose date button */}
+        <Button
+          btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-col-auto wmnds-p-xsm wmnds-m-b-sm"
+          isActive={whenState.when === 'customDate'}
+          onClick={() => whenDispatch({ type: 'TOGGLE_DATEPICKER' })}
+          text={whenState.datePickerText}
+        />
         {/* Only show datepicker if when = customDate */}
         <div className="wmnds-col-1" style={{ display: whenState.isDatePickerOpen ? 'inline-block' : 'none' }}>
           <DatePicker
