@@ -5,6 +5,7 @@ import When from './When/When';
 import Mode from './Mode/Mode';
 // Import context
 import { WhenProvider } from './When/WhenContext';
+import { ModeProvider } from './Mode/ModeContext';
 // Import styles
 import s from './TrayNew.module.scss';
 
@@ -14,7 +15,9 @@ const TrayNew = () => {
       <WhenProvider>
         <When />
       </WhenProvider>
-      <Mode />
+      <ModeProvider>
+        <Mode />
+      </ModeProvider>
     </div>
   );
 };
