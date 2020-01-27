@@ -3,6 +3,8 @@ import React from 'react';
 // Import components
 import When from './When/When';
 import Mode from './Mode/Mode';
+import AutoComplete from './AutoComplete/AutoComplete';
+
 // Import context
 import { WhenProvider } from './When/WhenContext';
 import { ModeProvider } from './Mode/ModeContext';
@@ -18,6 +20,7 @@ const TrayNew = () => {
 
       <ModeProvider>
         <Mode />
+        <AutoComplete />
       </ModeProvider>
     </div>
   );
