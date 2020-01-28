@@ -3,7 +3,7 @@ import axios from 'axios';
 import { DebounceInput } from 'react-debounce-input'; // https://www.npmjs.com/package/react-debounce-input
 
 // Import contexts
-import { AutoCompleteContext } from '../AutoCompleteContext';
+import { AutoCompleteContext } from 'globalState/AutoCompleteContext';
 
 // Import components
 import Icon from '../../../Icon/Icon';

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 // Import contexts
-import { ModeContext } from './ModeContext';
+import { ModeContext } from 'globalState/ModeContext';
 // Import components
 import Button from '../../Button/Button';
 

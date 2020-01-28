@@ -1,13 +1,14 @@
 import React from 'react';
 
+// Import context
+import { WhenProvider } from 'globalState/WhenContext';
+import { ModeProvider } from 'globalState/ModeContext';
+
 // Import components
 import When from './When/When';
 import Mode from './Mode/Mode';
 import AutoComplete from './AutoComplete/AutoComplete';
 
-// Import context
-import { WhenProvider } from './When/WhenContext';
-import { ModeProvider } from './Mode/ModeContext';
 // Import styles
 import s from './TrayNew.module.scss';
 
