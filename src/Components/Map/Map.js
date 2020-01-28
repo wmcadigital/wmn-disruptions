@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { loadModules } from 'esri-loader';
 import locateCircle from '../../assets/svgs/map/locate-circle.svg';
 
+import s from './Map.module.scss';
+
 class WebMapView extends Component {
   constructor(props) {
     super(props);
@@ -78,9 +80,7 @@ class WebMapView extends Component {
   }
 
   render() {
-    return (
-      <div className="webmap" ref={this.mapRef} style={{ width: '100vw', height: '100vh' }} title="Disruptions map" />
-    );
+    return <div className={`webmap ${s.map}`} ref={this.mapRef} title="Disruptions map" />;
   }
 }
 

@@ -2,39 +2,25 @@
 import React, { useState } from 'react';
 // Import components
 import ContextProvider from 'globalState/ContextProvider';
-// import MainHeader from 'Components/MainHeader/MainHeader';
+import Header from 'Components/Header/Header';
 import WebMapView from 'Components/Map/Map';
 import TrayNew from 'Components/TrayNew/TrayNew';
 // import Breadcrumbs from 'Components/Breadcrumbs/Breadcrumbs';
 import NewListView from 'Components/NewListViews/NewListView';
-import Button from 'Components/Button/Button';
 
 const AppNew = () => {
   const [isMapVisible, setIsMapVisible] = useState(true);
 
   return (
     <ContextProvider>
-      <div className="header">
-        <div className="wmnds-grid wmnds-grid--justify-between wmnds-grid--align-middle wmnds-p-md">
-          <h1 className="wmnds-col-1 wmnds-col-sm-auto">Disruptions</h1>
+      <Header isMapVisible={isMapVisible} setIsMapVisible={setIsMapVisible} />
+      {/* If map is visible, show map */}
+      {isMapVisible && <WebMapView />}
 
-          <div className="wmnds-col-1 wmnds-col-sm-auto">
-            <Button
-              btnClass="wmnds-btn--secondary wmnds-float--right"
-              onClick={() => setIsMapVisible(!isMapVisible)}
-              iconRight="general-chevron-right"
-              text={isMapVisible ? 'List View' : 'Map View'}
-            />
-          </div>
-        </div>
-        {/* If map is visible, show map */}
-        {isMapVisible && <WebMapView />}
+      {/* Else, show list view */}
+      {!isMapVisible && <NewListView />}
 
-        {/* Else, show list view */}
-        {!isMapVisible && <NewListView />}
-
-        <TrayNew />
-      </div>
+      <TrayNew />
     </ContextProvider>
   );
 };
