@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import DatePicker from 'react-datepicker'; // Uses https://reactdatepicker.com/
 
 // Import contexts
-import { WhenContext } from './WhenContext';
+import { WhenContext } from 'globalState';
 // Import components
 import Button from '../../Button/Button';
 // Import styles

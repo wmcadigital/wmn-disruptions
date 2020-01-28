@@ -4,6 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // Import components
+import ContextProvider from 'globalState/ContextProvider';
 import MainHeader from '../../Components/MainHeader/MainHeader';
 import WebMapView from '../../Components/Map/Map';
 import TrayNew from '../../Components/TrayNew/TrayNew';
@@ -57,35 +58,37 @@ class App extends React.Component {
   render() {
     const { state } = this;
     return (
-      <div className={`{s.app} header`}>
-        <MainHeader />
-        <Breadcrumbs />
-        <div className={`wmnds-grid wmnds-grid--justify-between ${s.container}`}>
-          <h1 className={`${s.title} wmnds-col-1 wmnds-col-sm-auto`}>Disruptions</h1>
+      <ContextProvider>
+        <div className={`{s.app} header`}>
+          <MainHeader />
+          <Breadcrumbs />
+          <div className={`wmnds-grid wmnds-grid--justify-between ${s.container}`}>
+            <h1 className={`${s.title} wmnds-col-1 wmnds-col-sm-auto`}>Disruptions</h1>
 
-          <div className={`${s.btnContainer} wmnds-col-1 wmnds-col-sm-auto`}>
-            <Button
-              btnClass="wmnds-btn--secondary wmnds-float--right"
-              onClick={this.NewToggleView}
-              iconRight="general-chevron-right"
-              text={state.visibility ? 'Map View' : 'List View'}
-            />
+            <div className={`${s.btnContainer} wmnds-col-1 wmnds-col-sm-auto`}>
+              <Button
+                btnClass="wmnds-btn--secondary wmnds-float--right"
+                onClick={this.NewToggleView}
+                iconRight="general-chevron-right"
+                text={state.visibility ? 'Map View' : 'List View'}
+              />
+            </div>
           </div>
+          {state.visibility && (
+            <div>
+              <NewListView />
+            </div>
+          )}
+
+          {!state.visibility && (
+            <div>
+              <WebMapView />
+            </div>
+          )}
+
+          <TrayNew />
         </div>
-        {state.visibility && (
-          <div>
-            <NewListView />
-          </div>
-        )}
-
-        {!state.visibility && (
-          <div>
-            <WebMapView />
-          </div>
-        )}
-
-        <TrayNew />
-      </div>
+      </ContextProvider>
     );
   }
 }
