@@ -1,13 +1,29 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import axios from 'axios';
 
 // Import contexts
 import { AutoCompleteContext } from '../AutoCompleteContext';
+
 // Import components
 import Icon from '../../../Icon/Icon';
-import BusAutoCompleteResults from './BusAutoCompleteResults';
+import BusAutoCompleteResult from './BusAutoCompleteResult';
 
 const BusAutoComplete = () => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
+
+  useEffect(() => {
+    if (autoCompleteState.query) {
+      axios
+        .get(`https://trasnport-api-isruptions-v2.azure-api.net/bus/v1/service?q=${autoCompleteState.query}`, {
+          headers: {
+            'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
+          }
+        })
+        .then(bus => {
+          autoCompleteDispatch({ type: 'UPDATE_DATA', data: bus.data.services });
+        });
+    }
+  }, [autoCompleteDispatch, autoCompleteState.query]);
 
   return (
     <>
@@ -26,7 +42,11 @@ const BusAutoComplete = () => {
           aria-label="Search for a service"
         />
       </div>
-      <BusAutoCompleteResults query={autoCompleteState.query} />
+      <ul className="wmnds-autocomplete-suggestions">
+        {autoCompleteState.data.map(result => (
+          <BusAutoCompleteResult key={result.id} result={result} />
+        ))}
+      </ul>
     </>
   );
 };

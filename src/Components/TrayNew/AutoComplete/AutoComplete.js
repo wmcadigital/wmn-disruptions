@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 
 // Import contexts
 import { ModeContext } from '../Mode/ModeContext';
+
+// Import Providers
 import { AutoCompleteProvider } from './AutoCompleteContext';
 
 // Import components
