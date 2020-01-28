@@ -6,8 +6,8 @@ import Button from 'Components/Button/Button';
 
 const Header = ({ isMapVisible, setIsMapVisible }) => {
   return (
-    <div className="header">
-      <div className="wmnds-grid wmnds-grid--justify-between wmnds-grid--align-middle wmnds-p-md">
+    <div className="wmnds-container">
+      <div className="wmnds-grid wmnds-grid--justify-between wmnds-grid--align-middle">
         <h1 className="wmnds-col-1 wmnds-col-sm-auto wmnds-m-b-lg">Disruptions</h1>
 
         <div className="wmnds-col-1 wmnds-col-sm-auto">
