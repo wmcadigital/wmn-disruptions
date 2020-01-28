@@ -1,8 +1,7 @@
 import React from 'react';
 
 // Import context
-import { WhenProvider } from 'globalState/WhenContext';
-import { ModeProvider } from 'globalState/ModeContext';
+import { WhenProvider, ModeProvider } from 'globalState';
 
 // Import components
 import When from './When/When';
