@@ -6,6 +6,7 @@ import Icon from '../../../Icon/Icon';
 const BusAutoCompleteResult = props => {
   const { result } = props || {};
 
+  // Set placeholder vars for switch below
   let type;
   let iconName;
   let text;

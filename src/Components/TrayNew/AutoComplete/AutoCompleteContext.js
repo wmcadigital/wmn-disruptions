@@ -8,7 +8,6 @@ export const AutoCompleteProvider = props => {
   // Set intial state of when
   const initialState = {
     query: '',
-    data: [], // Can be any of the modes (bus, train, tram, roads)
     id: null // Used to store a specific service id gained from autocomplete
   };
 
@@ -16,11 +15,6 @@ export const AutoCompleteProvider = props => {
   const reducer = (state, action) => {
     // Update the mode to chosen
     switch (action.type) {
-      case 'UPDATE_DATA':
-        return {
-          ...state,
-          data: action.data
-        };
       case 'UPDATE_QUERY':
         return {
           ...state,
