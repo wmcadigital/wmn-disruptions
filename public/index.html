@@ -28,6 +28,65 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <!-- Pretend Header -->
+    <div class="wmnds-header wmnds-grid">
+      <div class="wmnds-container">
+        <div class="wmnds-header__vertical-align wmnds-col-1 wmnds-col-md-1-3">
+          <a class="wmnds-header__logo-link" href="/" title="West Midlands Network Design System">
+            <img
+              class="wmnds-header__logo"
+              alt="West Midlands Network logo"
+              src="https://wmnetwork.netlify.com/img/logo.svg"
+            />
+          </a>
+          <a href="/" title="West Midlands Network Design System Alpha" class="wmnds-phase-indicator">
+            Alpha
+          </a>
+        </div>
+
+        <nav class="wmnds-header__vertical-align wmnds-col-1 wmnds-col-md-2-3">
+          <ul class="wmnds-header__links">
+            <li class="wmnds-header__link">
+              <a href="/styles/" title="Styles page" target="_self" class="wmnds-link">
+                Styles
+              </a>
+            </li>
+
+            <li class="wmnds-header__link">
+              <a href="/components/" title="Components page" target="_self" class="wmnds-link">
+                Components
+              </a>
+            </li>
+
+            <li class="wmnds-header__link">
+              <a href="/patterns/" title="Patterns page" target="_self" class="wmnds-link">
+                Patterns
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <!-- Pretend Breadcrumbs -->
+    <nav aria-label="Breadcrumb" class="wmnds-breadcrumb">
+      <ol class="wmnds-breadcrumb__list">
+        <li class="wmnds-breadcrumb__list-item">
+          <a href="/" class="wmnds-breadcrumb__link">
+            Home
+          </a>
+        </li>
+        <li class="wmnds-breadcrumb__list-item">
+          <a
+            href="/components/breadcrumb/"
+            class="wmnds-breadcrumb__link wmnds-breadcrumb__link--current"
+            aria-current="page"
+          >
+            Disruptions
+          </a>
+        </li>
+      </ol>
+    </nav>
+
+    <div id="disruptionsApp"></div>
   </body>
 </html>
