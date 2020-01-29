@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Draggable from 'react-draggable';
+import Draggable from 'react-draggable'; // Uses https://www.npmjs.com/package/react-draggable
 
 // Import components
 import When from './When/When';
@@ -11,19 +11,12 @@ import s from './TrayNew.module.scss';
 
 const TrayNew = () => {
   const [maxTrayHeight, setMaxTrayHeight] = useState(0);
-
-  // const [minTrayHeight, setMinTrayHeight] = useState(0);
+  // const [trayPosition] = useState(-100);
 
   useEffect(() => {
     const getContainerHeight = document.getElementById('js-map-tray-wrapper').clientHeight;
 
     setMaxTrayHeight(getContainerHeight);
-
-    // const getHeaderHeight = document.getElementsByClassName('wmnds-header')[0].clientHeight;
-    // const getBreadcrumbHeight = document.getElementsByClassName('wmnds-breadcrumb')[0].clientHeight;
-    // const getAppHeaderHeight = document.querySelector('#disruptionsApp > .wmnds-container').clientHeight;
-    // setMinTrayHeight(0);
-    // setMaxTrayHeight(getHeaderHeight + getBreadcrumbHeight + getAppHeaderHeight);
   }, []);
 
   return (
@@ -31,9 +24,11 @@ const TrayNew = () => {
       axis="y"
       grid={[1, 1]}
       bounds={{ left: 0, top: -maxTrayHeight, right: 0, bottom: -100 }}
-      defaultPosition={{ x: 0, y: -250 }}
-      cancel="input"
+      defaultPosition={{ x: 0, y: -100 }}
+      // position={{ x: 0, y: trayPosition }}
+      cancel="js-internal-tray-wrapper"
     >
+      {/* <div className="js-internal-tray-wrapper"> */}
       <div className={`${s.tray} wmnds-grid wmnds-p-md`}>
         <div className={`${s.drawerHandle} wmnds-col-1`}>
           <p>Swipe tray up</p>
@@ -43,6 +38,7 @@ const TrayNew = () => {
         <Mode />
         <AutoComplete />
       </div>
+      {/* </div> */}
     </Draggable>
   );
 };
