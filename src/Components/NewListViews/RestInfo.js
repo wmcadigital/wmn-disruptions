@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
+import dompurify from 'dompurify';
 import Icon from '../Icon/Icon';
 
 class RestInfo extends Component {
@@ -40,7 +40,6 @@ class RestInfo extends Component {
     e.preventDefault();
 
     localStorage.setItem('isFaved', this.clickedFav);
-    console.log('Faved Clicked Now.');
   }
 
   toggle(key) {
@@ -96,6 +95,8 @@ class RestInfo extends Component {
                 break;
             }
             const faveState = this.state;
+            const text = post.description;
+            const sanitizer = dompurify.sanitize;
             return (
               <div className="wmnds-container wmnds-container--main">
                 <div key={post.id}>
@@ -187,7 +188,8 @@ class RestInfo extends Component {
                       <div className="clear">
                         <hr />
                         <h3>{post.title}</h3>
-                        <div dangerouslySetInnerHTML={{ __html: post.description }} />
+
+                        <div dangerouslySetInnerHTML={{ __html: sanitizer(text) }} />
                       </div>
                       {/* Description End */}
                     </div>
