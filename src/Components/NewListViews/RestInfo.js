@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Button from 'Components/Button/Button';
+
 import Icon from '../Icon/Icon';
 
 class RestInfo extends Component {
@@ -13,7 +13,7 @@ class RestInfo extends Component {
     this.state = {
       disruptions: [],
       activeAcc: '',
-      isFaved: '',
+      isFaved: 'nope',
       newClassFav: '-empty'
     };
   }
@@ -33,11 +33,12 @@ class RestInfo extends Component {
   }
 
   clickedFav(e) {
-    e.preventDefault();
     this.setState({
       isFaved: 'yes',
       newClassFav: ''
     });
+    e.preventDefault();
+
     localStorage.setItem('isFaved', this.clickedFav);
     console.log('Faved Clicked Now.');
   }
@@ -168,15 +169,13 @@ class RestInfo extends Component {
                                 </span>
                                 {/* Faved Routed to be saved to local storage */}
 
-                                <div className="isFav">
-                                  <Button onClick={this.clickedFav} className={`${faveState.isFaved}`}>
-                                    <svg className="favStar">
-                                      <Icon
-                                        iconName={`general-star${faveState.newClassFav}`}
-                                        iconClass="disruption-indicator-small__icon"
-                                      />
-                                    </svg>
-                                  </Button>
+                                <div className={`${faveState.isFaved}`}>
+                                  <svg className="favStar" onClick={e => this.clickedFav(e)}>
+                                    <Icon
+                                      iconName={`general-star${faveState.newClassFav}`}
+                                      iconClass="disruption-indicator-small__icon"
+                                    />
+                                  </svg>
                                 </div>
                               </div>
                             </div>
