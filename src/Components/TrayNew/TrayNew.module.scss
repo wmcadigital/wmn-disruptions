@@ -12,9 +12,7 @@ $d-t-height: 500px;
 $d-t-height-lv: 300px;
 
 .tray {
-  position: absolute;
   z-index: 1;
-  top: $t-y-pos;
   background-color: $t-bg;
   border-radius: $t-border-radius;
   width: $t-width;
@@ -23,7 +21,7 @@ $d-t-height-lv: 300px;
 
   @media only screen and (min-width: 1200px) {
     top: 3 50px;
-    left: $margin-lg;
+    left: $size-lg;
     width: $d-t-width;
     //Was 500px;
     // height: 500px;

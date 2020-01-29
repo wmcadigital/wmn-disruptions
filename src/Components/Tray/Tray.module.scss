@@ -31,7 +31,7 @@ $t-bar-margin: $margin-sm;
 
   @media only screen and (min-width: 1200px) {
     top: 3 50px;
-    left: $margin-lg;
+    left: $size-lg;
     width: $d-t-width;
     //Was 500px;
     // height: 500px;
@@ -41,7 +41,7 @@ $t-bar-margin: $margin-sm;
     min-height: 500px;
 
     // &.listView {
-    //     left: calc(50% - (#{$d-t-width} + #{$padding-lg}));
+    //     left: calc(50% - (#{$d-t-width} + #{$size-lg}));
     // }
   }
 

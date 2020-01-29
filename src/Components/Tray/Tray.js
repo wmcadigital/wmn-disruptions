@@ -39,7 +39,7 @@ const Tray = props => {
     </div>
   );
   const mobTray = (
-    <Draggable axis="y" bounds={{ top: -150, bottom: 0 }}>
+    <Draggable axis="y" bounds={{ top: -150, bottom: 0 }} defaultPosition={{y:0}}>
       {tray}
     </Draggable>
   );

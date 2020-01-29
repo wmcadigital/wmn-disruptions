@@ -8,9 +8,10 @@ const Header = ({ isMapVisible, setIsMapVisible }) => {
   return (
     <div className="wmnds-container">
       <div className="wmnds-grid wmnds-grid--justify-between wmnds-grid--align-middle">
-        <h1 className="wmnds-col-1 wmnds-col-sm-auto wmnds-m-b-lg">Disruptions</h1>
-
-        <div className="wmnds-col-1 wmnds-col-sm-auto">
+        <div className="wmnds-col-sm-auto">
+          <h1 className="wmnds-m-b-lg">Disruptions</h1>
+        </div>
+        <div className="wmnds-col-sm-auto">
           <Button
             btnClass="wmnds-btn--secondary wmnds-float--right"
             onClick={() => setIsMapVisible(!isMapVisible)}
