@@ -29,9 +29,10 @@ const TrayNew = () => {
   return (
     <Draggable
       axis="y"
-      grid={[12, 12]}
-      bounds={{ left: 0, top: -maxTrayHeight, right: 0, bottom: -36 }}
+      grid={[1, 1]}
+      bounds={{ left: 0, top: -maxTrayHeight, right: 0, bottom: -100 }}
       defaultPosition={{ x: 0, y: -250 }}
+      cancel="input"
     >
       <div className={`${s.tray} wmnds-grid wmnds-p-md`}>
         <div className={`${s.drawerHandle} wmnds-col-1`}>
