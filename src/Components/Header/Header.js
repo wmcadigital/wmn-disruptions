@@ -7,11 +7,10 @@ import Button from 'Components/Button/Button';
 const Header = ({ isMapVisible, setIsMapVisible }) => {
   return (
     <div className="wmnds-container">
-      <div className="wmnds-grid wmnds-grid--justify-between wmnds-grid--align-middle">
-        <div className="wmnds-col-sm-auto">
-          <h1 className="wmnds-m-b-lg">Disruptions</h1>
-        </div>
-        <div className="wmnds-col-sm-auto">
+      <div className="wmnds-grid wmnds-grid--justify-between wmnds-grid--align-middle wmnds-p-b-sm wmnds-p-t-sm">
+        <h1 className="wmnds-col-auto wmnds-m-b-sm">Disruptions</h1>
+
+        <div className="wmnds-col-auto">
           <Button
             btnClass="wmnds-btn--secondary wmnds-float--right"
             onClick={() => setIsMapVisible(!isMapVisible)}

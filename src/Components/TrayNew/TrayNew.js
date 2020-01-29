@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Draggable from 'react-draggable';
 
 // Import components
@@ -10,14 +10,35 @@ import AutoComplete from './AutoComplete/AutoComplete';
 import s from './TrayNew.module.scss';
 
 const TrayNew = () => {
+  const [headerHeight, setHeaderHeight] = useState(0);
+
+  useEffect(() => {
+    const getHeaderHeight = document.getElementsByClassName('wmnds-header')[0].clientHeight;
+    const getBreadcrumbHeight = document.getElementsByClassName('wmnds-breadcrumb')[0].clientHeight;
+    const getAppHeaderHeight = document.querySelector('#disruptionsApp > .wmnds-container').clientHeight;
+
+    setHeaderHeight(getHeaderHeight + getBreadcrumbHeight + getAppHeaderHeight);
+  }, []);
+
   return (
-    <Draggable axis="y" grid={[12, 12]} bounds={{ top: -150, bottom: 0 }} defaultPosition={{ x: 0, y: 0 }}>
-      <div className={`${s.tray} wmnds-grid wmnds-p-md`}>
-        <When />
-        <Mode />
-        <AutoComplete />
-      </div>
-    </Draggable>
+    <div className={s.trayContainer}>
+      <Draggable
+        axis="y"
+        grid={[12, 12]}
+        bounds={{ top: headerHeight, bottom: 650 }}
+        defaultPosition={{ x: 0, y: 650 }}
+      >
+        <div className={`${s.tray} wmnds-grid wmnds-p-md`}>
+          <div className={`${s.drawerHandle} wmnds-col-1`}>
+            <p>Swipe tray up</p>
+          </div>
+
+          <When />
+          <Mode />
+          <AutoComplete />
+        </div>
+      </Draggable>
+    </div>
   );
 };
 

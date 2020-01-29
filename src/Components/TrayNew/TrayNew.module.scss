@@ -1,6 +1,35 @@
 @import '../../assets/styles/vars';
 @import '../../assets/styles/mixins';
 
+.drawerHandle {
+  height: 30px;
+  position: relative;
+
+  &:before {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 90px;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #393033;
+  }
+
+  p {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    border: 0;
+  }
+}
+
 // Tray vars
 $t-height: 105vh;
 $t-width: 100%;
@@ -10,6 +39,17 @@ $t-y-pos: calc(50vh - 210px);
 $d-t-width: 400px;
 $d-t-height: 500px;
 $d-t-height-lv: 300px;
+
+.trayContainer {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: block;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
 
 .tray {
   z-index: 1;
