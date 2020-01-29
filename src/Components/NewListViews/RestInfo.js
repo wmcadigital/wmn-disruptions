@@ -6,11 +6,19 @@ class RestInfo extends Component {
   constructor() {
     super();
 
+    let storedFavsClicked = 0;
+
+    if (localStorage.getItem('clicks')) {
+      storedFavsClicked = parseInt(localStorage.getItem('clicks'), 0);
+    }
+
     this.toggle = this.toggle.bind(this);
+    this.click = this.click.bind(this);
 
     this.state = {
       disruptions: [],
-      activeAcc: ''
+      activeAcc: '',
+      clicks: storedFavsClicked
     };
   }
 
@@ -26,6 +34,16 @@ class RestInfo extends Component {
           disruptions: response.data.disruptions
         });
       });
+  }
+
+  click() {
+    const newclick = this.state;
+    this.setState(prevState => ({
+      clicks: prevState.newclick
+    }));
+    // Set it
+    localStorage.setItem('clicks', newclick);
+    console.log(`this is the storage, ${newclick}`);
   }
 
   toggle(key) {
@@ -45,6 +63,7 @@ class RestInfo extends Component {
     Just remove /Mode/bus to get all results.  
     */
 
+    const flicker = this.state;
     return (
       <div>
         {disruptions.length > 0 ? (
@@ -154,9 +173,15 @@ class RestInfo extends Component {
                                 </span>
                                 {/* Faved Routed to be saved to local storage */}
                                 <div className="isFav">
-                                  <svg className="favStar">
-                                    <Icon iconName="general-star-empty" iconClass="disruption-indicator-small__icon" />
-                                  </svg>
+                                  <button type="submit" onClick={this.click}>
+                                    <svg className="favStar">
+                                      <Icon
+                                        iconName="general-star-empty"
+                                        iconClass="disruption-indicator-small__icon"
+                                      />
+                                    </svg>
+                                  </button>
+                                  {flicker.clicks}
                                 </div>
                               </div>
                             </div>
