@@ -1,24 +1,20 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Button from 'Components/Button/Button';
 import Icon from '../Icon/Icon';
 
 class RestInfo extends Component {
   constructor() {
     super();
 
-    let storedFavsClicked = 0;
-
-    if (localStorage.getItem('clicks')) {
-      storedFavsClicked = parseInt(localStorage.getItem('clicks'), 0);
-    }
-
     this.toggle = this.toggle.bind(this);
-    this.click = this.click.bind(this);
+    this.clickedFav = this.clickedFav.bind(this);
 
     this.state = {
       disruptions: [],
       activeAcc: '',
-      clicks: storedFavsClicked
+      isFaved: '',
+      newClassFav: '-empty'
     };
   }
 
@@ -36,14 +32,14 @@ class RestInfo extends Component {
       });
   }
 
-  click() {
-    const newclick = this.state;
-    this.setState(prevState => ({
-      clicks: prevState.newclick
-    }));
-    // Set it
-    localStorage.setItem('clicks', newclick);
-    console.log(`this is the storage, ${newclick}`);
+  clickedFav(e) {
+    e.preventDefault();
+    this.setState({
+      isFaved: 'yes',
+      newClassFav: ''
+    });
+    localStorage.setItem('isFaved', this.clickedFav);
+    console.log('Faved Clicked Now.');
   }
 
   toggle(key) {
@@ -63,7 +59,6 @@ class RestInfo extends Component {
     Just remove /Mode/bus to get all results.  
     */
 
-    const flicker = this.state;
     return (
       <div>
         {disruptions.length > 0 ? (
@@ -99,7 +94,7 @@ class RestInfo extends Component {
                 newClass = 'success';
                 break;
             }
-
+            const faveState = this.state;
             return (
               <div className="wmnds-container wmnds-container--main">
                 <div key={post.id}>
@@ -172,16 +167,16 @@ class RestInfo extends Component {
                                   </div>
                                 </span>
                                 {/* Faved Routed to be saved to local storage */}
+
                                 <div className="isFav">
-                                  <button type="submit" onClick={this.click}>
+                                  <Button onClick={this.clickedFav} className={`${faveState.isFaved}`}>
                                     <svg className="favStar">
                                       <Icon
-                                        iconName="general-star-empty"
+                                        iconName={`general-star${faveState.newClassFav}`}
                                         iconClass="disruption-indicator-small__icon"
                                       />
                                     </svg>
-                                  </button>
-                                  {flicker.clicks}
+                                  </Button>
                                 </div>
                               </div>
                             </div>
