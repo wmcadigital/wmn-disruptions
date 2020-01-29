@@ -5,7 +5,7 @@ $offset-top: $size-lg;
 
 .map {
   width: 100%;
-  height: calc(80vh - #{$offset-top});
+  height: 100%;
   background-color: #eee;
   border: 2px solid #ddd;
   top: $offset-top;

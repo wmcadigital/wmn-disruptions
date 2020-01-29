@@ -2,7 +2,7 @@
 @import '../../assets/styles/mixins';
 
 .drawerHandle {
-  height: 30px;
+  height: 10px;
   position: relative;
 
   &:before {
@@ -31,7 +31,7 @@
 }
 
 // Tray vars
-$t-height: 105vh;
+$t-height: 100%;
 $t-width: 100%;
 $t-bg: white;
 $t-border-radius: 10px;
@@ -40,15 +40,10 @@ $d-t-width: 400px;
 $d-t-height: 500px;
 $d-t-height-lv: 300px;
 
-.trayContainer {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  display: block;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+.mapTrayWrapper {
+  position: relative;
+  overflow: hidden;
+  height: auto;
 }
 
 .tray {
@@ -56,8 +51,8 @@ $d-t-height-lv: 300px;
   background-color: $t-bg;
   border-radius: $t-border-radius;
   width: $t-width;
-  min-height: $t-height;
   border: 1px solid rgba(0, 0, 0, 0.1);
+  position: absolute;
 
   @media only screen and (min-width: 1200px) {
     top: 3 50px;
