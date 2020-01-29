@@ -1,5 +1,5 @@
 // Import packages
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 // Import components
 import ContextProvider from 'globalState/ContextProvider';
 import Header from 'Components/Header/Header';
@@ -12,17 +12,6 @@ import s from 'Components/TrayNew/TrayNew.module.scss';
 
 const AppNew = () => {
   const [isMapVisible, setIsMapVisible] = useState(true);
-  const [maxTrayHeight, setMaxTrayHeight] = useState(0);
-
-  useEffect(() => {
-    const getHeaderHeight = document.getElementsByClassName('wmnds-header')[0].clientHeight;
-    const getBreadcrumbHeight = document.getElementsByClassName('wmnds-breadcrumb')[0].clientHeight;
-    const getAppHeaderHeight = document.querySelector('#disruptionsApp > .wmnds-container').clientHeight;
-
-    const containerHeight = window.innerHeight - (getHeaderHeight + getBreadcrumbHeight + getAppHeaderHeight);
-
-    setMaxTrayHeight(containerHeight);
-  }, []);
 
   return (
     <ContextProvider>
@@ -30,9 +19,9 @@ const AppNew = () => {
 
       {/* Else, show list view */}
       {!isMapVisible && <NewListView />}
-      <div className={s.mapTrayWrapper} style={{ height: `${maxTrayHeight}px` }}>
+      <div className={s.mapTrayWrapper} style={{ height: `80vh` }} id="js-map-tray-wrapper">
         {/* If map is visible, show map */}
-        {isMapVisible && <WebMapView mapHeight={maxTrayHeight} />}
+        {isMapVisible && <WebMapView />}
         <TrayNew />
       </div>
     </ContextProvider>

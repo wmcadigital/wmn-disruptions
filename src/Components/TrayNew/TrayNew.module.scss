@@ -53,6 +53,7 @@ $d-t-height-lv: 300px;
   width: $t-width;
   border: 1px solid rgba(0, 0, 0, 0.1);
   position: absolute;
+  height: 100%;
 
   @media only screen and (min-width: 1200px) {
     top: 3 50px;

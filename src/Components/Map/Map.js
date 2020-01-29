@@ -1,6 +1,5 @@
 // Using https://developers.arcgis.com/labs/browse/?product=javascript&topic=any and ESRI JS API
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { loadModules } from 'esri-loader';
 import locateCircle from '../../assets/svgs/map/locate-circle.svg';
 
@@ -81,17 +80,8 @@ class WebMapView extends Component {
   }
 
   render() {
-    const { props } = this;
-    return <div className={`webmap ${s.map}`} ref={this.mapRef} title="Disruptions map" height={props.mapHeight} />;
+    return <div className={`webmap ${s.map}`} ref={this.mapRef} title="Disruptions map" />;
   }
 }
-
-WebMapView.propTypes = {
-  mapHeight: PropTypes.number
-};
-
-WebMapView.defaultProps = {
-  mapHeight: null
-};
 
 export default WebMapView;
