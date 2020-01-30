@@ -80,7 +80,7 @@ class WebMapView extends Component {
   }
 
   render() {
-    return <div className={`webmap ${s.map}`} ref={this.mapRef} title="Disruptions map" />;
+    return <div id="disruptions-map" className={`webmap ${s.map}`} ref={this.mapRef} title="Disruptions map" />;
   }
 }
 

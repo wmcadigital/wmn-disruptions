@@ -13,3 +13,4 @@
 export * from './AutoCompleteContext';
 export * from './ModeContext';
 export * from './WhenContext';
+export * from './TrayLayoutContext';

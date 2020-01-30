@@ -8,8 +8,6 @@ import TrayNew from 'Components/TrayNew/TrayNew';
 // import Breadcrumbs from 'Components/Breadcrumbs/Breadcrumbs';
 import NewListView from 'Components/NewListViews/NewListView';
 
-import s from 'Components/TrayNew/TrayNew.module.scss';
-
 const AppNew = () => {
   const [isMapVisible, setIsMapVisible] = useState(true);
 
@@ -19,11 +17,9 @@ const AppNew = () => {
 
       {/* Else, show list view */}
       {!isMapVisible && <NewListView />}
-      <div className={s.mapTrayWrapper} style={{ height: `80vh` }} id="js-map-tray-wrapper">
-        {/* If map is visible, show map */}
-        {isMapVisible && <WebMapView />}
-        <TrayNew />
-      </div>
+      {/* If map is visible, show map */}
+      {isMapVisible && <WebMapView />}
+      <TrayNew />
     </ContextProvider>
   );
 };
