@@ -25,25 +25,34 @@ const TrayNew = () => {
     }); // Get height of tray and set it in context
 
     TrayLayoutDispatch({ type: 'UPDATE_MAX_TRAY_HEIGHT' });
-  }, [TrayLayoutDispatch]);
+  }, [TrayLayoutDispatch, isTrayOpen]);
 
   const isTrayAtTop = (e, data) => {
+    console.log('isTrayAtTop?');
+
     const { y } = data;
-    return y === -trayLayoutState.mapHeight ? setIsTrayOpen(true) : setIsTrayOpen(false);
+    // If y coords are at top of container, then lock tray
+    return y === -trayLayoutState.mapHeight ? setIsTrayOpen(true) : null;
+  };
+
+  const onScrollTray = () => {
+    const tray = document.getElementById('js-disruptions-tray');
+
+    return tray.scrollTop === 0 && tray.classList.contains(s.trayIsOpen) ? setIsTrayOpen(false) : null;
   };
 
   return (
     <Draggable
       axis="y"
       grid={[1, 1]}
-      bounds={{ left: 0, top: -trayLayoutState.maxTrayHeight, right: 0, bottom: -100 }}
+      bounds={{ left: 0, top: -trayLayoutState.mapHeight, right: 0, bottom: -100 }}
       defaultPosition={{ x: 0, y: -100 }}
-      // onDrag={() => determineMaxHeight()}
+      // onStart={}
       onStop={(e, data) => isTrayAtTop(e, data)}
-      cancel={isTrayOpen && `.${s.trayWrapper}`}
+      disabled={isTrayOpen}
     >
-      <div className={`${s.tray} wmnds-grid`} id="js-disruptions-tray">
-        <div className={`${s.trayWrapper} wmnds-p-md`}>
+      <div className={`${s.tray} wmnds-grid ${isTrayOpen ? s.trayIsOpen : ''}`} id="js-disruptions-tray">
+        <div className={`${s.trayWrapper} wmnds-p-md`} onTouchMove={() => onScrollTray()}>
           <div className={`${s.drawerHandle} wmnds-col-1`}>
             <p>Swipe tray up</p>
           </div>

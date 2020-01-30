@@ -14,7 +14,6 @@ export const TrayLayoutProvider = props => {
 
   // Set up a reducer so we can change state based on centralised logic here
   const reducer = (state, action) => {
-    console.log({ action });
     // Update the mode to chosen
     switch (action.type) {
       case 'UPDATE_MAP_HEIGHT':
@@ -31,6 +30,7 @@ export const TrayLayoutProvider = props => {
       case 'UPDATE_MAX_TRAY_HEIGHT':
         return {
           ...state,
+          // If trayHeight is less than the map height then set maxheight to tray height otherwise set to map height (this stops the tray going to far up)
           maxTrayHeight: state.trayHeight < state.mapHeight ? state.trayHeight : state.mapHeight
         };
       // Default should return intial state if error

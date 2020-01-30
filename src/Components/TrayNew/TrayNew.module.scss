@@ -1,9 +1,18 @@
 @import '../../assets/styles/vars';
 @import '../../assets/styles/mixins';
 
+.outerTrayContainer {
+  height: 80vh;
+  overflow: hidden;
+}
+
 .trayWrapper {
+  display: block;
   height: 100%;
-  // overflow: scroll;
+}
+
+.trayIsOpen {
+  overflow: scroll;
 }
 
 .drawerHandle {
@@ -52,6 +61,7 @@ $d-t-height-lv: 300px;
   width: $t-width;
   border: 1px solid rgba(0, 0, 0, 0.1);
   position: absolute;
+  height: 80vh;
 
   @media only screen and (min-width: 1200px) {
     top: 3 50px;
