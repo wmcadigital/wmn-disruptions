@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import dompurify from 'dompurify';
 import Icon from '../Icon/Icon';
 
 class RestInfo extends Component {
@@ -7,10 +8,13 @@ class RestInfo extends Component {
     super();
 
     this.toggle = this.toggle.bind(this);
+    this.clickedFav = this.clickedFav.bind(this);
 
     this.state = {
       disruptions: [],
-      activeAcc: ''
+      activeAcc: '',
+      isFaved: 'nope',
+      newClassFav: '-empty'
     };
   }
 
@@ -26,6 +30,16 @@ class RestInfo extends Component {
           disruptions: response.data.disruptions
         });
       });
+  }
+
+  clickedFav(e) {
+    this.setState({
+      isFaved: 'yes',
+      newClassFav: ''
+    });
+    e.preventDefault();
+
+    localStorage.setItem('isFaved', this.clickedFav);
   }
 
   toggle(key) {
@@ -80,7 +94,9 @@ class RestInfo extends Component {
                 newClass = 'success';
                 break;
             }
-
+            const faveState = this.state;
+            const text = post.description;
+            const sanitizer = dompurify.sanitize;
             return (
               <div className="wmnds-container wmnds-container--main">
                 <div key={post.id}>
@@ -153,9 +169,13 @@ class RestInfo extends Component {
                                   </div>
                                 </span>
                                 {/* Faved Routed to be saved to local storage */}
-                                <div className="isFav">
-                                  <svg className="favStar">
-                                    <Icon iconName="general-star-empty" iconClass="disruption-indicator-small__icon" />
+
+                                <div className={`${faveState.isFaved}`}>
+                                  <svg className="favStar" onClick={e => this.clickedFav(e)}>
+                                    <Icon
+                                      iconName={`general-star${faveState.newClassFav}`}
+                                      iconClass="disruption-indicator-small__icon"
+                                    />
                                   </svg>
                                 </div>
                               </div>
@@ -168,7 +188,8 @@ class RestInfo extends Component {
                       <div className="clear">
                         <hr />
                         <h3>{post.title}</h3>
-                        <div dangerouslySetInnerHTML={{ __html: post.description }} />
+
+                        <div dangerouslySetInnerHTML={{ __html: sanitizer(text) }} />
                       </div>
                       {/* Description End */}
                     </div>
