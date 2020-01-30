@@ -34,6 +34,21 @@
         padding: 0;
         background-color: #f3f2f1;
       }
+
+      /* Hide nav and footer on mobile to give more room for app */
+      .wmnds-header nav,
+      .wmnds-footer {
+        display: none;
+      }
+      /* Show nav and footer on bigger displays */
+      @media all and (min-width: 768px) {
+        .wmnds-header nav {
+          display: inline-block;
+        }
+        .wmnds-footer {
+          display: block;
+        }
+      }
     </style>
 
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -100,7 +115,7 @@
     <div id="disruptionsApp"></div>
 
     <!-- Pretend footer -->
-    <!-- <footer
+    <footer
       class="wmnds-footer bg-black"
       style="padding: 2rem;
     color: #fff;
@@ -118,6 +133,6 @@
           >
         </div>
       </div>
-    </footer> -->
+    </footer>
   </body>
 </html>
