@@ -14,9 +14,9 @@ const AppNew = () => {
 
   return (
     <ContextProvider>
-      <div className={s.appWrapper}>
-        <Header isMapVisible={isMapVisible} setIsMapVisible={setIsMapVisible} />
+      <Header isMapVisible={isMapVisible} setIsMapVisible={setIsMapVisible} />
 
+      <div className={s.appWrapper} id="app-wrap">
         {/* Else, show list view */}
         {!isMapVisible && <NewListView />}
         {/* If map is visible, show map */}

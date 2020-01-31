@@ -2,11 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Draggable from 'react-draggable'; // Uses https://www.npmjs.com/package/react-draggable
 import Swipe from 'react-easy-swipe';
 
-// Import components
-import When from './When/When';
-import Mode from './Mode/Mode';
-import AutoComplete from './AutoComplete/AutoComplete';
-
+import TrayComponents from './TrayComponents';
 // Import styles
 import s from './TrayNew.module.scss';
 
@@ -14,11 +10,30 @@ const TrayNew = () => {
   const [mapHeight, setMapHeight] = useState(0); // Set mapHeight to state, we will make the tray confine to these bounds
   const [isTrayOpen, setIsTrayOpen] = useState(false); // Used to store bool if tray is fully open
   const [lockTray, setLockTray] = useState(false); // Store bool if we should lock the tray or not
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  // UseEffect, so we can wait until components rendered to get height
+  // Function for getting the maps height (this will be used for the bounds of our draggable tray)
+  const getMapHeight = () => {
+    const mapEleHeight = document.getElementById('disruptions-map').offsetHeight;
+    setMapHeight(mapEleHeight);
+  };
+
+  // Get new map height on resize
   useEffect(() => {
-    setMapHeight(document.getElementById('disruptions-map').offsetHeight); // Get height of map and set it in state
-  }, []);
+    // Add event listener to window resize, if resized then get new map height
+    window.addEventListener('resize', getMapHeight());
+    // Cleanup: remove eventListener
+    return () => window.removeEventListener('resize', getMapHeight());
+  });
+
+  // Check window width on resize, used to determine if we should show the mobile or desktop panel in the return/render at the bottom
+  useEffect(() => {
+    // Add event listner to window resize, if resized then update width with new window.width
+    window.addEventListener('resize', () => setWindowWidth(window.innerWidth));
+    // Cleanup: remove eventListener
+
+    return () => window.removeEventListener('resize', () => setWindowWidth(window.innerWidth));
+  });
 
   /*
   USED TO CONTROL SCROLLING OF TRAY ON MAP
@@ -56,7 +71,8 @@ const TrayNew = () => {
     return isTrayOpen && trayScrollTop !== 0 ? setLockTray(true) : null;
   };
 
-  return (
+  // Output for how the mobile tray looks
+  const mobileTray = (
     <Draggable
       axis="y"
       grid={[1, 1]}
@@ -77,13 +93,22 @@ const TrayNew = () => {
           <div className={`${s.drawerHandle} wmnds-col-1`}>
             <p>Swipe tray up</p>
           </div>
-          <When />
-          <Mode />
-          <AutoComplete />
+          <TrayComponents />
         </Swipe>
       </div>
     </Draggable>
   );
+
+  const DesktopTray = (
+    <div className={`${s.tray} wmnds-grid `}>
+      <div className={`${s.drawerHandle} wmnds-col-1`}>
+        <p>Swipe tray up</p>
+      </div>
+      <TrayComponents />
+    </div>
+  );
+
+  return <>{windowWidth < 992 ? mobileTray : DesktopTray}</>;
 };
 
 export default TrayNew;
