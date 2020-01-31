@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Draggable from 'react-draggable'; // Uses https://www.npmjs.com/package/react-draggable
 import Swipe from 'react-easy-swipe';
 
-import TrayComponents from './TrayComponents';
+// Import Components
+import TrayComponents from './TrayComponents/TrayComponents';
 // Import styles
-import s from './TrayNew.module.scss';
+import s from './Tray.module.scss';
 
 const TrayNew = () => {
   const [containerHeight, setContainerHeight] = useState(0); // Set ContainerHeight to state, we will make the tray confine to these bounds

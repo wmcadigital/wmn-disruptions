@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import ContextProvider from 'globalState/ContextProvider';
 import Header from 'Components/Header/Header';
 import WebMapView from 'Components/Map/Map';
-import TrayNew from 'Components/TrayNew/TrayNew';
+import Tray from 'Components/Tray/Tray';
 // import Breadcrumbs from 'Components/Breadcrumbs/Breadcrumbs';
 import NewListView from 'Components/NewListViews/NewListView';
 import s from './App.module.scss';
@@ -22,7 +22,7 @@ const AppNew = () => {
         {!isMapVisible && <NewListView />}
         {/* If map is visible, show map */}
         {isMapVisible && <WebMapView />}
-        <TrayNew />
+        <Tray />
       </div>
     </ContextProvider>
   );
