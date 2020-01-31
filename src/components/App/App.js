@@ -17,12 +17,12 @@ const AppNew = () => {
       <Header isMapVisible={isMapVisible} setIsMapVisible={setIsMapVisible} />
 
       {/* Be careful with changeing this id (#disruptions-container) as it is being used by the tray to determine its container */}
-      <div className={s.appWrapper} id="disruptions-container">
+      <div className={isMapVisible && s.appWrapper} id="disruptions-container">
         {/* Else, show list view */}
         {!isMapVisible && <ListView />}
-        {/* If map is visible, show map */}
+        {/* If map is visible, show map and tray */}
         {isMapVisible && <WebMapView />}
-        <Tray />
+        {isMapVisible && <Tray />}
       </div>
     </ContextProvider>
   );

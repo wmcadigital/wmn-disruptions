@@ -98,102 +98,101 @@ class RestInfo extends Component {
             const text = post.description;
             const sanitizer = dompurify.sanitize;
             return (
-              <div className="wmnds-container wmnds-container--main">
-                <div key={post.id}>
-                  <div className={`wmnds-accordion ${activeAcc === key ? 'wmnds-is--open' : ''}`}>
-                    <button
-                      type="button"
-                      aria-controls="accordion-custom-01"
-                      className="wmnds-accordion__summary-wrapper"
-                      aria-expanded="true"
-                      onClick={() => this.toggle(key)}
-                    >
-                      <div className="wmnds-accordion__summary">
-                        {post.mode}
-                        <div className="wmnds-grid wmnds-grid--align-center">
-                          <div
-                            className={`wmnds-disruption-indicator-small wmnds-col-auto wmnds-m-r-md wmnds-disruption-indicator-medium--${newClass}`}
-                          >
-                            {/* Bus Icon Only */}
-                            <svg className="wmnds-disruption-indicator-small__icon">
-                              <Icon iconName="modes-isolated-bus" iconClass="modes-isolated-bus" />
-                            </svg>
+              <div
+                className={`wmnds-accordion wmnds-m-b-md ${activeAcc === key ? 'wmnds-is--open' : ''}`}
+                key={post.id}
+              >
+                <button
+                  type="button"
+                  aria-controls="accordion-custom-01"
+                  className="wmnds-accordion__summary-wrapper"
+                  aria-expanded="true"
+                  onClick={() => this.toggle(key)}
+                >
+                  <div className="wmnds-accordion__summary">
+                    {post.mode}
+                    <div className="wmnds-grid wmnds-grid--align-center">
+                      <div
+                        className={`wmnds-disruption-indicator-small wmnds-col-auto wmnds-m-r-md wmnds-disruption-indicator-medium--${newClass}`}
+                      >
+                        {/* Bus Icon Only */}
+                        <svg className="wmnds-disruption-indicator-small__icon">
+                          <Icon iconName="modes-isolated-bus" iconClass="modes-isolated-bus" />
+                        </svg>
 
-                            <svg className="wmnds-disruption-indicator-small__icon">
-                              <Icon iconName={`general-${iconName}`} iconClass={`general-${iconName}`} />
-                            </svg>
-                          </div>
-                          <div className="wmnds-col-auto">
-                            {/* Title of disruptions */}
-                            <strong>{post.title}</strong>
-                          </div>
-                        </div>
+                        <svg className="wmnds-disruption-indicator-small__icon">
+                          <Icon iconName={`general-${iconName}`} iconClass={`general-${iconName}`} />
+                        </svg>
                       </div>
-                      {/* Expand Icon Only */}
-                      <svg className="wmnds-accordion__icon">
-                        <Icon iconName="general-expand" iconClass="general-expand" />
-                      </svg>
-                      {/* Minimise Icon Only */}
-                      <svg className="wmnds-accordion__icon wmnds-accordion__icon--minimise">
-                        <Icon iconName="general-minimise" iconClass="general-minimise" />
-                      </svg>
-                    </button>
-                    {/* Accordion Start */}
-
-                    <div className="wmnds-accordion__content" id="accordion-custom-01">
-                      <div className="wmnds-grid">
-                        {disruptions.length > 1 && (
-                          <div className="wmnds-col-1-1">
-                            <h4 className="serviceAffected">Affected Service(s) </h4>
-                          </div>
-                        )}
-
-                        {post.servicesAffected &&
-                          post.servicesAffected.map(affected => (
-                            <div className="wmnds-col-1-5">
-                              {/* Key ID */}
-                              <div key={affected.id}>
-                                <span>
-                                  {/* Services Affected */}
-                                  <div
-                                    className={`wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium--with-icon wmnds-disruption-indicator-medium--${newClass}`}
-                                  >
-                                    <span className="serviceNumber">{affected.serviceNumber}</span>
-                                    {/* Affected Icon */}
-                                    <svg className="wmnds-disruption-indicator-small__icon">
-                                      <Icon
-                                        iconName={`general-${iconName}`}
-                                        iconClass="disruption-indicator-large__icon--right"
-                                      />
-                                    </svg>
-                                  </div>
-                                </span>
-                                {/* Faved Routed to be saved to local storage */}
-
-                                <div className={`${faveState.isFaved}`}>
-                                  <svg className="favStar" onClick={e => this.clickedFav(e)}>
-                                    <Icon
-                                      iconName={`general-star${faveState.newClassFav}`}
-                                      iconClass="disruption-indicator-small__icon"
-                                    />
-                                  </svg>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
+                      <div className="wmnds-col-auto">
+                        {/* Title of disruptions */}
+                        <strong>{post.title}</strong>
                       </div>
-                      {/* Accordion End */}
-
-                      {/* Description Start */}
-                      <div className="clear">
-                        <hr />
-                        <h3>{post.title}</h3>
-
-                        <div dangerouslySetInnerHTML={{ __html: sanitizer(text) }} />
-                      </div>
-                      {/* Description End */}
                     </div>
                   </div>
+                  {/* Expand Icon Only */}
+                  <svg className="wmnds-accordion__icon">
+                    <Icon iconName="general-expand" iconClass="general-expand" />
+                  </svg>
+                  {/* Minimise Icon Only */}
+                  <svg className="wmnds-accordion__icon wmnds-accordion__icon--minimise">
+                    <Icon iconName="general-minimise" iconClass="general-minimise" />
+                  </svg>
+                </button>
+                {/* Accordion Start */}
+
+                <div className="wmnds-accordion__content" id="accordion-custom-01">
+                  <div className="wmnds-grid">
+                    {disruptions.length > 1 && (
+                      <div className="wmnds-col-1-1">
+                        <h4 className="serviceAffected">Affected Service(s) </h4>
+                      </div>
+                    )}
+
+                    {post.servicesAffected &&
+                      post.servicesAffected.map(affected => (
+                        <div className="wmnds-col-1-5">
+                          {/* Key ID */}
+                          <div key={affected.id}>
+                            <span>
+                              {/* Services Affected */}
+                              <div
+                                className={`wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium--with-icon wmnds-disruption-indicator-medium--${newClass}`}
+                              >
+                                <span className="serviceNumber">{affected.serviceNumber}</span>
+                                {/* Affected Icon */}
+                                <svg className="wmnds-disruption-indicator-small__icon">
+                                  <Icon
+                                    iconName={`general-${iconName}`}
+                                    iconClass="disruption-indicator-large__icon--right"
+                                  />
+                                </svg>
+                              </div>
+                            </span>
+                            {/* Faved Routed to be saved to local storage */}
+
+                            <div className={`${faveState.isFaved}`}>
+                              <svg className="favStar" onClick={e => this.clickedFav(e)}>
+                                <Icon
+                                  iconName={`general-star${faveState.newClassFav}`}
+                                  iconClass="disruption-indicator-small__icon"
+                                />
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                  {/* Accordion End */}
+
+                  {/* Description Start */}
+                  <div className="clear">
+                    <hr />
+                    <h3>{post.title}</h3>
+
+                    <div dangerouslySetInnerHTML={{ __html: sanitizer(text) }} />
+                  </div>
+                  {/* Description End */}
                 </div>
               </div>
             );
