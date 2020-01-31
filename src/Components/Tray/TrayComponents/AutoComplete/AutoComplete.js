@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 
 // Import contexts
-import { ModeContext } from '../../../globalState/ModeContext';
+import { ModeContext } from 'globalState/ModeContext';
 
 // Import Providers
-import { AutoCompleteProvider } from '../../../globalState/AutoCompleteContext';
+import { AutoCompleteProvider } from 'globalState/AutoCompleteContext';
 
 // Import components
 import BusAutoComplete from './Bus/BusAutoComplete';
@@ -26,10 +26,10 @@ const AutoComplete = () => {
     switch (modeState.mode) {
       case 'bus':
         return (
-          <>
+          <div className="wmnds-grid">
             {autoCompleteTitle('Search for a service')}
             <BusAutoComplete />
-          </>
+          </div>
         );
 
       default:

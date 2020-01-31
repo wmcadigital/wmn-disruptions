@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker'; // Uses https://reactdatepicker.com/
 // Import contexts
 import { WhenContext } from 'globalState';
 // Import components
-import Button from '../../Button/Button';
+import Button from 'Components/Button/Button';
 // Import styles
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -15,7 +15,7 @@ const When = () => {
   const nowText = `Now ${today.getHours()}:${today.getMinutes()}`; // Set nowText to be 'Now HH:MM'
 
   return (
-    <>
+    <div className="wmnds-grid">
       <div className="wmnds-col-1">
         <h4>When</h4>
       </div>
@@ -51,7 +51,7 @@ const When = () => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

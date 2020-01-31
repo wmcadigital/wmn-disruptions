@@ -1,11 +1,11 @@
 @import '../../assets/styles/vars';
 @import '../../assets/styles/mixins';
 
-$offset-top: $padding-lg;
+$offset-top: $size-lg;
 
 .map {
   width: 100%;
-  height: calc(80vh - #{$offset-top});
+  height: 80vh;
   background-color: #eee;
   border: 2px solid #ddd;
   top: $offset-top;

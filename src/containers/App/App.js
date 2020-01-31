@@ -1,121 +1,31 @@
 // Import packages
-import React from 'react';
-// import PropTypes from 'prop-types'; // Commented out, as with the viewMode propType below
-import { connect } from 'react-redux';
-
+import React, { useState } from 'react';
 // Import components
 import ContextProvider from 'globalState/ContextProvider';
-import MainHeader from '../../Components/MainHeader/MainHeader';
-import WebMapView from '../../Components/Map/Map';
-import TrayNew from '../../Components/TrayNew/TrayNew';
-import Breadcrumbs from '../../Components/Breadcrumbs/Breadcrumbs';
+import Header from 'Components/Header/Header';
+import WebMapView from 'Components/Map/Map';
+import Tray from 'Components/Tray/Tray';
+// import Breadcrumbs from 'Components/Breadcrumbs/Breadcrumbs';
+import NewListView from 'Components/NewListViews/NewListView';
+import s from './App.module.scss';
 
-import NewListView from '../../Components/NewListViews/NewListView';
-// Import components
-import Button from '../../Components/Button/Button';
+const AppNew = () => {
+  const [isMapVisible, setIsMapVisible] = useState(true);
 
-// Import actions
-import * as a from '../../redux/actions';
+  return (
+    <ContextProvider>
+      <Header isMapVisible={isMapVisible} setIsMapVisible={setIsMapVisible} />
 
-// Import styles
-import s from './App.scss';
-
-// Define consts
-const MAP_VIEW = 'map view';
-
-class App extends React.Component {
-  static IsMobileDevice() {
-    return typeof window.orientation !== 'undefined' || navigator.userAgent.indexOf('IEMobile') !== -1;
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.NewToggleView = this.NewToggleView.bind(this);
-
-    this.state = {
-      visibility: false
-    };
-  }
-
-  componentDidMount() {
-    const { props } = this;
-    const { SetViewMode } = props || {};
-
-    App.IsMobileDevice();
-
-    SetViewMode(MAP_VIEW);
-  }
-
-  NewToggleView() {
-    this.setState(prevState => {
-      return {
-        visibility: !prevState.visibility
-      };
-    });
-  }
-
-  render() {
-    const { state } = this;
-    return (
-      <ContextProvider>
-        <div className={`{s.app} header`}>
-          <MainHeader />
-          <Breadcrumbs />
-          <div className={`wmnds-grid wmnds-grid--justify-between ${s.container}`}>
-            <h1 className={`${s.title} wmnds-col-1 wmnds-col-sm-auto`}>Disruptions</h1>
-
-            <div className={`${s.btnContainer} wmnds-col-1 wmnds-col-sm-auto`}>
-              <Button
-                btnClass="wmnds-btn--secondary wmnds-float--right"
-                onClick={this.NewToggleView}
-                iconRight="general-chevron-right"
-                text={state.visibility ? 'Map View' : 'List View'}
-              />
-            </div>
-          </div>
-          {state.visibility && (
-            <div>
-              <NewListView />
-            </div>
-          )}
-
-          {!state.visibility && (
-            <div>
-              <WebMapView />
-            </div>
-          )}
-
-          <TrayNew />
-        </div>
-      </ContextProvider>
-    );
-  }
-}
-
-// Commented out as viewMode isn't being used (yet)
-// App.propTypes = {
-//   viewMode: PropTypes.string
-// };
-
-// App.defaultProps = {
-//   viewMode: MAP_VIEW
-// };
-
-const mapStateToProps = state => {
-  const { app } = state || {};
-  const { viewMode } = app || {};
-
-  return {
-    viewMode: viewMode || ''
-  };
+      {/* Be careful with changeing this id (#disruptions-container) as it is being used by the tray to determine its container */}
+      <div className={s.appWrapper} id="disruptions-container">
+        {/* Else, show list view */}
+        {!isMapVisible && <NewListView />}
+        {/* If map is visible, show map */}
+        {isMapVisible && <WebMapView />}
+        <Tray />
+      </div>
+    </ContextProvider>
+  );
 };
 
-const mapDispatchToProps = dispatch => {
-  const { SetViewMode } = a || {};
-  return {
-    SetViewMode: data => dispatch(SetViewMode(data))
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default AppNew;

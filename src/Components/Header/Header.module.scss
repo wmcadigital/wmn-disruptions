@@ -1,10 +1,12 @@
 @import '../../assets/styles/vars';
+@import '../../assets/styles/mixins';
 
-.container {
-  background-color: #f3f2f1;
-  padding: $padding-sm;
-}
-
-.title {
-  margin: 0;
+@media all and(max-width: 410px) {
+  .h1 {
+    @include type-setting(3);
+    line-height: initial;
+  }
+  .listMapBtn {
+    padding: $size-xs;
+  }
 }

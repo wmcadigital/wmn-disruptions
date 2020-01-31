@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Import components
-import Icon from '../../../Icon/Icon';
+import Icon from 'Components/Icon/Icon';
 
 const BusAutoCompleteResult = props => {
   const { result } = props || {};

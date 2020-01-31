@@ -5,17 +5,14 @@ import When from './When/When';
 import Mode from './Mode/Mode';
 import AutoComplete from './AutoComplete/AutoComplete';
 
-// Import styles
-import s from './TrayNew.module.scss';
-
-const TrayNew = () => {
+const TrayComponents = () => {
   return (
-    <div className={`${s.tray} wmnds-grid wmnds-p-md`}>
+    <>
       <When />
       <Mode />
       <AutoComplete />
-    </div>
+    </>
   );
 };
 
-export default TrayNew;
+export default TrayComponents;

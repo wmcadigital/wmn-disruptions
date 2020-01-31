@@ -65,9 +65,11 @@ class WebMapView extends Component {
         })
       });
 
+      this.view.ui.move(['zoom'], 'top-right');
+
       // Add the locate widget to the top left corner of the view
       this.view.ui.add(locateBtn, {
-        position: 'top-left'
+        position: 'top-right'
       });
     });
   }
@@ -80,7 +82,7 @@ class WebMapView extends Component {
   }
 
   render() {
-    return <div className={`webmap ${s.map}`} ref={this.mapRef} title="Disruptions map" />;
+    return <div id="disruptions-map" className={`webmap ${s.map}`} ref={this.mapRef} title="Disruptions map" />;
   }
 }
 
