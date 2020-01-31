@@ -1,8 +1,0 @@
-{
-  "eslint.enable": true,
-  "files.associations": {
-    "*.js": ["javascriptreact"]
-  },
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "files.eol": "\n"
-}
