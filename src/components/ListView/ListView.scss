@@ -3,6 +3,10 @@
 // Mixins
 @import '../../assets/styles/mixins';
 
+.listview-tray {
+  position: sticky;
+}
+
 .clear {
   clear: both;
 }
