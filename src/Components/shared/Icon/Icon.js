@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import svgSprite from '../../assets/svgs/svg-sprite.min.svg';
+import svgSprite from 'assets/svgs/svg-sprite.min.svg';
 
 const Icon = ({ iconClass, iconName }) => {
   return (

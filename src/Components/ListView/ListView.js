@@ -1,6 +1,6 @@
 import React from 'react';
 import RestInfo from './RestInfo';
-import './NewListView.scss';
+import './ListView.scss';
 
 function NewListView() {
   return (

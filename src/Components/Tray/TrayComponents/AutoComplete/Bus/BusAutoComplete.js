@@ -6,7 +6,7 @@ import { DebounceInput } from 'react-debounce-input'; // https://www.npmjs.com/p
 import { AutoCompleteContext } from 'globalState';
 
 // Import components
-import Icon from 'Components/Icon/Icon';
+import Icon from 'Components/shared/Icon/Icon';
 import BusAutoCompleteResult from './BusAutoCompleteResult';
 
 const BusAutoComplete = () => {

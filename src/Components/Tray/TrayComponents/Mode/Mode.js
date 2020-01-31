@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 // Import contexts
 import { ModeContext } from 'globalState';
 // Import components
-import Button from 'Components/Button/Button';
+import Button from 'Components/shared/Button/Button';
 
 const Mode = () => {
   const [modeState, modeDispatch] = useContext(ModeContext); // Get the state of modeButtons from modeContext

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import dompurify from 'dompurify';
-import Icon from '../Icon/Icon';
+import Icon from 'Components/shared/Icon/Icon';
 
 class RestInfo extends Component {
   constructor() {
@@ -53,10 +53,10 @@ class RestInfo extends Component {
   render() {
     const { disruptions, activeAcc } = this.state;
 
-    /* 
+    /*
     API call in the componentDidMount
-    I have added bus for the time being - 
-    Just remove /Mode/bus to get all results.  
+    I have added bus for the time being -
+    Just remove /Mode/bus to get all results.
     */
 
     return (
