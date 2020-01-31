@@ -1,0 +1,63 @@
+@import '../../assets/styles/vars';
+@import '../../assets/styles/mixins';
+
+// Default tray styling
+.tray {
+  z-index: 1;
+  background-color: white;
+  border-radius: 10px;
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  position: absolute;
+  height: 80vh;
+
+  // On desktop/bigger displays
+  @media only screen and (min-width: $breakpoint-md) {
+    position: absolute;
+    top: 28px;
+    left: 48px;
+    width: 374px;
+    height: auto;
+  }
+}
+
+// class used by Swipe component
+.swipeTrayWrapper {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+// When the tray is open, add an overflow so user can scroll within open tray
+.trayIsOpen {
+  overflow: auto;
+}
+
+// The drawer handle/line at top of tray
+.drawerHandle {
+  height: 10px;
+  position: relative;
+
+  &:before {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 90px;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #393033;
+  }
+
+  p {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    border: 0;
+  }
+}

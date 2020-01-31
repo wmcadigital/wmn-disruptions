@@ -1,0 +1,24 @@
+// Vars
+@import '../../assets/styles/vars';
+// Mixins
+@import '../../assets/styles/mixins';
+
+.clear {
+  clear: both;
+}
+
+.isFav {
+  width: 20%;
+}
+
+.serviceNumber {
+  font-family: $x-font-family;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.favStar {
+  width: 25px;
+  height: 25px;
+  color: #9d5baf;
+}
