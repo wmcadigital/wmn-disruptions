@@ -2,6 +2,12 @@
   "name": "wmn-disruptions-v2",
   "version": "0.1.0",
   "private": true,
+  "description": "Disruptions section of the West Midlands Network website",
+  "homepage": "https://www.wmnetwork.co.uk/disruptions/",
+  "author": "WMCA",
+  "main": "src/index.js",
+  "repository": "https://github.com/wmcadigital/wmn-disruptions-v2",
+  "copyright": "WMCA",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
@@ -18,6 +24,7 @@
     "react-easy-swipe": "0.0.18",
     "react-scripts": "3.3.1"
   },
+  "devDependencies": {},
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -38,6 +45,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {}
+  }
 }
