@@ -99,7 +99,7 @@ class RestInfo extends Component {
             const sanitizer = dompurify.sanitize;
             return (
               <div
-                className={`wmnds-accordion wmnds-m-b-md ${activeAcc === key ? 'wmnds-is--open' : ''}`}
+                className={`wmnds-accordion wmnds-m-b-lg ${activeAcc === key ? 'wmnds-is--open' : ''}`}
                 key={post.id}
               >
                 <button
