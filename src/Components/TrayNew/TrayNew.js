@@ -10,7 +10,7 @@ const TrayNew = () => {
   const [mapHeight, setMapHeight] = useState(0); // Set mapHeight to state, we will make the tray confine to these bounds
   const [isTrayOpen, setIsTrayOpen] = useState(false); // Used to store bool if tray is fully open
   const [lockTray, setLockTray] = useState(false); // Store bool if we should lock the tray or not
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth); // Store windows innerWidth so we can check on it for the render/return of this component
 
   // Function for getting the maps height (this will be used for the bounds of our draggable tray)
   const getMapHeight = () => {
@@ -99,6 +99,7 @@ const TrayNew = () => {
     </Draggable>
   );
 
+  // Output for how the desktop tray looks
   const DesktopTray = (
     <div className={`${s.tray} wmnds-grid `}>
       <div className={`${s.drawerHandle} wmnds-col-1`}>
@@ -108,6 +109,7 @@ const TrayNew = () => {
     </div>
   );
 
+  // If the device is less than x show mobileTray otherwise show desktop tray
   return <>{windowWidth < 992 ? mobileTray : DesktopTray}</>;
 };
 
