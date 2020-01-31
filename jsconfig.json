@@ -1,5 +1,3 @@
-// This allows us to do friendly imports
-// See https://alligator.io/react/clean-import-statements-in-react/
 {
   "compilerOptions": {
     "baseUrl": "src"
