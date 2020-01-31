@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import dompurify from 'dompurify';
-import Icon from 'Components/shared/Icon/Icon';
+import Icon from 'components/shared/Icon/Icon';
 
 class RestInfo extends Component {
   constructor() {

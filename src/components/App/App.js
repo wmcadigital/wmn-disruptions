@@ -2,11 +2,11 @@
 import React, { useState } from 'react';
 // Import components
 import ContextProvider from 'globalState/ContextProvider';
-import Header from 'Components/Header/Header';
-import WebMapView from 'Components/Map/Map';
-import Tray from 'Components/Tray/Tray';
-// import Breadcrumbs from 'Components/Breadcrumbs/Breadcrumbs';
-import ListView from 'Components/ListView/ListView';
+import Header from 'components/Header/Header';
+import WebMapView from 'components/Map/Map';
+import Tray from 'components/Tray/Tray';
+// import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs';
+import ListView from 'components/ListView/ListView';
 import s from './App.module.scss';
 
 const AppNew = () => {
