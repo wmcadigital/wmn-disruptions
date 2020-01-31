@@ -15,7 +15,7 @@ const When = () => {
   const nowText = `Now ${today.getHours()}:${today.getMinutes()}`; // Set nowText to be 'Now HH:MM'
 
   return (
-    <>
+    <div className="wmnds-grid">
       <div className="wmnds-col-1">
         <h4>When</h4>
       </div>
@@ -51,7 +51,7 @@ const When = () => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

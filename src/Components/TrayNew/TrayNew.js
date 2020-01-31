@@ -7,23 +7,23 @@ import TrayComponents from './TrayComponents';
 import s from './TrayNew.module.scss';
 
 const TrayNew = () => {
-  const [mapHeight, setMapHeight] = useState(0); // Set mapHeight to state, we will make the tray confine to these bounds
+  const [containerHeight, setContainerHeight] = useState(0); // Set ContainerHeight to state, we will make the tray confine to these bounds
   const [isTrayOpen, setIsTrayOpen] = useState(false); // Used to store bool if tray is fully open
   const [lockTray, setLockTray] = useState(false); // Store bool if we should lock the tray or not
   const [windowWidth, setWindowWidth] = useState(window.innerWidth); // Store windows innerWidth so we can check on it for the render/return of this component
 
   // Function for getting the maps height (this will be used for the bounds of our draggable tray)
-  const getMapHeight = () => {
-    const mapEleHeight = document.getElementById('disruptions-map').offsetHeight;
-    setMapHeight(mapEleHeight);
+  const getContainerHeight = () => {
+    const mapEleHeight = document.getElementById('disruptions-container').offsetHeight;
+    setContainerHeight(mapEleHeight);
   };
 
   // Get new map height on resize
   useEffect(() => {
     // Add event listener to window resize, if resized then get new map height
-    window.addEventListener('resize', getMapHeight());
+    window.addEventListener('resize', getContainerHeight());
     // Cleanup: remove eventListener
-    return () => window.removeEventListener('resize', getMapHeight());
+    return () => window.removeEventListener('resize', getContainerHeight());
   });
 
   // Check window width on resize, used to determine if we should show the mobile or desktop panel in the return/render at the bottom
@@ -49,7 +49,7 @@ const TrayNew = () => {
     document.body.style.overflow = null; // Scrolling finished so return body overflow to normal
     const { y } = data; // Get y scroll position
     // If y coords are at top of container, then set tray open to true, otherwise false
-    return y === -mapHeight ? setIsTrayOpen(true) : setIsTrayOpen(false);
+    return y === -containerHeight ? setIsTrayOpen(true) : setIsTrayOpen(false);
   };
 
   /*
@@ -76,7 +76,7 @@ const TrayNew = () => {
     <Draggable
       axis="y"
       grid={[1, 1]}
-      bounds={{ left: 0, top: -mapHeight, right: 0, bottom: -100 }}
+      bounds={{ left: 0, top: -containerHeight, right: 0, bottom: -100 }}
       defaultPosition={{ x: 0, y: -100 }}
       onStart={() => onStart()}
       onStop={(e, data) => onStop(e, data)}
@@ -85,7 +85,7 @@ const TrayNew = () => {
     >
       <div className={`${s.tray} wmnds-grid `}>
         <Swipe
-          className={`${s.trayWrapper} wmnds-p-md ${isTrayOpen ? s.trayIsOpen : ''}`}
+          className={`${s.swipeTrayWrapper} wmnds-p-md ${isTrayOpen ? s.trayIsOpen : ''}`}
           onSwipeUp={() => onSwipeUp()}
           onSwipeDown={() => onSwipeDown()}
           id="js-disruptions-tray"
@@ -101,16 +101,13 @@ const TrayNew = () => {
 
   // Output for how the desktop tray looks
   const DesktopTray = (
-    <div className={`${s.tray} wmnds-grid `}>
-      <div className={`${s.drawerHandle} wmnds-col-1`}>
-        <p>Swipe tray up</p>
-      </div>
+    <div className={`${s.tray} wmnds-grid wmnds-p-md`}>
       <TrayComponents />
     </div>
   );
 
   // If the device is less than x show mobileTray otherwise show desktop tray
-  return <>{windowWidth < 992 ? mobileTray : DesktopTray}</>;
+  return <>{windowWidth < 768 ? mobileTray : DesktopTray}</>;
 };
 
 export default TrayNew;

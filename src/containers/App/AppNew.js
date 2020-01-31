@@ -16,7 +16,8 @@ const AppNew = () => {
     <ContextProvider>
       <Header isMapVisible={isMapVisible} setIsMapVisible={setIsMapVisible} />
 
-      <div className={s.appWrapper} id="app-wrap">
+      {/* Be careful with changeing this id (#disruptions-container) as it is being used by the tray to determine its container */}
+      <div className={s.appWrapper} id="disruptions-container">
         {/* Else, show list view */}
         {!isMapVisible && <NewListView />}
         {/* If map is visible, show map */}

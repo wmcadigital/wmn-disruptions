@@ -26,10 +26,10 @@ const AutoComplete = () => {
     switch (modeState.mode) {
       case 'bus':
         return (
-          <>
+          <div className="wmnds-grid">
             {autoCompleteTitle('Search for a service')}
             <BusAutoComplete />
-          </>
+          </div>
         );
 
       default:

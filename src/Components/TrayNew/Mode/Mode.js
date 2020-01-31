@@ -9,7 +9,7 @@ const Mode = () => {
   const [modeState, modeDispatch] = useContext(ModeContext); // Get the state of modeButtons from modeContext
 
   return (
-    <>
+    <div className="wmnds-grid">
       <div className="wmnds-col-1">
         <h4>Select a mode of travel</h4>
       </div>
@@ -45,7 +45,7 @@ const Mode = () => {
         iconLeft="modes-isolated-roads"
         text="Roads"
       />
-    </>
+    </div>
   );
 };
 
