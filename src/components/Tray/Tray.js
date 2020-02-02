@@ -13,28 +13,19 @@ const TrayNew = () => {
   const [lockTray, setLockTray] = useState(false); // Store bool if we should lock the tray or not
   const [windowWidth, setWindowWidth] = useState(window.innerWidth); // Store windows innerWidth so we can check on it for the render/return of this component
 
-  // Function for getting the maps height (this will be used for the bounds of our draggable tray)
-  const getContainerHeight = () => {
-    const mapEleHeight = document.getElementById('disruptions-container').offsetHeight;
-    setContainerHeight(mapEleHeight);
-  };
-
-  // Get new map height on resize
-  useEffect(() => {
-    // Add event listener to window resize, if resized then get new map height
-    window.addEventListener('resize', getContainerHeight());
-    // Cleanup: remove eventListener
-    return () => window.removeEventListener('resize', getContainerHeight());
-  });
-
   // Check window width on resize, used to determine if we should show the mobile or desktop panel in the return/render at the bottom
   useEffect(() => {
     // Add event listner to window resize, if resized then update width with new window.width
     window.addEventListener('resize', () => setWindowWidth(window.innerWidth));
     // Cleanup: remove eventListener
-
     return () => window.removeEventListener('resize', () => setWindowWidth(window.innerWidth));
-  });
+  }, []); // Empty array to only run on componentDidMount
+
+  // Get new map height on resize
+  useEffect(() => {
+    const mapEleHeight = document.getElementById('disruptions-container').offsetHeight; // getting the maps height(this will be used for the bounds of our draggable tray)
+    setContainerHeight(mapEleHeight); // Set map height to state
+  }, [windowWidth]); // Only re-run this effect when windowWidth is updated
 
   /*
   USED TO CONTROL SCROLLING OF TRAY ON MAP

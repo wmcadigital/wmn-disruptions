@@ -28,7 +28,7 @@ const BusAutoComplete = () => {
           setLoading(false); // Set loading state to false after data is received
         });
     }
-  }, [autoCompleteDispatch, data.length, autoCompleteState.query]);
+  }, [autoCompleteState.query]);
 
   return (
     <>
