@@ -11,6 +11,7 @@ import BusAutoCompleteResult from './BusAutoCompleteResult';
 
 const BusAutoComplete = () => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
+  console.log(autoCompleteState);
   const [loading, setLoading] = useState(); // set state for loading spinner
   const [data, setData] = useState([]); // Placeholder for mapping data to
 
