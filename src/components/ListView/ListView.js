@@ -8,7 +8,7 @@ import RestInfo from './RestInfo';
 
 function NewListView() {
   return (
-    <div className="wmnds-container">
+    <div className="wmnds-container wmnds-p-t-md wmnds-p-b-md">
       <div className="wmnds-grid">
         <div className="wmnds-col-1 wmnds-col-md-2-5">
           <div className={`${s.tray} wmnds-grid wmnds-p-md listview-tray`}>
