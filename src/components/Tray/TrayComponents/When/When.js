@@ -8,8 +8,7 @@ import Button from 'components/shared/Button/Button';
 // Import styles
 import 'react-datepicker/dist/react-datepicker.css';
 //Import Custom CSS for the date picker.
-import s from './when.module.scss';
-import './newStyles.scss';
+import './datePicker.scss';
 const When = () => {
   const [whenState, whenDispatch] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
 
@@ -51,7 +50,7 @@ const When = () => {
               minDate={today}
               onChange={date => whenDispatch({ type: 'UPDATE_CUSTOMDATE', date })}
               inline
-              calendarClassName={s.datePicker}
+              calendarClassName="disruptions-date-picker"
             />
           </div>
         </div>
