@@ -1,12 +1,27 @@
-.datePicker {
+.disruptions-date-picker {
   border-radius: 0.1rem;
   background-color: none;
   margin: 25px 50px;
 }
-.react-datepicker__header {
-  background: none;
-  border: none;
-}
-.react-datepicker__day--weekend {
-  background-color: #f5f5f5;
+
+//Date Picker - Weekends Background Colours
+.react-datepicker {
+  &__header {
+    background: none;
+    border: none;
+  }
+  &__day--weekend {
+    background-color: #f5f5f5;
+  }
+
+  //Prev & Next Icons
+  &__navigation {
+    height: 12px;
+  }
+  &__navigation--previous {
+    border-right-color: #111111;
+  }
+  &__navigation--next {
+    border-left-color: #111111;
+  }
 }
