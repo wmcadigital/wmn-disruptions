@@ -1,9 +1,6 @@
 {
-  "env": {
-    "browser": true,
-    "es6": true
-  },
-  "extends": ["plugin:react/recommended", "airbnb", "plugin:prettier/recommended", "react-app"],
+  "extends": ["react-app", "airbnb", "plugin:jsx-a11y/recommended", "prettier", "prettier/react"],
+  "plugins": ["jsx-a11y", "prettier", "react-hooks"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -15,7 +12,6 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["react", "react-hooks"],
   "rules": {
     "react/jsx-filename-extension": [
       1,

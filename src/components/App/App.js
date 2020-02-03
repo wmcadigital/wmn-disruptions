@@ -10,12 +10,14 @@ const AppNew = () => {
   const [isMapVisible, setIsMapVisible] = useState(true);
 
   return (
-    <ContextProvider>
-      <Header isMapVisible={isMapVisible} setIsMapVisible={setIsMapVisible} />
+    <React.StrictMode>
+      <ContextProvider>
+        <Header isMapVisible={isMapVisible} setIsMapVisible={setIsMapVisible} />
 
-      {/* If map is visible, show map and tray, else show list view */}
-      {isMapVisible ? <MapView /> : <ListView />}
-    </ContextProvider>
+        {/* If map is visible, show map and tray, else show list view */}
+        {isMapVisible ? <MapView /> : <ListView />}
+      </ContextProvider>
+    </React.StrictMode>
   );
 };
 
