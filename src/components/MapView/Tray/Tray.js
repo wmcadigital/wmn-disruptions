@@ -41,8 +41,6 @@ const TrayNew = () => {
     document.body.style.overflow = null; // Scrolling finished so return body overflow to normal
     const { lastY } = data; // Get lastY scroll position
     // If lastY coords are at top of container, then set tralastY open to true, otherwise false
-
-    console.log({ containerHeight, data });
     return lastY === -containerHeight ? setIsTrayOpen(true) : setIsTrayOpen(false);
   };
 
