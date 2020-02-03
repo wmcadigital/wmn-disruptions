@@ -1,9 +1,9 @@
 import React from 'react';
 // Import Components
-import TrayComponents from 'components/Tray/TrayComponents/TrayComponents';
+import TrayComponents from 'components/MapView/Tray/TrayComponents/TrayComponents';
 // Import styles
 import './ListView.scss';
-import s from 'components/Tray/Tray.module.scss';
+import s from 'components/MapView/Tray/Tray.module.scss';
 import RestInfo from './RestInfo';
 
 function NewListView() {
