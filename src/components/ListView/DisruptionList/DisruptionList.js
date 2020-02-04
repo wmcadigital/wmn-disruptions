@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import DisruptionItem from './DisruptionItem/DisruptionItem';
 
 
 const DisruptionList = () => {
+  const [data, setdata] = useState([]);
 
   useEffect(() => {
     axios
@@ -12,15 +14,19 @@ const DisruptionList = () => {
         }
       })
       .then(response => {
-        console.log(response.data);
+        setdata(response.data);
       });
   }, [])
 
-  return (
-    <div>
-      hello
-    </div>
-  )
+return(
+  <>
+    {
+      data.map(disruption => (
+        <DisruptionItem disruption={disruption} />
+      ))
+    }
+  </>
+)
 }
 
 export default DisruptionList
