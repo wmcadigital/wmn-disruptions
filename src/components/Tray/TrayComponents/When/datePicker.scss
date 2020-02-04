@@ -45,4 +45,24 @@
     padding: 0px;
     margin: -1px;
   }
+
+  //Active state
+  &__day--selected,
+  &__day:hover {
+    border-radius: 0.9rem;
+    background-color: #e2cee7;
+    color: #333333;
+    // font-weight: bold;
+  }
+  //Bold the select date font
+  &__day--selected {
+    font-weight: bold;
+  }
+
+  //Today State
+  &__day--today {
+    font-weight: normal;
+  }
+
+  //Hover state
 }
