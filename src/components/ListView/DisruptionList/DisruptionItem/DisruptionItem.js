@@ -128,10 +128,6 @@ const DisruptionItem = ({disruption}) => {
           {/* Description End */}
         </div>
       </div>
-      );
-      <div>
-        <div className="wmnds-loader" />
-      </div>
     </div>
   );
 }

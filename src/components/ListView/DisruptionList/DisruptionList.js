@@ -23,10 +23,16 @@ const DisruptionList = () => {
 
 return(
   <>
-    { !isFetching &&
+    { !isFetching ?
       data.map(disruption => (
         <DisruptionItem disruption={disruption} />
       ))
+      :
+      (
+        <div>
+          <div className="wmnds-loader" />
+        </div>
+      )
     }
   </>
 )
