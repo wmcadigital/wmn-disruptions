@@ -1,7 +1,10 @@
 .disruptions-date-picker {
   border-radius: 0.1rem;
   background-color: none;
-  margin: 25px 50px;
+  border: none;
+  margin: 25px 70px;
+  box-shadow: 0 0 5px 0 rgba(192, 192, 192, 0.5);
+  background-color: #ffffff;
 }
 
 //Date Picker - Weekends Background Colours
@@ -23,5 +26,23 @@
   }
   &__navigation--next {
     border-left-color: #111111;
+  }
+
+  //Day Name
+  &__day-name {
+    border-bottom: solid 1px #979797;
+    padding: 0px;
+    margin: 0px;
+  }
+
+  &__day {
+    padding: 0px;
+    margin: 0px;
+  }
+
+  //Week
+  &__week {
+    padding: 0px;
+    margin: -1px;
   }
 }
