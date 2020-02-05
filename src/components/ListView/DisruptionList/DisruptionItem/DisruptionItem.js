@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import dompurify from 'dompurify';
 import Icon from 'components/shared/Icon/Icon';
 
+const {sanitize} = dompurify;
+
 const DisruptionItem = ({disruption}) => {
 
 
@@ -123,7 +125,7 @@ const DisruptionItem = ({disruption}) => {
             <hr />
             <h3>{disruption.title}</h3>
 
-            <div dangerouslySetInnerHTML={{ __html: dompurify.sanitize(disruption.text) }} />
+            <div dangerouslySetInnerHTML={{ __html: sanitize(disruption.text) }} />
           </div>
           {/* Description End */}
         </div>
