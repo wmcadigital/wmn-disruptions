@@ -1,7 +1,7 @@
 // Using https://developers.arcgis.com/labs/browse/?product=javascript&topic=any and ESRI JS API
 import React, { Component } from 'react';
 import { loadModules } from 'esri-loader';
-import locateCircle from '../../assets/svgs/map/locate-circle.svg';
+import locateCircle from 'assets/svgs/map/locate-circle.svg';
 
 import s from './Map.module.scss';
 

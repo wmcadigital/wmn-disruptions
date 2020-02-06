@@ -39,9 +39,9 @@ const TrayNew = () => {
   // onStop function for stop of swiping tray
   const onStop = (e, data) => {
     document.body.style.overflow = null; // Scrolling finished so return body overflow to normal
-    const { y } = data; // Get y scroll position
-    // If y coords are at top of container, then set tray open to true, otherwise false
-    return y === -containerHeight ? setIsTrayOpen(true) : setIsTrayOpen(false);
+    const { lastY } = data; // Get lastY scroll position
+    // If lastY coords are at top of container, then set tralastY open to true, otherwise false
+    return lastY === -containerHeight ? setIsTrayOpen(true) : setIsTrayOpen(false);
   };
 
   /*

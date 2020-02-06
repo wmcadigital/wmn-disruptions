@@ -3,9 +3,6 @@ import React, { useContext } from 'react';
 // Import contexts
 import { ModeContext } from 'globalState/ModeContext';
 
-// Import Providers
-import { AutoCompleteProvider } from 'globalState/AutoCompleteContext';
-
 // Import components
 import BusAutoComplete from './Bus/BusAutoComplete';
 
@@ -38,7 +35,7 @@ const AutoComplete = () => {
   };
 
   // Render the correct component based on logic in switch statement above
-  return <AutoCompleteProvider>{autoCompleteToShow()}</AutoCompleteProvider>;
+  return <>{autoCompleteToShow()}</>;
 };
 
 export default AutoComplete;

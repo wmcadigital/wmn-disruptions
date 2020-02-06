@@ -3,7 +3,8 @@
     "browser": true,
     "es6": true
   },
-  "extends": ["plugin:react/recommended", "airbnb", "plugin:prettier/recommended"],
+  "extends": ["react-app", "airbnb", "plugin:jsx-a11y/recommended", "prettier", "prettier/react"],
+  "plugins": ["prettier", "react", "jsx-a11y", "react-hooks", "jam3"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -15,8 +16,14 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["react", "react-hooks"],
   "rules": {
+    "react/no-danger": 0, // Turned this rule off for dangerouslySetInnerHTML, as we are using the jam3/no-sanitizer-with-danger rule to flag if we are using it without sanitizer
+    "jam3/no-sanitizer-with-danger": [
+      2,
+      {
+        "wrapperName": ["sanitize"]
+      }
+    ],
     "react/jsx-filename-extension": [
       1,
       {
@@ -24,7 +31,8 @@
       }
     ],
     "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
-    "react-hooks/exhaustive-deps": "warn" // Checks effect dependencies
+    "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
+    "prettier/prettier": ["error"]
   },
   "settings": {
     "import/resolver": {

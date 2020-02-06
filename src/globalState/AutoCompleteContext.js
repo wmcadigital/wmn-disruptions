@@ -8,6 +8,7 @@ export const AutoCompleteProvider = props => {
   // Set intial state of when
   const initialState = {
     query: '',
+    data: [],
     id: null // Used to store a specific service id gained from autocomplete
   };
 
@@ -19,6 +20,11 @@ export const AutoCompleteProvider = props => {
         return {
           ...state,
           query: action.query
+        };
+      case 'UPDATE_DATA':
+        return {
+          ...state,
+          data: action.data
         };
       // Default should return intial state if error
       default:
