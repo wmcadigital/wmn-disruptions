@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import PropTypes from 'prop-types';
 import dompurify from 'dompurify';
 import Icon from 'components/shared/Icon/Icon';
@@ -6,6 +6,8 @@ import Icon from 'components/shared/Icon/Icon';
 const {sanitize} = dompurify;
 
 const DisruptionItem = ({disruption}) => {
+
+  const [openAccordions, setopenAccordions] = useState({}); // Used to track state of open and closed accordions
 
 
   let iconName;
@@ -41,14 +43,17 @@ const DisruptionItem = ({disruption}) => {
   }
 
   return (
-    <div>
-      <div className="wmnds-accordion wmnds-m-b-lg" key={disruption.id}>
+    <>
+      <div
+        className={`wmnds-accordion wmnds-m-b-lg ${openAccordions[disruption.id] ? 'wmnds-is--open' : ''}`}
+        key={disruption.id}
+      >
         <button
           type="button"
           aria-controls="accordion-custom-01"
           className="wmnds-accordion__summary-wrapper"
-          aria-expanded="true"
-          // onClick={() => this.toggle(key)}
+          aria-expanded={!!openAccordions[disruption.id]}
+          onClick={() => setopenAccordions(prevState => ({ ...prevState, [disruption.id]: !prevState[disruption.id] }))}
         >
           <div className="wmnds-accordion__summary">
             {disruption.mode}
@@ -125,12 +130,12 @@ const DisruptionItem = ({disruption}) => {
             <hr />
             <h3>{disruption.title}</h3>
 
-            <div dangerouslySetInnerHTML={{ __html: sanitize(disruption.text) }} />
+            <div dangerouslySetInnerHTML={{ __html: sanitize(disruption.description) }} />
           </div>
           {/* Description End */}
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
