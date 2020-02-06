@@ -23,7 +23,7 @@ const BusAutoComplete = () => {
           }
         })
         .then(bus => {
-          autoCompleteDispatch({type: 'UPDATE_DATA', data: bus.data.services}); // Update data state with services returned
+          autoCompleteDispatch({ type: 'UPDATE_DATA', data: bus.data.services }); // Update data state with services returned
           setLoading(false); // Set loading state to false after data is received
         });
     }

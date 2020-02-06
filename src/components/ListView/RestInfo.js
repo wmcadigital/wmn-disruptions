@@ -28,6 +28,7 @@ class RestInfo extends Component {
           disruptions: response.data.disruptions
         });
       });
+    localStorage.setItem('thing 1', 'thing 2');
   }
 
   toggle(key) {
