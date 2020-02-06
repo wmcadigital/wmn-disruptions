@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+import { format } from 'fecha';
+
 // Import contexts
 import { ModeContext, WhenContext } from 'globalState';
 import DisruptionItem from './DisruptionItem/DisruptionItem';
@@ -32,42 +34,60 @@ const DisruptionList = () => {
       .then(() => setisFetching(false));
   }, []);
 
-  // Mode filtering
   let filteredData = data;
-  if (modeState.mode) {
-    filteredData = filteredData.filter(disrItem => disrItem.mode === modeState.mode);
-  }
 
+  // When filtering
   if (whenState.when) {
-    const today = new Date();
+    const today = format(new Date(), 'YYYY-MM-DD'); // Set today
+    let tomorrow = new Date(today);
+    tomorrow = format(tomorrow.setDate(tomorrow.getDate() + 1), 'YYYY-MM-DD'); // set tomorrow
 
     let fromDate;
     let toDate;
-
+    // Switch on when
     switch (whenState.when) {
       case 'now':
         fromDate = today;
         toDate = today;
         break;
 
+      case 'tomorrow':
+        fromDate = tomorrow;
+        toDate = tomorrow;
+        break;
+
+      case 'customDate':
+        fromDate = format(whenState.whenCustomDate, 'YYYY-MM-DD');
+        toDate = format(whenState.whenCustomDate, 'YYYY-MM-DD');
+        break;
+
       default:
         fromDate = today;
+        toDate = today;
     }
 
-    console.log({ fromDate, toDate });
-
+    // Filter results on date range
     filteredData = filteredData.filter(disrItem => {
-      const eventDate = disrItem.disruptionTimeWindow.start;
-      const endDate = disrItem.disruptionTimeWindow.end;
-
       let returnitem;
+      if (disrItem.mode === 'bus') {
+        const disrStartDate = disrItem.disruptionTimeWindow.start;
+        const disrEndDate = disrItem.disruptionTimeWindow.end;
 
-      if ((eventDate >= fromDate && eventDate <= toDate) || (endDate >= fromDate && eventDate <= toDate)) {
-        returnitem = disrItem;
+        if (
+          (disrStartDate >= fromDate && disrStartDate <= toDate) ||
+          (disrEndDate >= fromDate && disrStartDate <= toDate)
+        ) {
+          returnitem = disrItem;
+        }
       }
-
       return returnitem;
     });
+    // End when filtering
+
+    // Mode filtering
+    if (modeState.mode) {
+      filteredData = filteredData.filter(disrItem => disrItem.mode === modeState.mode);
+    }
   }
 
   return (
