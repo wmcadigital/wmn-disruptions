@@ -7,8 +7,9 @@ import { WhenContext } from 'globalState';
 import Button from 'components/shared/Button/Button';
 // Import styles
 import 'react-datepicker/dist/react-datepicker.css';
-//Import Custom CSS for the date picker.
+// Import Custom CSS for the date picker.
 import './datePicker.scss';
+
 const When = () => {
   const [whenState, whenDispatch] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
 
