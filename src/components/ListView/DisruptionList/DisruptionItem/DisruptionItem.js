@@ -1,14 +1,12 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import dompurify from 'dompurify';
 import Icon from 'components/shared/Icon/Icon';
 
-const {sanitize} = dompurify;
+const { sanitize } = dompurify;
 
-const DisruptionItem = ({disruption}) => {
-
+const DisruptionItem = ({ disruption }) => {
   const [openAccordions, setopenAccordions] = useState({}); // Used to track state of open and closed accordions
-
 
   let iconName;
   let newClass;
@@ -137,11 +135,11 @@ const DisruptionItem = ({disruption}) => {
       </div>
     </>
   );
-}
+};
 
 // PropTypes
 DisruptionItem.propTypes = {
   disruption: PropTypes.objectOf(PropTypes.any).isRequired
 };
 
-export default DisruptionItem
+export default DisruptionItem;
