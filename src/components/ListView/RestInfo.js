@@ -12,9 +12,7 @@ class RestInfo extends Component {
 
     this.state = {
       disruptions: [],
-      activeAcc: '',
-      isFaved: 'nope',
-      newClassFav: '-empty'
+      activeAcc: ''
     };
   }
 
@@ -30,17 +28,6 @@ class RestInfo extends Component {
           disruptions: response.data.disruptions
         });
       });
-    localStorage.setItem('thing 1', 'thing 2');
-  }
-
-  clickedFav(e) {
-    this.setState({
-      isFaved: 'yes',
-      newClassFav: ''
-    });
-    e.preventDefault();
-
-    localStorage.setItem('isFaved', this.clickedFav);
   }
 
   toggle(key) {
@@ -95,7 +82,7 @@ class RestInfo extends Component {
                 newClass = 'success';
                 break;
             }
-            const faveState = this.state;
+
             const text = post.description;
             const sanitizer = dompurify.sanitize;
             return (

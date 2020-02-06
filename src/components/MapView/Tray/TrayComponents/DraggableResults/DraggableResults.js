@@ -1,0 +1,58 @@
+import React from 'react';
+import Icon from 'components/shared/Icon/Icon';
+
+function DraggableResults() {
+  return (
+    <div className="wmnds-grid">
+      <div className="wmnds-col-1">
+        <span className="wmnds-disruption-indicator-small">
+          <svg className="wmnds-disruption-indicator-small__icon">
+            <Icon iconName="modes-isolated-roads" iconClass="modes-isolated-roads" />
+          </svg>
+
+          <svg className="wmnds-disruption-indicator-small__icon">
+            <Icon iconName="general-warning-circle" iconClass="general-warning-circle" />
+          </svg>
+        </span>
+        <h3>Broken Down Van at M20 </h3>
+
+        <h3>Road(s) affected:</h3>
+
+        <div className="wmnds-disruption-indicator-large wmnds-disruption-indicator-large--warning">
+          <div className="wmnds-disruption-indicator-large__left-wrapper">
+            <span className="wmnds-disruption-indicator-large__left-icon-wrapper">
+              <svg className="wmnds-disruption-indicator-large__icon">
+                <Icon iconName="modes-isolated-roads" iconClass="modes-isolated-roads" />
+              </svg>
+              <br />
+              Roads
+            </span>
+
+            <span className="wmnds-disruption-indicator-large__text">
+              <strong>Minor disruption</strong>
+              <br />
+              A38
+            </span>
+          </div>
+          <svg className="wmnds-disruption-indicator-large__icon wmnds-disruption-indicator-large__icon--right">
+            <Icon iconName="general-star" iconClass="general-star" />
+          </svg>
+        </div>
+
+        <h5>Expect to continue until</h5>
+        <p>Friday 19th October 2020 at 5:00am</p>
+
+        <h5>Whats Happened</h5>
+        <p>Broken down van. Traffic Officers and Free Recovery are headed towards. Approach with caution. </p>
+
+        <h5>Travel Advice</h5>
+
+        <p>Lorem Ipsum is the root of goodness. Dummy test is printing and typesetting industry. </p>
+
+        <h5>Latest updates (#HashTag on Twitter)</h5>
+      </div>
+    </div>
+  );
+}
+
+export default DraggableResults;

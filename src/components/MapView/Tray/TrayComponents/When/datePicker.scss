@@ -39,11 +39,6 @@
     margin: 0px;
     width: 1.9rem;
   }
-  //Commenting these styles out for now
-  // &__day {
-  //   padding: 0px;
-  //   margin: 0px;
-  // }
 
   //Week
   &__week {
@@ -68,6 +63,4 @@
   &__day--today {
     font-weight: normal;
   }
-
-  //Hover state
 }
