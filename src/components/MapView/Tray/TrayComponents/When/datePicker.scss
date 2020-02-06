@@ -2,7 +2,8 @@
   border-radius: 0.1rem;
   background-color: none;
   border: none;
-  margin: 25px 70px;
+  //margin: 25px 70px;
+  margin: 25px 50px;
   box-shadow: 0 0 5px 0 rgba(192, 192, 192, 0.5);
   background-color: #ffffff;
 }
@@ -31,14 +32,15 @@
   //Day Name
   &__day-name {
     border-bottom: solid 1px #979797;
-    padding: 0px;
-    margin: 0px;
+    //Commenting these below out breaks the line being consistent
+    // padding: 0px;
+    // margin: 0px;
   }
-
-  &__day {
-    padding: 0px;
-    margin: 0px;
-  }
+  //Commenting these styles out for now
+  // &__day {
+  //   padding: 0px;
+  //   margin: 0px;
+  // }
 
   //Week
   &__week {

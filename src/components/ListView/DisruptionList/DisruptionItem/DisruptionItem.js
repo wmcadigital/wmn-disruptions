@@ -1,14 +1,12 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import dompurify from 'dompurify';
 import Icon from 'components/shared/Icon/Icon';
 
-const {sanitize} = dompurify;
+const { sanitize } = dompurify;
 
-const DisruptionItem = ({disruption}) => {
-
+const DisruptionItem = ({ disruption }) => {
   const [openAccordions, setopenAccordions] = useState({}); // Used to track state of open and closed accordions
-
 
   let iconName;
   let newClass;
@@ -56,7 +54,6 @@ const DisruptionItem = ({disruption}) => {
           onClick={() => setopenAccordions(prevState => ({ ...prevState, [disruption.id]: !prevState[disruption.id] }))}
         >
           <div className="wmnds-accordion__summary">
-            {disruption.mode}
             <div className="wmnds-grid wmnds-grid--align-center">
               <div
                 className={`wmnds-disruption-indicator-small wmnds-col-auto wmnds-m-r-md wmnds-disruption-indicator-medium--${newClass}`}
@@ -137,11 +134,11 @@ const DisruptionItem = ({disruption}) => {
       </div>
     </>
   );
-}
+};
 
 // PropTypes
 DisruptionItem.propTypes = {
   disruption: PropTypes.objectOf(PropTypes.any).isRequired
 };
 
-export default DisruptionItem
+export default DisruptionItem;

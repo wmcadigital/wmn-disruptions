@@ -111,7 +111,6 @@ class RestInfo extends Component {
                   onClick={() => this.toggle(key)}
                 >
                   <div className="wmnds-accordion__summary">
-                    {post.mode}
                     <div className="wmnds-grid wmnds-grid--align-center">
                       <div
                         className={`wmnds-disruption-indicator-small wmnds-col-auto wmnds-m-r-md wmnds-disruption-indicator-medium--${newClass}`}
