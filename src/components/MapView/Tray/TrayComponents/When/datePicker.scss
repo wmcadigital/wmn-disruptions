@@ -16,6 +16,9 @@
   }
   &__day--weekend {
     background-color: #f5f5f5;
+    border: 2px solid #f5f5f5;
+    padding: 0px;
+    margin: 0px;
   }
 
   //Prev & Next Icons
@@ -32,9 +35,9 @@
   //Day Name
   &__day-name {
     border-bottom: solid 1px #979797;
-    //Commenting these below out breaks the line being consistent
-    // padding: 0px;
-    // margin: 0px;
+    padding: 0px;
+    margin: 0px;
+    width: 1.9rem;
   }
   //Commenting these styles out for now
   // &__day {
