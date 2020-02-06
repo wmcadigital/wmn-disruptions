@@ -7,7 +7,8 @@ import { WhenContext } from 'globalState';
 import Button from 'components/shared/Button/Button';
 // Import styles
 import 'react-datepicker/dist/react-datepicker.css';
-
+//Import Custom CSS for the date picker.
+import './datePicker.scss';
 const When = () => {
   const [whenState, whenDispatch] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
 
@@ -43,12 +44,15 @@ const When = () => {
         />
         {/* Only show datepicker if when = customDate */}
         <div className="wmnds-col-1" style={{ display: whenState.isDatePickerOpen ? 'inline-block' : 'none' }}>
-          <DatePicker
-            selected={whenState.whenCustomDate || today}
-            minDate={today}
-            onChange={date => whenDispatch({ type: 'UPDATE_CUSTOMDATE', date })}
-            inline
-          />
+          <div>
+            <DatePicker
+              selected={whenState.whenCustomDate || today}
+              minDate={today}
+              onChange={date => whenDispatch({ type: 'UPDATE_CUSTOMDATE', date })}
+              inline
+              calendarClassName="disruptions-date-picker"
+            />
+          </div>
         </div>
       </div>
     </div>
