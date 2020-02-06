@@ -1,6 +1,12 @@
 {
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "node": true
+  },
   "extends": ["react-app", "airbnb", "plugin:jsx-a11y/recommended", "prettier", "prettier/react"],
-  "plugins": ["jsx-a11y", "prettier", "react-hooks", "jam3"],
+  "plugins": ["jsx-a11y", "react-hooks", "jam3", "prettier"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
