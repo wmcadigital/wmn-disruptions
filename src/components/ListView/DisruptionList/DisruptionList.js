@@ -40,9 +40,35 @@ const DisruptionList = () => {
         }
 
         if(whenState.when){
+          const today = new Date();
+
+          let fromDate;
+          let toDate;
+
+          switch (whenState.when) {
+            case 'now':
+              fromDate = today;
+              toDate = today;
+              break;
+
+            default:
+              fromDate = today;
+          }
+
+          console.log({fromDate, toDate});
+
           filteredData = filteredData.filter(disrItem => {
-            console.log(disrItem);
-          })
+            const eventDate = disrItem.disruptionTimeWindow.start;
+            const endDate = disrItem.disruptionTimeWindow.end;
+
+            let returnitem;
+
+            if ((eventDate >= fromDate && eventDate <= toDate) || (endDate >= fromDate && eventDate <= toDate)) {
+              returnitem = disrItem;
+            }
+
+            return returnitem;
+          });
         }
 
         return (
