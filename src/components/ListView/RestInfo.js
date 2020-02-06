@@ -12,9 +12,7 @@ class RestInfo extends Component {
 
     this.state = {
       disruptions: [],
-      activeAcc: '',
-      isFaved: 'nope',
-      newClassFav: '-empty'
+      activeAcc: ''
     };
   }
 
@@ -31,16 +29,6 @@ class RestInfo extends Component {
         });
       });
     localStorage.setItem('thing 1', 'thing 2');
-  }
-
-  clickedFav(e) {
-    this.setState({
-      isFaved: 'yes',
-      newClassFav: ''
-    });
-    e.preventDefault();
-
-    localStorage.setItem('isFaved', this.clickedFav);
   }
 
   toggle(key) {
@@ -95,7 +83,7 @@ class RestInfo extends Component {
                 newClass = 'success';
                 break;
             }
-            const faveState = this.state;
+
             const text = post.description;
             const sanitizer = dompurify.sanitize;
             return (
@@ -111,7 +99,6 @@ class RestInfo extends Component {
                   onClick={() => this.toggle(key)}
                 >
                   <div className="wmnds-accordion__summary">
-                    {post.mode}
                     <div className="wmnds-grid wmnds-grid--align-center">
                       <div
                         className={`wmnds-disruption-indicator-small wmnds-col-auto wmnds-m-r-md wmnds-disruption-indicator-medium--${newClass}`}
