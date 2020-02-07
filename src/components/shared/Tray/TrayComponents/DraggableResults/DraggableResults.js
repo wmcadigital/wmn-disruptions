@@ -15,6 +15,9 @@ const DraggableResults = () => {
 
   return (
     <>
+      <div className="wmnds-msg-help wmnds-col-1">Save routes to your homepage by pressing the star icon</div>
+      <br />
+      <br />
       {selectedData.map(disruption => (
         <div className="wmnds-grid" key={disruption.id}>
           <div className="wmnds-col-1">
