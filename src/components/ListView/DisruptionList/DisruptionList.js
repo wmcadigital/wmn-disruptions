@@ -93,7 +93,7 @@ const DisruptionList = () => {
   return (
     <>
       {!isFetching ? (
-        filteredData.map(disruption => <DisruptionItem disruption={disruption} />)
+        filteredData.map(disruption => <DisruptionItem disruption={disruption} key={disruption.id} />)
       ) : (
         <div>
           <div className="wmnds-loader" />

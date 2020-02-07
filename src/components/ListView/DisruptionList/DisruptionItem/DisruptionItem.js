@@ -42,10 +42,7 @@ const DisruptionItem = ({ disruption }) => {
 
   return (
     <>
-      <div
-        className={`wmnds-accordion wmnds-m-b-lg ${openAccordions[disruption.id] ? 'wmnds-is--open' : ''}`}
-        key={disruption.id.replace(/\s+/g, '-')}
-      >
+      <div className={`wmnds-accordion wmnds-m-b-lg ${openAccordions[disruption.id] ? 'wmnds-is--open' : ''}`}>
         <button
           type="button"
           aria-controls="accordion-custom-01"
@@ -94,9 +91,9 @@ const DisruptionItem = ({ disruption }) => {
 
             {disruption.servicesAffected &&
               disruption.servicesAffected.map(affected => (
-                <div className="wmnds-col-1-5">
+                <div className="wmnds-col-1-5" key={affected.id}>
                   {/* Key ID */}
-                  <div key={affected.id}>
+                  <div>
                     <span>
                       {/* Services Affected */}
                       <div
