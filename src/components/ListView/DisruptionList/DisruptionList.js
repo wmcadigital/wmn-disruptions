@@ -57,8 +57,8 @@ const DisruptionList = () => {
         break;
 
       case 'customDate':
-        fromDate = format(whenState.whenCustomDate, 'YYYY-MM-DD');
-        toDate = format(whenState.whenCustomDate, 'YYYY-MM-DD');
+        fromDate = format(new Date(whenState.whenCustomDate), 'YYYY-MM-DD');
+        toDate = format(new Date(whenState.whenCustomDate), 'YYYY-MM-DD');
         break;
 
       default:
@@ -93,7 +93,7 @@ const DisruptionList = () => {
   return (
     <>
       {!isFetching ? (
-        filteredData.map(disruption => <DisruptionItem disruption={disruption} />)
+        filteredData.map(disruption => <DisruptionItem disruption={disruption} key={disruption.id} />)
       ) : (
         <div>
           <div className="wmnds-loader" />
