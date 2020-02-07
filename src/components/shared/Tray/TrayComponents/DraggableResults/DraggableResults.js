@@ -6,6 +6,7 @@ const DraggableResults = () => {
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
   const [autoCompleteState] = useContext(AutoCompleteContext);
 
+  // The below will check all disruptions and will return any disruption where the mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
   const selectedData = fetchDisruptionsState.data.filter(disrItem => {
     return disrItem.mode === 'bus' && disrItem.servicesAffected.some(el => el.id === autoCompleteState.id);
   });
