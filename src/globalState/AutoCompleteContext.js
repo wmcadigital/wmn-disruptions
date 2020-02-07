@@ -26,6 +26,11 @@ export const AutoCompleteProvider = props => {
           ...state,
           data: action.data
         };
+      case 'UPDATE_ID':
+        return {
+          ...state,
+          id: action.id
+        };
       // Default should return intial state if error
       default:
         return initialState;

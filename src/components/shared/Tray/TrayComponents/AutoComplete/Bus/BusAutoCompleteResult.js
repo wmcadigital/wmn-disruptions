@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AutoCompleteContext } from 'globalState';
 
 // Import components
 import Icon from 'components/shared/Icon/Icon';
 
 const BusAutoCompleteResult = props => {
   const { result } = props || {};
+
+  const [, autoCompleteDispatch] = useContext(AutoCompleteContext);
 
   // Set placeholder vars for switch below
   let type;
@@ -53,6 +56,11 @@ const BusAutoCompleteResult = props => {
       title={`${text} on ${result.serviceNumber}`}
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       tabIndex="0"
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
+      role="button"
+      aria-pressed="false"
+      onKeyDown={() => autoCompleteDispatch({ type: 'UPDATE_ID', id: result.id })}
+      onClick={() => autoCompleteDispatch({ type: 'UPDATE_ID', id: result.id })}
     >
       <div className="wmnds-col-auto">
         <div
