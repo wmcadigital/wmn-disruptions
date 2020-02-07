@@ -79,44 +79,43 @@ const DisruptionItem = ({ disruption }) => {
             <Icon iconName="general-minimise" iconClass="general-minimise" />
           </svg>
         </button>
+
+        <div className="wmnds-p-l-md">
+          <p>Affected Services:</p>
+        </div>
+
+        <div className="wmnds-p-l-md">
+          {disruption.servicesAffected &&
+            disruption.servicesAffected.map(affected => (
+              <div className="wmnds-col-1-5" key={affected.id}>
+                {/* Key ID */}
+                <div>
+                  <span>
+                    {/* Services Affected */}
+                    <div
+                      className={`wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium--with-icon wmnds-disruption-indicator-medium--${newClass}`}
+                    >
+                      <span className="serviceNumber">{affected.serviceNumber}</span>
+                      {/* Affected Icon */}
+                      <svg className="wmnds-disruption-indicator-small__icon">
+                        <Icon iconName={`general-${iconName}`} iconClass="disruption-indicator-large__icon--right" />
+                      </svg>
+                    </div>
+                  </span>
+                  {/* Faved Routed to be saved to local storage */}
+
+                  <div className="wmnds-m-t-md wmnds-p-l-lg wmnds-m-b-lg ">
+                    <svg className="favStar ">
+                      <Icon iconName="general-star" iconClass="disruption-indicator-small__icon" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            ))}
+        </div>
         {/* Accordion Start */}
 
         <div className="wmnds-accordion__content" id="accordion-custom-01">
-          <div className="wmnds-grid">
-            {/* {disruptions.length > 1 && (
-                    <div className="wmnds-col-1-1">
-                      <h4 className="serviceAffected">Affected Service(s) </h4>
-                    </div>
-                  )} */}
-
-            {disruption.servicesAffected &&
-              disruption.servicesAffected.map(affected => (
-                <div className="wmnds-col-1-5" key={affected.id}>
-                  {/* Key ID */}
-                  <div>
-                    <span>
-                      {/* Services Affected */}
-                      <div
-                        className={`wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium--with-icon wmnds-disruption-indicator-medium--${newClass}`}
-                      >
-                        <span className="serviceNumber">{affected.serviceNumber}</span>
-                        {/* Affected Icon */}
-                        <svg className="wmnds-disruption-indicator-small__icon">
-                          <Icon iconName={`general-${iconName}`} iconClass="disruption-indicator-large__icon--right" />
-                        </svg>
-                      </div>
-                    </span>
-                    {/* Faved Routed to be saved to local storage */}
-
-                    <div>
-                      <svg className="favStar">
-                        <Icon iconName="general-star" iconClass="disruption-indicator-small__icon" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              ))}
-          </div>
           {/* Accordion End */}
 
           {/* Description Start */}
