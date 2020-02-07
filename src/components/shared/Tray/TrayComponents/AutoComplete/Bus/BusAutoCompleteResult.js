@@ -76,8 +76,8 @@ const BusAutoCompleteResult = props => {
       {/* Right section */}
       <div className="wmnds-col-1-2 wmnds-col-sm-1-2">
         <strong>{result.routes[0].routeName}</strong>
-        <br />
-        and return journey
+        {/* <br />
+        and return journey */}
       </div>
     </li>
   );
