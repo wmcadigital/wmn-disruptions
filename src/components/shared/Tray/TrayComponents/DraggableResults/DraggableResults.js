@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Icon from 'components/shared/Icon/Icon';
+import { AutoCompleteContext, FetchDisruptionsContext } from 'globalState';
 
-function DraggableResults() {
+const DraggableResults = () => {
+  const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
+  const [autoCompleteState] = useContext(AutoCompleteContext);
+
+  const selectedData = fetchDisruptionsState.data.filter(disrItem => {
+    return disrItem.mode === 'bus' && disrItem.servicesAffected.some(el => el.id === autoCompleteState.id);
+  });
+
+  console.log(selectedData);
+
   return (
     <div className="wmnds-grid">
       <div className="wmnds-col-1">
@@ -61,6 +71,6 @@ function DraggableResults() {
       </div>
     </div>
   );
-}
+};
 
 export default DraggableResults;
