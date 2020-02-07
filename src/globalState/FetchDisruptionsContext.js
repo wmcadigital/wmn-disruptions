@@ -6,6 +6,7 @@ export const FetchDisruptionsProvider = props => {
   const { children } = props || {};
 
   const [fetchDisruptionsState, setFetchDisruptionsState] = useState({
+    isMapVisible: true, // store map visible
     data: [], // used to store data
     isFetching: false // used to control loading spinners
   });

@@ -1,5 +1,5 @@
 // Import packages
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import axios from 'axios';
 // Import components
 import { FetchDisruptionsContext } from 'globalState';
@@ -8,8 +8,7 @@ import MapView from 'components/MapView/MapView';
 import ListView from 'components/ListView/ListView';
 
 const InnerApp = () => {
-  const [, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
-  const [isMapVisible, setIsMapVisible] = useState(true);
+  const [fetchDisruptionState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
 
   useEffect(() => {
     setFetchDisruptionsState(prevState => ({ ...prevState, isFetching: true }));
@@ -37,10 +36,10 @@ const InnerApp = () => {
 
   return (
     <>
-      <Header isMapVisible={isMapVisible} setIsMapVisible={setIsMapVisible} />
+      <Header isMapVisible={fetchDisruptionState.isMapVisible} setIsMapVisible={fetchDisruptionState.setIsMapVisible} />
 
       {/* If map is visible, show map and tray, else show list view */}
-      {isMapVisible ? <MapView /> : <ListView />}
+      {fetchDisruptionState.isMapVisible ? <MapView /> : <ListView />}
     </>
   );
 };
