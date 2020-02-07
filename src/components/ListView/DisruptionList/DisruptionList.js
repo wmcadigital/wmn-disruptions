@@ -1,40 +1,16 @@
-import React, { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
+import React, { useContext } from 'react';
 import { format } from 'fecha';
 
 // Import contexts
-import { ModeContext, WhenContext } from 'globalState';
+import { FetchDisruptionsContext, ModeContext, WhenContext } from 'globalState';
 import DisruptionItem from './DisruptionItem/DisruptionItem';
 
 const DisruptionList = () => {
+  const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of disruptionsApi from fetchDisruptionsState
   const [whenState] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
   const [modeState] = useContext(ModeContext); // Get the state of whenButtons from WhenContext
-  const [data, setdata] = useState([]);
-  const [isFetching, setisFetching] = useState(false);
 
-  useEffect(() => {
-    setisFetching(true);
-    axios
-      .get('https://trasnport-api-isruptions-v2.azure-api.net/Disruption/v2', {
-        headers: {
-          'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
-        }
-      })
-      .then(response => {
-        setdata(response.data.disruptions);
-      })
-      .catch(error => {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        }
-      })
-      .then(() => setisFetching(false));
-  }, []);
-
-  let filteredData = data;
+  let filteredData = fetchDisruptionsState.data;
 
   // When filtering
   if (whenState.when) {
@@ -92,13 +68,9 @@ const DisruptionList = () => {
 
   return (
     <>
-      {!isFetching ? (
-        filteredData.map(disruption => <DisruptionItem disruption={disruption} key={disruption.id} />)
-      ) : (
-        <div>
-          <div className="wmnds-loader" />
-        </div>
-      )}
+      {filteredData.map(disruption => (
+        <DisruptionItem disruption={disruption} key={disruption.id} />
+      ))}
     </>
   );
 };

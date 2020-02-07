@@ -4,7 +4,7 @@
     "es6": true
   },
   "extends": ["react-app", "airbnb", "plugin:jsx-a11y/recommended", "prettier", "prettier/react"],
-  "plugins": ["prettier", "react", "jsx-a11y", "react-hooks", "jam3"],
+  "plugins": ["prettier", "react-hooks"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -17,13 +17,13 @@
     "sourceType": "module"
   },
   "rules": {
-    "react/no-danger": 0, // Turned this rule off for dangerouslySetInnerHTML, as we are using the jam3/no-sanitizer-with-danger rule to flag if we are using it without sanitizer
-    "jam3/no-sanitizer-with-danger": [
-      2,
-      {
-        "wrapperName": ["sanitize"]
-      }
-    ],
+    // "react/no-danger": 0, // Turned this rule off for dangerouslySetInnerHTML, as we are using the jam3/no-sanitizer-with-danger rule to flag if we are using it without sanitizer
+    // "jam3/no-sanitizer-with-danger": [
+    //   2,
+    //   {
+    //     "wrapperName": ["sanitize"]
+    //   }
+    // ],
     "react/jsx-filename-extension": [
       1,
       {
