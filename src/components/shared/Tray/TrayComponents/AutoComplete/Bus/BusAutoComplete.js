@@ -17,11 +17,14 @@ const BusAutoComplete = () => {
     if (autoCompleteState.query) {
       setLoading(true); // Update loading state to true as we are hitting API
       axios
-        .get(`https://trasnport-api-isruptions-v2.azure-api.net/bus/v1/service?q=${autoCompleteState.query}`, {
-          headers: {
-            'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
+        .get(
+          `https://trasnport-api-isruptions-v2.azure-api.net/bus/v1/service?q=${autoCompleteState.query}`,
+          {
+            headers: {
+              'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
+            }
           }
-        })
+        )
         .then(bus => {
           autoCompleteDispatch({ type: 'UPDATE_DATA', data: bus.data.services }); // Update data state with services returned
           setLoading(false); // Set loading state to false after data is received

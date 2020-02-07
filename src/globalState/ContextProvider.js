@@ -18,7 +18,12 @@ const ContextProvider = props => {
   const { children } = props || {};
   return (
     <ProviderComposer
-      contexts={[<AutoCompleteProvider />, <FetchDisruptionsProvider />, <ModeProvider />, <WhenProvider />]}
+      contexts={[
+        <AutoCompleteProvider />,
+        <FetchDisruptionsProvider />,
+        <ModeProvider />,
+        <WhenProvider />
+      ]}
     >
       {children}
     </ProviderComposer>

@@ -2,7 +2,12 @@ import React, { useContext } from 'react';
 import { format } from 'fecha';
 
 // Import contexts
-import { AutoCompleteContext, FetchDisruptionsContext, ModeContext, WhenContext } from 'globalState';
+import {
+  AutoCompleteContext,
+  FetchDisruptionsContext,
+  ModeContext,
+  WhenContext
+} from 'globalState';
 import DisruptionItem from './DisruptionItem/DisruptionItem';
 
 const DisruptionList = () => {
@@ -71,7 +76,10 @@ const DisruptionList = () => {
     if (autoCompleteState.id) {
       // The below will check all disruptions and will return any disruption where the mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
       filteredData = filteredData.filter(disrItem => {
-        return disrItem.mode === 'bus' && disrItem.servicesAffected.some(el => el.id === autoCompleteState.id);
+        return (
+          disrItem.mode === 'bus' &&
+          disrItem.servicesAffected.some(el => el.id === autoCompleteState.id)
+        );
       });
     }
   }

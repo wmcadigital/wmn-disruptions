@@ -59,8 +59,18 @@ const BusAutoCompleteResult = props => {
       // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
       role="button"
       aria-pressed="false"
-      onKeyDown={() => autoCompleteDispatch({ type: 'UPDATE_ID', id: result.id })}
-      onClick={() => autoCompleteDispatch({ type: 'UPDATE_ID', id: result.id })}
+      onKeyDown={() =>
+        autoCompleteDispatch({
+          type: 'UPDATE_ID',
+          id: result.id
+        })
+      }
+      onClick={() =>
+        autoCompleteDispatch({
+          type: 'UPDATE_ID',
+          id: result.id
+        })
+      }
     >
       <div className="wmnds-col-auto">
         <div

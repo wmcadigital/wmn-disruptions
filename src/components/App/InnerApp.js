@@ -36,7 +36,10 @@ const InnerApp = () => {
 
   return (
     <>
-      <Header isMapVisible={fetchDisruptionState.isMapVisible} setIsMapVisible={fetchDisruptionState.setIsMapVisible} />
+      <Header
+        isMapVisible={fetchDisruptionState.isMapVisible}
+        setIsMapVisible={fetchDisruptionState.setIsMapVisible}
+      />
 
       {/* If map is visible, show map and tray, else show list view */}
       {fetchDisruptionState.isMapVisible ? <MapView /> : <ListView />}

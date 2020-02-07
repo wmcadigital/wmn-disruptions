@@ -11,7 +11,10 @@ const DraggableResults = () => {
 
   // The below will check all disruptions and will return any disruption where the mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
   const selectedData = fetchDisruptionsState.data.filter(disrItem => {
-    return disrItem.mode === 'bus' && disrItem.servicesAffected.some(el => el.id === autoCompleteState.id);
+    return (
+      disrItem.mode === 'bus' &&
+      disrItem.servicesAffected.some(el => el.id === autoCompleteState.id)
+    );
   });
 
   console.log(selectedData);
@@ -102,7 +105,10 @@ const DraggableResults = () => {
               </div>
 
               <div className="wmnds-col-1">
-                <div className="wmnds-m-b-lg" dangerouslySetInnerHTML={{ __html: sanitize(disruption.description) }} />
+                <div
+                  className="wmnds-m-b-lg"
+                  dangerouslySetInnerHTML={{ __html: sanitize(disruption.description) }}
+                />
                 <button className="wmnds-btn wmnds-btn--start" type="button">
                   Replan Your Journey
                   <svg className="wmnds-btn__icon wmnds-btn__icon--right">

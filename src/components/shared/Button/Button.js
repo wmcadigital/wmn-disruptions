@@ -6,7 +6,11 @@ import Icon from '../Icon/Icon';
 const Button = ({ type, isActive, text, onClick, btnClass, iconLeft, iconRight }) => {
   return (
     // eslint-disable-next-line react/button-has-type
-    <button type={type} className={`wmnds-btn ${btnClass} ${isActive ? 'wmnds-is--active' : null}`} onClick={onClick}>
+    <button
+      type={type}
+      className={`wmnds-btn ${btnClass} ${isActive ? 'wmnds-is--active' : null}`}
+      onClick={onClick}
+    >
       {/* If icon left is set then call icon component and inject correct svg */}
       {iconLeft ? <Icon iconClass="wmnds-btn__icon" iconName={iconLeft} /> : null}
 
@@ -14,7 +18,9 @@ const Button = ({ type, isActive, text, onClick, btnClass, iconLeft, iconRight }
       {text}
 
       {/* If icon right is set then call icon component and inject correct svg */}
-      {iconRight ? <Icon iconClass="wmnds-btn__icon wmnds-btn__icon--right" iconName={iconRight} /> : null}
+      {iconRight ? (
+        <Icon iconClass="wmnds-btn__icon wmnds-btn__icon--right" iconName={iconRight} />
+      ) : null}
     </button>
   );
 };

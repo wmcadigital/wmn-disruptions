@@ -42,13 +42,22 @@ const DisruptionItem = ({ disruption }) => {
 
   return (
     <>
-      <div className={`wmnds-accordion wmnds-m-b-lg ${openAccordions[disruption.id] ? 'wmnds-is--open' : ''}`}>
+      <div
+        className={`wmnds-accordion wmnds-m-b-lg ${
+          openAccordions[disruption.id] ? 'wmnds-is--open' : ''
+        }`}
+      >
         <button
           type="button"
           aria-controls="accordion-custom-01"
           className="wmnds-accordion__summary-wrapper"
           aria-expanded={!!openAccordions[disruption.id]}
-          onClick={() => setopenAccordions(prevState => ({ ...prevState, [disruption.id]: !prevState[disruption.id] }))}
+          onClick={() =>
+            setopenAccordions(prevState => ({
+              ...prevState,
+              [disruption.id]: !prevState[disruption.id]
+            }))
+          }
         >
           <div className="wmnds-accordion__summary">
             <div className="wmnds-grid wmnds-grid--align-center">
@@ -98,7 +107,10 @@ const DisruptionItem = ({ disruption }) => {
                       <span className="serviceNumber">{affected.serviceNumber}</span>
                       {/* Affected Icon */}
                       <svg className="wmnds-disruption-indicator-small__icon">
-                        <Icon iconName={`general-${iconName}`} iconClass="disruption-indicator-large__icon--right" />
+                        <Icon
+                          iconName={`general-${iconName}`}
+                          iconClass="disruption-indicator-large__icon--right"
+                        />
                       </svg>
                     </div>
                   </span>

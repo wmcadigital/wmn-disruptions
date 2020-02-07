@@ -88,7 +88,9 @@ class RestInfo extends Component {
             const sanitizer = dompurify.sanitize;
             return (
               <div
-                className={`wmnds-accordion wmnds-m-b-lg ${activeAcc === key ? 'wmnds-is--open' : ''}`}
+                className={`wmnds-accordion wmnds-m-b-lg ${
+                  activeAcc === key ? 'wmnds-is--open' : ''
+                }`}
                 key={post.id}
               >
                 <button
@@ -109,7 +111,10 @@ class RestInfo extends Component {
                         </svg>
 
                         <svg className="wmnds-disruption-indicator-small__icon">
-                          <Icon iconName={`general-${iconName}`} iconClass={`general-${iconName}`} />
+                          <Icon
+                            iconName={`general-${iconName}`}
+                            iconClass={`general-${iconName}`}
+                          />
                         </svg>
                       </div>
                       <div className="wmnds-col-auto">

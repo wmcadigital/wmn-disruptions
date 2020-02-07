@@ -17,7 +17,12 @@ const Mode = () => {
       <Button
         btnClass="wmnds-btn--small wmnds-btn--mode wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm"
         isActive={modeState.mode === 'bus'}
-        onClick={() => modeDispatch({ type: 'UPDATE_MODE', mode: 'bus' })}
+        onClick={() =>
+          modeDispatch({
+            type: 'UPDATE_MODE',
+            mode: 'bus'
+          })
+        }
         iconLeft="modes-isolated-bus"
         text="Bus"
       />

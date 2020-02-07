@@ -44,7 +44,10 @@ const When = () => {
           text={whenState.datePickerText}
         />
         {/* Only show datepicker if when = customDate */}
-        <div className="wmnds-col-1" style={{ display: whenState.isDatePickerOpen ? 'inline-block' : 'none' }}>
+        <div
+          className="wmnds-col-1"
+          style={{ display: whenState.isDatePickerOpen ? 'inline-block' : 'none' }}
+        >
           <div>
             <DatePicker
               selected={whenState.whenCustomDate || today}

@@ -17,7 +17,9 @@ const Header = ({ isMapVisible }) => {
         <div className="wmnds-col-auto">
           <Button
             btnClass={`wmnds-btn--secondary wmnds-float--right ${s.listMapBtn}`}
-            onClick={() => setFetchDisruptionsState(prevState => ({ ...prevState, isMapVisible: !isMapVisible }))}
+            onClick={() =>
+              setFetchDisruptionsState(prevState => ({ ...prevState, isMapVisible: !isMapVisible }))
+            }
             iconRight="general-chevron-right"
             text={fetchDisruptionState.isMapVisible ? 'List View' : 'Map View'}
           />
