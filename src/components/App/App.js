@@ -1,24 +1,17 @@
 // Import packages
-import React, { useState } from 'react';
+import React from 'react';
 // Import components
 import ContextProvider from 'globalState/ContextProvider';
-import Header from 'components/Header/Header';
-import MapView from 'components/MapView/MapView';
-import ListView from 'components/ListView/ListView';
+import InnerApp from './InnerApp';
 
-const AppNew = () => {
-  const [isMapVisible, setIsMapVisible] = useState(true);
-
+const App = () => {
   return (
     <React.StrictMode>
       <ContextProvider>
-        <Header isMapVisible={isMapVisible} setIsMapVisible={setIsMapVisible} />
-
-        {/* If map is visible, show map and tray, else show list view */}
-        {isMapVisible ? <MapView /> : <ListView />}
+        <InnerApp />
       </ContextProvider>
     </React.StrictMode>
   );
 };
 
-export default AppNew;
+export default App;
