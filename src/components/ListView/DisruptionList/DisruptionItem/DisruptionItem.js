@@ -105,7 +105,7 @@ const DisruptionItem = ({ disruption }) => {
                   {/* Faved Routed to be saved to local storage */}
 
                   <div className="wmnds-m-t-md wmnds-p-l-lg wmnds-m-b-lg ">
-                    <svg className="favStar">
+                    <svg className="favStar ">
                       <Icon iconName="general-star" iconClass="disruption-indicator-small__icon" />
                     </svg>
                   </div>
