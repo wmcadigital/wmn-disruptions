@@ -44,7 +44,7 @@ const DisruptionItem = ({ disruption }) => {
     <>
       <div
         className={`wmnds-accordion wmnds-m-b-lg ${openAccordions[disruption.id] ? 'wmnds-is--open' : ''}`}
-        key={disruption.id}
+        key={disruption.id.replace(/\s+/g, '-')}
       >
         <button
           type="button"

@@ -1,4 +1,5 @@
 import React, { useReducer, createContext } from 'react';
+import { format } from 'fecha';
 
 export const WhenContext = createContext(); // Create when context
 
@@ -34,7 +35,7 @@ export const WhenProvider = props => {
       // Update state to use custom date from datepicker, close datepicker and update button text to shorthand date
       case 'UPDATE_CUSTOMDATE': {
         // Get the chosen date from datepicker and make shorthand dd/mm/yyyy
-        const chosenDate = `${action.date.getDate()}/${action.date.getMonth() + 1}/${action.date.getFullYear()}`;
+        const chosenDate = format(action.date, 'DD/MM/YYYY');
 
         return {
           ...state,

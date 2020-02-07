@@ -1,6 +1,6 @@
 import React from 'react';
-import TrayComponents from 'components/MapView/Tray/TrayComponents/TrayComponents';
-import s from 'components/MapView/Tray/Tray.module.scss';
+import TrayComponents from 'components/shared/Tray/TrayComponents/TrayComponents';
+import s from 'components/shared/Tray/Tray.module.scss';
 import DisruptionList from './DisruptionList/DisruptionList';
 import './ListView.scss';
 
