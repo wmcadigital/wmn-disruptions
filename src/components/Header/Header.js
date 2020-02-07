@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-
+import { FetchDisruptionsContext } from 'globalState';
 // Import components
 import Button from 'components/shared/Button/Button';
 // Import styles
 import s from './Header.module.scss';
 
-const Header = ({ isMapVisible, setIsMapVisible }) => {
+const Header = ({ isMapVisible }) => {
+  const [fetchDisruptionState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
+
   return (
     <div className="wmnds-container">
       <div className="wmnds-grid wmnds-grid--justify-between wmnds-grid--align-middle wmnds-p-b-sm wmnds-p-t-sm">
@@ -15,9 +17,9 @@ const Header = ({ isMapVisible, setIsMapVisible }) => {
         <div className="wmnds-col-auto">
           <Button
             btnClass={`wmnds-btn--secondary wmnds-float--right ${s.listMapBtn}`}
-            onClick={() => setIsMapVisible(!isMapVisible)}
+            onClick={() => setFetchDisruptionsState(prevState => ({ ...prevState, isMapVisible: !isMapVisible }))}
             iconRight="general-chevron-right"
-            text={isMapVisible ? 'List View' : 'Map View'}
+            text={fetchDisruptionState.isMapVisible ? 'List View' : 'Map View'}
           />
         </div>
       </div>
@@ -27,8 +29,7 @@ const Header = ({ isMapVisible, setIsMapVisible }) => {
 
 // Set props
 Header.propTypes = {
-  isMapVisible: PropTypes.bool.isRequired,
-  setIsMapVisible: PropTypes.func.isRequired
+  isMapVisible: PropTypes.bool.isRequired
 };
 
 export default Header;
