@@ -1,9 +1,9 @@
 {
-  "name": "wmn-disruptions-v2",
+  "name": "wmn-disruptions",
   "version": "0.1.0",
   "private": true,
   "description": "Disruptions section of the West Midlands Network website",
-  "homepage": "https://www.wmnetwork.co.uk/disruptions/",
+  "homepage": "https://wmn-disruptions.netlify.com/",
   "author": "WMCA",
   "main": "src/index.js",
   "repository": "https://github.com/wmcadigital/wmn-disruptions-v2",
