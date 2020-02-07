@@ -8,10 +8,8 @@ import MapView from 'components/MapView/MapView';
 import ListView from 'components/ListView/ListView';
 
 const InnerApp = () => {
-  const [fetchDisruptionsState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
+  const [, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
   const [isMapVisible, setIsMapVisible] = useState(true);
-
-  console.log(fetchDisruptionsState);
 
   useEffect(() => {
     setFetchDisruptionsState(prevState => ({ ...prevState, isFetching: true }));
