@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import dompurify from 'dompurify';
 import Icon from 'components/shared/Icon/Icon';
-import DisruptionIndicatorSmall from 'components/shared/DisruptionIndicator/Small/DisruptionIndicatorSmall';
+import DisruptionIndicatorSmall from 'components/shared/DisruptionIndicator/DisruptionIndicatorSmall';
+import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
 
 const { sanitize } = dompurify;
 
@@ -60,30 +61,14 @@ const DisruptionItem = ({ disruption }) => {
           {disruption.servicesAffected &&
             disruption.servicesAffected.map(affected => (
               <div className="wmnds-col-1-5" key={affected.id}>
-                {/* Key ID */}
-                <div>
-                  <span>
-                    {/* Services Affected */}
-                    {/* <div
-                      className={`wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium--with-icon wmnds-disruption-indicator-medium--${newClass}`}
-                    >
-                      <span className="serviceNumber">{affected.serviceNumber}</span>
-                      {/* Affected Icon */}
-                    {/* <svg className="wmnds-disruption-indicator-small__icon">
-                        <Icon
-                          iconName={`general-${iconName}`}
-                          iconClass="disruption-indicator-large__icon--right"
-                        />
-                      </svg>
-                    </div> */}
-                  </span>
-                  {/* Faved Routed to be saved to local storage */}
+                {/* Services Affected */}
+                <DisruptionIndicatorMedium narrow text={affected.serviceNumber} />
 
-                  <div className="wmnds-m-t-md wmnds-p-l-lg wmnds-m-b-lg ">
-                    <svg className="favStar ">
-                      <Icon iconName="general-star" iconClass="disruption-indicator-small__icon" />
-                    </svg>
-                  </div>
+                {/* Faved Routed to be saved to local storage */}
+                <div className="wmnds-m-t-md wmnds-p-l-lg wmnds-m-b-lg ">
+                  <svg className="favStar ">
+                    <Icon iconName="general-star" iconClass="disruption-indicator-small__icon" />
+                  </svg>
                 </div>
               </div>
             ))}
