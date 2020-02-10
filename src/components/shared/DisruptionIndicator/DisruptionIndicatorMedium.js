@@ -8,6 +8,10 @@ const DisruptionIndicatorMedium = ({ className, iconLeft, narrow, severity, text
   // Removed the if statement - Icon now showing.
   // Do a switch on the disruption severity, then map the type and iconRightName to the correct vars
   switch (severity) {
+    case 'normal':
+      iconRightName = 'warning-circle';
+      disruptedClass = 'warning';
+      break;
     // Major disruption (high)
     case 'high':
       iconRightName = 'warning-triangle';
@@ -25,16 +29,18 @@ const DisruptionIndicatorMedium = ({ className, iconLeft, narrow, severity, text
       break;
     // Minor disruption (normal)
     default:
-      iconRightName = 'warning-circle';
-      disruptedClass = 'warning';
+      iconRightName = 'success';
+      disruptedClass = 'success';
       break;
   }
 
   return (
     <div
-      className={`wmnds-disruption-indicator-medium ${
-        disruptedClass ? `wmnds-disruption-indicator-medium--${disruptedClass}` : ''
-      } ${className} ${narrow ? 'wmnds-disruption-indicator-medium--narrow' : ''}`}
+      className={`
+        wmnds-disruption-indicator-medium
+        ${disruptedClass ? `wmnds-disruption-indicator-medium--${disruptedClass}` : ''}
+        ${className} ${narrow ? 'wmnds-disruption-indicator-medium--narrow' : ''}
+        wmnds-disruption-indicator-medium--with-icon`}
     >
       {/* If iconLeft, show icon left */}
       {iconLeft && (
@@ -47,7 +53,7 @@ const DisruptionIndicatorMedium = ({ className, iconLeft, narrow, severity, text
       <Icon
         iconName={`general-${iconRightName}`}
         iconClass={`wmnds-disruption-indicator-medium__icon wmnds-disruption-indicator-medium__icon--right ${
-          !iconLeft ? 'wmnds-m-l-xl' : ''
+          !iconLeft && narrow ? 'wmnds-m-l-xl' : ''
         }`}
       />
     </div>

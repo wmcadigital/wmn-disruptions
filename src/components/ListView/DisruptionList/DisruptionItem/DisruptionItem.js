@@ -62,7 +62,11 @@ const DisruptionItem = ({ disruption }) => {
             disruption.servicesAffected.map(affected => (
               <div className="wmnds-col-1-5" key={affected.id}>
                 {/* Services Affected */}
-                <DisruptionIndicatorMedium narrow text={affected.serviceNumber} />
+                <DisruptionIndicatorMedium
+                  narrow
+                  text={affected.serviceNumber}
+                  severity={disruption.disruptionSeverity}
+                />
 
                 {/* Faved Routed to be saved to local storage */}
                 <div className="wmnds-m-t-md wmnds-p-l-lg wmnds-m-b-lg ">
