@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { AutoCompleteContext } from 'globalState';
 
 // Import components
-import Icon from 'components/shared/Icon/Icon';
+import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
 
 const BusAutoCompleteResult = props => {
   const { result } = props || {};
@@ -10,8 +10,6 @@ const BusAutoCompleteResult = props => {
   const [, autoCompleteDispatch] = useContext(AutoCompleteContext);
 
   // Set placeholder vars for switch below
-  let type;
-  let iconName;
   let text;
   // If the current service has disruption
   if (result.hasDisruptions) {
@@ -19,33 +17,23 @@ const BusAutoCompleteResult = props => {
     switch (result.disruptionSeverity) {
       // Minor disruption (normal)
       case 'normal':
-        type = 'warning';
-        iconName = 'warning-circle';
         text = 'Minor disruption';
         break;
       // Major disruption (high)
       case 'high':
-        type = 'error';
-        iconName = 'warning-triangle';
         text = 'Major disruption';
         break;
       // Severe disruption (veryHigh)
       case 'veryHigh':
-        type = 'severe';
-        iconName = 'warning-triangle';
         text = 'Severe disruption';
         break;
       // Good service (low)
       default:
-        type = 'success';
-        iconName = 'success';
         text = 'Good service';
         break;
     }
   } else {
     // No disruptions, so show success
-    type = 'success';
-    iconName = 'success';
     text = 'Good service';
   }
 
@@ -73,15 +61,10 @@ const BusAutoCompleteResult = props => {
       }
     >
       <div className="wmnds-col-auto">
-        <div
-          className={`wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium--with-icon wmnds-disruption-indicator-medium--${type}`}
-        >
-          {result.serviceNumber}
-          <Icon
-            iconClass="wmnds-disruption-indicator-medium__icon wmnds-disruption-indicator-medium__icon--right"
-            iconName={`general-${iconName}`}
-          />
-        </div>
+        <DisruptionIndicatorMedium
+          severity={result.disruptionSeverity}
+          text={result.serviceNumber}
+        />
       </div>
       {/* Right section */}
       <div className="wmnds-col-1-2 wmnds-col-sm-1-2">

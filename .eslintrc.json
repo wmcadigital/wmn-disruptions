@@ -3,7 +3,7 @@
     "browser": true,
     "es6": true
   },
-  "extends": ["react-app", "plugin:prettier/recommended", "plugin:jsx-a11y/recommended"],
+  "extends": ["react-app", "airbnb", "plugin:prettier/recommended", "plugin:jsx-a11y/recommended"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -24,7 +24,8 @@
       {
         "extensions": [".js", ".jsx"]
       }
-    ]
+    ],
+    "react/jsx-curly-newline": 0
   },
   "settings": {
     "import/resolver": {

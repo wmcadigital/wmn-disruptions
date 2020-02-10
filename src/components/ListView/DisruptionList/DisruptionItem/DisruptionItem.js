@@ -2,43 +2,13 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import dompurify from 'dompurify';
 import Icon from 'components/shared/Icon/Icon';
+import DisruptionIndicatorSmall from 'components/shared/DisruptionIndicator/DisruptionIndicatorSmall';
+import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
 
 const { sanitize } = dompurify;
 
 const DisruptionItem = ({ disruption }) => {
   const [openAccordions, setopenAccordions] = useState({}); // Used to track state of open and closed accordions
-
-  let iconName;
-  let newClass;
-  // Removed the if statement - Icon now showing.
-  // Do a switch on the disruption severity, then map the type and iconName to the correct vars
-  switch (disruption.disruptionSeverity) {
-    // Minor disruption (normal)
-    case 'normal':
-      iconName = 'warning-circle';
-      newClass = 'warning';
-      break;
-    // Major disruption (high)
-    case 'high':
-      iconName = 'warning-triangle';
-      newClass = 'error';
-      break;
-    // Severe disruption (veryHigh)
-    case 'veryHigh':
-      iconName = 'warning-triangle';
-      newClass = 'severe';
-      break;
-    // Major Disruption - Notice that the disruptionSeverity is capitalised in this case - Maybe ask Jon to make it lowercase?
-    case 'Major':
-      iconName = 'warning-triangle';
-      newClass = 'error';
-      break;
-    // Good service (low)
-    default:
-      iconName = 'success';
-      newClass = 'success';
-      break;
-  }
 
   return (
     <>
@@ -61,18 +31,12 @@ const DisruptionItem = ({ disruption }) => {
         >
           <div className="wmnds-accordion__summary">
             <div className="wmnds-grid wmnds-grid--align-center">
-              <div
-                className={`wmnds-disruption-indicator-small wmnds-col-auto wmnds-m-r-md wmnds-disruption-indicator-medium--${newClass}`}
-              >
-                {/* Bus Icon Only */}
-                <svg className="wmnds-disruption-indicator-small__icon">
-                  <Icon iconName="modes-isolated-bus" iconClass="modes-isolated-bus" />
-                </svg>
+              <DisruptionIndicatorSmall
+                severity={disruption.disruptionSeverity}
+                iconLeft={`modes-isolated-${disruption.mode}`}
+                className="wmnds-col-auto wmnds-m-r-md"
+              />
 
-                <svg className="wmnds-disruption-indicator-small__icon">
-                  <Icon iconName={`general-${iconName}`} iconClass={`general-${iconName}`} />
-                </svg>
-              </div>
               <div className="wmnds-col-auto">
                 {/* Title of disruptions */}
                 <strong>{disruption.title}</strong>
@@ -97,30 +61,18 @@ const DisruptionItem = ({ disruption }) => {
           {disruption.servicesAffected &&
             disruption.servicesAffected.map(affected => (
               <div className="wmnds-col-1-5" key={affected.id}>
-                {/* Key ID */}
-                <div>
-                  <span>
-                    {/* Services Affected */}
-                    <div
-                      className={`wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium--with-icon wmnds-disruption-indicator-medium--${newClass}`}
-                    >
-                      <span className="serviceNumber">{affected.serviceNumber}</span>
-                      {/* Affected Icon */}
-                      <svg className="wmnds-disruption-indicator-small__icon">
-                        <Icon
-                          iconName={`general-${iconName}`}
-                          iconClass="disruption-indicator-large__icon--right"
-                        />
-                      </svg>
-                    </div>
-                  </span>
-                  {/* Faved Routed to be saved to local storage */}
+                {/* Services Affected */}
+                <DisruptionIndicatorMedium
+                  narrow
+                  text={affected.serviceNumber}
+                  severity={disruption.disruptionSeverity}
+                />
 
-                  <div className="wmnds-m-t-md wmnds-p-l-lg wmnds-m-b-lg ">
-                    <svg className="favStar ">
-                      <Icon iconName="general-star" iconClass="disruption-indicator-small__icon" />
-                    </svg>
-                  </div>
+                {/* Faved Routed to be saved to local storage */}
+                <div className="wmnds-m-t-md wmnds-p-l-lg wmnds-m-b-lg ">
+                  <svg className="favStar ">
+                    <Icon iconName="general-star" iconClass="disruption-indicator-small__icon" />
+                  </svg>
                 </div>
               </div>
             ))}

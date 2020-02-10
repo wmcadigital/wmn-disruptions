@@ -7,7 +7,7 @@ import TrayComponents from './TrayComponents/TrayComponents';
 // Import styles
 import s from './Tray.module.scss';
 
-const TrayNew = () => {
+const Tray = () => {
   const [containerHeight, setContainerHeight] = useState(0); // Set ContainerHeight to state, we will make the tray confine to these bounds
   const [isTrayOpen, setIsTrayOpen] = useState(false); // Used to store bool if tray is fully open
   const [lockTray, setLockTray] = useState(false); // Store bool if we should lock the tray or not
@@ -19,7 +19,7 @@ const TrayNew = () => {
     window.addEventListener('resize', () => setWindowWidth(window.innerWidth));
     // Cleanup: remove eventListener
     return () => window.removeEventListener('resize', () => setWindowWidth(window.innerWidth));
-  }, []); // Empty array to only run on componentDidMount
+  }, [setWindowWidth]); // Empty array to only run on componentDidMount
 
   // Get new map height on resize
   useEffect(() => {
@@ -102,4 +102,4 @@ const TrayNew = () => {
   return <>{windowWidth < 768 ? mobileTray : DesktopTray}</>;
 };
 
-export default TrayNew;
+export default Tray;
