@@ -19,7 +19,7 @@ const Tray = () => {
     window.addEventListener('resize', () => setWindowWidth(window.innerWidth));
     // Cleanup: remove eventListener
     return () => window.removeEventListener('resize', () => setWindowWidth(window.innerWidth));
-  }, []); // Empty array to only run on componentDidMount
+  }, [setWindowWidth]); // Empty array to only run on componentDidMount
 
   // Get new map height on resize
   useEffect(() => {
