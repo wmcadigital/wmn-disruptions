@@ -1,19 +1,14 @@
-// Using https://developers.arcgis.com/labs/browse/?product=javascript&topic=any and ESRI JS API
-import React, { Component } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { loadModules } from 'esri-loader';
 import locateCircle from 'assets/svgs/map/locate-circle.svg';
 
 import s from './Map.module.scss';
 
-class WebMapView extends Component {
-  constructor(props) {
-    super(props);
-    this.mapRef = React.createRef();
-  }
+const WebMapView = () => {
+  const mapRef = useRef();
 
-  componentDidMount() {
+  useEffect(() => {
     // lazy load the required ArcGIS API for JavaScript modules and CSS
-    // Make sure that the referenced module is also injected as a param in the .then function below
     loadModules(
       [
         'esri/Map',
@@ -23,9 +18,7 @@ class WebMapView extends Component {
         'esri/widgets/Locate',
         'esri/Graphic'
       ],
-      {
-        css: true
-      }
+      { css: true }
     ).then(([Map, MapView, Basemap, VectorTileLayer, Locate, Graphic]) => {
       // When loaded, create a new basemap
       const basemap = new Basemap({
@@ -44,16 +37,16 @@ class WebMapView extends Component {
         basemap
       });
 
-      // Create a new map view with settings
-      this.view = new MapView({
-        container: this.mapRef.current,
+      // load the map view at the ref's DOM node
+      const view = new MapView({
+        container: mapRef.current,
         map,
         center: [-2.0047209, 52.4778132],
         zoom: 10
       });
 
       const locateBtn = new Locate({
-        view: this.view, // Attaches the Locate button to the view
+        view, // Attaches the Locate button to the view
         graphic: new Graphic({
           // overwrites the default symbol used for the graphic placed at the location of the user when found
           symbol: {
@@ -65,32 +58,25 @@ class WebMapView extends Component {
         })
       });
 
-      this.view.ui.move(['zoom'], 'top-right');
+      view.ui.move(['zoom'], 'top-right');
 
       // Add the locate widget to the top left corner of the view
-      this.view.ui.add(locateBtn, {
+      view.ui.add(locateBtn, {
         position: 'top-right'
       });
+
+      return () => {
+        if (view) {
+          // destroy the map view
+          view.container = null;
+        }
+      };
     });
-  }
+  });
 
-  componentWillUnmount() {
-    if (this.view) {
-      // destroy the map view
-      this.view.container = null;
-    }
-  }
-
-  render() {
-    return (
-      <div
-        id="disruptions-map"
-        className={`webmap ${s.map}`}
-        ref={this.mapRef}
-        title="Disruptions map"
-      />
-    );
-  }
-}
+  return (
+    <div id="disruptions-map" className={`webmap ${s.map}`} ref={mapRef} title="Disruptions map" />
+  );
+};
 
 export default WebMapView;
