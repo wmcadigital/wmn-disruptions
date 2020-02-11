@@ -94,64 +94,24 @@ const WebMapView = () => {
         position: 'top-right'
       });
 
-      if (fetchDisruptionsState.length > 0) {
-        console.log(true);
+      if (fetchDisruptionsState.data.length) {
         const graphics = fetchDisruptionsState.data.map(item => {
           return new Graphic({
-            geomtry: {
-              longitude: item.lon,
-              latitude: item.lat
+            geometry: {
+              type: 'point',
+              x: item.lon,
+              y: item.lat
             }
           });
         });
+        console.log(graphics);
 
         const featureLayer = new FeatureLayer({
-          source: graphics,
-          renderer: {
-            type: 'simple', // autocasts as new SimpleRenderer()
-            symbol: {
-              // autocasts as new SimpleMarkerSymbol()
-              type: 'simple-marker',
-              color: '#102A44',
-              outline: {
-                // autocasts as new SimpleLineSymbol()
-                color: '#598DD8',
-                width: 2
-              }
-            }
-          },
-          popupTemplate: {
-            // autocasts as new PopupTemplate()
-            title: 'Places in Los Angeles',
-            content: [
-              {
-                type: 'fields',
-                fieldInfos: [
-                  {
-                    fieldName: 'address',
-                    label: 'Address',
-                    visible: true
-                  }
-                ]
-              }
-            ]
-          },
-          objectIdField: 'ObjectID', // This must be defined when creating a layer from `Graphic` objects
-          fields: [
-            {
-              name: 'ObjectID',
-              alias: 'ObjectID',
-              type: 'oid'
-            },
-            {
-              name: 'address',
-              alias: 'address',
-              type: 'string'
-            }
-          ]
+          source: graphics, // array of graphics objects
+          objectIdField: 'OBJECTID'
         });
 
-        view.layers.add(featureLayer);
+        map.layers.add(featureLayer);
       }
     });
 
@@ -161,7 +121,7 @@ const WebMapView = () => {
         view.container = null;
       }
     };
-  });
+  }, [fetchDisruptionsState.data]);
 
   return (
     <div id="disruptions-map" className={`webmap ${s.map}`} ref={mapRef} title="Disruptions map" />
