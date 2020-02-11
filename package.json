@@ -18,7 +18,7 @@
     "axios": "^0.19.2",
     "dompurify": "^2.0.7",
     "esri-loader": "^2.13.0",
-    "fecha": "^4.0.0",
+    "fecha": "^4.1.0",
     "node-sass": "^4.13.1",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
