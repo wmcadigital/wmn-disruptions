@@ -121,6 +121,22 @@ const WebMapView = () => {
         )
         .then(route => {
           console.log(route);
+          // Get esri modules
+          loadModules(['esri/Graphic']).then(([Graphic]) => {
+            const poly = new Graphic({
+              geometry: {
+                type: 'polyline',
+                paths: route.data.geoJson.features[0].geometry.coordinates
+              },
+              symbol: {
+                type: 'simple-line', // autocasts as new SimpleLineSymbol()
+                color: [226, 119, 40], // RGB color values as an array
+                width: 4
+              }
+            });
+            view.current.graphics.add(poly);
+            console.log(poly);
+          });
         });
     }
   }, [autoCompleteState.id]);
