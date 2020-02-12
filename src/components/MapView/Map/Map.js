@@ -37,7 +37,7 @@ const WebMapView = () => {
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
 
-  // Map useEffect
+  // Map useEffect (this is to apply core mapping stuff on page/component load)
   useEffect(() => {
     // lazy load the required ArcGIS API for JavaScript modules and CSS
     // Make sure that the referenced module is also injected as a param in the .then function below
@@ -131,43 +131,14 @@ const WebMapView = () => {
     };
   }, []);
 
+  // This useEffect is to add the disruption icons to the map
   useEffect(() => {
-    if (autoCompleteState.id) {
-      axios
-        .get(
-          `https://trasnport-api-isruptions-v2.azure-api.net/bus/v1/RouteGeoJSON/${autoCompleteState.id}`,
-          {
-            headers: {
-              'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
-            }
-          }
-        )
-        .then(route => {
-          console.log(route);
-          // Get esri modules
-          loadModules(['esri/Graphic']).then(([Graphic]) => {
-            const poly = new Graphic({
-              geometry: {
-                type: 'polyline',
-                paths: route.data.geoJson.features[0].geometry.coordinates
-              },
-              symbol: {
-                type: 'simple-line', // autocasts as new SimpleLineSymbol()
-                color: [226, 119, 40], // RGB color values as an array
-                width: 4
-              }
-            });
-            view.current.graphics.add(poly);
-            console.log(poly);
-          });
-        });
-    }
-  }, [autoCompleteState.id]);
-
-  useEffect(() => {
+    // If disruption state has data in it...
     if (fetchDisruptionsState.data.length) {
+      // Load ESRI modules
       loadModules(['esri/Graphic', 'esri/layers/GraphicsLayer']).then(
         ([Graphic, GraphicsLayer]) => {
+          // Create new graphic for each lat long in disruptions list
           const graphics = fetchDisruptionsState.data.map(item => {
             return new Graphic({
               geometry: {
@@ -183,17 +154,50 @@ const WebMapView = () => {
               }
             });
           });
-          console.log(graphics);
 
+          // Create new graphics layer with all the graphics we created above
           const graphicsLayer = new GraphicsLayer({
-            graphics // array of graphics objects
+            graphics
           });
-
-          map.current.add(graphicsLayer);
+          map.current.add(graphicsLayer); // Add all icons to map as graphics layer
         }
       );
     }
   }, [fetchDisruptionsState.data]);
+
+  // This useEffect is to plot the line on the map
+  useEffect(() => {
+    // If there is an ID in state, then lets hit the API and get the geoJSON
+    if (autoCompleteState.id) {
+      axios
+        .get(
+          `https://trasnport-api-isruptions-v2.azure-api.net/bus/v1/RouteGeoJSON/${autoCompleteState.id}`,
+          {
+            headers: {
+              'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
+            }
+          }
+        )
+        .then(route => {
+          // Get esri modules
+          loadModules(['esri/Graphic']).then(([Graphic]) => {
+            // Create a new polyline with the geoJSON from the API for the ID
+            const poly = new Graphic({
+              geometry: {
+                type: 'polyline',
+                paths: route.data.geoJson.features[0].geometry.coordinates
+              },
+              symbol: {
+                type: 'simple-line', // autocasts as new SimpleLineSymbol()
+                color: [226, 119, 40], // RGB color values as an array
+                width: 4
+              }
+            });
+            view.current.graphics.add(poly); // Add polyline to the map
+          });
+        });
+    }
+  }, [autoCompleteState.id]);
 
   return (
     <div id="disruptions-map" className={`webmap ${s.map}`} ref={mapRef} title="Disruptions map" />
