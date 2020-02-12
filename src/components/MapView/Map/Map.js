@@ -2,9 +2,12 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { loadModules } from 'esri-loader';
 import axios from 'axios';
-import locateCircle from 'assets/svgs/map/locate-circle.svg';
 
 import { FetchDisruptionsContext, AutoCompleteContext } from 'globalState';
+
+// Import map icons
+import locateCircle from 'assets/svgs/map/locate-circle.svg';
+import busMinor from 'assets/map-icons/bus-minor.png';
 
 import s from './Map.module.scss';
 
