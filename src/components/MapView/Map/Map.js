@@ -24,6 +24,8 @@ import busMinor from 'assets/map-icons/bus-minor.png';
 // import roadsMajor from 'assets/map-icons/roads-major.png';
 // import roadsSevere from 'assets/map-icons/roads-severe.png';
 
+import { FetchDisruptionsContext, AutoCompleteContext } from 'globalState';
+
 import s from './Map.module.scss';
 
 const WebMapView = () => {
@@ -45,13 +47,14 @@ const WebMapView = () => {
         'esri/views/MapView',
         'esri/Basemap',
         'esri/layers/VectorTileLayer',
+        'esri/layers/FeatureLayer',
         'esri/widgets/Locate',
         'esri/Graphic'
       ],
       {
         css: true
       }
-    ).then(([Map, MapView, Basemap, VectorTileLayer, Locate, Graphic]) => {
+    ).then(([Map, MapView, Basemap, VectorTileLayer, FeatureLayer, Locate, Graphic]) => {
       // When loaded, create a new basemap
       const basemap = new Basemap({
         baseLayers: [
@@ -96,6 +99,26 @@ const WebMapView = () => {
       view.current.ui.add(locateBtn, {
         position: 'top-right'
       });
+
+      if (fetchDisruptionsState.data.length) {
+        const graphics = fetchDisruptionsState.data.map(item => {
+          return new Graphic({
+            geometry: {
+              type: 'point',
+              x: item.lon,
+              y: item.lat
+            }
+          });
+        });
+        console.log(graphics);
+
+        const featureLayer = new FeatureLayer({
+          source: graphics, // array of graphics objects
+          objectIdField: 'OBJECTID'
+        });
+
+        map.layers.add(featureLayer);
+      }
     });
     // eslint-disable-next-line no-plusplus
     console.log(renders.current++);
