@@ -41,14 +41,14 @@ const WebMapView = () => {
         'esri/views/MapView',
         'esri/Basemap',
         'esri/layers/VectorTileLayer',
-        'esri/layers/FeatureLayer',
+        'esri/layers/GraphicsLayer',
         'esri/widgets/Locate',
         'esri/Graphic'
       ],
       {
         css: true
       }
-    ).then(([Map, MapView, Basemap, VectorTileLayer, FeatureLayer, Locate, Graphic]) => {
+    ).then(([Map, MapView, Basemap, VectorTileLayer, GraphicsLayer, Locate, Graphic]) => {
       // When loaded, create a new basemap
       const basemap = new Basemap({
         baseLayers: [
@@ -99,19 +99,24 @@ const WebMapView = () => {
           return new Graphic({
             geometry: {
               type: 'point',
-              x: item.lon,
-              y: item.lat
+              longitude: item.lon,
+              latitude: item.lat
+            },
+            symbol: {
+              type: 'picture-marker',
+              url: locateCircle, // Set to svg circle when user hits 'locate' button
+              height: '150px',
+              width: '150px'
             }
           });
         });
         console.log(graphics);
 
-        const featureLayer = new FeatureLayer({
-          source: graphics, // array of graphics objects
-          objectIdField: 'OBJECTID'
+        const graphicsLayer = new GraphicsLayer({
+          graphics // array of graphics objects
         });
 
-        map.layers.add(featureLayer);
+        map.add(graphicsLayer);
       }
     });
 
