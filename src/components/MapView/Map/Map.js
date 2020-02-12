@@ -24,8 +24,6 @@ import busMinor from 'assets/map-icons/bus-minor.png';
 // import roadsMajor from 'assets/map-icons/roads-major.png';
 // import roadsSevere from 'assets/map-icons/roads-severe.png';
 
-import { FetchDisruptionsContext, AutoCompleteContext } from 'globalState';
-
 import s from './Map.module.scss';
 
 const WebMapView = () => {
