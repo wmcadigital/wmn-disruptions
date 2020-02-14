@@ -25,7 +25,8 @@
         "extensions": [".js", ".jsx"]
       }
     ],
-    "react/jsx-curly-newline": 0
+    "react/jsx-curly-newline": 0,
+    "react/jsx-one-expression-per-line": 0
   },
   "settings": {
     "import/resolver": {

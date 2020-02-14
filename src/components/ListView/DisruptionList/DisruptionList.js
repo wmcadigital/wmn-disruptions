@@ -15,7 +15,6 @@ const DisruptionList = () => {
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of disruptionsApi from fetchDisruptionsState
   const [autoCompleteState] = useContext(AutoCompleteContext);
   const [modeState] = useContext(ModeContext); // Get the state of whenButtons from WhenContext
-
   const [whenState] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
 
   let filteredData = fetchDisruptionsState.data;
@@ -84,6 +83,24 @@ const DisruptionList = () => {
     }
   }
 
+  // const goodServiceMsg = () => {
+  //   switch (modeState.mode) {
+  //     case 'bus':
+  //       break;
+  //     case 'train':
+  //       break;
+
+  //     case 'tram':
+  //       break;
+
+  //     case 'roads':
+  //       break;
+
+  //     default:
+  //       break;
+  //   }
+  // };
+
   return (
     <>
       {filteredData.length ? (
@@ -97,7 +114,11 @@ const DisruptionList = () => {
             <h3 className="wmnds-msg-summary__title">Good service</h3>
           </div>
 
-          <div className="wmnds-msg-summary__info">No incidents reported.</div>
+          <div className="wmnds-msg-summary__info">
+            {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
+            No incidents reported on {modeState.mode ? modeState.mode : 'bus, train, tram or roads'}
+            .
+          </div>
         </div>
       )}
     </>
