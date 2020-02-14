@@ -1,0 +1,9 @@
+// Vars
+@import '../../assets/styles/vars';
+
+// Gives the listview a nice little padding from the tray on desktop devices
+.list {
+  @media only screen and (min-width: $breakpoint-md) {
+    padding-left: $size-md;
+  }
+}
