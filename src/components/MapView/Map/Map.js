@@ -29,7 +29,7 @@ import s from './Map.module.scss';
 const WebMapView = () => {
   const mapRef = useRef();
   const renders = useRef(0);
-  const view = useRef();
+  const view = useRef(); // view.current
   const map = useRef();
 
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
@@ -45,14 +45,13 @@ const WebMapView = () => {
         'esri/views/MapView',
         'esri/Basemap',
         'esri/layers/VectorTileLayer',
-        'esri/layers/FeatureLayer',
         'esri/widgets/Locate',
         'esri/Graphic'
       ],
       {
         css: true
       }
-    ).then(([Map, MapView, Basemap, VectorTileLayer, FeatureLayer, Locate, Graphic]) => {
+    ).then(([Map, MapView, Basemap, VectorTileLayer, Locate, Graphic]) => {
       // When loaded, create a new basemap
       const basemap = new Basemap({
         baseLayers: [
@@ -98,35 +97,16 @@ const WebMapView = () => {
         position: 'top-right'
       });
 
-      if (fetchDisruptionsState.data.length) {
-        const graphics = fetchDisruptionsState.data.map(item => {
-          return new Graphic({
-            geometry: {
-              type: 'point',
-              x: item.lon,
-              y: item.lat
-            }
-          });
-        });
-        console.log(graphics);
+      // eslint-disable-next-line no-plusplus
+      console.log(renders.current++);
 
-        const featureLayer = new FeatureLayer({
-          source: graphics, // array of graphics objects
-          objectIdField: 'OBJECTID'
-        });
-
-        map.layers.add(featureLayer);
-      }
+      return () => {
+        if (view.current) {
+          // destroy the map view
+          view.current.container = null;
+        }
+      };
     });
-    // eslint-disable-next-line no-plusplus
-    console.log(renders.current++);
-
-    return () => {
-      if (view.current) {
-        // destroy the map view
-        view.current.container = null;
-      }
-    };
   }, []);
 
   // This useEffect is to add the disruption icons to the map
