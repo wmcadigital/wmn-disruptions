@@ -57,6 +57,7 @@ const SelectedResults = () => {
       )}
       {/* If there are selectedData then there must be disruptions, loop through */}
       {selectedData.length > 0 &&
+        fetchDisruptionsState.isMapVisible &&
         selectedData.map(disruption => (
           <SelectedItem disruption={disruption} key={disruption.id} />
         ))}

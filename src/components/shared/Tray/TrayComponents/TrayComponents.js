@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { AutoCompleteContext, FetchDisruptionsContext } from 'globalState';
+import { AutoCompleteContext } from 'globalState';
 // Import components
 import When from './When/When';
 import Mode from './Mode/Mode';
@@ -10,16 +10,13 @@ import SelectedResults from './SelectedResults/SelectedResults';
 
 const TrayComponents = () => {
   const [autoCompleteState] = useContext(AutoCompleteContext);
-  const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
 
   return (
     <>
       <When />
       <Mode />
       {!autoCompleteState.selectedService.id && <AutoComplete />}
-      {autoCompleteState.selectedService.id && fetchDisruptionsState.isMapVisible && (
-        <SelectedResults />
-      )}
+      {autoCompleteState.selectedService.id && <SelectedResults />}
     </>
   );
 };
