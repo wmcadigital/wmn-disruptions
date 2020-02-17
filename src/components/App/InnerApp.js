@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // Import packages
 import React, { useEffect, useContext } from 'react';
 import axios from 'axios';

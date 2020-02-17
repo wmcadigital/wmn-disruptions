@@ -9,7 +9,12 @@ export const AutoCompleteProvider = props => {
   const initialState = {
     query: '',
     data: [],
-    id: null // Used to store a specific service id gained from autocomplete
+    selectedService: {
+      id: null,
+      severity: null,
+      serviceNumber: null,
+      routeName: null
+    }
   };
 
   // Set up a reducer so we can change state based on centralised logic here
@@ -26,10 +31,10 @@ export const AutoCompleteProvider = props => {
           ...state,
           data: action.data
         };
-      case 'UPDATE_ID':
+      case 'UPDATE_SELECTED_SERVICE':
         return {
           ...state,
-          id: action.id
+          selectedService: action.selectedService
         };
       // Default should return intial state if error
       default:

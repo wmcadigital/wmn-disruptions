@@ -4,7 +4,16 @@
 @import '../../assets/styles/mixins';
 
 .listview-tray {
-  position: sticky;
+  height: auto;
+  margin-bottom: $size-lg;
+  position: initial;
+
+  @media only screen and (min-width: $breakpoint-md) {
+    left: 0;
+    margin: 0;
+    position: sticky;
+    top: 0;
+  }
 }
 
 .clear {

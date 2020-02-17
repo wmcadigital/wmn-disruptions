@@ -6,7 +6,7 @@ import When from './When/When';
 import Mode from './Mode/Mode';
 import AutoComplete from './AutoComplete/AutoComplete';
 
-import DraggableResults from './DraggableResults/DraggableResults';
+import SelectedResults from './SelectedResults/SelectedResults';
 
 const TrayComponents = () => {
   const [autoCompleteState] = useContext(AutoCompleteContext);
@@ -16,8 +16,10 @@ const TrayComponents = () => {
     <>
       <When />
       <Mode />
-      <AutoComplete />
-      {autoCompleteState.id && fetchDisruptionsState.isMapVisible && <DraggableResults />}
+      {!autoCompleteState.selectedService.id && <AutoComplete />}
+      {autoCompleteState.selectedService.id && fetchDisruptionsState.isMapVisible && (
+        <SelectedResults />
+      )}
     </>
   );
 };

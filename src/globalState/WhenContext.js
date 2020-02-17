@@ -29,7 +29,6 @@ export const WhenProvider = props => {
       case 'TOGGLE_DATEPICKER':
         return {
           ...state,
-          when: 'customDate',
           isDatePickerOpen: !state.isDatePickerOpen
         };
       // Update state to use custom date from datepicker, close datepicker and update button text to shorthand date
@@ -40,6 +39,7 @@ export const WhenProvider = props => {
         return {
           ...state,
           datePickerText: chosenDate,
+          when: 'customDate',
           whenCustomDate: action.date,
           isDatePickerOpen: false
         };

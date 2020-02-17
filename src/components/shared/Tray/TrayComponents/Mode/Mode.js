@@ -33,6 +33,7 @@ const Mode = () => {
         onClick={() => modeDispatch({ type: 'UPDATE_MODE', mode: 'train' })}
         iconLeft="modes-isolated-rail"
         text="Train"
+        disabled
       />
       {/* Tram mode button */}
       <Button
@@ -41,6 +42,7 @@ const Mode = () => {
         onClick={() => modeDispatch({ type: 'UPDATE_MODE', mode: 'tram' })}
         iconLeft="modes-isolated-metro"
         text="Tram"
+        disabled
       />
       {/* Roads mode button */}
       <Button
@@ -49,6 +51,7 @@ const Mode = () => {
         onClick={() => modeDispatch({ type: 'UPDATE_MODE', mode: 'roads' })}
         iconLeft="modes-isolated-roads"
         text="Roads"
+        disabled
       />
     </div>
   );

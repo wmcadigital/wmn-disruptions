@@ -3,13 +3,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../Icon/Icon';
 
-const Button = ({ type, isActive, text, onClick, btnClass, iconLeft, iconRight }) => {
+const Button = ({ type, isActive, text, onClick, btnClass, iconLeft, iconRight, disabled }) => {
   return (
     // eslint-disable-next-line react/button-has-type
     <button
       type={type}
-      className={`wmnds-btn ${btnClass} ${isActive ? 'wmnds-is--active' : null}`}
+      className={`wmnds-btn ${btnClass} ${isActive ? 'wmnds-is--active' : ''} ${
+        disabled ? 'wmnds-btn--disabled' : ''
+      }`}
       onClick={onClick}
+      disabled={disabled}
     >
       {/* If icon left is set then call icon component and inject correct svg */}
       {iconLeft ? <Icon iconClass="wmnds-btn__icon" iconName={iconLeft} /> : null}
@@ -33,7 +36,8 @@ Button.propTypes = {
   isActive: PropTypes.bool, // If button is active, add active class
   btnClass: PropTypes.string, // Set custom button classes, will default to wmnds-btn (primary btn)
   iconLeft: PropTypes.string, // Set icon left on button
-  iconRight: PropTypes.string // Set icon right on button
+  iconRight: PropTypes.string, // Set icon right on button
+  disabled: PropTypes.bool // Sets if the button is disabled or not
 };
 
 Button.defaultProps = {
@@ -43,7 +47,8 @@ Button.defaultProps = {
   isActive: false,
   btnClass: '',
   iconLeft: null,
-  iconRight: null
+  iconRight: null,
+  disabled: false
 };
 
 export default Button;

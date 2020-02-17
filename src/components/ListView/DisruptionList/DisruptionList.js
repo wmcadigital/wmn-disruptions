@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { format } from 'fecha';
+import Icon from 'components/shared/Icon/Icon';
 
 // Import contexts
 import {
@@ -14,7 +15,6 @@ const DisruptionList = () => {
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of disruptionsApi from fetchDisruptionsState
   const [autoCompleteState] = useContext(AutoCompleteContext);
   const [modeState] = useContext(ModeContext); // Get the state of whenButtons from WhenContext
-
   const [whenState] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
 
   let filteredData = fetchDisruptionsState.data;
@@ -73,21 +73,54 @@ const DisruptionList = () => {
     }
 
     // ID filtering
-    if (autoCompleteState.id) {
+    if (autoCompleteState.selectedService.id) {
       // The below will check all disruptions and will return any disruption where the mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
       filteredData = filteredData.filter(
         disrItem =>
           disrItem.mode === 'bus' &&
-          disrItem.servicesAffected.some(el => el.id === autoCompleteState.id)
+          disrItem.servicesAffected.some(el => el.id === autoCompleteState.selectedService.id)
       );
     }
   }
 
+  // const goodServiceMsg = () => {
+  //   switch (modeState.mode) {
+  //     case 'bus':
+  //       break;
+  //     case 'train':
+  //       break;
+
+  //     case 'tram':
+  //       break;
+
+  //     case 'roads':
+  //       break;
+
+  //     default:
+  //       break;
+  //   }
+  // };
+
   return (
     <>
-      {filteredData.map(disruption => (
-        <DisruptionItem disruption={disruption} key={disruption.id} />
-      ))}
+      {filteredData.length ? (
+        filteredData.map(disruption => (
+          <DisruptionItem disruption={disruption} key={disruption.id} />
+        ))
+      ) : (
+        <div className="wmnds-msg-summary wmnds-msg-summary--success wmnds-col-1">
+          <div className="wmnds-msg-summary__header">
+            <Icon iconName="general-success" iconClass="wmnds-msg-summary__icon" />
+            <h3 className="wmnds-msg-summary__title">Good service</h3>
+          </div>
+
+          <div className="wmnds-msg-summary__info">
+            {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
+            No incidents reported on {modeState.mode ? modeState.mode : 'bus, train, tram or roads'}
+            .
+          </div>
+        </div>
+      )}
     </>
   );
 };
