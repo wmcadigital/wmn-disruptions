@@ -52,6 +52,7 @@ const BusAutoCompleteResult = props => {
           type: 'UPDATE_SELECTED_SERVICE',
           selectedService: {
             id: result.id,
+            severity: result.severity,
             serviceNumber: result.serviceNumber,
             routeName: result.routes[0].routeName
           }
@@ -62,20 +63,21 @@ const BusAutoCompleteResult = props => {
           type: 'UPDATE_SELECTED_SERVICE',
           selectedService: {
             id: result.id,
+            severity: result.severity,
             serviceNumber: result.serviceNumber,
             routeName: result.routes[0].routeName
           }
         })
       }
     >
-      <div className="wmnds-col-auto">
+      <div className="wmnds-col-auto wmnds-m-r-md">
         <DisruptionIndicatorMedium
           severity={result.disruptionSeverity}
           text={result.serviceNumber}
         />
       </div>
       {/* Right section */}
-      <div className="wmnds-col-1-2 wmnds-col-sm-1-2">
+      <div className="wmnds-col-1-2">
         <strong>{result.routes[0].routeName}</strong>
         {/* <br />
         and return journey */}

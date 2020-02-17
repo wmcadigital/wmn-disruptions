@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
-import Icon from 'components/shared/Icon/Icon';
 import { AutoCompleteContext, FetchDisruptionsContext } from 'globalState';
 
+import Icon from 'components/shared/Icon/Icon';
+import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
 import SelectedItem from './SelectedItem/SelectedItem';
 
 const SelectedResults = () => {
@@ -9,8 +10,6 @@ const SelectedResults = () => {
   const [autoCompleteState] = useContext(AutoCompleteContext);
 
   const { selectedService } = autoCompleteState;
-  console.log(selectedService);
-
   // The below will check all disruptions and will return any disruption where the mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
   const selectedData = fetchDisruptionsState.data.filter(disrItem => {
     return (
@@ -21,8 +20,15 @@ const SelectedResults = () => {
   return (
     <>
       <div className="wmnds-msg-summary wmnds-msg-summary--info">
-        {selectedService.serviceNumber}
-        {selectedService.routeName}
+        <div className="wmnds-col-auto">
+          <DisruptionIndicatorMedium
+            severity={selectedService.severity}
+            text={selectedService.serviceNumber}
+          />
+        </div>
+        <div className="wmnds-col-1-2">
+          <strong>{selectedService.routeName}</strong>
+        </div>
         <Icon iconName="general-cross" iconClass="general-cross" />
       </div>
       <div className="wmnds-msg-help wmnds-col-1 wmnds-m-b-lg">

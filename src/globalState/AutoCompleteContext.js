@@ -11,6 +11,7 @@ export const AutoCompleteProvider = props => {
     data: [],
     selectedService: {
       id: null,
+      severity: null,
       serviceNumber: null,
       routeName: null
     }
