@@ -49,14 +49,22 @@ const BusAutoCompleteResult = props => {
       aria-pressed="false"
       onKeyDown={() =>
         autoCompleteDispatch({
-          type: 'UPDATE_ID',
-          id: result.id
+          type: 'UPDATE_SELECTED_SERVICE',
+          selectedService: {
+            id: result.id,
+            serviceNumber: result.serviceNumber,
+            route: result.routes[0]
+          }
         })
       }
       onClick={() =>
         autoCompleteDispatch({
-          type: 'UPDATE_ID',
-          id: result.id
+          type: 'UPDATE_SELECTED_SERVICE',
+          selectedService: {
+            id: result.id,
+            serviceNumber: result.serviceNumber,
+            route: result.routes[0]
+          }
         })
       }
     >

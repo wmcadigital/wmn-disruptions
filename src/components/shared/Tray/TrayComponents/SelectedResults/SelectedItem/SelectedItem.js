@@ -12,7 +12,7 @@ const { sanitize } = dompurify;
 const SelectedItem = ({ disruption }) => {
   return (
     <div className="wmnds-grid" key={disruption.id}>
-      {/* Title */}
+      {/* Title of disruptions */}
       <div className="wmnds-col-1 wmnds-m-b-lg wmnds-m-t-lg">
         <div className="wmnds-grid wmnds-grid--align-center">
           <DisruptionIndicatorSmall
@@ -22,17 +22,16 @@ const SelectedItem = ({ disruption }) => {
           />
 
           <div className="wmnds-col-3-4">
-            {/* Title of disruptions */}
-            <strong>{disruption.title}</strong>
+            <h4 className="wmnds-m-none">{disruption.title}</h4>
           </div>
         </div>
       </div>
 
       {/* Affected Services */}
-      <div className="wmnds-col-1 wmnds-p-l-md">
-        <p>Affected Services:</p>
+      <div className="wmnds-col-1 ">
+        <strong>Affected Services:</strong>
       </div>
-      <div className="wmnds-p-l-md">
+      <div className="">
         {disruption.servicesAffected &&
           disruption.servicesAffected.map(affected => (
             <div className="wmnds-col-1-3" key={affected.id}>

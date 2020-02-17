@@ -12,12 +12,20 @@ const SelectedResults = () => {
   const selectedData = fetchDisruptionsState.data.filter(disrItem => {
     return (
       disrItem.mode === 'bus' &&
-      disrItem.servicesAffected.some(el => el.id === autoCompleteState.id)
+      disrItem.servicesAffected.some(el => el.id === autoCompleteState.selectedService.id)
     );
   });
+  const selectedService = selectedData[0].servicesAffected.some(
+    affected => affected.id === autoCompleteState.selectedService.id
+  );
 
   return (
     <>
+      <div className="wmnds-msg-summary wmnds-msg-summary--info">
+        {selectedService.serviceNumber}
+        {selectedService.routeDescription[0]}
+        <Icon iconName="general-cross" iconClass="general-cross" />
+      </div>
       <div className="wmnds-msg-help wmnds-col-1 wmnds-m-b-lg">
         Save routes to your homepage by pressing the star icon
       </div>

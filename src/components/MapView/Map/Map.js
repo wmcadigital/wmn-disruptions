@@ -146,10 +146,10 @@ const WebMapView = () => {
   // This useEffect is to plot the line on the map
   useEffect(() => {
     // If there is an ID in state, then lets hit the API and get the geoJSON
-    if (autoCompleteState.id) {
+    if (autoCompleteState.selectedService.id) {
       axios
         .get(
-          `https://trasnport-api-isruptions-v2.azure-api.net/bus/v1/RouteGeoJSON/${autoCompleteState.id}`,
+          `https://trasnport-api-isruptions-v2.azure-api.net/bus/v1/RouteGeoJSON/${autoCompleteState.selectedService.id}`,
           {
             headers: {
               'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
@@ -175,7 +175,7 @@ const WebMapView = () => {
           });
         });
     }
-  }, [autoCompleteState.id]);
+  }, [autoCompleteState.selectedService.id]);
 
   return (
     <div id="disruptions-map" className={`webmap ${s.map}`} ref={mapRef} title="Disruptions map" />
