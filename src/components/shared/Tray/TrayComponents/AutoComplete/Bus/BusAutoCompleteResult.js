@@ -53,7 +53,7 @@ const BusAutoCompleteResult = props => {
           selectedService: {
             id: result.id,
             serviceNumber: result.serviceNumber,
-            route: result.routes[0]
+            routeName: result.routes[0].routeName
           }
         })
       }
@@ -63,7 +63,7 @@ const BusAutoCompleteResult = props => {
           selectedService: {
             id: result.id,
             serviceNumber: result.serviceNumber,
-            route: result.routes[0]
+            routeName: result.routes[0].routeName
           }
         })
       }

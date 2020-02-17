@@ -9,7 +9,11 @@ export const AutoCompleteProvider = props => {
   const initialState = {
     query: '',
     data: [],
-    selectedService: {}
+    selectedService: {
+      id: null,
+      serviceNumber: null,
+      routeName: null
+    }
   };
 
   // Set up a reducer so we can change state based on centralised logic here

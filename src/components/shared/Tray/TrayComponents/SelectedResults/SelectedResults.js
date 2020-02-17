@@ -8,22 +8,21 @@ const SelectedResults = () => {
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
   const [autoCompleteState] = useContext(AutoCompleteContext);
 
+  const { selectedService } = autoCompleteState;
+  console.log(selectedService);
+
   // The below will check all disruptions and will return any disruption where the mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
   const selectedData = fetchDisruptionsState.data.filter(disrItem => {
     return (
-      disrItem.mode === 'bus' &&
-      disrItem.servicesAffected.some(el => el.id === autoCompleteState.selectedService.id)
+      disrItem.mode === 'bus' && disrItem.servicesAffected.some(el => el.id === selectedService.id)
     );
   });
-  const selectedService = selectedData[0].servicesAffected.some(
-    affected => affected.id === autoCompleteState.selectedService.id
-  );
 
   return (
     <>
       <div className="wmnds-msg-summary wmnds-msg-summary--info">
         {selectedService.serviceNumber}
-        {selectedService.routeDescription[0]}
+        {selectedService.routeName}
         <Icon iconName="general-cross" iconClass="general-cross" />
       </div>
       <div className="wmnds-msg-help wmnds-col-1 wmnds-m-b-lg">
