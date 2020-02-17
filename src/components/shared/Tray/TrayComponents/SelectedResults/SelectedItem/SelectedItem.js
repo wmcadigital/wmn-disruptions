@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import dompurify from 'dompurify';
-
+// Imported components
 import Button from 'components/shared/Button/Button';
 import Icon from 'components/shared/Icon/Icon';
+import DisruptionIndicatorSmall from 'components/shared/DisruptionIndicator/DisruptionIndicatorSmall';
 import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
 
 const { sanitize } = dompurify;
@@ -13,16 +14,18 @@ const SelectedItem = ({ disruption }) => {
     <div className="wmnds-grid" key={disruption.id}>
       {/* Title */}
       <div className="wmnds-col-1 wmnds-m-b-lg wmnds-m-t-lg">
-        <span className="wmnds-disruption-indicator-small wmnds-col-auto wmnds-m-r-md">
-          <svg className="wmnds-disruption-indicator-small__icon">
-            <Icon iconName="modes-isolated-bus" iconClass="modes-isolated-bus" />
-          </svg>
+        <div className="wmnds-grid wmnds-grid--align-center">
+          <DisruptionIndicatorSmall
+            severity={disruption.disruptionSeverity}
+            iconLeft={`modes-isolated-${disruption.mode}`}
+            className="wmnds-col-auto wmnds-m-r-md"
+          />
 
-          <svg className="wmnds-disruption-indicator-small__icon">
-            <Icon iconName="general-warning-circle" iconClass="general-warning-circle" />
-          </svg>
-        </span>
-        <h4 className="wmnds-col-auto wmnds-m-none">{disruption.title}</h4>
+          <div className="wmnds-col-3-4">
+            {/* Title of disruptions */}
+            <strong>{disruption.title}</strong>
+          </div>
+        </div>
       </div>
 
       {/* Affected Services */}

@@ -37,7 +37,7 @@ const DisruptionItem = ({ disruption }) => {
                 className="wmnds-col-auto wmnds-m-r-md"
               />
 
-              <div className="wmnds-col-auto">
+              <div className="wmnds-col-1 wmnds-col-sm-3-4">
                 {/* Title of disruptions */}
                 <strong>{disruption.title}</strong>
               </div>
