@@ -17,8 +17,6 @@ const SelectedResults = () => {
     );
   });
 
-  console.log(selectedData);
-
   return (
     <>
       <div className="wmnds-msg-help wmnds-col-1 wmnds-m-b-lg">
