@@ -6,7 +6,7 @@ import When from './When/When';
 import Mode from './Mode/Mode';
 import AutoComplete from './AutoComplete/AutoComplete';
 
-import SelectedResults from './AutoComplete/SelectedResults/SelectedResults';
+import SelectedResults from './SelectedResults/SelectedResults';
 
 const TrayComponents = () => {
   const [autoCompleteState] = useContext(AutoCompleteContext);
