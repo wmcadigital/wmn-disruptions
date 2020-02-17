@@ -1,0 +1,16 @@
+// Vars
+@import '../../../../../assets/styles/vars';
+// Mixins
+@import '../../../../../assets/styles/mixins';
+
+.cancelButton {
+  background: none;
+  cursor: pointer;
+  border: 0;
+}
+
+.cancelIcon {
+  width: 22px;
+  height: 22px;
+  fill: get-color(secondary);
+}

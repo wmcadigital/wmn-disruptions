@@ -5,9 +5,11 @@ import Icon from 'components/shared/Icon/Icon';
 import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
 import SelectedItem from './SelectedItem/SelectedItem';
 
+import s from './SelectedResults.module.scss';
+
 const SelectedResults = () => {
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
-  const [autoCompleteState] = useContext(AutoCompleteContext);
+  const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
 
   const { selectedService } = autoCompleteState;
   // The below will check all disruptions and will return any disruption where the mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
@@ -19,8 +21,8 @@ const SelectedResults = () => {
 
   return (
     <>
-      <div className="wmnds-msg-summary wmnds-msg-summary--info">
-        <div className="wmnds-col-auto">
+      <div className="wmnds-msg-summary wmnds-msg-summary--info wmnds-m-t-xs wmnds-m-b-md">
+        <div className="wmnds-col-auto wmnds-m-r-md">
           <DisruptionIndicatorMedium
             severity={selectedService.severity}
             text={selectedService.serviceNumber}
@@ -29,7 +31,13 @@ const SelectedResults = () => {
         <div className="wmnds-col-1-2">
           <strong>{selectedService.routeName}</strong>
         </div>
-        <Icon iconName="general-cross" iconClass="general-cross" />
+        <button
+          type="button"
+          className={s.cancelButton}
+          onClick={() => autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' })}
+        >
+          <Icon iconName="general-cross" iconClass={`general-cross ${s.cancelIcon}`} />
+        </button>
       </div>
       <div className="wmnds-msg-help wmnds-col-1 wmnds-m-b-lg">
         Save routes to your homepage by pressing the star icon
