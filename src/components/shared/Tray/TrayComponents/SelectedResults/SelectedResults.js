@@ -41,7 +41,7 @@ const SelectedResults = () => {
           <Icon iconName="general-cross" iconClass={`general-cross ${s.cancelIcon}`} />
         </button>
       </div>
-      <div className="wmnds-msg-help wmnds-col-1 wmnds-m-b-lg">
+      <div className="wmnds-msg-help wmnds-col-1">
         Save routes to your homepage by pressing the star icon
       </div>
       {/* If no selectedData then it must be good service */}
