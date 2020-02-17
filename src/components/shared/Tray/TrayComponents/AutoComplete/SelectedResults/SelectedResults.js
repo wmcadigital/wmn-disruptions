@@ -5,7 +5,7 @@ import dompurify from 'dompurify';
 
 const { sanitize } = dompurify;
 
-const DraggableResults = () => {
+const SelectedResults = () => {
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
   const [autoCompleteState] = useContext(AutoCompleteContext);
 
@@ -132,4 +132,4 @@ const DraggableResults = () => {
   );
 };
 
-export default DraggableResults;
+export default SelectedResults;
