@@ -21,19 +21,21 @@ const SelectedResults = () => {
 
   return (
     <>
-      <div className="wmnds-msg-summary wmnds-msg-summary--info wmnds-m-t-xs wmnds-m-b-md">
+      <div
+        className={`wmnds-grid wmnds-grid--align-center wmnds-m-t-xs wmnds-m-b-md ${s.selectedItemBox}`}
+      >
         <div className="wmnds-col-auto wmnds-m-r-md">
           <DisruptionIndicatorMedium
             severity={selectedService.severity}
             text={selectedService.serviceNumber}
           />
         </div>
-        <div className="wmnds-col-1-2">
+        <div className={`wmnds-col-auto ${s.selectedSummary}`}>
           <strong>{selectedService.routeName}</strong>
         </div>
         <button
           type="button"
-          className={s.cancelButton}
+          className={`${s.cancelButton} wmnds-col-auto`}
           onClick={() => autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' })}
         >
           <Icon iconName="general-cross" iconClass={`general-cross ${s.cancelIcon}`} />
