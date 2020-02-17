@@ -52,7 +52,7 @@ const BusAutoCompleteResult = props => {
           type: 'UPDATE_SELECTED_SERVICE',
           selectedService: {
             id: result.id,
-            severity: result.severity,
+            severity: result.disruptionSeverity,
             serviceNumber: result.serviceNumber,
             routeName: result.routes[0].routeName
           }
@@ -63,7 +63,7 @@ const BusAutoCompleteResult = props => {
           type: 'UPDATE_SELECTED_SERVICE',
           selectedService: {
             id: result.id,
-            severity: result.severity,
+            severity: result.disruptionSeverity,
             serviceNumber: result.serviceNumber,
             routeName: result.routes[0].routeName
           }

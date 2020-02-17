@@ -7,13 +7,15 @@ import Icon from 'components/shared/Icon/Icon';
 import DisruptionIndicatorSmall from 'components/shared/DisruptionIndicator/DisruptionIndicatorSmall';
 import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
 
+import s from './SelectedItem.module.scss';
+
 const { sanitize } = dompurify;
 
 const SelectedItem = ({ disruption }) => {
   return (
-    <div className="wmnds-grid" key={disruption.id}>
+    <div className={`wmnds-grid wmnds-m-t-lg wmnds-p-t-lg ${s.disruption}`} key={disruption.id}>
       {/* Title of disruptions */}
-      <div className="wmnds-col-1 wmnds-m-b-lg wmnds-m-t-lg">
+      <div className="wmnds-col-1 wmnds-m-b-lg">
         <div className="wmnds-grid wmnds-grid--align-center">
           <DisruptionIndicatorSmall
             severity={disruption.disruptionSeverity}
