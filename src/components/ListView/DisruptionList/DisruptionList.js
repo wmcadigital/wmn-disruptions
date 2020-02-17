@@ -53,8 +53,11 @@ const DisruptionList = () => {
     filteredData = filteredData.filter(disrItem => {
       let returnitem;
       if (disrItem.mode === 'bus') {
-        const disrStartDate = disrItem.disruptionTimeWindow.start;
-        const disrEndDate = disrItem.disruptionTimeWindow.end;
+        // 2020-02-05T15:30:00Z
+        const disrStartDate = format(new Date(disrItem.disruptionTimeWindow.start), 'YY-MM-DD');
+        const disrEndDate = format(new Date(disrItem.disruptionTimeWindow.end), 'YY-MM-DD');
+
+        console.log(disrStartDate);
 
         if (
           (disrStartDate >= fromDate && disrStartDate <= toDate) ||
