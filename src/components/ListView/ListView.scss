@@ -4,15 +4,15 @@
 @import '../../assets/styles/mixins';
 
 .listview-tray {
-  margin-bottom: $size-lg;
   height: auto;
+  margin-bottom: $size-lg;
   position: initial;
 
   @media only screen and (min-width: $breakpoint-md) {
     left: 0;
-    top: 0;
-    position: sticky;
     margin: 0;
+    position: sticky;
+    top: 0;
   }
 }
 
