@@ -61,11 +61,14 @@ const BusAutoComplete = () => {
           Please try searching for another service.
         </p>
       ) : (
-        <ul className="wmnds-autocomplete-suggestions">
-          {autoCompleteState.data.map(result => (
-            <BusAutoCompleteResult key={result.id} result={result} />
-          ))}
-        </ul>
+        // Only show autocomplete results if there is a query
+        autoCompleteState.query && (
+          <ul className="wmnds-autocomplete-suggestions">
+            {autoCompleteState.data.map(result => (
+              <BusAutoCompleteResult key={result.id} result={result} />
+            ))}
+          </ul>
+        )
       )}
     </>
   );

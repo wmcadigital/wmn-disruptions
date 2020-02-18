@@ -3,11 +3,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../Icon/Icon';
 
-const Button = ({ type, isActive, text, onClick, btnClass, iconLeft, iconRight, disabled }) => {
+const Button = ({
+  type,
+  title,
+  isActive,
+  text,
+  onClick,
+  btnClass,
+  iconLeft,
+  iconRight,
+  disabled
+}) => {
   return (
     // eslint-disable-next-line react/button-has-type
     <button
       type={type}
+      title={title}
       className={`wmnds-btn ${btnClass} ${isActive ? 'wmnds-is--active' : ''} ${
         disabled ? 'wmnds-btn--disabled' : ''
       }`}
@@ -32,6 +43,7 @@ const Button = ({ type, isActive, text, onClick, btnClass, iconLeft, iconRight, 
 Button.propTypes = {
   text: PropTypes.string, // text inside button
   type: PropTypes.string, // button type, by default it is type="button"
+  title: PropTypes.string, // title on the button
   onClick: PropTypes.func, // Set an onclick event
   isActive: PropTypes.bool, // If button is active, add active class
   btnClass: PropTypes.string, // Set custom button classes, will default to wmnds-btn (primary btn)
@@ -43,6 +55,7 @@ Button.propTypes = {
 Button.defaultProps = {
   text: '',
   type: 'button',
+  title: null,
   onClick: null,
   isActive: false,
   btnClass: '',
