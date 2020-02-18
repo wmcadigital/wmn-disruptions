@@ -25,21 +25,21 @@ const When = () => {
       <div className="wmnds-grid">
         {/* Now button */}
         <Button
-          btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm wmnds-p-xsm"
+          btnClass="wmnds-btn--secondary wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm wmnds-p-xsm"
           isActive={whenState.when === 'now'}
           onClick={() => whenDispatch({ type: 'UPDATE_WHEN', when: 'now' })}
           text={nowText}
         />
         {/* Tomorrow button */}
         <Button
-          btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm wmnds-p-xsm"
+          btnClass="wmnds-btn--secondary wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm wmnds-p-xsm"
           isActive={whenState.when === 'tomorrow'}
           onClick={() => whenDispatch({ type: 'UPDATE_WHEN', when: 'tomorrow' })}
           text="Tomorrow"
         />
         {/* Choose date button */}
         <Button
-          btnClass="wmnds-btn--secondary wmnds-btn--small wmnds-col-auto wmnds-p-xsm wmnds-m-b-sm"
+          btnClass="wmnds-btn--secondary wmnds-col-auto wmnds-m-b-sm wmnds-p-xsm"
           isActive={whenState.when === 'customDate'}
           onClick={() => whenDispatch({ type: 'TOGGLE_DATEPICKER' })}
           text={whenState.datePickerText}
