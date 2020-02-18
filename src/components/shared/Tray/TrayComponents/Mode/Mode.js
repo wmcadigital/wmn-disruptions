@@ -15,7 +15,7 @@ const Mode = () => {
       </div>
       {/* Bus mode button */}
       <Button
-        btnClass="wmnds-btn--small wmnds-btn--mode wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm"
+        btnClass="wmnds-btn--mode wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm wmnds-p-xsm"
         isActive={modeState.mode === 'bus'}
         onClick={() =>
           modeDispatch({
@@ -28,7 +28,8 @@ const Mode = () => {
       />
       {/* Train mode button */}
       <Button
-        btnClass="wmnds-btn--small wmnds-btn--mode wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm"
+        btnClass="wmnds-btn--mode wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm wmnds-p-xsm"
+        title="Train mode coming soon"
         isActive={modeState.mode === 'train'}
         onClick={() => modeDispatch({ type: 'UPDATE_MODE', mode: 'train' })}
         iconLeft="modes-isolated-rail"
@@ -37,7 +38,8 @@ const Mode = () => {
       />
       {/* Tram mode button */}
       <Button
-        btnClass="wmnds-btn--small wmnds-btn--mode wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm"
+        btnClass="wmnds-btn--mode wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm wmnds-p-xsm"
+        title="Tram mode coming soon"
         isActive={modeState.mode === 'tram'}
         onClick={() => modeDispatch({ type: 'UPDATE_MODE', mode: 'tram' })}
         iconLeft="modes-isolated-metro"
@@ -46,7 +48,8 @@ const Mode = () => {
       />
       {/* Roads mode button */}
       <Button
-        btnClass="wmnds-btn--small wmnds-btn--mode wmnds-col-auto wmnds-m-b-sm"
+        btnClass="wmnds-btn--mode wmnds-col-auto wmnds-m-b-sm wmnds-p-xsm"
+        title="Roads mode coming soon"
         isActive={modeState.mode === 'roads'}
         onClick={() => modeDispatch({ type: 'UPDATE_MODE', mode: 'roads' })}
         iconLeft="modes-isolated-roads"
