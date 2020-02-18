@@ -8,7 +8,6 @@ import DisruptionItem from './DisruptionItem/DisruptionItem';
 
 const DisruptionList = () => {
   const [modeState] = useContext(ModeContext); // Get the state of whenButtons from WhenContext
-
   const filteredData = useFilterLogic(); // Use filter logic based on tray selections
 
   return (
