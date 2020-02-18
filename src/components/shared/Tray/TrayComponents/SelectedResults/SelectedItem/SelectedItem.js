@@ -65,11 +65,11 @@ const SelectedItem = ({ disruption }) => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        Replan Your Journey
+        Replan your journey
         <Icon iconName="general-chevron-right" iconClass="wmnds-btn__icon wmnds-btn__icon--right" />
       </a>
       {/* Share button */}
-      <Button btnClass="wmnds-col-1" text="Share Disruption" iconRight="general-share" />
+      <Button btnClass="wmnds-col-1" text="Share disruption" iconRight="general-share" />
     </div>
   );
 };
