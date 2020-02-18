@@ -3,6 +3,7 @@ import { AutoCompleteContext, FetchDisruptionsContext } from 'globalState';
 
 import Icon from 'components/shared/Icon/Icon';
 import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
+import useFilterLogic from 'customHooks/useFilterLogic';
 import SelectedItem from './SelectedItem/SelectedItem';
 
 import s from './SelectedResults.module.scss';
@@ -13,11 +14,7 @@ const SelectedResults = () => {
 
   const { selectedService } = autoCompleteState;
   // The below will check all disruptions and will return any disruption where the mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
-  const selectedData = fetchDisruptionsState.data.filter(disrItem => {
-    return (
-      disrItem.mode === 'bus' && disrItem.servicesAffected.some(el => el.id === selectedService.id)
-    );
-  });
+  const selectedData = useFilterLogic();
 
   return (
     <>
