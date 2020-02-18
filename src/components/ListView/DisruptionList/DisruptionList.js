@@ -54,10 +54,8 @@ const DisruptionList = () => {
       let returnitem;
       if (disrItem.mode === 'bus') {
         // 2020-02-05T15:30:00Z
-        const disrStartDate = format(new Date(disrItem.disruptionTimeWindow.start), 'YY-MM-DD');
-        const disrEndDate = format(new Date(disrItem.disruptionTimeWindow.end), 'YY-MM-DD');
-
-        console.log(disrStartDate);
+        const disrStartDate = format(new Date(disrItem.disruptionTimeWindow.start), 'YYYY-MM-DD');
+        const disrEndDate = format(new Date(disrItem.disruptionTimeWindow.end), 'YYYY-MM-DD');
 
         if (
           (disrStartDate >= fromDate && disrStartDate <= toDate) ||
@@ -85,24 +83,6 @@ const DisruptionList = () => {
       );
     }
   }
-
-  // const goodServiceMsg = () => {
-  //   switch (modeState.mode) {
-  //     case 'bus':
-  //       break;
-  //     case 'train':
-  //       break;
-
-  //     case 'tram':
-  //       break;
-
-  //     case 'roads':
-  //       break;
-
-  //     default:
-  //       break;
-  //   }
-  // };
 
   return (
     <>
