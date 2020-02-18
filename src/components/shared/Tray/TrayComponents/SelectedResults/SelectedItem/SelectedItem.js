@@ -59,13 +59,17 @@ const SelectedItem = ({ disruption }) => {
         dangerouslySetInnerHTML={{ __html: sanitize(disruption.description) }}
       />
       {/* Replan button */}
-      <Button
-        btnClass="wmnds-btn--start wmnds-col-1 wmnds-m-b-md"
-        text="Replan Your Journey"
-        iconRight="general-chevron-right"
-      />
+      <a
+        className="wmnds-btn wmnds-btn--start wmnds-col-1 wmnds-m-b-md"
+        href="https://journeyplanner.networkwestmidlands.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Replan your journey
+        <Icon iconName="general-chevron-right" iconClass="wmnds-btn__icon wmnds-btn__icon--right" />
+      </a>
       {/* Share button */}
-      <Button btnClass="wmnds-col-1" text="Share Disruption" iconRight="general-share" />
+      <Button btnClass="wmnds-col-1" text="Share disruption" iconRight="general-share" />
     </div>
   );
 };

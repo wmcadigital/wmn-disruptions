@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import DatePicker from 'react-datepicker'; // Uses https://reactdatepicker.com/
+import { format } from 'fecha';
 
 // Import contexts
 import { WhenContext } from 'globalState';
@@ -14,7 +15,7 @@ const When = () => {
   const [whenState, whenDispatch] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
 
   const today = new Date(); // Get today's date
-  const nowText = `Now ${today.getHours()}:${today.getMinutes()}`; // Set nowText to be 'Now HH:MM'
+  const nowText = `Now ${format(today, 'HH:MM')}`; // Set nowText to be 'Now HH:MM'
 
   return (
     <div className="wmnds-grid">
