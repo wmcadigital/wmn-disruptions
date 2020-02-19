@@ -2,23 +2,23 @@
 @import '../../../../assets/styles/mixins';
 
 .favButton {
-  width: auto;
   display: inline-block;
   margin-right: $size-sm;
+  width: auto;
 }
 
 .starIconBtn {
-  display: block;
-  margin: $size-xsm auto 0 auto;
   background: none;
   border: 0;
-  text-decoration: none;
+  display: block;
+  margin: $size-xsm auto 0;
   padding: 0;
+  text-decoration: none;
 }
 
 .starIcon {
-  width: 25px;
-  height: 25px;
-  fill: get-color(secondary);
   cursor: pointer;
+  fill: get-color(secondary);
+  height: 25px;
+  width: 25px;
 }
