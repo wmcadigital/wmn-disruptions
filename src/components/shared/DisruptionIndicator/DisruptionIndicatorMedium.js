@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'components/shared/Icon/Icon';
 
-const DisruptionIndicatorMedium = ({ className, iconLeft, narrow, severity, text }) => {
+const DisruptionIndicatorMedium = ({ className, iconLeft, narrow, severity, text, title }) => {
   let iconRightName;
   let disruptedClass;
   // Removed the if statement - Icon now showing.
@@ -41,6 +41,7 @@ const DisruptionIndicatorMedium = ({ className, iconLeft, narrow, severity, text
         ${disruptedClass ? `wmnds-disruption-indicator-medium--${disruptedClass}` : ''}
         ${className} ${narrow ? 'wmnds-disruption-indicator-medium--narrow' : ''}
         wmnds-disruption-indicator-medium--with-icon`}
+      title={title}
     >
       {/* If iconLeft, show icon left */}
       {iconLeft && (
@@ -66,7 +67,8 @@ DisruptionIndicatorMedium.propTypes = {
   iconLeft: PropTypes.string,
   narrow: PropTypes.bool,
   severity: PropTypes.string,
-  text: PropTypes.string
+  text: PropTypes.string,
+  title: PropTypes.string
 };
 
 DisruptionIndicatorMedium.defaultProps = {
@@ -74,7 +76,8 @@ DisruptionIndicatorMedium.defaultProps = {
   iconLeft: null,
   narrow: false,
   severity: '',
-  text: null
+  text: null,
+  title: null
 };
 
 export default DisruptionIndicatorMedium;
