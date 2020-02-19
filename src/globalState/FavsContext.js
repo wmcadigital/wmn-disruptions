@@ -5,7 +5,7 @@ export const FavsContext = createContext(); // Create when context
 export const FavsProvider = props => {
   const { children } = props || {};
 
-  // Set intial state of when
+  // Set intial state of favs (get from localStorage OR set default)
   const initialState = JSON.parse(localStorage.getItem('disruptionFavs')) || {
     bus: [],
     train: [],
@@ -15,7 +15,7 @@ export const FavsProvider = props => {
 
   // Set up a reducer so we can change state based on centralised logic here
   const reducer = (state, action) => {
-    // Update the when to chosen
+    // Update the favState depening on action type
     switch (action.type) {
       // Add favourite
       case 'ADD_FAV':

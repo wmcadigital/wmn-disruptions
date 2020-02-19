@@ -2,29 +2,28 @@ import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 // Import contexts
 import { FavsContext } from 'globalState';
-
+// Import Components
 import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
 import Icon from 'components/shared/Icon/Icon';
 
 import s from './FavBusButton.module.scss';
 
 const FavBusButton = ({ id, severity, text, title }) => {
-  const [favState, favDispatch] = useContext(FavsContext);
-  const [isFav, setIsFav] = useState(favState.bus.includes(id));
+  const [favState, favDispatch] = useContext(FavsContext); // Get fav state from globalState
+  const [isFav, setIsFav] = useState(favState.bus.includes(id)); // Check favs on load to see if ours is included
 
+  // UseEffect to watch for changes of favState, then we can reload component with new favourites
   useEffect(() => {
-    setIsFav(favState.bus.includes(id));
+    setIsFav(favState.bus.includes(id)); // Check reloaded favs to see if our id is included in there
   }, [favState.bus, id, isFav]);
 
   const toggleFav = () => {
-    setIsFav(!isFav);
+    setIsFav(!isFav); // Toggle the fav state
 
     if (isFav) {
-      // Remove favourite
-      favDispatch({ type: 'REMOVE_FAV', id });
+      favDispatch({ type: 'REMOVE_FAV', id }); // Remove favourite from globalState/localStorage
     } else {
-      // Add favourite
-      favDispatch({ type: 'ADD_FAV', id });
+      favDispatch({ type: 'ADD_FAV', id }); // Add favourite to globalState/localStorage
     }
   };
 
