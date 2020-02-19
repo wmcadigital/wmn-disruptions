@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 // Import contexts
 import { FavsContext } from 'globalState';
@@ -11,6 +11,10 @@ import s from './FavBusButton.module.scss';
 const FavBusButton = ({ id, severity, text, title }) => {
   const [favState, favDispatch] = useContext(FavsContext);
   const [isFav, setIsFav] = useState(favState.bus.includes(id));
+
+  useEffect(() => {
+    setIsFav(favState.bus.includes(id));
+  }, [favState.bus, id, isFav]);
 
   const toggleFav = () => {
     setIsFav(!isFav);
