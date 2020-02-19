@@ -1,15 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
+// Import contexts
+import { FavsContext } from 'globalState';
 
 import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
 import Icon from 'components/shared/Icon/Icon';
 
 import s from './FavBusButton.module.scss';
 
-const FavBusButton = ({ key, severity, text, title }) => {
-  const [isFav, setIsFav] = useState(false);
+const FavBusButton = ({ id, severity, text, title }) => {
+  const [favState, favDispatch] = useContext(FavsContext);
+  const [isFav, setIsFav] = useState(favState.bus.includes(id));
+
+  const toggleFav = () => {
+    setIsFav(!isFav);
+
+    if (isFav) {
+      // Remove favourite
+      favDispatch({ type: 'REMOVE_FAV', id });
+    } else {
+      // Add favourite
+      favDispatch({ type: 'ADD_FAV', id });
+    }
+  };
+
   return (
-    <div className={`${s.favButton} wmnds-m-b-md`} key={key}>
+    <div className={`${s.favButton} wmnds-m-b-md`} key={id}>
       {/* Services Affected */}
       <DisruptionIndicatorMedium
         text={text}
@@ -23,7 +39,7 @@ const FavBusButton = ({ key, severity, text, title }) => {
         type="button"
         className={s.starIconBtn}
         title={isFav ? `Remove ${title} from favourites` : `Favourite the ${title}`}
-        onClick={() => setIsFav(!isFav)}
+        onClick={toggleFav}
       >
         <Icon iconName={isFav ? 'general-star' : 'general-star-empty'} iconClass={s.starIcon} />
       </button>
@@ -33,14 +49,14 @@ const FavBusButton = ({ key, severity, text, title }) => {
 
 // Set props
 FavBusButton.propTypes = {
-  key: PropTypes.string, // button type, by default it is type="button"
+  id: PropTypes.string, // button type, by default it is type="button"
   severity: PropTypes.string.isRequired, // severity of disruption
   text: PropTypes.string.isRequired, // text inside button
   title: PropTypes.string
 };
 
 FavBusButton.defaultProps = {
-  key: null,
+  id: null,
   title: null
 };
 
