@@ -4,6 +4,8 @@ import dompurify from 'dompurify';
 import Icon from 'components/shared/Icon/Icon';
 import DisruptionIndicatorSmall from 'components/shared/DisruptionIndicator/DisruptionIndicatorSmall';
 
+import FavBusButton from 'components/shared/FavButtons/FavBusButton/FavBusButton';
+
 const { sanitize } = dompurify;
 
 const DisruptionItem = ({ disruption }) => {
@@ -59,7 +61,11 @@ const DisruptionItem = ({ disruption }) => {
         <div className="wmnds-p-l-md">
           {disruption.servicesAffected &&
             disruption.servicesAffected.map(affected => (
-
+              <FavBusButton
+                key={affected.id}
+                text={affected.serviceNumber}
+                severity={disruption.disruptionSeverity}
+              />
             ))}
         </div>
         {/* Accordion Start */}
