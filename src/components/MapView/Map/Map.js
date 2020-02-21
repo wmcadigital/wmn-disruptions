@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { loadModules } from 'esri-loader';
 import axios from 'axios';
 
-import { FetchDisruptionsContext, AutoCompleteContext } from 'globalState';
+import { FetchDisruptionsContext, AutoCompleteContext, ModeContext } from 'globalState';
 
 // Import map icons
 import locateCircle from 'assets/svgs/map/locate-circle.svg';
@@ -33,6 +33,7 @@ const WebMapView = () => {
 
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
+  const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
 
   // Map useEffect (this is to apply core mapping stuff on page/component load)
   useEffect(() => {
@@ -116,11 +117,19 @@ const WebMapView = () => {
         ([Graphic, FeatureLayer, GraphicsLayer]) => {
           // Create new graphic for each lat long in disruptions list
           const graphics = fetchDisruptionsState.data.map(item => {
+            let affectedIds = '';
+            if (item.servicesAffected) {
+              item.servicesAffected.forEach(service => {
+                affectedIds += `${service.id}, `;
+              });
+            }
+
             return new Graphic({
               attributes: {
                 id: item.id,
                 title: item.title,
-                mode: item.mode
+                mode: item.mode,
+                servicesAffected: affectedIds
               },
               geometry: {
                 type: 'point',
@@ -136,28 +145,13 @@ const WebMapView = () => {
               }
             });
           });
+          console.log({ graphics });
 
           const flayer = new FeatureLayer({
             source: graphics,
             objectIdField: 'oid', // This must be defined when creating a layer from `Graphic` objects
-            outFields: ['*'],
+            // outFields: ['*'],
             visible: true,
-            popupTemplate: {
-              // autocasts as new PopupTemplate()
-              title: 'Places in Los Angeles',
-              content: [
-                {
-                  type: 'fields',
-                  fieldInfos: [
-                    {
-                      fieldName: 'title',
-                      label: 'Title',
-                      visible: true
-                    }
-                  ]
-                }
-              ]
-            },
             fields: [
               {
                 name: 'oid',
@@ -178,6 +172,11 @@ const WebMapView = () => {
                 name: 'mode',
                 alias: 'mode',
                 type: 'string'
+              },
+              {
+                name: 'servicesAffected',
+                alias: 'servicesAffected',
+                type: 'string'
               }
             ]
           });
@@ -185,15 +184,38 @@ const WebMapView = () => {
           const glayer = new GraphicsLayer();
           map.current.add(glayer);
 
-          const query = flayer.createQuery();
-          query.where = "mode = 'tram'";
-
           function addGraphics(result) {
             glayer.removeAll();
             result.features.forEach(feature => {
               const g = new Graphic({
                 geometry: feature.geometry,
                 attributes: feature.attributes,
+                popupTemplate: {
+                  // autocasts as new PopupTemplate()
+                  title: '{title}',
+                  content: [
+                    {
+                      type: 'fields',
+                      fieldInfos: [
+                        {
+                          fieldName: 'title',
+                          label: 'Title',
+                          visible: true
+                        },
+                        {
+                          fieldName: 'id',
+                          label: 'id',
+                          visible: true
+                        },
+                        {
+                          fieldName: 'servicesAffected',
+                          label: 'servicesAffected',
+                          visible: true
+                        }
+                      ]
+                    }
+                  ]
+                },
                 symbol: {
                   // autocasts as new SimpleMarkerSymbol()
                   type: 'picture-marker',
@@ -206,6 +228,21 @@ const WebMapView = () => {
             });
           }
 
+          let queryBuilder;
+
+          if (modeState.mode) {
+            queryBuilder = `mode = '${modeState.mode}'`;
+          }
+
+          if (autoCompleteState.selectedService.id) {
+            queryBuilder += ` AND servicesAffected LIKE '%${autoCompleteState.selectedService.id}%'`;
+          }
+
+          console.log({ queryBuilder });
+
+          const query = flayer.createQuery();
+          query.where = queryBuilder;
+
           flayer.queryFeatures(query).then(result => {
             console.log(result);
             addGraphics(result, true);
@@ -215,7 +252,7 @@ const WebMapView = () => {
         }
       );
     }
-  }, [fetchDisruptionsState.data]);
+  }, [autoCompleteState.selectedService, fetchDisruptionsState.data, modeState.mode]);
 
   // This useEffect is to plot the line on the map
   useEffect(() => {
