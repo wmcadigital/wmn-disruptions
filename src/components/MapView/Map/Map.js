@@ -122,7 +122,8 @@ const WebMapView = () => {
               geometry: {
                 type: 'point',
                 longitude: item.lon,
-                latitude: item.lat
+                latitude: item.lat,
+                spatialreference: { wkid: 4326 }
               },
               symbol: {
                 type: 'picture-marker',
