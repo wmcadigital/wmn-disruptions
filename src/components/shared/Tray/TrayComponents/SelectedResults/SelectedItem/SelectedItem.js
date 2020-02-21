@@ -40,7 +40,7 @@ const SelectedItem = ({ disruption }) => {
               id={affected.id}
               severity={disruption.disruptionSeverity}
               text={affected.serviceNumber}
-              title={`${affected.operatorCode} ${affected.serviceNumber}: ${affected.routeDescriptions[0].description}`}
+              title={`${affected.routeDescriptions[0].description} (${affected.operatorName})`}
             />
           ))}
       </div>
