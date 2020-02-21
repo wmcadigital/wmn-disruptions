@@ -28,7 +28,6 @@ import s from './Map.module.scss';
 
 const WebMapView = () => {
   const mapRef = useRef();
-  const renders = useRef(0);
   const view = useRef(); // view.current
   const map = useRef();
 
@@ -98,7 +97,6 @@ const WebMapView = () => {
       });
 
       // eslint-disable-next-line no-plusplus
-      console.log(renders.current++);
 
       return () => {
         if (view.current) {
@@ -114,15 +112,20 @@ const WebMapView = () => {
     // If disruption state has data in it...
     if (fetchDisruptionsState.data.length) {
       // Load ESRI modules
-      loadModules(['esri/Graphic', 'esri/layers/GraphicsLayer']).then(
-        ([Graphic, GraphicsLayer]) => {
+      loadModules(['esri/Graphic', 'esri/layers/FeatureLayer', 'esri/layers/GraphicsLayer']).then(
+        ([Graphic, FeatureLayer, GraphicsLayer]) => {
           // Create new graphic for each lat long in disruptions list
           const graphics = fetchDisruptionsState.data.map(item => {
             return new Graphic({
+              attributes: {
+                id: item.id,
+                title: item.title,
+                mode: item.mode
+              },
               geometry: {
                 type: 'point',
-                longitude: item.lon,
-                latitude: item.lat,
+                longitude: item.lon || 0,
+                latitude: item.lat || 0,
                 spatialreference: { wkid: 4326 }
               },
               symbol: {
@@ -134,11 +137,81 @@ const WebMapView = () => {
             });
           });
 
-          // Create new graphics layer with all the graphics we created above
-          const graphicsLayer = new GraphicsLayer({
-            graphics
+          const flayer = new FeatureLayer({
+            source: graphics,
+            objectIdField: 'oid', // This must be defined when creating a layer from `Graphic` objects
+            outFields: ['*'],
+            visible: true,
+            popupTemplate: {
+              // autocasts as new PopupTemplate()
+              title: 'Places in Los Angeles',
+              content: [
+                {
+                  type: 'fields',
+                  fieldInfos: [
+                    {
+                      fieldName: 'title',
+                      label: 'Title',
+                      visible: true
+                    }
+                  ]
+                }
+              ]
+            },
+            fields: [
+              {
+                name: 'oid',
+                alias: 'oid',
+                type: 'oid'
+              },
+              {
+                name: 'id',
+                alias: 'id',
+                type: 'string'
+              },
+              {
+                name: 'title',
+                alias: 'title',
+                type: 'string'
+              },
+              {
+                name: 'mode',
+                alias: 'mode',
+                type: 'string'
+              }
+            ]
           });
-          map.current.add(graphicsLayer); // Add all icons to map as graphics layer
+
+          const glayer = new GraphicsLayer();
+          map.current.add(glayer);
+
+          const query = flayer.createQuery();
+          query.where = "mode = 'tram'";
+
+          function addGraphics(result) {
+            glayer.removeAll();
+            result.features.forEach(feature => {
+              const g = new Graphic({
+                geometry: feature.geometry,
+                attributes: feature.attributes,
+                symbol: {
+                  // autocasts as new SimpleMarkerSymbol()
+                  type: 'picture-marker',
+                  url: busMinor, // Set to svg circle when user hits 'locate' button
+                  height: '30px',
+                  width: '51px'
+                }
+              });
+              glayer.add(g);
+            });
+          }
+
+          flayer.queryFeatures(query).then(result => {
+            console.log(result);
+            addGraphics(result, true);
+
+            // view.goTo({ center: g, zoom: 15 });
+          });
         }
       );
     }
