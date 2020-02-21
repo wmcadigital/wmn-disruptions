@@ -24,7 +24,7 @@ const SelectedItem = ({ disruption }) => {
           />
 
           <div className="wmnds-col-3-4">
-            <h4 className="wmnds-m-none">{disruption.title}</h4>
+            {disruption.title} at <strong>{disruption.subtitle}</strong>
           </div>
         </div>
       </div>
@@ -40,7 +40,7 @@ const SelectedItem = ({ disruption }) => {
               id={affected.id}
               severity={disruption.disruptionSeverity}
               text={affected.serviceNumber}
-              title={`${affected.operatorCode} ${affected.serviceNumber}: ${affected.routeDescriptions[0].description}`}
+              title={`${affected.routeDescriptions[0].description} (${affected.operatorName})`}
             />
           ))}
       </div>

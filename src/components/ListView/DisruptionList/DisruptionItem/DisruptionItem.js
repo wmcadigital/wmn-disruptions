@@ -40,7 +40,7 @@ const DisruptionItem = ({ disruption }) => {
 
               <div className="wmnds-col-1 wmnds-col-sm-3-4">
                 {/* Title of disruptions */}
-                <strong>{disruption.title}</strong>
+                {disruption.title} at <strong>{disruption.subtitle}</strong>
               </div>
             </div>
           </div>
@@ -65,7 +65,7 @@ const DisruptionItem = ({ disruption }) => {
                 id={affected.id}
                 severity={disruption.disruptionSeverity}
                 text={affected.serviceNumber}
-                title={`${affected.operatorCode} ${affected.serviceNumber}: ${affected.routeDescriptions[0].description}`}
+                title={`${affected.routeDescriptions[0].description} (${affected.operatorName})`}
               />
             ))}
         </div>
