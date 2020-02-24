@@ -31,6 +31,7 @@ const WebMapView = () => {
   const view = useRef(); // view.current
   const map = useRef();
   const glayer = useRef();
+  const polyline = useRef();
 
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
@@ -98,6 +99,9 @@ const WebMapView = () => {
       view.current.ui.add(locateBtn, {
         position: 'top-right'
       });
+
+      polyline.current = new GraphicsLayer();
+      map.current.add(polyline.current);
 
       glayer.current = new GraphicsLayer();
       map.current.add(glayer.current);
@@ -280,7 +284,9 @@ const WebMapView = () => {
                 width: 4
               }
             });
-            view.current.graphics.add(poly); // Add polyline to the map
+            polyline.current.removeAll();
+
+            polyline.current.add(poly); // Add polyline to the map
           });
         });
     }
