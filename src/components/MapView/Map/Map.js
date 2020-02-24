@@ -4,11 +4,11 @@ import { loadModules } from 'esri-loader';
 import axios from 'axios';
 
 import { FetchDisruptionsContext, AutoCompleteContext, ModeContext } from 'globalState';
+import busMinor from 'assets/map-icons/bus-minor.png';
+import useCreateMap from './customHooks/useCreateMap';
 
 // Import map icons
-import locateCircle from 'assets/svgs/map/locate-circle.svg';
 // bus icons
-import busMinor from 'assets/map-icons/bus-minor.png';
 // import busMajor from 'assets/map-icons/bus-major.png';
 // import busSevere from 'assets/map-icons/bus-severe.png';
 // tram icons
@@ -37,85 +37,7 @@ const WebMapView = () => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
 
-  // Map useEffect (this is to apply core mapping stuff on page/component load)
-  useEffect(() => {
-    // lazy load the required ArcGIS API for JavaScript modules and CSS
-    // Make sure that the referenced module is also injected as a param in the .then function below
-    loadModules(
-      [
-        'esri/Map',
-        'esri/views/MapView',
-        'esri/Basemap',
-        'esri/layers/VectorTileLayer',
-        'esri/widgets/Locate',
-        'esri/Graphic',
-        'esri/layers/GraphicsLayer'
-      ],
-      {
-        css: true
-      }
-    ).then(([Map, MapView, Basemap, VectorTileLayer, Locate, Graphic, GraphicsLayer]) => {
-      // When loaded, create a new basemap
-      const basemap = new Basemap({
-        baseLayers: [
-          new VectorTileLayer({
-            portalItem: {
-              // set the basemap to the one being used: https://tfwm.maps.arcgis.com/home/item.html?id=53f165a8863c4d40ba017042e248355e
-              id: '53f165a8863c4d40ba017042e248355e'
-            }
-          })
-        ]
-      });
-
-      // Create a new map with the basemap set above
-      map.current = new Map({
-        basemap
-      });
-
-      // Create a new map view with settings
-      view.current = new MapView({
-        container: mapRef.current,
-        map: map.current,
-        center: [-2.0047209, 52.4778132],
-        zoom: 10
-      });
-
-      const locateBtn = new Locate({
-        view: view.current, // Attaches the Locate button to the view
-        graphic: new Graphic({
-          // overwrites the default symbol used for the graphic placed at the location of the user when found
-          symbol: {
-            type: 'picture-marker',
-            url: locateCircle, // Set to svg circle when user hits 'locate' button
-            height: '150px',
-            width: '150px'
-          }
-        })
-      });
-
-      view.current.ui.move(['zoom'], 'top-right');
-
-      // Add the locate widget to the top left corner of the view.current
-      view.current.ui.add(locateBtn, {
-        position: 'top-right'
-      });
-
-      polyline.current = new GraphicsLayer();
-      map.current.add(polyline.current);
-
-      glayer.current = new GraphicsLayer();
-      map.current.add(glayer.current);
-
-      // eslint-disable-next-line no-plusplus
-
-      return () => {
-        if (view.current) {
-          // destroy the map view
-          view.current.container = null;
-        }
-      };
-    });
-  }, []);
+  useCreateMap(mapRef, map, glayer, polyline, view);
 
   // This useEffect is to add the disruption icons to the map
   useEffect(() => {
