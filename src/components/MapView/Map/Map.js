@@ -30,6 +30,7 @@ const WebMapView = () => {
   const mapRef = useRef();
   const view = useRef(); // view.current
   const map = useRef();
+  const glayer = useRef();
 
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
@@ -46,12 +47,13 @@ const WebMapView = () => {
         'esri/Basemap',
         'esri/layers/VectorTileLayer',
         'esri/widgets/Locate',
-        'esri/Graphic'
+        'esri/Graphic',
+        'esri/layers/GraphicsLayer'
       ],
       {
         css: true
       }
-    ).then(([Map, MapView, Basemap, VectorTileLayer, Locate, Graphic]) => {
+    ).then(([Map, MapView, Basemap, VectorTileLayer, Locate, Graphic, GraphicsLayer]) => {
       // When loaded, create a new basemap
       const basemap = new Basemap({
         baseLayers: [
@@ -97,6 +99,9 @@ const WebMapView = () => {
         position: 'top-right'
       });
 
+      glayer.current = new GraphicsLayer();
+      map.current.add(glayer.current);
+
       // eslint-disable-next-line no-plusplus
 
       return () => {
@@ -113,144 +118,137 @@ const WebMapView = () => {
     // If disruption state has data in it...
     if (fetchDisruptionsState.data.length) {
       // Load ESRI modules
-      loadModules(['esri/Graphic', 'esri/layers/FeatureLayer', 'esri/layers/GraphicsLayer']).then(
-        ([Graphic, FeatureLayer, GraphicsLayer]) => {
-          // Create new graphic for each lat long in disruptions list
-          const graphics = fetchDisruptionsState.data.map(item => {
-            let affectedIds = '';
-            if (item.servicesAffected) {
-              item.servicesAffected.forEach(service => {
-                affectedIds += `${service.id}, `;
-              });
-            }
+      loadModules(['esri/Graphic', 'esri/layers/FeatureLayer']).then(([Graphic, FeatureLayer]) => {
+        // Create new graphic for each lat long in disruptions list
+        const graphics = fetchDisruptionsState.data.map(item => {
+          let affectedIds = '';
+          if (item.servicesAffected) {
+            item.servicesAffected.forEach(service => {
+              affectedIds += `${service.id}, `;
+            });
+          }
 
-            return new Graphic({
-              attributes: {
-                id: item.id,
-                title: item.title,
-                mode: item.mode,
-                servicesAffected: affectedIds
-              },
-              geometry: {
-                type: 'point',
-                longitude: item.lon || 0,
-                latitude: item.lat || 0,
-                spatialreference: { wkid: 4326 }
+          return new Graphic({
+            attributes: {
+              id: item.id,
+              title: item.title,
+              mode: item.mode,
+              servicesAffected: affectedIds
+            },
+            geometry: {
+              type: 'point',
+              longitude: item.lon || 0,
+              latitude: item.lat || 0,
+              spatialreference: { wkid: 4326 }
+            },
+            symbol: {
+              type: 'picture-marker',
+              url: busMinor, // Set to svg circle when user hits 'locate' button
+              height: '30px',
+              width: '51px'
+            }
+          });
+        });
+
+        const flayer = new FeatureLayer({
+          source: graphics,
+          objectIdField: 'oid', // This must be defined when creating a layer from `Graphic` objects
+          // outFields: ['*'],
+          fields: [
+            {
+              name: 'oid',
+              alias: 'oid',
+              type: 'oid'
+            },
+            {
+              name: 'id',
+              alias: 'id',
+              type: 'string'
+            },
+            {
+              name: 'title',
+              alias: 'title',
+              type: 'string'
+            },
+            {
+              name: 'mode',
+              alias: 'mode',
+              type: 'string'
+            },
+            {
+              name: 'servicesAffected',
+              alias: 'servicesAffected',
+              type: 'string'
+            }
+          ]
+        });
+
+        function addGraphics(result) {
+          result.features.forEach(feature => {
+            const g = new Graphic({
+              geometry: feature.geometry,
+              attributes: feature.attributes,
+              popupTemplate: {
+                // autocasts as new PopupTemplate()
+                title: '{title}',
+                content: [
+                  {
+                    type: 'fields',
+                    fieldInfos: [
+                      {
+                        fieldName: 'title',
+                        label: 'Title',
+                        visible: true
+                      },
+                      {
+                        fieldName: 'id',
+                        label: 'id',
+                        visible: true
+                      },
+                      {
+                        fieldName: 'servicesAffected',
+                        label: 'servicesAffected',
+                        visible: true
+                      }
+                    ]
+                  }
+                ]
               },
               symbol: {
+                // autocasts as new SimpleMarkerSymbol()
                 type: 'picture-marker',
                 url: busMinor, // Set to svg circle when user hits 'locate' button
                 height: '30px',
                 width: '51px'
               }
             });
-          });
-          console.log({ graphics });
-
-          const flayer = new FeatureLayer({
-            source: graphics,
-            objectIdField: 'oid', // This must be defined when creating a layer from `Graphic` objects
-            // outFields: ['*'],
-            visible: true,
-            fields: [
-              {
-                name: 'oid',
-                alias: 'oid',
-                type: 'oid'
-              },
-              {
-                name: 'id',
-                alias: 'id',
-                type: 'string'
-              },
-              {
-                name: 'title',
-                alias: 'title',
-                type: 'string'
-              },
-              {
-                name: 'mode',
-                alias: 'mode',
-                type: 'string'
-              },
-              {
-                name: 'servicesAffected',
-                alias: 'servicesAffected',
-                type: 'string'
-              }
-            ]
-          });
-
-          const glayer = new GraphicsLayer();
-          map.current.add(glayer);
-
-          function addGraphics(result) {
-            glayer.removeAll();
-            result.features.forEach(feature => {
-              const g = new Graphic({
-                geometry: feature.geometry,
-                attributes: feature.attributes,
-                popupTemplate: {
-                  // autocasts as new PopupTemplate()
-                  title: '{title}',
-                  content: [
-                    {
-                      type: 'fields',
-                      fieldInfos: [
-                        {
-                          fieldName: 'title',
-                          label: 'Title',
-                          visible: true
-                        },
-                        {
-                          fieldName: 'id',
-                          label: 'id',
-                          visible: true
-                        },
-                        {
-                          fieldName: 'servicesAffected',
-                          label: 'servicesAffected',
-                          visible: true
-                        }
-                      ]
-                    }
-                  ]
-                },
-                symbol: {
-                  // autocasts as new SimpleMarkerSymbol()
-                  type: 'picture-marker',
-                  url: busMinor, // Set to svg circle when user hits 'locate' button
-                  height: '30px',
-                  width: '51px'
-                }
-              });
-              glayer.add(g);
-            });
-          }
-
-          let queryBuilder;
-
-          if (modeState.mode) {
-            queryBuilder = `mode = '${modeState.mode}'`;
-          }
-
-          if (autoCompleteState.selectedService.id) {
-            queryBuilder += ` AND servicesAffected LIKE '%${autoCompleteState.selectedService.id}%'`;
-          }
-
-          console.log({ queryBuilder });
-
-          const query = flayer.createQuery();
-          query.where = queryBuilder;
-
-          flayer.queryFeatures(query).then(result => {
-            console.log(result);
-            addGraphics(result, true);
-
-            // view.goTo({ center: g, zoom: 15 });
+            glayer.current.add(g);
           });
         }
-      );
+
+        let queryBuilder;
+
+        if (modeState.mode) {
+          queryBuilder = `mode = '${modeState.mode}'`;
+        }
+
+        if (autoCompleteState.selectedService.id) {
+          queryBuilder += ` AND servicesAffected LIKE '%${autoCompleteState.selectedService.id}%'`;
+        }
+
+        console.log({ queryBuilder });
+
+        const query = flayer.createQuery();
+        query.where = queryBuilder;
+
+        flayer.queryFeatures(query).then(result => {
+          glayer.current.removeAll();
+          addGraphics(result);
+          console.log({ map: map.current.layers });
+
+          // view.goTo({ center: g, zoom: 15 });
+        });
+      });
     }
   }, [autoCompleteState.selectedService, fetchDisruptionsState.data, modeState.mode]);
 
