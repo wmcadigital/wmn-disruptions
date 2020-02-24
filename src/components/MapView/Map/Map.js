@@ -258,6 +258,9 @@ const WebMapView = () => {
 
   // This useEffect is to plot the line on the map
   useEffect(() => {
+    if (polyline.current) {
+      polyline.current.removeAll();
+    }
     // If there is an ID in state, then lets hit the API and get the geoJSON
     if (autoCompleteState.selectedService.id) {
       axios
@@ -284,7 +287,6 @@ const WebMapView = () => {
                 width: 4
               }
             });
-            polyline.current.removeAll();
 
             polyline.current.add(poly); // Add polyline to the map
           });
