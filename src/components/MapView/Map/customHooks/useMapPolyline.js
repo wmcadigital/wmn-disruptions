@@ -34,7 +34,7 @@ const useMapPolyline = _polyline => {
               },
               symbol: {
                 type: 'simple-line', // autocasts as new SimpleLineSymbol()
-                color: [226, 119, 40], // RGB color values as an array
+                color: '#3c1053', // RGB color values as an array
                 width: 4
               }
             });

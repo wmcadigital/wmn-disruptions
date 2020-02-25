@@ -134,12 +134,12 @@ const useMapIconLayer = (_map, _iconLayer) => {
         let queryBuilder; // Placeholder query var to filter, this will be updated based on state of app...
         // If when selected
         if (whenState.when) {
-          queryBuilder = `((startDate >= '${fromDate}' AND startDate <= '${toDate}') OR (endDate >= '${fromDate}' AND startDate <= '${toDate}'))`;
+          queryBuilder = `(startDate >= '${fromDate}' AND startDate <= '${toDate}') OR (endDate >= '${fromDate}' AND startDate <= '${toDate}')`;
         }
 
         // If mode is selected
         if (modeState.mode) {
-          queryBuilder = ` AND mode = '${modeState.mode}'`; // add mode query to queryBuilder
+          queryBuilder += ` AND mode = '${modeState.mode}'`; // add mode query to queryBuilder
         }
         // If autocomplete ID
         if (autoCompleteState.selectedService.id) {
