@@ -1,8 +1,15 @@
 import { useContext, useEffect } from 'react';
 import { loadModules } from 'esri-loader';
+import { format } from 'fecha';
 import busMinor from 'assets/map-icons/bus-minor.png';
+import useDateFilter from 'customHooks/useDateFilter';
 
-import { FetchDisruptionsContext, AutoCompleteContext, ModeContext } from 'globalState';
+import {
+  FetchDisruptionsContext,
+  AutoCompleteContext,
+  ModeContext,
+  WhenContext
+} from 'globalState';
 
 // Import map icons
 // bus icons
@@ -26,6 +33,9 @@ const useMapIconLayer = (_map, _iconLayer) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
   const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
+  const [whenState] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
+  const { fromDate, toDate } = useDateFilter();
+
   // Reassign injected useRef params to internal vars
   const map = _map;
   const iconLayer = _iconLayer;
@@ -36,41 +46,50 @@ const useMapIconLayer = (_map, _iconLayer) => {
     if (fetchDisruptionsState.data.length) {
       // lazy load the required ArcGIS API for JavaScript modules and CSS
       loadModules(['esri/Graphic', 'esri/layers/FeatureLayer']).then(([Graphic, FeatureLayer]) => {
+        const today = format(new Date(), 'YYYY-MM-DD');
+
         // Create new graphic for each lat long in disruptions list
-        const graphics = fetchDisruptionsState.data.map(item => {
+        const disruptionsData = fetchDisruptionsState.data.map(item => {
+          let startDate = today;
+          let endDate = today;
+          // If disruption time window exists then set start/end dates to those
+          if (item.disruptionTimeWindow) {
+            startDate = format(new Date(item.disruptionTimeWindow.start), 'YYYY-MM-DD');
+            endDate = format(new Date(item.disruptionTimeWindow.end), 'YYYY-MM-DD');
+          }
+
           let affectedIds = '';
+          // If servicedsAffected on disruption add them to the affectedIds var so we can query them
           if (item.servicesAffected) {
             item.servicesAffected.forEach(service => {
               affectedIds += `${service.id}, `;
             });
           }
-
+          // Return graphic element with attributes we want to query, and geomotry/location of disruption
           return new Graphic({
             attributes: {
               id: item.id,
               title: item.title,
               mode: item.mode,
-              servicesAffected: affectedIds
+              servicesAffected: affectedIds,
+              startDate,
+              endDate
             },
             geometry: {
               type: 'point',
               longitude: item.lon || 0,
               latitude: item.lat || 0,
-              spatialreference: { wkid: 4326 }
-            },
-            symbol: {
-              type: 'picture-marker',
-              url: busMinor, // Set to svg circle when user hits 'locate' button
-              height: '30px',
-              width: '51px'
+              spatialreference: {
+                wkid: 4326
+              }
             }
           });
         });
 
+        // Create a feature layer so that we can query it
         const flayer = new FeatureLayer({
-          source: graphics,
+          source: disruptionsData, // Set the source to the disruptionsData we created above
           objectIdField: 'oid', // This must be defined when creating a layer from `Graphic` objects
-          // outFields: ['*'],
           fields: [
             {
               name: 'oid',
@@ -96,79 +115,73 @@ const useMapIconLayer = (_map, _iconLayer) => {
               name: 'servicesAffected',
               alias: 'servicesAffected',
               type: 'string'
+            },
+            {
+              name: 'startDate',
+              alias: 'startDate',
+              type: 'string'
+            },
+            {
+              name: 'endDate',
+              alias: 'endDate',
+              type: 'string'
             }
           ]
         });
 
-        function addGraphics(result) {
-          result.features.forEach(feature => {
-            const g = new Graphic({
-              geometry: feature.geometry,
-              attributes: feature.attributes,
-              popupTemplate: {
-                // autocasts as new PopupTemplate()
-                title: '{title}',
-                content: [
-                  {
-                    type: 'fields',
-                    fieldInfos: [
-                      {
-                        fieldName: 'title',
-                        label: 'Title',
-                        visible: true
-                      },
-                      {
-                        fieldName: 'id',
-                        label: 'id',
-                        visible: true
-                      },
-                      {
-                        fieldName: 'servicesAffected',
-                        label: 'servicesAffected',
-                        visible: true
-                      }
-                    ]
-                  }
-                ]
-              },
-              symbol: {
-                // autocasts as new SimpleMarkerSymbol()
-                type: 'picture-marker',
-                url: busMinor, // Set to svg circle when user hits 'locate' button
-                height: '30px',
-                width: '51px'
-              }
-            });
-            iconLayer.current.add(g);
-          });
+        // QUERY FEATURE LAYER, Any fields to be queried need to be included in fields list of feature layer above.
+        // ESRI maps uses SQL syntax to query.
+        let queryBuilder; // Placeholder query var to filter, this will be updated based on state of app...
+        // If when selected
+        if (whenState.when) {
+          queryBuilder = `((startDate >= '${fromDate}' AND startDate <= '${toDate}') OR (endDate >= '${fromDate}' AND startDate <= '${toDate}'))`;
         }
 
-        let queryBuilder;
-
+        // If mode is selected
         if (modeState.mode) {
-          queryBuilder = `mode = '${modeState.mode}'`;
+          queryBuilder = ` AND mode = '${modeState.mode}'`; // add mode query to queryBuilder
         }
-
+        // If autocomplete ID
         if (autoCompleteState.selectedService.id) {
-          queryBuilder += ` AND servicesAffected LIKE '%${autoCompleteState.selectedService.id}%'`;
+          queryBuilder += ` AND servicesAffected LIKE '%${autoCompleteState.selectedService.id}%'`; // Add selected id query to queryBuilder
         }
 
-        const query = flayer.createQuery();
-        query.where = queryBuilder;
+        const query = flayer.createQuery(); // Create a query based on feature layer above
+        query.where = queryBuilder; // .where uses the SQL query we built
 
         flayer.queryFeatures(query).then(result => {
-          iconLayer.current.removeAll();
-          addGraphics(result);
-          // view.goTo({ center: g, zoom: 15 });
+          // function that takes a result, and creates a graphic, then adds to iconLayer on map
+          function addGraphics(item) {
+            item.features.forEach(feature => {
+              const graphic = new Graphic({
+                geometry: feature.geometry,
+                attributes: feature.attributes,
+                symbol: {
+                  // autocasts as new SimpleMarkerSymbol()
+                  type: 'picture-marker',
+                  url: busMinor, // Set to svg disruption indicator
+                  height: '30px',
+                  width: '51px'
+                }
+              });
+              iconLayer.current.add(graphic); // Add graphic to iconLayer on map
+            });
+          }
+
+          iconLayer.current.removeAll(); // Remove all graphics from iconLayer
+          addGraphics(result); // Add queried result as a graphic to iconLayer
         });
       });
     }
   }, [
     autoCompleteState.selectedService.id,
     fetchDisruptionsState.data,
+    fromDate,
     iconLayer,
     map,
-    modeState.mode
+    modeState.mode,
+    toDate,
+    whenState.when
   ]);
 };
 
