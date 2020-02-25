@@ -1,0 +1,50 @@
+import { useContext, useEffect } from 'react';
+import { loadModules } from 'esri-loader';
+import axios from 'axios';
+import { AutoCompleteContext } from 'globalState';
+
+const useMapPolyline = _polyline => {
+  const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
+
+  const polyline = _polyline;
+
+  // This useEffect is to plot the line on the map
+  useEffect(() => {
+    if (polyline.current) {
+      polyline.current.removeAll();
+    }
+    // If there is an ID in state, then lets hit the API and get the geoJSON
+    if (autoCompleteState.selectedService.id) {
+      axios
+        .get(
+          `https://trasnport-api-isruptions-v2.azure-api.net/bus/v1/RouteGeoJSON/${autoCompleteState.selectedService.id}`,
+          {
+            headers: {
+              'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
+            }
+          }
+        )
+        .then(route => {
+          // Get esri modules
+          loadModules(['esri/Graphic']).then(([Graphic]) => {
+            // Create a new polyline with the geoJSON from the API for the ID
+            const poly = new Graphic({
+              geometry: {
+                type: 'polyline',
+                paths: route.data.geoJson.features[0].geometry.coordinates
+              },
+              symbol: {
+                type: 'simple-line', // autocasts as new SimpleLineSymbol()
+                color: [226, 119, 40], // RGB color values as an array
+                width: 4
+              }
+            });
+
+            polyline.current.add(poly); // Add polyline to the map
+          });
+        });
+    }
+  }, [autoCompleteState.selectedService.id, polyline]);
+};
+
+export default useMapPolyline;
