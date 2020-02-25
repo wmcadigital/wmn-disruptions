@@ -1,14 +1,14 @@
-// Using https://developers.arcgis.com/labs/browse/?product=javascript&topic=any and ESRI JS API
 import { useEffect } from 'react';
 import { loadModules } from 'esri-loader';
 
 // Import map icons
 import locateCircle from 'assets/svgs/map/locate-circle.svg';
 
-const useCreateMap = (_mapRef, _map, _glayer, _polyline, _view) => {
+const useCreateMap = (_mapRef, _map, _iconLayer, _polyline, _view) => {
+  // Reassign injected useRef params to internal vars
   const mapRef = _mapRef;
   const map = _map;
-  const glayer = _glayer;
+  const iconLayer = _iconLayer;
   const polyline = _polyline;
   const view = _view;
 
@@ -55,6 +55,7 @@ const useCreateMap = (_mapRef, _map, _glayer, _polyline, _view) => {
         zoom: 10
       });
 
+      // Create a locate button
       const locateBtn = new Locate({
         view: view.current, // Attaches the Locate button to the view
         graphic: new Graphic({
@@ -68,19 +69,23 @@ const useCreateMap = (_mapRef, _map, _glayer, _polyline, _view) => {
         })
       });
 
+      // Move zoom widget to top-right corner of view.current
       view.current.ui.move(['zoom'], 'top-right');
 
-      // Add the locate widget to the top left corner of the view.current
+      // Add the locate widget to the top right corner of the view.current
       view.current.ui.add(locateBtn, {
         position: 'top-right'
       });
 
+      // Set up a graphics layer placeholder so we can inject a polyline into it in future
       polyline.current = new GraphicsLayer();
       map.current.add(polyline.current);
 
-      glayer.current = new GraphicsLayer();
-      map.current.add(glayer.current);
+      // Set up a graphics layer placeholder so we can inject disruption icons into it in future
+      iconLayer.current = new GraphicsLayer();
+      map.current.add(iconLayer.current);
 
+      // If component unmounting
       return () => {
         if (view.current) {
           // destroy the map view
@@ -88,7 +93,7 @@ const useCreateMap = (_mapRef, _map, _glayer, _polyline, _view) => {
         }
       };
     });
-  }, [glayer, map, mapRef, polyline, view]);
+  }, [iconLayer, map, mapRef, polyline, view]);
 };
 
 export default useCreateMap;

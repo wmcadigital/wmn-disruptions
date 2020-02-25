@@ -4,19 +4,37 @@ import busMinor from 'assets/map-icons/bus-minor.png';
 
 import { FetchDisruptionsContext, AutoCompleteContext, ModeContext } from 'globalState';
 
-const useMapIconLayer = (_map, _glayer) => {
+// Import map icons
+// bus icons
+// import busMajor from 'assets/map-icons/bus-major.png';
+// import busSevere from 'assets/map-icons/bus-severe.png';
+// tram icons
+// import tramMinor from 'assets/map-icons/tram-minor.png';
+// import tramMajor from 'assets/map-icons/tram-major.png';
+// import tramSevere from 'assets/map-icons/tram-severe.png';
+// train icons
+// import trainMinor from 'assets/map-icons/train-minor.png';
+// import trainMajor from 'assets/map-icons/train-major.png';
+// import trainSevere from 'assets/map-icons/train-severe.png';
+// roads icons
+// import roadsMinor from 'assets/map-icons/roads-minor.png';
+// import roadsMajor from 'assets/map-icons/roads-major.png';
+// import roadsSevere from 'assets/map-icons/roads-severe.png';
+
+const useMapIconLayer = (_map, _iconLayer) => {
+  // Set globalstates from imported context
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
   const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
-
+  // Reassign injected useRef params to internal vars
   const map = _map;
-  const glayer = _glayer;
+  const iconLayer = _iconLayer;
 
   // This useEffect is to add the disruption icons to the map
   useEffect(() => {
     // If disruption state has data in it...
     if (fetchDisruptionsState.data.length) {
-      // Load ESRI modules
+      // lazy load the required ArcGIS API for JavaScript modules and CSS
       loadModules(['esri/Graphic', 'esri/layers/FeatureLayer']).then(([Graphic, FeatureLayer]) => {
         // Create new graphic for each lat long in disruptions list
         const graphics = fetchDisruptionsState.data.map(item => {
@@ -121,7 +139,7 @@ const useMapIconLayer = (_map, _glayer) => {
                 width: '51px'
               }
             });
-            glayer.current.add(g);
+            iconLayer.current.add(g);
           });
         }
 
@@ -139,7 +157,7 @@ const useMapIconLayer = (_map, _glayer) => {
         query.where = queryBuilder;
 
         flayer.queryFeatures(query).then(result => {
-          glayer.current.removeAll();
+          iconLayer.current.removeAll();
           addGraphics(result);
           // view.goTo({ center: g, zoom: 15 });
         });
@@ -148,7 +166,7 @@ const useMapIconLayer = (_map, _glayer) => {
   }, [
     autoCompleteState.selectedService.id,
     fetchDisruptionsState.data,
-    glayer,
+    iconLayer,
     map,
     modeState.mode
   ]);

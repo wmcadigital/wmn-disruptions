@@ -5,8 +5,7 @@ import { AutoCompleteContext } from 'globalState';
 
 const useMapPolyline = _polyline => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
-
-  const polyline = _polyline;
+  const polyline = _polyline; // Reassign injected useRef params to internal vars
 
   // This useEffect is to plot the line on the map
   useEffect(() => {
@@ -25,7 +24,7 @@ const useMapPolyline = _polyline => {
           }
         )
         .then(route => {
-          // Get esri modules
+          // lazy load the required ArcGIS API for JavaScript modules and CSS
           loadModules(['esri/Graphic']).then(([Graphic]) => {
             // Create a new polyline with the geoJSON from the API for the ID
             const poly = new Graphic({
