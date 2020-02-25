@@ -5,11 +5,12 @@ import { loadModules } from 'esri-loader';
 // Import map icons
 import locateCircle from 'assets/svgs/map/locate-circle.svg';
 
-const useCreateMap = (mapRef, m, g, p, v) => {
-  const map = m;
-  const glayer = g;
-  const polyline = p;
-  const view = v;
+const useCreateMap = (_mapRef, _map, _glayer, _polyline, _view) => {
+  const mapRef = _mapRef;
+  const map = _map;
+  const glayer = _glayer;
+  const polyline = _polyline;
+  const view = _view;
 
   // Map useEffect (this is to apply core mapping stuff on page/component load)
   useEffect(() => {

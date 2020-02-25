@@ -4,13 +4,13 @@ import busMinor from 'assets/map-icons/bus-minor.png';
 
 import { FetchDisruptionsContext, AutoCompleteContext, ModeContext } from 'globalState';
 
-const useMapIconLayer = (m, gl) => {
+const useMapIconLayer = (_map, _glayer) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
   const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
 
-  const map = m;
-  const glayer = gl;
+  const map = _map;
+  const glayer = _glayer;
 
   // This useEffect is to add the disruption icons to the map
   useEffect(() => {
