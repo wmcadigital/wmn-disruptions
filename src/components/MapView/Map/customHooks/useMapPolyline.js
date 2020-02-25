@@ -3,9 +3,10 @@ import { loadModules } from 'esri-loader';
 import axios from 'axios';
 import { AutoCompleteContext } from 'globalState';
 
-const useMapPolyline = _polyline => {
+const useMapPolyline = (_polyline, _view) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const polyline = _polyline; // Reassign injected useRef params to internal vars
+  const view = _view;
 
   // This useEffect is to plot the line on the map
   useEffect(() => {
@@ -40,10 +41,12 @@ const useMapPolyline = _polyline => {
             });
 
             polyline.current.add(poly); // Add polyline to the map
+
+            view.current.goTo({ target: poly });
           });
         });
     }
-  }, [autoCompleteState.selectedService.id, polyline]);
+  }, [autoCompleteState.selectedService.id, polyline, view]);
 };
 
 export default useMapPolyline;

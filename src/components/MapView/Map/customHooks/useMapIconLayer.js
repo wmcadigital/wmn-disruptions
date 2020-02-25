@@ -28,7 +28,7 @@ import {
 // import roadsMajor from 'assets/map-icons/roads-major.png';
 // import roadsSevere from 'assets/map-icons/roads-severe.png';
 
-const useMapIconLayer = (_map, _iconLayer) => {
+const useMapIconLayer = (_map, _iconLayer, _view) => {
   // Set globalstates from imported context
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
@@ -39,6 +39,7 @@ const useMapIconLayer = (_map, _iconLayer) => {
   // Reassign injected useRef params to internal vars
   const map = _map;
   const iconLayer = _iconLayer;
+  const view = _view;
 
   // This useEffect is to add the disruption icons to the map
   useEffect(() => {
@@ -134,7 +135,7 @@ const useMapIconLayer = (_map, _iconLayer) => {
         let queryBuilder; // Placeholder query var to filter, this will be updated based on state of app...
         // If when selected
         if (whenState.when) {
-          queryBuilder = `(startDate >= '${fromDate}' AND startDate <= '${toDate}') OR (endDate >= '${fromDate}' AND startDate <= '${toDate}')`;
+          queryBuilder = `((startDate >= '${fromDate}' AND startDate <= '${toDate}') OR (endDate >= '${fromDate}' AND startDate <= '${toDate}'))`;
         }
 
         // If mode is selected
@@ -170,6 +171,9 @@ const useMapIconLayer = (_map, _iconLayer) => {
 
           iconLayer.current.removeAll(); // Remove all graphics from iconLayer
           addGraphics(result); // Add queried result as a graphic to iconLayer
+          console.log(iconLayer.current);
+
+          view.current.goTo({ target: iconLayer.current.graphics.items });
         });
       });
     }
@@ -181,6 +185,7 @@ const useMapIconLayer = (_map, _iconLayer) => {
     map,
     modeState.mode,
     toDate,
+    view,
     whenState.when
   ]);
 };
