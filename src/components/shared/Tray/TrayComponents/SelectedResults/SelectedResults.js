@@ -4,6 +4,7 @@ import { AutoCompleteContext, FetchDisruptionsContext } from 'globalState';
 import Icon from 'components/shared/Icon/Icon';
 import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
 import useFilterLogic from 'customHooks/useFilterLogic';
+import CloseButton from 'components/shared/CloseButton/CloseButton';
 import SelectedItem from './SelectedItem/SelectedItem';
 
 import s from './SelectedResults.module.scss';
@@ -31,13 +32,8 @@ const SelectedResults = () => {
           <div className={`wmnds-col-auto ${s.selectedSummary}`}>
             <strong>{selectedService.routeName}</strong>
           </div>
-          <button
-            type="button"
-            className={`${s.cancelButton} wmnds-col-auto`}
-            onClick={() => autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' })}
-          >
-            <Icon iconName="general-cross" iconClass={`general-cross ${s.cancelIcon}`} />
-          </button>
+
+          <CloseButton onClick={() => autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' })} />
         </div>
       )}
 
