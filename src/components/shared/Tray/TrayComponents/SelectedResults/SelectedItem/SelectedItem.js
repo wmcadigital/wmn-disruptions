@@ -14,7 +14,7 @@ const { sanitize } = dompurify;
 
 const SelectedItem = ({ disruption, autoCompleteDispatch }) => {
   return (
-    <div className={`wmnds-grid wmnds-m-t-lg wmnds-p-t-lg ${s.disruption}`} key={disruption.id}>
+    <div className={`wmnds-grid wmnds-m-t-lg wmnds-p-t-lg ${s.disruption}`}>
       <div className="wmnds-col-1">
         <CloseButton isFloated onClick={() => autoCompleteDispatch()} />
       </div>
