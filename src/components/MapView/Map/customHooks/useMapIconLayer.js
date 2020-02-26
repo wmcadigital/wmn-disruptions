@@ -30,7 +30,7 @@ import {
 
 const useMapIconLayer = (_map, _iconLayer, _view) => {
   // Set globalstates from imported context
-  const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
+  const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
   const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
   const [whenState] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
@@ -175,9 +175,35 @@ const useMapIconLayer = (_map, _iconLayer, _view) => {
 
           view.current.goTo({ target: iconLayer.current.graphics.items });
         });
+
+        function getGraphics(response) {
+          const clickedGraphicID = response.results[0].graphic.attributes.id;
+          // get the top most layer ok.  that's the layer with the point on
+          if (clickedGraphicID !== undefined) {
+            autoCompleteDispatch({
+              type: 'UPDATE_SELECTED_SERVICE',
+              selectedService: {
+                id: clickedGraphicID
+                // severity: result.disruptionSeverity,
+                // serviceNumber: result.serviceNumber,
+                // routeName: result.routes[0].routeName
+              }
+            });
+          }
+        }
+
+        // Set up a click event handler and retrieve the screen point
+        view.current.on('click', e => {
+          // the hitTest() checks to see if any graphics in the view
+          // intersect the given screen x, y coordinates
+          const { screenPoint } = e;
+          // eslint-disable-next-line no-use-before-define
+          view.current.hitTest(screenPoint).then(getGraphics);
+        });
       });
     }
   }, [
+    autoCompleteDispatch,
     autoCompleteState.selectedService.id,
     fetchDisruptionsState.data,
     fromDate,
