@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import dompurify from 'dompurify';
+
+// Imported components
 import Icon from 'components/shared/Icon/Icon';
 import DisruptionIndicatorSmall from 'components/shared/DisruptionIndicator/DisruptionIndicatorSmall';
-
+import DisruptionInfo from 'components/shared/DisruptionInfo/DisruptionInfo';
 import FavBusButton from 'components/shared/FavButtons/FavBusButton/FavBusButton';
-
-const { sanitize } = dompurify;
 
 const DisruptionItem = ({ disruption }) => {
   const [openAccordions, setopenAccordions] = useState({}); // Used to track state of open and closed accordions
 
   return (
     <>
+      {/* Accordion Start */}
       <div
         className={`wmnds-accordion wmnds-m-b-lg ${
           openAccordions[disruption.id] ? 'wmnds-is--open' : ''
@@ -69,21 +69,12 @@ const DisruptionItem = ({ disruption }) => {
               />
             ))}
         </div>
-        {/* Accordion Start */}
 
         <div className="wmnds-accordion__content" id="accordion-custom-01">
-          {/* Accordion End */}
-
-          {/* Description Start */}
-          <div className="clear">
-            <hr />
-            <h3>{disruption.title}</h3>
-
-            <div dangerouslySetInnerHTML={{ __html: sanitize(disruption.description) }} />
-          </div>
-          {/* Description End */}
+          <DisruptionInfo disruption={disruption} listView />
         </div>
       </div>
+      {/* Accordion End */}
     </>
   );
 };
