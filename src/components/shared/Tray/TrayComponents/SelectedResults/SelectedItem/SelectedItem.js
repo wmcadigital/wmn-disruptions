@@ -6,6 +6,7 @@ import Button from 'components/shared/Button/Button';
 import Icon from 'components/shared/Icon/Icon';
 import DisruptionIndicatorSmall from 'components/shared/DisruptionIndicator/DisruptionIndicatorSmall';
 import FavBusButton from 'components/shared/FavButtons/FavBusButton/FavBusButton';
+import CloseButton from 'components/shared/CloseButton/CloseButton';
 
 import s from './SelectedItem.module.scss';
 
@@ -14,14 +15,9 @@ const { sanitize } = dompurify;
 const SelectedItem = ({ disruption, autoCompleteDispatch }) => {
   return (
     <div className={`wmnds-grid wmnds-m-t-lg wmnds-p-t-lg ${s.disruption}`} key={disruption.id}>
-      {/* Close button */}
-      <button
-        type="button"
-        className={`${s.cancelButton} ${s.cancelButtonFloated}`}
-        onClick={autoCompleteDispatch}
-      >
-        <Icon iconName="general-cross" iconClass={`general-cross ${s.cancelIcon}`} />
-      </button>
+      <div className="wmnds-col-1">
+        <CloseButton isFloated onClick={() => autoCompleteDispatch()} />
+      </div>
 
       {/* Title of disruptions */}
       <div className="wmnds-col-1 wmnds-m-b-lg">
