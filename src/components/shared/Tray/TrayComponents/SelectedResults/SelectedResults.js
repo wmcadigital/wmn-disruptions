@@ -40,9 +40,11 @@ const SelectedResults = () => {
           </button>
         </div>
       )}
+
       <div className="wmnds-msg-help wmnds-col-1">
         Save routes to your homepage by pressing the star icon
       </div>
+
       {/* If no selectedData then it must be good service */}
       {!selectedData.length && (
         <div className="wmnds-msg-summary wmnds-msg-summary--success wmnds-col-1">
@@ -54,11 +56,16 @@ const SelectedResults = () => {
           <div className="wmnds-msg-summary__info">No incidents reported.</div>
         </div>
       )}
+
       {/* If there are selectedData then there must be disruptions, loop through */}
       {selectedData.length > 0 &&
         fetchDisruptionsState.isMapVisible &&
         selectedData.map(disruption => (
-          <SelectedItem disruption={disruption} key={disruption.id} />
+          <SelectedItem
+            disruption={disruption}
+            key={disruption.id}
+            autoCompleteDispatch={() => autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' })}
+          />
         ))}
     </>
   );
