@@ -26,7 +26,16 @@ const BusAutoComplete = () => {
           }
         )
         .then(bus => {
-          autoCompleteDispatch({ type: 'UPDATE_DATA', data: bus.data.services }); // Update data state with services returned
+          // If bus.data.services isn't there, then we can't map the results to it, so return null
+          return bus.data.services
+            ? autoCompleteDispatch({ type: 'UPDATE_DATA', data: bus.data.services })
+            : null; // Update data state with services returned
+        })
+        .catch(error => {
+          console.log('hello');
+          console.log(error);
+        })
+        .then(() => {
           setLoading(false); // Set loading state to false after data is received
         });
     }
