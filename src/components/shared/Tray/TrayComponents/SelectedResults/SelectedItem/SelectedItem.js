@@ -11,9 +11,18 @@ import s from './SelectedItem.module.scss';
 
 const { sanitize } = dompurify;
 
-const SelectedItem = ({ disruption }) => {
+const SelectedItem = ({ disruption, autoCompleteDispatch }) => {
   return (
     <div className={`wmnds-grid wmnds-m-t-lg wmnds-p-t-lg ${s.disruption}`} key={disruption.id}>
+      {/* Close button */}
+      <button
+        type="button"
+        className={`${s.cancelButton} ${s.cancelButtonFloated}`}
+        onClick={autoCompleteDispatch}
+      >
+        <Icon iconName="general-cross" iconClass={`general-cross ${s.cancelIcon}`} />
+      </button>
+
       {/* Title of disruptions */}
       <div className="wmnds-col-1 wmnds-m-b-lg">
         <div className="wmnds-grid wmnds-grid--align-center">
@@ -67,7 +76,8 @@ const SelectedItem = ({ disruption }) => {
 
 // PropTypes
 SelectedItem.propTypes = {
-  disruption: PropTypes.objectOf(PropTypes.any).isRequired
+  disruption: PropTypes.objectOf(PropTypes.any).isRequired,
+  autoCompleteDispatch: PropTypes.func.isRequired
 };
 
 export default SelectedItem;
