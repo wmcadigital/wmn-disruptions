@@ -28,7 +28,7 @@ export const AutoCompleteProvider = props => {
           ...state,
           query: action.query
         };
-      case 'UPDATE_DISRUPTION_ID':
+      case 'UDPATE_SELECTED_MAP_DISRUPTION':
         return {
           ...state,
           selectedMapDisruption: action.selectedMapDisruption

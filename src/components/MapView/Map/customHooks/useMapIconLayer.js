@@ -171,7 +171,6 @@ const useMapIconLayer = (_map, _iconLayer, _view) => {
 
           iconLayer.current.removeAll(); // Remove all graphics from iconLayer
           addGraphics(result); // Add queried result as a graphic to iconLayer
-          console.log(iconLayer.current);
 
           view.current.goTo({ target: iconLayer.current.graphics.items });
         });
@@ -181,7 +180,7 @@ const useMapIconLayer = (_map, _iconLayer, _view) => {
           // get the top most layer ok.  that's the layer with the point on
           if (selectedMapDisruption !== undefined) {
             autoCompleteDispatch({
-              type: 'UPDATE_DISRUPTION_ID',
+              type: 'UDPATE_SELECTED_MAP_DISRUPTION',
               selectedMapDisruption
             });
           }
