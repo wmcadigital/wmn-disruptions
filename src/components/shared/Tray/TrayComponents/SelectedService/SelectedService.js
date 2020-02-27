@@ -4,10 +4,10 @@ import { AutoCompleteContext, FetchDisruptionsContext } from 'globalState';
 import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
 import useFilterLogic from 'customHooks/useFilterLogic';
 import CloseButton from 'components/shared/CloseButton/CloseButton';
-import SelectedItem from './SelectedItem/SelectedItem';
+import DisruptedService from './DisruptedService/DisruptedService';
 
 import s from './SelectedService.module.scss';
-import GoodServiceMessage from './GoodServiceMessage/GoodServiceMessage';
+import GoodService from './GoodService/GoodService';
 
 const SelectedService = () => {
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
@@ -44,13 +44,13 @@ const SelectedService = () => {
       </div>
 
       {/* If no selectedData then it must be good service */}
-      {!selectedData.length && <GoodServiceMessage />}
+      {!selectedData.length && <GoodService />}
 
       {/* If there are selectedData then there must be disruptions, loop through */}
       {selectedData.length > 0 &&
         fetchDisruptionsState.isMapVisible &&
         selectedData.map(disruption => (
-          <SelectedItem
+          <DisruptedService
             disruption={disruption}
             key={disruption.id}
             autoCompleteDispatch={() => autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' })}

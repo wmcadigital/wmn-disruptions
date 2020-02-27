@@ -6,9 +6,9 @@ import DisruptionIndicatorSmall from 'components/shared/DisruptionIndicator/Disr
 import CloseButton from 'components/shared/CloseButton/CloseButton';
 import DisruptionInfo from 'components/shared/DisruptionInfo/DisruptionInfo';
 
-import s from './SelectedItem.module.scss';
+import s from './DisruptedService.module.scss';
 
-const SelectedItem = ({ disruption, autoCompleteDispatch }) => {
+const DisruptedService = ({ disruption, autoCompleteDispatch }) => {
   return (
     <div className={`wmnds-grid wmnds-m-t-lg wmnds-p-t-lg ${s.disruption}`}>
       <div className="wmnds-col-1">
@@ -36,9 +36,9 @@ const SelectedItem = ({ disruption, autoCompleteDispatch }) => {
 };
 
 // PropTypes
-SelectedItem.propTypes = {
+DisruptedService.propTypes = {
   disruption: PropTypes.objectOf(PropTypes.any).isRequired,
   autoCompleteDispatch: PropTypes.func.isRequired
 };
 
-export default SelectedItem;
+export default DisruptedService;

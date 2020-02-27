@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from 'components/shared/Icon/Icon';
 
-const GoodServiceMessage = () => {
+const GoodService = () => {
   return (
     <div className="wmnds-msg-summary wmnds-msg-summary--success wmnds-col-1">
       <div className="wmnds-msg-summary__header">
@@ -14,4 +14,4 @@ const GoodServiceMessage = () => {
   );
 };
 
-export default GoodServiceMessage;
+export default GoodService;
