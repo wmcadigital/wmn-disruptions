@@ -7,12 +7,14 @@ import DisruptionInfo from 'components/shared/DisruptionInfo/DisruptionInfo';
 
 import s from './DisruptedService.module.scss';
 
-const DisruptedService = ({ disruption, autoCompleteDispatch }) => {
+const DisruptedService = ({ disruption, autoCompleteDispatch, disruptionID }) => {
   return (
     <div className={`wmnds-grid wmnds-m-t-lg wmnds-p-t-lg ${s.disruption}`}>
-      <div className="wmnds-col-1">
-        <CloseButton isFloated onClick={() => autoCompleteDispatch()} />
-      </div>
+      {disruptionID && (
+        <div className="wmnds-col-1">
+          <CloseButton isFloated onClick={() => autoCompleteDispatch()} />
+        </div>
+      )}
 
       {/* Title of disruptions */}
       <div className="wmnds-col-1 wmnds-m-b-lg">
@@ -37,6 +39,7 @@ const DisruptedService = ({ disruption, autoCompleteDispatch }) => {
 // PropTypes
 DisruptedService.propTypes = {
   disruption: PropTypes.objectOf(PropTypes.any).isRequired,
+  disruptionID: PropTypes.string.isRequired,
   autoCompleteDispatch: PropTypes.func.isRequired
 };
 
