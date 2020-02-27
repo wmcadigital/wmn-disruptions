@@ -15,6 +15,9 @@ const BusAutoComplete = () => {
 
   useEffect(() => {
     if (autoCompleteState.query) {
+      const { CancelToken } = axios;
+      const source = CancelToken.source();
+
       setLoading(true); // Update loading state to true as we are hitting API
       axios
         .get(
@@ -22,22 +25,33 @@ const BusAutoComplete = () => {
           {
             headers: {
               'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
-            }
+            },
+            cancelToken: source.token
           }
         )
         .then(bus => {
           // If bus.data.services isn't there, then we can't map the results to it, so return null
           return bus.data.services
-            ? autoCompleteDispatch({ type: 'UPDATE_DATA', data: bus.data.services })
+            ? autoCompleteDispatch({
+                type: 'UPDATE_DATA',
+                data: bus.data.services
+              })
             : null; // Update data state with services returned
         })
         .catch(error => {
-          console.log('hello');
-          console.log(error);
+          if (axios.isCancel(error)) {
+            console.log('Request canceled', error.message);
+          } else {
+            // handle error
+            console.log(error);
+          }
         })
         .then(() => {
           setLoading(false); // Set loading state to false after data is received
         });
+
+      // cancel the request (the message parameter is optional)
+      source.cancel('Operation canceled by the user.');
     }
   }, [autoCompleteDispatch, autoCompleteState.query]);
 
@@ -56,7 +70,7 @@ const BusAutoComplete = () => {
           value={autoCompleteState.query}
           onChange={e => autoCompleteDispatch({ type: 'UPDATE_QUERY', query: e.target.value })}
           aria-label="Search for a service"
-          debounceTimeout={600}
+          // debounceTimeout={600}
         />
       </div>
       {/* If there is no data.length(results) and the user hasn't submitted a query and the state isn't loading then the user should be displayed with no results message, else show results */}
