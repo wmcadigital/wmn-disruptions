@@ -17,6 +17,7 @@ const BusAutoComplete = () => {
     const { CancelToken } = axios; // Set up a cancelToken
     const source = CancelToken.source(); // Set source of cancelToken
 
+    console.log({ query: autoCompleteState.query, loading });
     if (autoCompleteState.query) {
       setLoading(true); // Update loading state to true as we are hitting API
       axios
@@ -39,12 +40,8 @@ const BusAutoComplete = () => {
             : null; // Update data state with services returned
         })
         .catch(error => {
-          if (axios.isCancel(error)) {
-            console.log('Request canceled', error.message);
-          } else {
-            // handle error
-            console.log(error);
-          }
+          // handle error
+          console.log(error);
         })
         .then(() => {
           setLoading(false); // Set loading state to false after data is received
@@ -52,7 +49,7 @@ const BusAutoComplete = () => {
     }
     // Unmount / cleanup
     return () => {
-      source.cancel(); // // cancel the request
+      source.cancel(); // cancel the request
     };
   }, [autoCompleteDispatch, autoCompleteState.query]);
 
