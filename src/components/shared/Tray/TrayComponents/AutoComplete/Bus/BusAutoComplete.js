@@ -14,10 +14,10 @@ const BusAutoComplete = () => {
   const [loading, setLoading] = useState(); // set state for loading spinner
 
   useEffect(() => {
-    if (autoCompleteState.query) {
-      const { CancelToken } = axios;
-      const source = CancelToken.source();
+    const { CancelToken } = axios; // Set up a cancelToken
+    const source = CancelToken.source(); // Set source of cancelToken
 
+    if (autoCompleteState.query) {
       setLoading(true); // Update loading state to true as we are hitting API
       axios
         .get(
@@ -26,7 +26,7 @@ const BusAutoComplete = () => {
             headers: {
               'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
             },
-            cancelToken: source.token
+            cancelToken: source.token // Set token with API call, so we can cancel this call on unmount
           }
         )
         .then(bus => {
@@ -49,10 +49,11 @@ const BusAutoComplete = () => {
         .then(() => {
           setLoading(false); // Set loading state to false after data is received
         });
-
-      // cancel the request (the message parameter is optional)
-      source.cancel('Operation canceled by the user.');
     }
+    // Unmount / cleanup
+    return () => {
+      source.cancel(); // // cancel the request
+    };
   }, [autoCompleteDispatch, autoCompleteState.query]);
 
   return (
@@ -70,7 +71,7 @@ const BusAutoComplete = () => {
           value={autoCompleteState.query}
           onChange={e => autoCompleteDispatch({ type: 'UPDATE_QUERY', query: e.target.value })}
           aria-label="Search for a service"
-          // debounceTimeout={600}
+          debounceTimeout={600}
         />
       </div>
       {/* If there is no data.length(results) and the user hasn't submitted a query and the state isn't loading then the user should be displayed with no results message, else show results */}
