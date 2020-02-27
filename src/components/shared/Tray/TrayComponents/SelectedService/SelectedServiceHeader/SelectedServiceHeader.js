@@ -30,7 +30,7 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch }) => {
       )}
 
       {/* Save routes message */}
-      <div className="wmnds-msg-help wmnds-col-1">
+      <div className="wmnds-msg-help wmnds-col-1 wmnds-m-b-lg">
         Save routes to your homepage by pressing the star icon
       </div>
     </>

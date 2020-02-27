@@ -9,7 +9,7 @@ import s from './DisruptedService.module.scss';
 
 const DisruptedService = ({ disruption, autoCompleteDispatch, disruptionID }) => {
   return (
-    <div className={`wmnds-grid wmnds-m-t-lg wmnds-p-t-lg ${s.disruption}`}>
+    <div className={`wmnds-grid wmnds-p-t-lg ${s.disruption}`}>
       {disruptionID && (
         <div className="wmnds-col-1">
           <CloseButton isFloated onClick={() => autoCompleteDispatch()} />
