@@ -45,9 +45,9 @@ const useFilterLogic = () => {
       filteredData = filteredData.filter(disrItem => disrItem.mode === modeState.mode);
     }
 
-    if (autoCompleteState.disruptionID) {
+    if (autoCompleteState.selectedMapDisruption) {
       filteredData = filteredData.filter(
-        disrItem => disrItem.id === autoCompleteState.disruptionID
+        disrItem => disrItem.id === autoCompleteState.selectedMapDisruption
       );
     }
 

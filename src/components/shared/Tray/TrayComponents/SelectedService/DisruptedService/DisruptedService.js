@@ -33,7 +33,7 @@ const DisruptedService = ({ disruption }) => {
 // PropTypes
 DisruptedService.propTypes = {
   disruption: PropTypes.objectOf(PropTypes.any).isRequired
-  // disruptionID: PropTypes.string.isRequired,
+  // selectedMapDisruption: PropTypes.string.isRequired,
   // autoCompleteDispatch: PropTypes.func.isRequired
 };
 

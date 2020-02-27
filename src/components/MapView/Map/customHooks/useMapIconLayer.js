@@ -177,12 +177,12 @@ const useMapIconLayer = (_map, _iconLayer, _view) => {
         });
 
         function getGraphics(response) {
-          const disruptionID = response.results[0].graphic.attributes.id;
+          const selectedMapDisruption = response.results[0].graphic.attributes.id;
           // get the top most layer ok.  that's the layer with the point on
-          if (disruptionID !== undefined) {
+          if (selectedMapDisruption !== undefined) {
             autoCompleteDispatch({
               type: 'UPDATE_DISRUPTION_ID',
-              disruptionID
+              selectedMapDisruption
             });
           }
         }

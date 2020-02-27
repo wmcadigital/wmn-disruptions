@@ -11,7 +11,7 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch }) => {
   return (
     <>
       {/* Close disruption box */}
-      {!autoCompleteState.disruptionID && (
+      {!autoCompleteState.selectedMapDisruption && (
         <div
           className={`wmnds-grid wmnds-grid--align-center wmnds-m-t-xs wmnds-m-b-md ${s.selectedItemBox}`}
         >

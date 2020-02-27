@@ -16,7 +16,7 @@ const Mode = () => {
       mode
     });
     // Reset selected disruption ID from map (if any)
-    if (autoCompleteState.disruptionID) {
+    if (autoCompleteState.selectedMapDisruption) {
       autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' });
     }
   };

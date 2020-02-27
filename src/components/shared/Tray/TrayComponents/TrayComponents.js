@@ -16,7 +16,7 @@ const TrayComponents = () => {
       <When />
       <Mode />
       {!autoCompleteState.selectedService.id && <AutoComplete />}
-      {(autoCompleteState.selectedService.id || autoCompleteState.disruptionID) && (
+      {(autoCompleteState.selectedService.id || autoCompleteState.selectedMapDisruption) && (
         <SelectedService />
       )}
     </>
