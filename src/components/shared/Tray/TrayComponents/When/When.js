@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker'; // Uses https://reactdatepicker.com/
 import { format } from 'fecha';
 
 // Import contexts
-import { WhenContext } from 'globalState';
+import { AutoCompleteContext, WhenContext } from 'globalState';
 // Import components
 import Button from 'components/shared/Button/Button';
 // Import styles
@@ -13,9 +13,23 @@ import './datePicker.scss';
 
 const When = () => {
   const [whenState, whenDispatch] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
+  const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of autoComplete from AutoCompleteContext
 
   const today = new Date(); // Get today's date
   const nowText = `Now ${format(today, 'HH:MM')}`; // Set nowText to be 'Now HH:MM'
+
+  const updateWhen = (when, date) => {
+    if (when === 'customDate') {
+      whenDispatch({ type: 'UPDATE_CUSTOMDATE', date });
+    } else {
+      // Update the when context to selected when
+      whenDispatch({ type: 'UPDATE_WHEN', when });
+    }
+    // Reset selected disruption ID from map (if any)
+    if (autoCompleteState.selectedMapDisruption) {
+      autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' });
+    }
+  };
 
   return (
     <div className="wmnds-grid">
@@ -27,14 +41,14 @@ const When = () => {
         <Button
           btnClass="wmnds-btn--secondary wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm wmnds-p-xsm"
           isActive={whenState.when === 'now'}
-          onClick={() => whenDispatch({ type: 'UPDATE_WHEN', when: 'now' })}
+          onClick={() => updateWhen('now')}
           text={nowText}
         />
         {/* Tomorrow button */}
         <Button
           btnClass="wmnds-btn--secondary wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm wmnds-p-xsm"
           isActive={whenState.when === 'tomorrow'}
-          onClick={() => whenDispatch({ type: 'UPDATE_WHEN', when: 'tomorrow' })}
+          onClick={() => updateWhen('tomorrow')}
           text="Tomorrow"
         />
         {/* Choose date button */}
@@ -53,7 +67,7 @@ const When = () => {
             <DatePicker
               selected={whenState.whenCustomDate || today}
               minDate={today}
-              onChange={date => whenDispatch({ type: 'UPDATE_CUSTOMDATE', date })}
+              onChange={date => updateWhen('customDate', date)}
               inline
               calendarClassName="disruptions-date-picker"
             />
