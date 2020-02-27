@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // Imported components
-
 import DisruptionIndicatorSmall from 'components/shared/DisruptionIndicator/DisruptionIndicatorSmall';
 import CloseButton from 'components/shared/CloseButton/CloseButton';
 import DisruptionInfo from 'components/shared/DisruptionInfo/DisruptionInfo';
