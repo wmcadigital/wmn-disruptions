@@ -3,7 +3,7 @@ import Icon from 'components/shared/Icon/Icon';
 
 const GoodService = () => {
   return (
-    <div className="wmnds-msg-summary wmnds-msg-summary--success wmnds-col-1">
+    <div className="wmnds-msg-summary wmnds-msg-summary--success wmnds-col-1 wmnds-m-t-lg">
       <div className="wmnds-msg-summary__header">
         <Icon iconName="general-success" iconClass="wmnds-msg-summary__icon" />
         <h3 className="wmnds-msg-summary__title">Good service</h3>
