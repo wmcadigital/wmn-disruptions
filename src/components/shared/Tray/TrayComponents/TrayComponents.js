@@ -6,7 +6,7 @@ import When from './When/When';
 import Mode from './Mode/Mode';
 import AutoComplete from './AutoComplete/AutoComplete';
 
-import SelectedResults from './SelectedResults/SelectedResults';
+import SelectedService from './SelectedService/SelectedService';
 
 const TrayComponents = () => {
   const [autoCompleteState] = useContext(AutoCompleteContext);
@@ -17,7 +17,7 @@ const TrayComponents = () => {
       <Mode />
       {!autoCompleteState.selectedService.id && <AutoComplete />}
       {(autoCompleteState.selectedService.id || autoCompleteState.disruptionID) && (
-        <SelectedResults />
+        <SelectedService />
       )}
     </>
   );

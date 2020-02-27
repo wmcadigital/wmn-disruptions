@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
 import { AutoCompleteContext, FetchDisruptionsContext } from 'globalState';
 
-import Icon from 'components/shared/Icon/Icon';
 import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
 import useFilterLogic from 'customHooks/useFilterLogic';
 import CloseButton from 'components/shared/CloseButton/CloseButton';
 import SelectedItem from './SelectedItem/SelectedItem';
 
-import s from './SelectedResults.module.scss';
+import s from './SelectedService.module.scss';
+import GoodServiceMessage from './GoodServiceMessage/GoodServiceMessage';
 
-const SelectedResults = () => {
+const SelectedService = () => {
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
 
@@ -19,6 +19,7 @@ const SelectedResults = () => {
 
   return (
     <>
+      {/* Close disruption box */}
       {!autoCompleteState.disruptionID && (
         <div
           className={`wmnds-grid wmnds-grid--align-center wmnds-m-t-xs wmnds-m-b-md ${s.selectedItemBox}`}
@@ -37,21 +38,13 @@ const SelectedResults = () => {
         </div>
       )}
 
+      {/* Save routes message */}
       <div className="wmnds-msg-help wmnds-col-1">
         Save routes to your homepage by pressing the star icon
       </div>
 
       {/* If no selectedData then it must be good service */}
-      {!selectedData.length && (
-        <div className="wmnds-msg-summary wmnds-msg-summary--success wmnds-col-1">
-          <div className="wmnds-msg-summary__header">
-            <Icon iconName="general-success" iconClass="wmnds-msg-summary__icon" />
-            <h3 className="wmnds-msg-summary__title">Good service</h3>
-          </div>
-
-          <div className="wmnds-msg-summary__info">No incidents reported.</div>
-        </div>
-      )}
+      {!selectedData.length && <GoodServiceMessage />}
 
       {/* If there are selectedData then there must be disruptions, loop through */}
       {selectedData.length > 0 &&
@@ -67,4 +60,4 @@ const SelectedResults = () => {
   );
 };
 
-export default SelectedResults;
+export default SelectedService;
