@@ -2,19 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // Imported components
 import DisruptionIndicatorSmall from 'components/shared/DisruptionIndicator/DisruptionIndicatorSmall';
-import CloseButton from 'components/shared/CloseButton/CloseButton';
+// import CloseButton from 'components/shared/CloseButton/CloseButton';
 import DisruptionInfo from 'components/shared/DisruptionInfo/DisruptionInfo';
 
 import s from './DisruptedService.module.scss';
 
-const DisruptedService = ({ disruption, autoCompleteDispatch, disruptionID }) => {
+const DisruptedService = ({ disruption }) => {
   return (
     <div className={`wmnds-grid wmnds-p-t-lg ${s.disruption}`}>
-      {disruptionID && (
+      {/* {disruptionID && (
         <div className="wmnds-col-1">
           <CloseButton isFloated onClick={() => autoCompleteDispatch()} />
         </div>
-      )}
+      )} */}
 
       {/* Title of disruptions */}
       <div className="wmnds-col-1 wmnds-m-b-lg">
@@ -38,9 +38,9 @@ const DisruptedService = ({ disruption, autoCompleteDispatch, disruptionID }) =>
 
 // PropTypes
 DisruptedService.propTypes = {
-  disruption: PropTypes.objectOf(PropTypes.any).isRequired,
-  disruptionID: PropTypes.string.isRequired,
-  autoCompleteDispatch: PropTypes.func.isRequired
+  disruption: PropTypes.objectOf(PropTypes.any).isRequired
+  // disruptionID: PropTypes.string.isRequired,
+  // autoCompleteDispatch: PropTypes.func.isRequired
 };
 
 export default DisruptedService;
