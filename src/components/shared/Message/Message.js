@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'components/shared/Icon/Icon';
+import dompurify from 'dompurify';
+
+const { sanitize } = dompurify;
 
 const Message = ({ type, title, message }) => {
   let iconName;
@@ -21,7 +24,10 @@ const Message = ({ type, title, message }) => {
         <h3 className="wmnds-msg-summary__title">{title}</h3>
       </div>
 
-      <div className="wmnds-msg-summary__info">{message}</div>
+      <div
+        className="wmnds-msg-summary__info"
+        dangerouslySetInnerHTML={{ __html: sanitize(message) }}
+      />
     </div>
   );
 };

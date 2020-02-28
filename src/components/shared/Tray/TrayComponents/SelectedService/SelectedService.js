@@ -3,8 +3,8 @@ import { AutoCompleteContext, FetchDisruptionsContext } from 'globalState';
 // Import customHooks
 import useFilterLogic from 'customHooks/useFilterLogic';
 // Imported components
+import Message from 'components/shared/Message/Message';
 import SelectedServiceHeader from './SelectedServiceHeader/SelectedServiceHeader';
-import Message from '../../../Message/Message';
 import DisruptedService from './DisruptedService/DisruptedService';
 
 const SelectedService = () => {

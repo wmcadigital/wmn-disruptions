@@ -6,6 +6,7 @@ import { DebounceInput } from 'react-debounce-input'; // https://www.npmjs.com/p
 import { AutoCompleteContext } from 'globalState';
 
 // Import components
+import Message from 'components/shared/Message/Message';
 import Icon from 'components/shared/Icon/Icon';
 import BusAutoCompleteResult from './BusAutoCompleteResult';
 
@@ -69,6 +70,8 @@ const BusAutoComplete = () => {
     };
   }, [autoCompleteDispatch, autoCompleteState.query]);
 
+  console.log(errorMessage);
+
   return (
     <>
       <div className={`wmnds-autocomplete wmnds-grid ${loading ? 'wmnds-is--loading' : ''}`}>
@@ -89,18 +92,23 @@ const BusAutoComplete = () => {
       </div>
       {/* If there is no data.length(results) and the user hasn't submitted a query and the state isn't loading then the user should be displayed with no results message, else show results */}
       {!autoCompleteState.data.length && autoCompleteState.query && !loading ? (
-        <p className="wmnds-col-1 wmnds-m-t-sm">
-          {'Oops! Sorry, no results have been found for '}
-          <strong>{autoCompleteState.query}</strong>
-          {'. '}
-          <br />
-          <br />
-          Please try searching for another service.
-          <br />
-          <br />
-          {errorMessage}
-        </p>
+        <Message
+          type="error"
+          title="No results found"
+          message="Make sure you are looking for the right service, and try again."
+        />
       ) : (
+        // <p className="wmnds-col-1 wmnds-m-t-sm">
+        //   {'Oops! Sorry, no results have been found for '}
+        //   <strong>{autoCompleteState.query}</strong>
+        //   {'. '}
+        //   <br />
+        //   <br />
+        //   Please try searching for another service.
+        //   <br />
+        //   <br />
+        //   {errorMessage}
+        // </p>
         // Only show autocomplete results if there is a query
         autoCompleteState.query && (
           <ul className="wmnds-autocomplete-suggestions">
