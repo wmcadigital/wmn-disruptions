@@ -13,9 +13,7 @@ import BusAutoCompleteResult from './BusAutoCompleteResult';
 const BusAutoComplete = () => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [loading, setLoading] = useState(false); // Set loading state for spinner
-  const [errorMessage, setErrorMessage] = useState(
-    'Apologies, we are having technical difficulties. Please try again.'
-  );
+  const [errorInfo, setErrorInfo] = useState(); // Placeholder to set error messaging
 
   const updateQuery = query => {
     // Reset selected disruption ID from map (if any)
@@ -43,25 +41,37 @@ const BusAutoComplete = () => {
           }
         )
         .then(bus => {
+          setLoading(false); // Set loading state to false after data is received
           // If bus.data.services isn't there, then we can't map the results to it, so return null
           autoCompleteDispatch({
             type: 'UPDATE_DATA',
             data: bus.data.services
           }); // Update data state with services returned
-          setLoading(false); // Set loading state to false after data is received
+
+          // if no bus data, set error
+          if (!bus.data.length) {
+            setErrorInfo({
+              title: 'No results found',
+              message: 'Make sure you are looking for the right service, and try again.'
+            });
+          }
         })
         .catch(error => {
-          setLoading(false); // Set loading state to false after data is received
-          if (error.message === 'Network Error') {
-            setErrorMessage(
-              `Sorry, unable to connect. Please check your internet connection and try again.`
-            );
+          if (!axios.isCancel(error)) {
+            setLoading(false); // Set loading state to false after data is received
+            // Update error message
+            setErrorInfo({
+              title: 'Please try again',
+              message: 'Apologies, we are having technical difficulties.'
+            });
+            // eslint-disable-next-line no-console
+            console.log({ error });
           }
-          console.log({ error });
-          // eslint-disable-next-line no-console
-        })
-        .then(() => {
-          // Always...
+
+          // If the api was cancelled and there is still a query, we still want to show loading
+          if (axios.isCancel(error) && autoCompleteState.query) {
+            setLoading(true);
+          }
         });
     }
     // Unmount / cleanup
@@ -69,8 +79,6 @@ const BusAutoComplete = () => {
       source.cancel(); // cancel the request
     };
   }, [autoCompleteDispatch, autoCompleteState.query]);
-
-  console.log(errorMessage);
 
   return (
     <>
@@ -91,24 +99,9 @@ const BusAutoComplete = () => {
         />
       </div>
       {/* If there is no data.length(results) and the user hasn't submitted a query and the state isn't loading then the user should be displayed with no results message, else show results */}
-      {!autoCompleteState.data.length && autoCompleteState.query && !loading ? (
-        <Message
-          type="error"
-          title="No results found"
-          message="Make sure you are looking for the right service, and try again."
-        />
+      {!autoCompleteState.data.length && autoCompleteState.query && !loading && errorInfo ? (
+        <Message type="error" title={errorInfo.title} message={errorInfo.message} />
       ) : (
-        // <p className="wmnds-col-1 wmnds-m-t-sm">
-        //   {'Oops! Sorry, no results have been found for '}
-        //   <strong>{autoCompleteState.query}</strong>
-        //   {'. '}
-        //   <br />
-        //   <br />
-        //   Please try searching for another service.
-        //   <br />
-        //   <br />
-        //   {errorMessage}
-        // </p>
         // Only show autocomplete results if there is a query
         autoCompleteState.query && (
           <ul className="wmnds-autocomplete-suggestions">

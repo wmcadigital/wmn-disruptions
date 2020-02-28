@@ -34,12 +34,14 @@ const Message = ({ type, title, message }) => {
 
 Message.propTypes = {
   type: PropTypes.string,
-  title: PropTypes.string.isRequired,
-  message: PropTypes.string.isRequired
+  title: PropTypes.string,
+  message: PropTypes.string
 };
 
 Message.defaultProps = {
-  type: 'success'
+  type: 'success',
+  title: 'Good service',
+  message: 'No incidents reported.'
 };
 
 export default Message;
