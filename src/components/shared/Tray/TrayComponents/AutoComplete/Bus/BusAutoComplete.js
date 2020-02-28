@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { DebounceInput } from 'react-debounce-input'; // https://www.npmjs.com/package/react-debounce-input
 
@@ -11,16 +11,29 @@ import BusAutoCompleteResult from './BusAutoCompleteResult';
 
 const BusAutoComplete = () => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
-  const loading = useRef(false); // Set loading ref for spinner (set as ref and not state to stop below useEffect re-rendering)
+  const [loading, setLoading] = useState(false); // Set loading state for spinner
+  const [errorMessage, setErrorMessage] = useState(
+    'Apologies, we are having technical difficulties. Please try again.'
+  );
+
+  const updateQuery = query => {
+    // Reset selected disruption ID from map (if any)
+    if (autoCompleteState.selectedMapDisruption) {
+      autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' });
+    }
+    autoCompleteDispatch({ type: 'UPDATE_QUERY', query });
+  };
 
   useEffect(() => {
     const source = axios.CancelToken.source(); // Set source of cancelToken
     // If autocomplete has query
     if (autoCompleteState.query) {
-      loading.current = true; // Update loading state to true as we are hitting API
+      setLoading(true); // Update loading state to true as we are hitting API
       axios
         .get(
-          `https://trasnport-api-isruptions-v2.azure-api.net/bus/v1/service?q=${autoCompleteState.query}`,
+          `https://trasnport-api-isruptions-v2.azure-api.net/bus/v1/service?q=${encodeURI(
+            autoCompleteState.query
+          )}`,
           {
             headers: {
               'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
@@ -30,19 +43,24 @@ const BusAutoComplete = () => {
         )
         .then(bus => {
           // If bus.data.services isn't there, then we can't map the results to it, so return null
-          return bus.data.services
-            ? autoCompleteDispatch({
-                type: 'UPDATE_DATA',
-                data: bus.data.services
-              })
-            : null; // Update data state with services returned
+          autoCompleteDispatch({
+            type: 'UPDATE_DATA',
+            data: bus.data.services
+          }); // Update data state with services returned
+          setLoading(false); // Set loading state to false after data is received
         })
         .catch(error => {
-          // handle error
-          console.log(error);
+          setLoading(false); // Set loading state to false after data is received
+          if (error.message === 'Network Error') {
+            setErrorMessage(
+              `Sorry, unable to connect. Please check your internet connection and try again.`
+            );
+          }
+          console.log({ error });
+          // eslint-disable-next-line no-console
         })
         .then(() => {
-          loading.current = false; // Set loading state to false after data is received
+          // Always...
         });
     }
     // Unmount / cleanup
@@ -53,9 +71,7 @@ const BusAutoComplete = () => {
 
   return (
     <>
-      <div
-        className={`wmnds-autocomplete wmnds-grid ${loading.current ? 'wmnds-is--loading' : ''}`}
-      >
+      <div className={`wmnds-autocomplete wmnds-grid ${loading ? 'wmnds-is--loading' : ''}`}>
         <Icon iconName="general-search" iconClass="wmnds-autocomplete__icon" />
         <div className="wmnds-loader" role="alert" aria-live="assertive">
           <p className="wmnds-loader__content">Content is loading...</p>
@@ -66,13 +82,13 @@ const BusAutoComplete = () => {
           placeholder="Search for a service"
           className="wmnds-autocomplete__input wmnds-col-1 wmnds"
           value={autoCompleteState.query}
-          onChange={e => autoCompleteDispatch({ type: 'UPDATE_QUERY', query: e.target.value })}
+          onChange={e => updateQuery(e.target.value)}
           aria-label="Search for a service"
           // debounceTimeout={600}
         />
       </div>
       {/* If there is no data.length(results) and the user hasn't submitted a query and the state isn't loading then the user should be displayed with no results message, else show results */}
-      {!autoCompleteState.data.length && autoCompleteState.query && !loading.current ? (
+      {!autoCompleteState.data.length && autoCompleteState.query && !loading ? (
         <p className="wmnds-col-1 wmnds-m-t-sm">
           {'Oops! Sorry, no results have been found for '}
           <strong>{autoCompleteState.query}</strong>
@@ -80,6 +96,9 @@ const BusAutoComplete = () => {
           <br />
           <br />
           Please try searching for another service.
+          <br />
+          <br />
+          {errorMessage}
         </p>
       ) : (
         // Only show autocomplete results if there is a query
