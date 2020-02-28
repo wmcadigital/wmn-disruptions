@@ -4,7 +4,7 @@ import { AutoCompleteContext, FetchDisruptionsContext } from 'globalState';
 import useFilterLogic from 'customHooks/useFilterLogic';
 // Imported components
 import SelectedServiceHeader from './SelectedServiceHeader/SelectedServiceHeader';
-import GoodService from './GoodService/GoodService';
+import Message from '../../../Message/Message';
 import DisruptedService from './DisruptedService/DisruptedService';
 
 const SelectedService = () => {
@@ -21,7 +21,7 @@ const SelectedService = () => {
       />
 
       {/* If no selectedData then it must be good service */}
-      {!selectedData.length && <GoodService />}
+      {!selectedData.length && <Message />}
 
       {/* If there are selectedData then there must be disruptions, loop through */}
       {selectedData.length > 0 &&
