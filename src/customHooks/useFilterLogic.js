@@ -45,6 +45,13 @@ const useFilterLogic = () => {
       filteredData = filteredData.filter(disrItem => disrItem.mode === modeState.mode);
     }
 
+    // SelectedMapDisruption filtering
+    if (autoCompleteState.selectedMapDisruption) {
+      filteredData = filteredData.filter(
+        disrItem => disrItem.id === autoCompleteState.selectedMapDisruption
+      );
+    }
+
     // ID filtering
     if (autoCompleteState.selectedService.id) {
       // The below will check all disruptions and will return any disruption where the mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array

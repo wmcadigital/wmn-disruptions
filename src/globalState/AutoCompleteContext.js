@@ -9,6 +9,8 @@ export const AutoCompleteProvider = props => {
   const initialState = {
     query: '',
     data: [],
+    selectedMapDisruption: null, // This is used to stash disruption id if a user clicks disruption on map
+    // The selected service is used to store details when a user has clicked an autocomplete
     selectedService: {
       id: null,
       severity: null,
@@ -25,6 +27,11 @@ export const AutoCompleteProvider = props => {
         return {
           ...state,
           query: action.query
+        };
+      case 'UDPATE_SELECTED_MAP_DISRUPTION':
+        return {
+          ...state,
+          selectedMapDisruption: action.selectedMapDisruption
         };
       case 'UPDATE_DATA':
         return {

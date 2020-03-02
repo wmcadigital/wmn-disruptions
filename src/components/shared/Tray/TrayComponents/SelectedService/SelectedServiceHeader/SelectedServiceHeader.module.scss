@@ -1,0 +1,19 @@
+// Vars
+@import '../../../../../../assets/styles/vars';
+// Mixins
+@import '../../../../../../assets/styles/mixins';
+
+.selectedItemBox {
+  padding: $size-sm;
+  border: 1px solid get-color(primary);
+  width: 100%;
+  position: relative;
+}
+
+.selectedSummary {
+  margin-right: 50px;
+  max-width: 80px;
+  @media all and (min-width: 380px) {
+    max-width: 130px;
+  }
+}
