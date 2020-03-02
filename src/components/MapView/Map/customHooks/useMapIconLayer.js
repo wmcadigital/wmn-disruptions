@@ -28,7 +28,7 @@ import {
 // import roadsMajor from 'assets/map-icons/roads-major.png';
 // import roadsSevere from 'assets/map-icons/roads-severe.png';
 
-const useMapIconLayer = (_map, _iconLayer, _view) => {
+const useMapIconLayer = (_mapRef, _map, _iconLayer, _view) => {
   // Set globalstates from imported context
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
@@ -37,6 +37,7 @@ const useMapIconLayer = (_map, _iconLayer, _view) => {
   const { fromDate, toDate } = useDateFilter();
 
   // Reassign injected useRef params to internal vars
+  const mapRef = _mapRef;
   const map = _map;
   const iconLayer = _iconLayer;
   const view = _view;
@@ -186,6 +187,24 @@ const useMapIconLayer = (_map, _iconLayer, _view) => {
           }
         }
 
+        // on pointer move
+        view.current.on('pointer-move', e => {
+          // capture lat/longs of point
+          const screenPoint = {
+            x: e.x,
+            y: e.y
+          };
+          // Check lat longs on map view and pass anything found as a response
+          view.current.hitTest(screenPoint).then(response => {
+            // If there is a response and it contains an attribute id then it's one of our icon graphics
+            if (response.results[0].graphic.attributes.id) {
+              mapRef.current.style.cursor = 'pointer'; // change map cursor to pointer
+            } else {
+              mapRef.current.style.cursor = 'default'; // else keep default pointer
+            }
+          });
+        });
+
         // Set up a click event handler and retrieve the screen point
         view.current.on('click', e => {
           // the hitTest() checks to see if any graphics in the view
@@ -203,6 +222,7 @@ const useMapIconLayer = (_map, _iconLayer, _view) => {
     fromDate,
     iconLayer,
     map,
+    mapRef,
     modeState.mode,
     toDate,
     view,
