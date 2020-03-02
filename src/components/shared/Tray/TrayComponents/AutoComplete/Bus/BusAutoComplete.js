@@ -30,12 +30,12 @@ const BusAutoComplete = () => {
       setLoading(true); // Update loading state to true as we are hitting API
       axios
         .get(
-          `https://trasnport-api-isruptions-v2.azure-api.net/bus/v1/service?q=${encodeURI(
+          `https://firstpasstransapi.azure-api.net//bus/v1/service?q=${encodeURI(
             autoCompleteState.query
           )}`,
           {
             headers: {
-              'Ocp-Apim-Subscription-Key': '55060e2bfbf743c5829b9eef583506f7'
+              'Ocp-Apim-Subscription-Key': '9d48f1d29bdd402ebd440057717b9743'
             },
             cancelToken: source.token // Set token with API call, so we can cancel this call on unmount
           }
@@ -67,12 +67,9 @@ const BusAutoComplete = () => {
             // eslint-disable-next-line no-console
             console.log({ error });
           }
-
-          // If the api was cancelled and there is still a query, we still want to show loading
-          if (axios.isCancel(error) && autoCompleteState.query) {
-            setLoading(true);
-          }
         });
+    } else {
+      setLoading(false);
     }
     // Unmount / cleanup
     return () => {
