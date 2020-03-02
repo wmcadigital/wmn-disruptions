@@ -92,7 +92,7 @@ const BusAutoComplete = () => {
           value={autoCompleteState.query}
           onChange={e => updateQuery(e.target.value)}
           aria-label="Search for a service"
-          // debounceTimeout={600}
+          debounceTimeout={600}
         />
       </div>
       {/* If there is no data.length(results) and the user hasn't submitted a query and the state isn't loading then the user should be displayed with no results message, else show results */}
