@@ -7,7 +7,23 @@ import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/Dis
 const BusAutoCompleteResult = props => {
   const { result } = props || {};
 
-  const [, autoCompleteDispatch] = useContext(AutoCompleteContext);
+  const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
+
+  const updateSelectedService = () => {
+    // Reset selected disruption ID from map (if any)
+    if (autoCompleteState.selectedMapDisruption) {
+      autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' });
+    }
+    autoCompleteDispatch({
+      type: 'UPDATE_SELECTED_SERVICE',
+      selectedService: {
+        id: result.id,
+        severity: result.disruptionSeverity,
+        serviceNumber: result.serviceNumber,
+        routeName: result.routes[0].routeName
+      }
+    });
+  };
 
   // Set placeholder vars for switch below
   let text;
@@ -47,28 +63,8 @@ const BusAutoCompleteResult = props => {
       // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
       role="button"
       aria-pressed="false"
-      onKeyDown={() =>
-        autoCompleteDispatch({
-          type: 'UPDATE_SELECTED_SERVICE',
-          selectedService: {
-            id: result.id,
-            severity: result.disruptionSeverity,
-            serviceNumber: result.serviceNumber,
-            routeName: result.routes[0].routeName
-          }
-        })
-      }
-      onClick={() =>
-        autoCompleteDispatch({
-          type: 'UPDATE_SELECTED_SERVICE',
-          selectedService: {
-            id: result.id,
-            severity: result.disruptionSeverity,
-            serviceNumber: result.serviceNumber,
-            routeName: result.routes[0].routeName
-          }
-        })
-      }
+      onKeyDown={() => updateSelectedService()}
+      onClick={() => updateSelectedService()}
     >
       <div className="wmnds-col-auto wmnds-m-r-md">
         <DisruptionIndicatorMedium

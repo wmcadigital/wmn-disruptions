@@ -178,12 +178,19 @@ const useMapIconLayer = (_mapRef, _map, _iconLayer, _view) => {
 
         function getGraphics(response) {
           const selectedMapDisruption = response.results[0].graphic.attributes.id;
+          console.log({ autoCompleteState });
           // get the top most layer ok.  that's the layer with the point on
-          if (selectedMapDisruption !== undefined) {
+          if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
+            console.log(true);
             autoCompleteDispatch({
               type: 'UDPATE_SELECTED_MAP_DISRUPTION',
               selectedMapDisruption
             });
+          } else if (selectedMapDisruption !== undefined && autoCompleteState.selectedService.id) {
+            console.log(false);
+            const scrollPos = document.getElementById(`scroll-holder-for-${selectedMapDisruption}`)
+              .offsetTop;
+            document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
           }
         }
 
@@ -217,6 +224,7 @@ const useMapIconLayer = (_mapRef, _map, _iconLayer, _view) => {
     }
   }, [
     autoCompleteDispatch,
+    autoCompleteState,
     autoCompleteState.selectedService.id,
     fetchDisruptionsState.data,
     fromDate,
