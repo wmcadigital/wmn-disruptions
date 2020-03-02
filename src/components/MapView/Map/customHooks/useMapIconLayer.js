@@ -28,7 +28,7 @@ import {
 // import roadsMajor from 'assets/map-icons/roads-major.png';
 // import roadsSevere from 'assets/map-icons/roads-severe.png';
 
-const useMapIconLayer = (_mapRef, _map, _iconLayer, _view) => {
+const useMapIconLayer = (_mapRef, _iconLayer, _view) => {
   // Set globalstates from imported context
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
@@ -38,7 +38,6 @@ const useMapIconLayer = (_mapRef, _map, _iconLayer, _view) => {
 
   // Reassign injected useRef params to internal vars
   const mapRef = _mapRef;
-  const map = _map;
   const iconLayer = _iconLayer;
   const view = _view;
 
@@ -178,7 +177,6 @@ const useMapIconLayer = (_mapRef, _map, _iconLayer, _view) => {
 
         function getGraphics(response) {
           const selectedMapDisruption = response.results[0].graphic.attributes.id;
-          console.log({ autoCompleteState });
           // get the top most layer ok.  that's the layer with the point on
           if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
             console.log(true);
@@ -192,6 +190,7 @@ const useMapIconLayer = (_mapRef, _map, _iconLayer, _view) => {
               .offsetTop;
             document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
           }
+          console.log({ autoCompleteState });
         }
 
         // on pointer move
@@ -225,11 +224,9 @@ const useMapIconLayer = (_mapRef, _map, _iconLayer, _view) => {
   }, [
     autoCompleteDispatch,
     autoCompleteState,
-    autoCompleteState.selectedService.id,
     fetchDisruptionsState.data,
     fromDate,
     iconLayer,
-    map,
     mapRef,
     modeState.mode,
     toDate,
