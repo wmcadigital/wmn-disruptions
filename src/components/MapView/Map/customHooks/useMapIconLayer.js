@@ -178,6 +178,7 @@ const useMapIconLayer = (_mapRef, _iconLayer, _view) => {
         function getGraphics(response) {
           const selectedMapDisruption = response.results[0].graphic.attributes.id;
           // get the top most layer ok.  that's the layer with the point on
+          console.log({ id: autoCompleteState.selectedService.id });
           if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
             console.log(true);
             autoCompleteDispatch({
