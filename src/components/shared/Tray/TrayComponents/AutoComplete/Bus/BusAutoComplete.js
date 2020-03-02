@@ -30,7 +30,7 @@ const BusAutoComplete = () => {
       setLoading(true); // Update loading state to true as we are hitting API
       axios
         .get(
-          `https://firstpasstransapi.azure-api.net//bus/v1/service?q=${encodeURI(
+          `https://firstpasstransapi.azure-api.net/bus/v1/service?q=${encodeURI(
             autoCompleteState.query
           )}`,
           {
