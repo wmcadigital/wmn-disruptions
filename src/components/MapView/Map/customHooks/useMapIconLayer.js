@@ -28,7 +28,7 @@ import {
 // import roadsMajor from 'assets/map-icons/roads-major.png';
 // import roadsSevere from 'assets/map-icons/roads-severe.png';
 
-const useMapIconLayer = (_mapRef, _iconLayer, _view) => {
+const useMapIconLayer = (_iconLayer, _view) => {
   // Set globalstates from imported context
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
@@ -37,7 +37,6 @@ const useMapIconLayer = (_mapRef, _iconLayer, _view) => {
   const { fromDate, toDate } = useDateFilter();
 
   // Reassign injected useRef params to internal vars
-  const mapRef = _mapRef;
   const iconLayer = _iconLayer;
   const view = _view;
 
@@ -174,52 +173,6 @@ const useMapIconLayer = (_mapRef, _iconLayer, _view) => {
 
           view.current.goTo({ target: iconLayer.current.graphics.items });
         });
-
-        function getGraphics(response) {
-          const selectedMapDisruption = response.results[0].graphic.attributes.id;
-          // get the top most layer ok.  that's the layer with the point on
-          console.log({ id: autoCompleteState.selectedService.id });
-          if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
-            console.log(true);
-            autoCompleteDispatch({
-              type: 'UDPATE_SELECTED_MAP_DISRUPTION',
-              selectedMapDisruption
-            });
-          } else if (selectedMapDisruption !== undefined && autoCompleteState.selectedService.id) {
-            console.log(false);
-            const scrollPos = document.getElementById(`scroll-holder-for-${selectedMapDisruption}`)
-              .offsetTop;
-            document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
-          }
-          console.log({ autoCompleteState });
-        }
-
-        // on pointer move
-        view.current.on('pointer-move', e => {
-          // capture lat/longs of point
-          const screenPoint = {
-            x: e.x,
-            y: e.y
-          };
-          // Check lat longs on map view and pass anything found as a response
-          view.current.hitTest(screenPoint).then(response => {
-            // If there is a response and it contains an attribute id then it's one of our icon graphics
-            if (response.results[0].graphic.attributes.id) {
-              mapRef.current.style.cursor = 'pointer'; // change map cursor to pointer
-            } else {
-              mapRef.current.style.cursor = 'default'; // else keep default pointer
-            }
-          });
-        });
-
-        // Set up a click event handler and retrieve the screen point
-        view.current.on('click', e => {
-          // the hitTest() checks to see if any graphics in the view
-          // intersect the given screen x, y coordinates
-          const { screenPoint } = e;
-          // eslint-disable-next-line no-use-before-define
-          view.current.hitTest(screenPoint).then(getGraphics);
-        });
       });
     }
   }, [
@@ -228,7 +181,6 @@ const useMapIconLayer = (_mapRef, _iconLayer, _view) => {
     fetchDisruptionsState.data,
     fromDate,
     iconLayer,
-    mapRef,
     modeState.mode,
     toDate,
     view,
