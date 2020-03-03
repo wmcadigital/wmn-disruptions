@@ -54,7 +54,7 @@ const useMapPointerEvents = (_mapRef, _view) => {
         view.hitTest(screenPoint).then(getGraphics);
       });
     }
-  }, [autoCompleteDispatch, autoCompleteState, mapRef, view]);
+  }, [autoCompleteDispatch, autoCompleteState.selectedService.id, mapRef, view]);
 };
 
 export default useMapPointerEvents;

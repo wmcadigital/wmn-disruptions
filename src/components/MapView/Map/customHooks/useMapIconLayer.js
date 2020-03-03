@@ -30,15 +30,15 @@ import {
 
 const useMapIconLayer = (_iconLayer, _view) => {
   // Set globalstates from imported context
-  const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
+  const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
   const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
   const [whenState] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
   const { fromDate, toDate } = useDateFilter();
 
   // Reassign injected useRef params to internal vars
-  const iconLayer = _iconLayer;
-  const view = _view;
+  const iconLayer = _iconLayer.current;
+  const view = _view.current;
 
   // This useEffect is to add the disruption icons to the map
   useEffect(() => {
@@ -164,20 +164,19 @@ const useMapIconLayer = (_iconLayer, _view) => {
                   width: '51px'
                 }
               });
-              iconLayer.current.add(graphic); // Add graphic to iconLayer on map
+              iconLayer.add(graphic); // Add graphic to iconLayer on map
             });
           }
 
-          iconLayer.current.removeAll(); // Remove all graphics from iconLayer
+          iconLayer.removeAll(); // Remove all graphics from iconLayer
           addGraphics(result); // Add queried result as a graphic to iconLayer
 
-          view.current.goTo({ target: iconLayer.current.graphics.items });
+          view.goTo({ target: iconLayer.graphics.items });
         });
       });
     }
   }, [
-    autoCompleteDispatch,
-    autoCompleteState,
+    autoCompleteState.selectedService.id,
     fetchDisruptionsState.data,
     fromDate,
     iconLayer,
