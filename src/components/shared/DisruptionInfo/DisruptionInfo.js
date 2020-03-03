@@ -27,6 +27,7 @@ const DisruptionInfo = ({ disruption, listView }) => {
                   severity={disruption.disruptionSeverity}
                   text={affected.serviceNumber}
                   title={`${affected.routeDescriptions[0].description} (${affected.operatorName})`}
+                  key={affected.id}
                 />
               ))}
           </div>

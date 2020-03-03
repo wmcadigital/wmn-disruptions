@@ -28,7 +28,7 @@ const FavBusButton = ({ id, severity, text, title }) => {
   };
 
   return (
-    <div className={`${s.favButton} wmnds-m-b-md`} key={id}>
+    <div className={`${s.favButton} wmnds-m-b-md`}>
       {/* Services Affected */}
       <DisruptionIndicatorMedium
         text={text}
