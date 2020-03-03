@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useRef } from 'react';
 import { AutoCompleteContext } from 'globalState';
 
 const useMapPointerEvents = (_mapRef, _view) => {
@@ -7,23 +7,29 @@ const useMapPointerEvents = (_mapRef, _view) => {
   const mapRef = _mapRef.current;
   const view = _view.current;
 
+  const renders = useRef(0);
+
   useEffect(() => {
-    function getGraphics(response) {
+    renders.current += 1;
+    console.log(renders.current);
+
+    const getGraphics = response => {
       const selectedMapDisruption = response.results[0].graphic.attributes.id;
       // get the top most layer ok.  that's the layer with the point on
-      console.log(true);
       console.log(selectedMapDisruption);
       if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
+        console.log(true);
         autoCompleteDispatch({
           type: 'UDPATE_SELECTED_MAP_DISRUPTION',
           selectedMapDisruption
         });
-      } else if (selectedMapDisruption !== undefined && autoCompleteState.selectedService.id) {
+      } else if (autoCompleteState.selectedService.id) {
+        console.log(false);
         const scrollPos = document.getElementById(`scroll-holder-for-${selectedMapDisruption}`)
           .offsetTop;
         document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
       }
-    }
+    };
 
     // if view exists
     if (view) {
@@ -52,6 +58,7 @@ const useMapPointerEvents = (_mapRef, _view) => {
         const { screenPoint } = e;
         // eslint-disable-next-line no-use-before-define
         view.hitTest(screenPoint).then(getGraphics);
+        console.log({ e });
       });
     }
   }, [autoCompleteDispatch, autoCompleteState.selectedService.id, mapRef, view]);
