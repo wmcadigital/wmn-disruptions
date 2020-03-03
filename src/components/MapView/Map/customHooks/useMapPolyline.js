@@ -46,7 +46,7 @@ const useMapPolyline = (_polyline, _view) => {
           });
         });
     }
-  }, [autoCompleteState.query, autoCompleteState.selectedService.id, polyline, view]);
+  }, [autoCompleteState.selectedService.id, polyline, view]);
 };
 
 export default useMapPolyline;

@@ -11,21 +11,21 @@ const useMapPointerEvents = (_mapRef, _view) => {
     function getGraphics(response) {
       const selectedMapDisruption = response.results[0].graphic.attributes.id;
       // get the top most layer ok.  that's the layer with the point on
+      console.log(true);
       console.log(selectedMapDisruption);
       if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
-        console.log(true);
         autoCompleteDispatch({
           type: 'UDPATE_SELECTED_MAP_DISRUPTION',
           selectedMapDisruption
         });
       } else if (selectedMapDisruption !== undefined && autoCompleteState.selectedService.id) {
-        console.log(false);
         const scrollPos = document.getElementById(`scroll-holder-for-${selectedMapDisruption}`)
           .offsetTop;
         document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
       }
     }
 
+    // if view exists
     if (view) {
       // on pointer move
       view.on('pointer-move', e => {
