@@ -14,7 +14,7 @@ const useMapPolyline = (_polyline, _view) => {
       polyline.current.removeAll();
     }
     // If there is an ID and query in state, then lets hit the API and get the geoJSON
-    if (autoCompleteState.selectedService.id && autoCompleteState.query) {
+    if (autoCompleteState.selectedService.id) {
       axios
         .get(
           `https://firstpasstransapi.azure-api.net/bus/v1/RouteGeoJSON/${autoCompleteState.selectedService.id}`,
