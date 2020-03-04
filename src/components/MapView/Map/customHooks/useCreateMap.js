@@ -79,11 +79,10 @@ const useCreateMap = (_mapRef, _map, _iconLayer, _polyline, _view) => {
 
       // Set up a graphics layer placeholder so we can inject a polyline into it in future
       polyline.current = new GraphicsLayer();
-      map.current.add(polyline.current);
-
       // Set up a graphics layer placeholder so we can inject disruption icons into it in future
       iconLayer.current = new GraphicsLayer();
-      map.current.add(iconLayer.current);
+
+      map.current.addMany([polyline.current, iconLayer.current]);
 
       // If component unmounting
       return () => {
