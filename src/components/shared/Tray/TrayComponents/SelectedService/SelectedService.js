@@ -29,7 +29,6 @@ const SelectedService = () => {
             disruption={disruption}
             key={disruption.id}
             selectedMapDisruption={autoCompleteState.selectedMapDisruption}
-            autoCompleteDispatch={() => autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' })}
           />
         ))}
     </>

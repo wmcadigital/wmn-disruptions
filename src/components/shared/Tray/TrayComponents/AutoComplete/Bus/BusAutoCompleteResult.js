@@ -10,10 +10,12 @@ const BusAutoCompleteResult = props => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
 
   const updateSelectedService = () => {
+    console.log('keydown');
     // Reset selected disruption ID from map (if any)
     if (autoCompleteState.selectedMapDisruption) {
       autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' });
     }
+
     autoCompleteDispatch({
       type: 'UPDATE_SELECTED_SERVICE',
       selectedService: {

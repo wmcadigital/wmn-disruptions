@@ -16,15 +16,12 @@ const useMapPointerEvents = (_mapRef, _view) => {
     const getGraphics = response => {
       const selectedMapDisruption = response.results[0].graphic.attributes.id;
       // get the top most layer ok.  that's the layer with the point on
-      console.log(selectedMapDisruption);
       if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
-        console.log(true);
         autoCompleteDispatch({
           type: 'UDPATE_SELECTED_MAP_DISRUPTION',
           selectedMapDisruption
         });
       } else if (autoCompleteState.selectedService.id) {
-        console.log(false);
         const scrollPos = document.getElementById(`scroll-holder-for-${selectedMapDisruption}`)
           .offsetTop;
         document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
@@ -58,9 +55,12 @@ const useMapPointerEvents = (_mapRef, _view) => {
         const { screenPoint } = e;
         // eslint-disable-next-line no-use-before-define
         view.hitTest(screenPoint).then(getGraphics);
-        console.log({ e });
       });
     }
+  }, [autoCompleteDispatch, autoCompleteState.selectedService.id, mapRef, view]);
+
+  useEffect(() => {
+    console.log('re-render');
   }, [autoCompleteDispatch, autoCompleteState.selectedService.id, mapRef, view]);
 };
 
