@@ -1,4 +1,4 @@
-import { useEffect, useContext, useRef } from 'react';
+import { useEffect, useContext } from 'react';
 import { AutoCompleteContext } from 'globalState';
 
 const useMapPointerEvents = (_mapRef, _view) => {
@@ -7,12 +7,9 @@ const useMapPointerEvents = (_mapRef, _view) => {
   const mapRef = _mapRef.current;
   const view = _view.current;
 
-  const renders = useRef(0);
+  // const renders = useState(.current.current);
 
   useEffect(() => {
-    renders.current += 1;
-    console.log(renders.current);
-
     const getGraphics = response => {
       const selectedMapDisruption = response.results[0].graphic.attributes.id;
       // get the top most layer ok.  that's the layer with the point on
@@ -50,6 +47,8 @@ const useMapPointerEvents = (_mapRef, _view) => {
 
       // Set up a click event handler and retrieve the screen point
       view.on('click', e => {
+        console.log('clicked');
+        console.log({ autoCompleteState: autoCompleteState.selectedService.id });
         // the hitTest() checks to see if any graphics in the view
         // intersect the given screen x, y coordinates
         const { screenPoint } = e;
@@ -57,10 +56,6 @@ const useMapPointerEvents = (_mapRef, _view) => {
         view.hitTest(screenPoint).then(getGraphics);
       });
     }
-  }, [autoCompleteDispatch, autoCompleteState.selectedService.id, mapRef, view]);
-
-  useEffect(() => {
-    console.log('re-render');
   }, [autoCompleteDispatch, autoCompleteState.selectedService.id, mapRef, view]);
 };
 
