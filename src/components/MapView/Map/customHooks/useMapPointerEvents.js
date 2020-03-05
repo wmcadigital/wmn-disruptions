@@ -33,36 +33,39 @@ const useMapPointerEvents = (_mapRef, _view) => {
   }, [mapRef, view]);
 
   useEffect(() => {
-    let clickEvent;
-    const getGraphics = response => {
-      const selectedMapDisruption = response.results[0].graphic.attributes.id;
-      // get the top most layer ok.  that's the layer with the point on
-      if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
-        autoCompleteDispatch({
-          type: 'UDPATE_SELECTED_MAP_DISRUPTION',
-          selectedMapDisruption
-        });
-      } else if (autoCompleteState.selectedService.id) {
-        const scrollPos = document.getElementById(`scroll-holder-for-${selectedMapDisruption}`)
-          .offsetTop;
-        document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
-      }
-    };
+    let mapClick; // set placeholder click event that we can assign an on click
+
     if (view) {
+      const getGraphics = response => {
+        const selectedMapDisruption = response.results[0].graphic.attributes.id;
+
+        if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
+          autoCompleteDispatch({
+            type: 'UDPATE_SELECTED_MAP_DISRUPTION',
+            selectedMapDisruption
+          });
+        } else if (autoCompleteState.selectedService.id) {
+          const scrollPos = document.getElementById(`scroll-holder-for-${selectedMapDisruption}`)
+            .offsetTop;
+          console.log({ scrollPos });
+          console.log({ div: document.getElementById('js-disruptions-tray') });
+          document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
+        }
+      };
+
       // Set up a click event handler and retrieve the screen point
-      clickEvent = view.on('click', e => {
-        console.log('clicked');
-        // the hitTest() checks to see if any graphics in the view
+      mapClick = view.on('click', e => {
         // intersect the given screen x, y coordinates
         const { screenPoint } = e;
-        // eslint-disable-next-line no-use-before-define
+        // the hitTest() checks to see if any graphics in the view
         view.hitTest(screenPoint).then(getGraphics);
       });
     }
 
+    // On unmount
     return () => {
       if (view) {
-        clickEvent.remove();
+        mapClick.remove(); // remove click event
       }
     };
   }, [autoCompleteDispatch, autoCompleteState.selectedService.id, view]);
