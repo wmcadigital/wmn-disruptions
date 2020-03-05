@@ -10,21 +10,6 @@ const useMapPointerEvents = (_mapRef, _view) => {
   // const renders = useState(.current.current);
 
   useEffect(() => {
-    const getGraphics = response => {
-      const selectedMapDisruption = response.results[0].graphic.attributes.id;
-      // get the top most layer ok.  that's the layer with the point on
-      if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
-        autoCompleteDispatch({
-          type: 'UDPATE_SELECTED_MAP_DISRUPTION',
-          selectedMapDisruption
-        });
-      } else if (autoCompleteState.selectedService.id) {
-        const scrollPos = document.getElementById(`scroll-holder-for-${selectedMapDisruption}`)
-          .offsetTop;
-        document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
-      }
-    };
-
     // if view exists
     if (view) {
       // on pointer move
@@ -44,11 +29,29 @@ const useMapPointerEvents = (_mapRef, _view) => {
           }
         });
       });
+    }
+  }, [mapRef, view]);
 
+  useEffect(() => {
+    let clickEvent;
+    const getGraphics = response => {
+      const selectedMapDisruption = response.results[0].graphic.attributes.id;
+      // get the top most layer ok.  that's the layer with the point on
+      if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
+        autoCompleteDispatch({
+          type: 'UDPATE_SELECTED_MAP_DISRUPTION',
+          selectedMapDisruption
+        });
+      } else if (autoCompleteState.selectedService.id) {
+        const scrollPos = document.getElementById(`scroll-holder-for-${selectedMapDisruption}`)
+          .offsetTop;
+        document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
+      }
+    };
+    if (view) {
       // Set up a click event handler and retrieve the screen point
-      view.on('click', e => {
+      clickEvent = view.on('click', e => {
         console.log('clicked');
-        console.log({ autoCompleteState: autoCompleteState.selectedService.id });
         // the hitTest() checks to see if any graphics in the view
         // intersect the given screen x, y coordinates
         const { screenPoint } = e;
@@ -56,7 +59,13 @@ const useMapPointerEvents = (_mapRef, _view) => {
         view.hitTest(screenPoint).then(getGraphics);
       });
     }
-  }, [autoCompleteDispatch, autoCompleteState.selectedService.id, mapRef, view]);
+
+    return () => {
+      if (view) {
+        clickEvent.remove();
+      }
+    };
+  }, [autoCompleteDispatch, autoCompleteState.selectedService.id, view]);
 };
 
 export default useMapPointerEvents;
