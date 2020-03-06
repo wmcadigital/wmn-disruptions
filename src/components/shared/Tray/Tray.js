@@ -1,18 +1,38 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import Draggable from 'react-draggable'; // Uses https://www.npmjs.com/package/react-draggable
 import Swipe from 'react-easy-swipe';
-
+// Import contexts
+import { AutoCompleteContext } from 'globalState';
 // Import Components
 import TrayComponents from './TrayComponents/TrayComponents';
 // Import styles
 import s from './Tray.module.scss';
 
 const Tray = () => {
+  const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
+
   const slideableTray = useRef(); // Ref to track swipe dom element
   const [containerHeight, setContainerHeight] = useState(0); // Set ContainerHeight to state, we will make the tray confine to these bounds
   const [isTrayOpen, setIsTrayOpen] = useState(false); // Used to store bool if tray is fully open
   const [lockTray, setLockTray] = useState(false); // Store bool if we should lock the tray or not
   const [windowWidth, setWindowWidth] = useState(window.innerWidth); // Store windows innerWidth so we can check on it for the render/return of this component
+
+  const [startPosition, setStartPosition] = useState();
+  const [position, setPosition] = useState({ x: 0, y: -100 });
+
+  useEffect(() => {
+    if (autoCompleteState.selectedService.id || autoCompleteState.selectedMapDisruption) {
+      console.log(document.getElementsByClassName(s.tray)[0].style);
+      // document.getElementsByClassName(s.tray)[0].style.transform = `translate(0,
+      // ${-containerHeight}px)`;
+
+      setPosition({ x: 0, y: -containerHeight });
+    }
+  }, [
+    autoCompleteState.selectedMapDisruption,
+    autoCompleteState.selectedService.id,
+    containerHeight
+  ]);
 
   // Check window width on resize, used to determine if we should show the mobile or desktop panel in the return/render at the bottom
   useEffect(() => {
@@ -33,16 +53,49 @@ const Tray = () => {
   */
 
   // OnStart function for start of swiping tray
-  const onStart = () => {
+  const onStart = (e, data) => {
     document.body.style.overflow = 'hidden'; // Set body overflow to hidden, so we don't snap to body scrollbar
+    setStartPosition(data.y);
   };
 
   // onStop function for stop of swiping tray
   const onStop = (e, data) => {
+    let trayOpen;
     document.body.style.overflow = null; // Scrolling finished so return body overflow to normal
     const { lastY } = data; // Get lastY scroll position
+
+    const firstThird = -containerHeight / 3;
+    const secondThird = firstThird * 2;
+
+    if (lastY < startPosition) {
+      // scroll direction is up
+      if (lastY > secondThird) {
+        setPosition({ x: 0, y: secondThird });
+        console.log(1);
+      } else {
+        setPosition({ x: 0, y: -containerHeight });
+        trayOpen = true;
+        console.log(2);
+      }
+      // Scroll direction is down
+    } else {
+      // eslint-disable-next-line no-lonely-if
+      if (lastY > secondThird) {
+        setPosition({ x: 0, y: -100 });
+        console.log(3);
+      } else if (lastY === -containerHeight) {
+        trayOpen = true;
+        console.log({ isTrayOpen });
+        console.log(4);
+      } else {
+        setPosition({ x: 0, y: secondThird });
+        console.log(5);
+      }
+    }
+
+    // console.log({ lastY, startPosition });
     // If lastY coords are at top of container, then set tralastY open to true, otherwise false
-    return lastY === -containerHeight ? setIsTrayOpen(true) : setIsTrayOpen(false);
+    return trayOpen ? setIsTrayOpen(true) : setIsTrayOpen(false);
   };
 
   /*
@@ -59,6 +112,7 @@ const Tray = () => {
   // On Swipe up
   const onSwipeUp = () => {
     const trayScrollTop = slideableTray.current.swiper.scrollTop; // Get elementById so we can check the scollTop
+    console.log({ swipingUp: isTrayOpen });
 
     // If tray is open and the scrollTop is not 0 (we're not at the top of the tray scroll), so lock tray
     return isTrayOpen && trayScrollTop !== 0 ? setLockTray(true) : null;
@@ -70,8 +124,8 @@ const Tray = () => {
       axis="y"
       grid={[1, 1]}
       bounds={{ left: 0, top: -containerHeight, right: 0, bottom: -100 }}
-      defaultPosition={{ x: 0, y: -100 }}
-      onStart={() => onStart()}
+      position={position}
+      onStart={(e, data) => onStart(e, data)}
       onStop={(e, data) => onStop(e, data)}
       disabled={lockTray}
       cancel="input"
