@@ -47,8 +47,6 @@ const useMapPointerEvents = (_mapRef, _view) => {
         } else if (autoCompleteState.selectedService.id) {
           const scrollPos = document.getElementById(`scroll-holder-for-${selectedMapDisruption}`)
             .offsetTop;
-          console.log({ scrollPos });
-          console.log({ div: document.getElementById('js-disruptions-tray') });
           document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
         }
       };
