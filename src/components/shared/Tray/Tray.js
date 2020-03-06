@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Draggable from 'react-draggable'; // Uses https://www.npmjs.com/package/react-draggable
 import Swipe from 'react-easy-swipe';
 
@@ -8,6 +8,7 @@ import TrayComponents from './TrayComponents/TrayComponents';
 import s from './Tray.module.scss';
 
 const Tray = () => {
+  const slideableTray = useRef(); // Ref to track swipe dom element
   const [containerHeight, setContainerHeight] = useState(0); // Set ContainerHeight to state, we will make the tray confine to these bounds
   const [isTrayOpen, setIsTrayOpen] = useState(false); // Used to store bool if tray is fully open
   const [lockTray, setLockTray] = useState(false); // Store bool if we should lock the tray or not
@@ -50,14 +51,14 @@ const Tray = () => {
 
   // On Swipe down
   const onSwipeDown = () => {
-    const trayScrollTop = document.getElementById('js-disruptions-tray').scrollTop; // Get elementById so we can check the scollTop
+    const trayScrollTop = slideableTray.current.swiper.scrollTop; // Get elementById so we can check the scollTop
     // If tray is open and the scrollTop is 0 (we're at the top of the tray scroll), then unlock tray
     return isTrayOpen && trayScrollTop === 0 ? setLockTray(false) : null;
   };
 
   // On Swipe up
   const onSwipeUp = () => {
-    const trayScrollTop = document.getElementById('js-disruptions-tray').scrollTop; // Get elementById so we can check the scollTop
+    const trayScrollTop = slideableTray.current.swiper.scrollTop; // Get elementById so we can check the scollTop
 
     // If tray is open and the scrollTop is not 0 (we're not at the top of the tray scroll), so lock tray
     return isTrayOpen && trayScrollTop !== 0 ? setLockTray(true) : null;
@@ -80,7 +81,7 @@ const Tray = () => {
           className={`${s.swipeTrayWrapper} wmnds-p-md ${isTrayOpen ? s.trayIsOpen : ''}`}
           onSwipeUp={() => onSwipeUp()}
           onSwipeDown={() => onSwipeDown()}
-          id="js-disruptions-tray"
+          ref={slideableTray}
         >
           <div className={`${s.drawerHandle} wmnds-col-1`}>
             <p>Swipe tray up</p>
