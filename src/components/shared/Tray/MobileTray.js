@@ -12,23 +12,19 @@ import s from './Tray.module.scss';
 const MobileTray = ({ windowWidth }) => {
   const slideableTray = useRef(); // Ref to track swipe dom element
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
-
   const [containerHeight, setContainerHeight] = useState(0); // Set ContainerHeight to state, we will make the tray confine to these bounds
   const [isTrayOpen, setIsTrayOpen] = useState(false); // Used to store bool if tray is fully open
   const [lockTray, setLockTray] = useState(false); // Store bool if we should lock the tray or not
+  const [startPosition, setStartPosition] = useState(); // Used to capture start position of scroll event
 
-  const [startPosition, setStartPosition] = useState();
-  const [position, setPosition] = useState({ x: 0, y: -100 });
+  const [position, setPosition] = useState(-100); // Set initial position of tray
 
+  // Open tray if there is a selectedMapDisruption (map icon has been clicked)
   useEffect(() => {
-    if (autoCompleteState.selectedService.id || autoCompleteState.selectedMapDisruption) {
-      setPosition({ x: 0, y: -containerHeight });
+    if (autoCompleteState.selectedMapDisruption) {
+      setPosition(-containerHeight); // set tray to open
     }
-  }, [
-    autoCompleteState.selectedMapDisruption,
-    autoCompleteState.selectedService.id,
-    containerHeight
-  ]);
+  }, [autoCompleteState.selectedMapDisruption, containerHeight]);
 
   // Get new map height on resize
   useEffect(() => {
@@ -48,33 +44,32 @@ const MobileTray = ({ windowWidth }) => {
 
   // onStop function for stop of swiping tray
   const onStop = (e, data) => {
-    let trayOpen;
+    let trayOpen; // placholder to set to true if tray is open
     document.body.style.overflow = null; // Scrolling finished so return body overflow to normal
     const { lastY } = data; // Get lastY scroll position
 
-    const firstThird = -containerHeight / 3;
-    const secondThird = firstThird * 2;
+    const secondThird = (-containerHeight / 3) * 2; // Get the second third of the container
 
     // Greater than/less than if statements are backwards as we are dealing with negative values (minus)
     if (lastY < startPosition) {
       // scroll direction is up
       if (lastY > secondThird) {
         // If position is lower than secondThird
-        setPosition({ x: 0, y: secondThird }); // Set position to secondThird
+        setPosition(secondThird); // Set position to secondThird
       } else {
-        setPosition({ x: 0, y: -containerHeight }); // Set position to top
+        setPosition(-containerHeight); // Set position to top
         trayOpen = true; // and set tray open to true
       }
     } else {
       // Else scroll direction is down
       // eslint-disable-next-line no-lonely-if
       if (lastY > secondThird) {
-        setPosition({ x: 0, y: -100 }); // Set back to bottom
+        setPosition(-100); // Set back to bottom
       } else if (lastY === -containerHeight) {
         // if lastY is the same as the container height then the tray must be open still...
         trayOpen = true; // Set tray open
       } else {
-        setPosition({ x: 0, y: secondThird }); // Else set position to secondThird
+        setPosition(secondThird); // Else set position to secondThird
       }
     }
 
@@ -105,7 +100,7 @@ const MobileTray = ({ windowWidth }) => {
       axis="y"
       grid={[1, 1]}
       bounds={{ left: 0, top: -containerHeight, right: 0, bottom: -100 }}
-      position={position}
+      position={{ x: 0, y: position }}
       onStart={(e, data) => onStart(e, data)}
       onStop={(e, data) => onStop(e, data)}
       disabled={lockTray}
