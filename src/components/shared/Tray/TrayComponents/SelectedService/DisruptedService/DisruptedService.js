@@ -9,7 +9,10 @@ import s from './DisruptedService.module.scss';
 
 const DisruptedService = ({ disruption }) => {
   return (
-    <div className={`wmnds-grid wmnds-p-t-lg wmnds-m-t-lg ${s.disruption}`}>
+    <div
+      className={`wmnds-grid wmnds-p-t-lg wmnds-m-t-lg ${s.disruption}`}
+      id={`scroll-holder-for-${disruption.id}`}
+    >
       {/* Title of disruptions */}
       <div className="wmnds-col-1 wmnds-m-b-lg">
         <div className="wmnds-grid wmnds-grid--align-center">
@@ -33,8 +36,6 @@ const DisruptedService = ({ disruption }) => {
 // PropTypes
 DisruptedService.propTypes = {
   disruption: PropTypes.objectOf(PropTypes.any).isRequired
-  // selectedMapDisruption: PropTypes.string.isRequired,
-  // autoCompleteDispatch: PropTypes.func.isRequired
 };
 
 export default DisruptedService;

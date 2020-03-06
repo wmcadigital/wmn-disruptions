@@ -5,16 +5,16 @@ import { AutoCompleteContext } from 'globalState';
 
 const useMapPolyline = (_polyline, _view) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
-  const polyline = _polyline; // Reassign injected useRef params to internal vars
-  const view = _view;
+  const polyline = _polyline.current; // Reassign injected useRef params to internal vars
+  const view = _view.current;
 
   // This useEffect is to plot the line on the map
   useEffect(() => {
-    if (polyline.current) {
-      polyline.current.removeAll();
+    if (polyline) {
+      polyline.removeAll();
     }
     // If there is an ID and query in state, then lets hit the API and get the geoJSON
-    if (autoCompleteState.selectedService.id && autoCompleteState.query) {
+    if (autoCompleteState.selectedService.id) {
       axios
         .get(
           `https://firstpasstransapi.azure-api.net/bus/v1/RouteGeoJSON/${autoCompleteState.selectedService.id}`,
@@ -40,13 +40,13 @@ const useMapPolyline = (_polyline, _view) => {
               }
             });
 
-            polyline.current.add(poly); // Add polyline to the map
+            polyline.add(poly); // Add polyline to the map
 
-            view.current.goTo({ target: poly });
+            view.goTo({ target: poly });
           });
         });
     }
-  }, [autoCompleteState.query, autoCompleteState.selectedService.id, polyline, view]);
+  }, [autoCompleteState.selectedService.id, polyline, view]);
 };
 
 export default useMapPolyline;

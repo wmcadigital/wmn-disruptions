@@ -19,10 +19,8 @@ const SelectedService = () => {
         autoCompleteState={autoCompleteState}
         autoCompleteDispatch={() => autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' })}
       />
-
       {/* If no selectedData then it must be good service */}
       {!selectedData.length && <Message />}
-
       {/* If there are selectedData then there must be disruptions, loop through */}
       {selectedData.length > 0 &&
         fetchDisruptionsState.isMapVisible &&
@@ -31,7 +29,6 @@ const SelectedService = () => {
             disruption={disruption}
             key={disruption.id}
             selectedMapDisruption={autoCompleteState.selectedMapDisruption}
-            autoCompleteDispatch={() => autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' })}
           />
         ))}
     </>

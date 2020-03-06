@@ -28,18 +28,17 @@ import {
 // import roadsMajor from 'assets/map-icons/roads-major.png';
 // import roadsSevere from 'assets/map-icons/roads-severe.png';
 
-const useMapIconLayer = (_map, _iconLayer, _view) => {
+const useMapIconLayer = (_iconLayer, _view) => {
   // Set globalstates from imported context
-  const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
+  const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
   const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
   const [whenState] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
   const { fromDate, toDate } = useDateFilter();
 
   // Reassign injected useRef params to internal vars
-  const map = _map;
-  const iconLayer = _iconLayer;
-  const view = _view;
+  const iconLayer = _iconLayer.current;
+  const view = _view.current;
 
   // This useEffect is to add the disruption icons to the map
   useEffect(() => {
@@ -165,44 +164,22 @@ const useMapIconLayer = (_map, _iconLayer, _view) => {
                   width: '51px'
                 }
               });
-              iconLayer.current.add(graphic); // Add graphic to iconLayer on map
+              iconLayer.add(graphic); // Add graphic to iconLayer on map
             });
           }
 
-          iconLayer.current.removeAll(); // Remove all graphics from iconLayer
+          iconLayer.removeAll(); // Remove all graphics from iconLayer
           addGraphics(result); // Add queried result as a graphic to iconLayer
 
-          view.current.goTo({ target: iconLayer.current.graphics.items });
-        });
-
-        function getGraphics(response) {
-          const selectedMapDisruption = response.results[0].graphic.attributes.id;
-          // get the top most layer ok.  that's the layer with the point on
-          if (selectedMapDisruption !== undefined) {
-            autoCompleteDispatch({
-              type: 'UDPATE_SELECTED_MAP_DISRUPTION',
-              selectedMapDisruption
-            });
-          }
-        }
-
-        // Set up a click event handler and retrieve the screen point
-        view.current.on('click', e => {
-          // the hitTest() checks to see if any graphics in the view
-          // intersect the given screen x, y coordinates
-          const { screenPoint } = e;
-          // eslint-disable-next-line no-use-before-define
-          view.current.hitTest(screenPoint).then(getGraphics);
+          view.goTo({ target: iconLayer.graphics.items });
         });
       });
     }
   }, [
-    autoCompleteDispatch,
     autoCompleteState.selectedService.id,
     fetchDisruptionsState.data,
     fromDate,
     iconLayer,
-    map,
     modeState.mode,
     toDate,
     view,
