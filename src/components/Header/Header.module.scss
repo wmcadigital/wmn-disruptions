@@ -9,4 +9,7 @@
   .listMapBtn {
     padding: $size-xs;
   }
+
+  @media only screen and (min-width: $breakpoint-md) {
+  }
 }
