@@ -10,6 +10,7 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
   position: absolute;
   height: calc(100vh - 127px);
+  transition: transform 0.3s ease;
 
   @media all and (min-width: 410px) {
     height: calc(100vh - 135px);
