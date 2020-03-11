@@ -5,13 +5,13 @@ import { AutoCompleteContext } from 'globalState';
 
 const useMapPolyline = (_polyline, _view) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
-  const polyline = _polyline.current; // Reassign injected useRef params to internal vars
-  const view = _view.current;
 
   // This useEffect is to plot the line on the map
   useEffect(() => {
-    if (polyline) {
-      polyline.removeAll();
+    const polyline = _polyline; // Reassign injected useRef params to internal vars
+    const view = _view;
+    if (polyline.current) {
+      polyline.current.removeAll();
     }
     // If there is an ID and query in state, then lets hit the API and get the geoJSON
     if (autoCompleteState.selectedService.id) {
@@ -40,13 +40,13 @@ const useMapPolyline = (_polyline, _view) => {
               }
             });
 
-            polyline.add(poly); // Add polyline to the map
+            polyline.current.add(poly); // Add polyline to the map
 
-            view.goTo({ target: poly });
+            view.current.goTo({ target: poly });
           });
         });
     }
-  }, [autoCompleteState.selectedService.id, polyline, view]);
+  }, [_polyline, _view, autoCompleteState.selectedService.id]);
 };
 
 export default useMapPolyline;
