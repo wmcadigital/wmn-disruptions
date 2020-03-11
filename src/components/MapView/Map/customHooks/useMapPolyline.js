@@ -17,7 +17,7 @@ const useMapPolyline = (_polyline, _view) => {
     if (autoCompleteState.selectedService.id) {
       axios
         .get(
-          `https://trasnport-api-jon-dev.developer.azure-api.net/bus/v1/RouteGeoJSON/${autoCompleteState.selectedService.id}`,
+          `https://trasnport-api-jon-dev.azure-api.net/bus/v1/RouteGeoJSON/${autoCompleteState.selectedService.id}`,
           {
             headers: {
               'Ocp-Apim-Subscription-Key': '9a2a6bd91c8f49598089ecb5448b45ef'
