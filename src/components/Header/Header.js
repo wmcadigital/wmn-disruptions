@@ -12,7 +12,7 @@ const Header = ({ isMapVisible }) => {
   return (
     <div className="wmnds-container">
       <div className="wmnds-grid wmnds-grid--justify-between wmnds-grid--align-middle wmnds-p-b-sm wmnds-p-t-sm">
-        <h1 className={`wmnds-col-auto wmnds-m-b-sm ${s.h1}`}>Disruptions</h1>
+        <h1 className={`wmnds-col-auto wmnds-m-b-none ${s.h1}`}>Disruptions</h1>
 
         <div className="wmnds-col-auto">
           <Button
