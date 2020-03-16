@@ -36,12 +36,12 @@ const useMapIconLayer = (_iconLayer, _view) => {
   const [whenState] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
   const { fromDate, toDate } = useDateFilter();
 
-  // Reassign injected useRef params to internal vars
-  const iconLayer = _iconLayer.current;
-  const view = _view.current;
-
   // This useEffect is to add the disruption icons to the map
   useEffect(() => {
+    // Reassign injected useRef params to internal vars
+    const iconLayer = _iconLayer;
+    const view = _view;
+
     // If disruption state has data in it...
     if (fetchDisruptionsState.data.length) {
       // lazy load the required ArcGIS API for JavaScript modules and CSS
@@ -164,25 +164,33 @@ const useMapIconLayer = (_iconLayer, _view) => {
                   width: '51px'
                 }
               });
-              iconLayer.add(graphic); // Add graphic to iconLayer on map
+              iconLayer.current.add(graphic); // Add graphic to iconLayer on map
             });
           }
 
-          iconLayer.removeAll(); // Remove all graphics from iconLayer
+          iconLayer.current.removeAll(); // Remove all graphics from iconLayer
           addGraphics(result); // Add queried result as a graphic to iconLayer
 
-          view.goTo({ target: iconLayer.graphics.items });
+          view.goTo({ target: iconLayer.current.graphics.items });
         });
       });
     }
+
+    // If component unmounting
+    return () => {
+      if (view.current) {
+        // remove the iconLayer on the map
+        iconLayer.current.removeAll();
+      }
+    };
   }, [
+    _iconLayer,
+    _view,
     autoCompleteState.selectedService.id,
     fetchDisruptionsState.data,
     fromDate,
-    iconLayer,
     modeState.mode,
     toDate,
-    view,
     whenState.when
   ]);
 };

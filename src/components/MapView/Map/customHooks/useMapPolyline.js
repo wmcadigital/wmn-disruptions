@@ -5,22 +5,22 @@ import { AutoCompleteContext } from 'globalState';
 
 const useMapPolyline = (_polyline, _view) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
-  const polyline = _polyline.current; // Reassign injected useRef params to internal vars
-  const view = _view.current;
 
   // This useEffect is to plot the line on the map
   useEffect(() => {
-    if (polyline) {
-      polyline.removeAll();
+    const polyline = _polyline; // Reassign injected useRef params to internal vars
+    const view = _view;
+    if (polyline.current) {
+      polyline.current.removeAll();
     }
     // If there is an ID and query in state, then lets hit the API and get the geoJSON
     if (autoCompleteState.selectedService.id) {
       axios
         .get(
-          `https://firstpasstransapi.azure-api.net/bus/v1/RouteGeoJSON/${autoCompleteState.selectedService.id}`,
+          `https://trasnport-api-jon-dev.azure-api.net/bus/v1/RouteGeoJSON/${autoCompleteState.selectedService.id}`,
           {
             headers: {
-              'Ocp-Apim-Subscription-Key': '9d48f1d29bdd402ebd440057717b9743'
+              'Ocp-Apim-Subscription-Key': '9a2a6bd91c8f49598089ecb5448b45ef'
             }
           }
         )
@@ -40,13 +40,13 @@ const useMapPolyline = (_polyline, _view) => {
               }
             });
 
-            polyline.add(poly); // Add polyline to the map
+            polyline.current.add(poly); // Add polyline to the map
 
-            view.goTo({ target: poly });
+            view.current.goTo({ target: poly });
           });
         });
     }
-  }, [autoCompleteState.selectedService.id, polyline, view]);
+  }, [_polyline, _view, autoCompleteState.selectedService.id]);
 };
 
 export default useMapPolyline;

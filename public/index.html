@@ -35,16 +35,40 @@
         background-color: #f3f2f1;
       }
 
+      /* Design system styles */
+      .wmnds-header {
+        text-align: left;
+      }
+
+      .wmnds-header__logo-link {
+        overflow: hidden;
+        width: 40px;
+      }
+
+      .wmnds-header__logo {
+        max-width: 100px;
+        height: 33px;
+      }
+
       /* Hide nav and footer on mobile to give more room for app */
       /* .wmnds-header nav, */
       .wmnds-footer {
         display: none;
       }
+
+      .hide-on-mobile {
+        display: none;
+      }
       /* Show nav and footer on bigger displays */
       @media all and (min-width: 768px) {
-        /* .wmnds-header nav {
+        .hide-on-mobile {
           display: inline-block;
-        } */
+        }
+
+        .hide-on-desktop {
+          display: none;
+        }
+
         .wmnds-footer {
           display: block;
         }
@@ -55,7 +79,7 @@
     <!-- Pretend Header -->
     <div class="wmnds-header wmnds-grid">
       <div class="wmnds-container">
-        <div class="wmnds-header__vertical-align wmnds-col-1 wmnds-col-md-1-3">
+        <div class="wmnds-header__vertical-align wmnds-col-1-2 wmnds-col-md-1-3">
           <a class="wmnds-header__logo-link" href="/" title="West Midlands Network Design System">
             <img
               class="wmnds-header__logo"
@@ -63,12 +87,41 @@
               src="https://wmnetwork.netlify.com/img/logo.svg"
             />
           </a>
-          <a href="/" title="West Midlands Network Design System Alpha" class="wmnds-phase-indicator">
+          <a
+            href="/"
+            title="West Midlands Network Design System Alpha"
+            class="wmnds-phase-indicator"
+          >
             Alpha
           </a>
         </div>
 
-        <nav class="wmnds-header__vertical-align wmnds-col-1 wmnds-col-md-2-3">
+        <!-- Back button -->
+        <div class="wmnds-header__vertical-align wmnds-col-1-2 wmnds-col-md-2-3 hide-on-desktop">
+          <ul class="wmnds-header__links">
+            <li class="wmnds-header__link wmnds-float--right">
+              <a
+                href="#"
+                title="Go back to previous page"
+                target="_self"
+                class="wmnds-link"
+                onClick="goBack(event);"
+              >
+                Back
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <script>
+          function goBack(e) {
+            e.preventDefault();
+            window.history.back();
+          }
+        </script>
+
+        <!-- Nav on desktop -->
+        <nav class="wmnds-header__vertical-align wmnds-col-1 wmnds-col-md-2-3 hide-on-mobile">
           <ul class="wmnds-header__links">
             <li class="wmnds-header__link">
               <a href="/styles/" title="Styles page" target="_self" class="wmnds-link">
@@ -92,7 +145,7 @@
       </div>
     </div>
     <!-- Pretend Breadcrumbs -->
-    <nav aria-label="Breadcrumb" class="wmnds-breadcrumb wmnds-container">
+    <nav aria-label="Breadcrumb" class="wmnds-breadcrumb wmnds-container hide-on-mobile">
       <ol class="wmnds-breadcrumb__list">
         <li class="wmnds-breadcrumb__list-item">
           <a href="/" class="wmnds-breadcrumb__link">
