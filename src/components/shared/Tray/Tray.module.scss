@@ -9,7 +9,12 @@
   width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.1);
   position: absolute;
-  height: 80vh;
+  height: calc(100vh - 127px);
+  transition: transform 0.3s ease;
+
+  @media all and (min-width: 410px) {
+    height: calc(100vh - 135px);
+  }
 
   // On desktop/bigger displays
   @media only screen and (min-width: $breakpoint-md) {
