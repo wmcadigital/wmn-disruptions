@@ -4,7 +4,7 @@ import React, { useRef } from 'react';
 import useCreateMap from './customHooks/useCreateMap';
 import useMapIconLayer from './customHooks/useMapIconLayer';
 import useMapPolyline from './customHooks/useMapPolyline';
-import useMapPointerEvents from './customHooks/useMapPointerEvents';
+// import useMapPointerEvents from './customHooks/useMapPointerEvents';
 // Import custom styling
 import s from './Map.module.scss';
 
@@ -24,8 +24,6 @@ const WebMapView = () => {
 
   // Custom hook to plot a route line on the map
   useMapPolyline(polyline, view);
-
-  useMapPointerEvents(mapRef, view);
 
   return (
     <div id="disruptions-map" className={`webmap ${s.map}`} ref={mapRef} title="Disruptions map" />

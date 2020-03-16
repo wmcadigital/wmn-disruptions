@@ -1,19 +1,20 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { loadModules } from 'esri-loader';
-
+import { AutoCompleteContext } from 'globalState';
 // Import map icons
 import locateCircle from 'assets/svgs/map/locate-circle.svg';
 
 const useCreateMap = (_mapRef, _map, _iconLayer, _polyline, _view) => {
-  // Reassign injected useRef params to internal vars
-  const mapRef = _mapRef;
-  const map = _map;
-  const iconLayer = _iconLayer;
-  const polyline = _polyline;
-  const view = _view;
+  const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
 
   // Map useEffect (this is to apply core mapping stuff on page/component load)
   useEffect(() => {
+    // Reassign injected useRef params to internal vars
+    const mapRef = _mapRef;
+    const map = _map;
+    const iconLayer = _iconLayer;
+    const polyline = _polyline;
+    const view = _view;
     // lazy load the required ArcGIS API for JavaScript modules and CSS
     // Make sure that the referenced module is also injected as a param in the .then function below
     loadModules(
@@ -84,15 +85,69 @@ const useCreateMap = (_mapRef, _map, _iconLayer, _polyline, _view) => {
 
       map.current.addMany([polyline.current, iconLayer.current]);
 
+      // on pointer move
+      view.current.on('pointer-move', e => {
+        // capture lat/longs of point
+        const screenPoint = {
+          x: e.x,
+          y: e.y
+        };
+        // Check lat longs on map view and pass anything found as a response
+        view.current.hitTest(screenPoint).then(response => {
+          // If there is a response and it contains an attribute id then it's one of our icon graphics
+          if (response.results[0].graphic.attributes.id) {
+            mapRef.current.style.cursor = 'pointer'; // change map cursor to pointer
+          } else {
+            mapRef.current.style.cursor = 'default'; // else keep default pointer
+          }
+        });
+      });
+
+      let mapClick; // set placeholder click event that we can assign an on click
+
+      if (view.current) {
+        const getGraphics = response => {
+          const selectedMapDisruption = response.results[0].graphic.attributes.id;
+
+          if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
+            autoCompleteDispatch({
+              type: 'UDPATE_SELECTED_MAP_DISRUPTION',
+              selectedMapDisruption
+            });
+          } else if (autoCompleteState.selectedService.id) {
+            const scrollPos = document.getElementById(`scroll-holder-for-${selectedMapDisruption}`)
+              .offsetTop;
+            document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
+          }
+        };
+
+        // Set up a click event handler and retrieve the screen point
+        mapClick = view.current.on('click', e => {
+          // intersect the given screen x, y coordinates
+          const { screenPoint } = e;
+          // the hitTest() checks to see if any graphics in the view.current
+          view.current.hitTest(screenPoint).then(getGraphics);
+        });
+      }
+
       // If component unmounting
       return () => {
         if (view.current) {
           // destroy the map view
           view.current.container = null;
+          mapClick.remove(); // remove click event
         }
       };
     });
-  }, [iconLayer, map, mapRef, polyline, view]);
+  }, [
+    _iconLayer,
+    _map,
+    _mapRef,
+    _polyline,
+    _view,
+    autoCompleteDispatch,
+    autoCompleteState.selectedService.id
+  ]);
 };
 
 export default useCreateMap;
