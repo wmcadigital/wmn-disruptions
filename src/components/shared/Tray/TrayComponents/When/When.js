@@ -63,15 +63,13 @@ const When = () => {
           className="wmnds-col-1"
           style={{ display: whenState.isDatePickerOpen ? 'inline-block' : 'none' }}
         >
-          <div>
-            <DatePicker
-              selected={whenState.whenCustomDate || today}
-              minDate={today}
-              onChange={date => updateWhen('customDate', date)}
-              inline
-              calendarClassName="disruptions-date-picker"
-            />
-          </div>
+          <DatePicker
+            selected={whenState.whenCustomDate || today}
+            minDate={today}
+            onChange={date => updateWhen('customDate', date)}
+            inline
+            calendarClassName="disruptions-date-picker"
+          />
         </div>
       </div>
     </div>

@@ -1,66 +1,83 @@
 .disruptions-date-picker {
   border-radius: 0.1rem;
-  background-color: none;
   border: none;
-  //margin: 25px 70px;
-  margin: 25px 50px;
   box-shadow: 0 0 5px 0 rgba(192, 192, 192, 0.5);
-  background-color: #ffffff;
+  max-width: 100%;
+
+  @media screen and(min-width:340px) {
+    padding: 0 16px 10px;
+  }
 }
 
-//Date Picker - Weekends Background Colours
+// Date Picker - Weekends Background Colours
 .react-datepicker {
   &__header {
     background: none;
     border: none;
   }
-  &__day--weekend {
-    background-color: #f5f5f5;
-    border: 2px solid #f5f5f5;
-    padding: 0px;
-    margin: 0px;
+
+  // DAY STYLES
+  &__day,
+  &__day-name {
+    padding: 8px;
+    width: 38px;
+    height: 38px;
+    margin: 0;
+    line-height: 1.2;
   }
 
-  //Prev & Next Icons
-  &__navigation {
-    height: 12px;
-  }
-  &__navigation--previous {
-    border-right-color: #111111;
-  }
-  &__navigation--next {
-    border-left-color: #111111;
-  }
-
-  //Day Name
   &__day-name {
     border-bottom: solid 1px #979797;
-    padding: 0px;
-    margin: 0px;
-    width: 1.9rem;
   }
 
-  //Week
+  &__day--weekend {
+    position: relative;
+    border: 0;
+    z-index: 1;
+    background-color: #f5f5f5;
+  }
+
+  // Active
+  &__day--selected,
+  &__day:hover {
+    border-radius: 50px;
+    background-color: #e2cee7;
+    color: #333333;
+  }
+
+  // Today State
+  &__day--today {
+    font-weight: normal;
+  }
+
+  // Bold the select date font
+  &__day--selected {
+    font-weight: bold;
+  }
+
+  // WEEK STYLES
   &__week {
     padding: 0px;
     margin: -1px;
   }
 
-  //Active state
-  &__day--selected,
-  &__day:hover {
-    border-radius: 0.9rem;
-    background-color: #e2cee7;
-    color: #333333;
-    // font-weight: bold;
-  }
-  //Bold the select date font
-  &__day--selected {
-    font-weight: bold;
+  // MONTH STYLES
+  &__current-month {
+    font-size: 18px;
+    margin: 20px 0;
   }
 
-  //Today State
-  &__day--today {
-    font-weight: normal;
+  // Prev & Next Icons
+  &__navigation {
+    height: 12px;
+    top: 30px;
+  }
+  &__navigation--previous {
+    border-right-color: #111111;
+    left: 30px;
+  }
+  &__navigation--next {
+    border-left-color: #111111;
+    right: 30px;
   }
 }
