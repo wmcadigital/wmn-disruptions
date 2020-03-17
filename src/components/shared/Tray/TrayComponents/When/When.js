@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
-import DatePicker from 'react-datepicker'; // Uses https://reactdatepicker.com/
+import DatePicker, { registerLocale } from 'react-datepicker'; // Uses https://reactdatepicker.com/
 import { format } from 'fecha';
+import enGB from 'date-fns/locale/en-GB';
 
 // Import contexts
 import { AutoCompleteContext, WhenContext } from 'globalState';
@@ -14,6 +15,8 @@ import './datePicker.scss';
 const When = () => {
   const [whenState, whenDispatch] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of autoComplete from AutoCompleteContext
+
+  registerLocale('en-GB', enGB); // Register a local as en-gb which we use for datepicker below
 
   const today = new Date(); // Get today's date
   const nowText = `Now ${format(today, 'HH:MM')}`; // Set nowText to be 'Now HH:MM'
@@ -63,15 +66,14 @@ const When = () => {
           className="wmnds-col-1"
           style={{ display: whenState.isDatePickerOpen ? 'inline-block' : 'none' }}
         >
-          <div>
-            <DatePicker
-              selected={whenState.whenCustomDate || today}
-              minDate={today}
-              onChange={date => updateWhen('customDate', date)}
-              inline
-              calendarClassName="disruptions-date-picker"
-            />
-          </div>
+          <DatePicker
+            selected={whenState.whenCustomDate || today}
+            minDate={today}
+            onChange={date => updateWhen('customDate', date)}
+            calendarClassName="disruptions-date-picker"
+            inline
+            locale="en-GB"
+          />
         </div>
       </div>
     </div>
