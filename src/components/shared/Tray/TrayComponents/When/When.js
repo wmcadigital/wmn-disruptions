@@ -16,7 +16,7 @@ const When = () => {
   const [whenState, whenDispatch] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of autoComplete from AutoCompleteContext
 
-  registerLocale('en-GB', enGB);
+  registerLocale('en-GB', enGB); // Register a local as en-gb which we use for datepicker below
 
   const today = new Date(); // Get today's date
   const nowText = `Now ${format(today, 'HH:MM')}`; // Set nowText to be 'Now HH:MM'
