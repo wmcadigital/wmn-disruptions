@@ -1,9 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { loadModules } from 'esri-loader';
 import { format } from 'fecha';
-import busMinor from 'assets/map-icons/bus-minor.png';
 import useDateFilter from 'customHooks/useDateFilter';
-
 import {
   FetchDisruptionsContext,
   AutoCompleteContext,
@@ -11,22 +9,7 @@ import {
   WhenContext
 } from 'globalState';
 
-// Import map icons
-// bus icons
-// import busMajor from 'assets/map-icons/bus-major.png';
-// import busSevere from 'assets/map-icons/bus-severe.png';
-// tram icons
-// import tramMinor from 'assets/map-icons/tram-minor.png';
-// import tramMajor from 'assets/map-icons/tram-major.png';
-// import tramSevere from 'assets/map-icons/tram-severe.png';
-// train icons
-// import trainMinor from 'assets/map-icons/train-minor.png';
-// import trainMajor from 'assets/map-icons/train-major.png';
-// import trainSevere from 'assets/map-icons/train-severe.png';
-// roads icons
-// import roadsMinor from 'assets/map-icons/roads-minor.png';
-// import roadsMajor from 'assets/map-icons/roads-major.png';
-// import roadsSevere from 'assets/map-icons/roads-severe.png';
+import modeIcon from './useModeIcon';
 
 const useMapIconLayer = (_iconLayer, _view) => {
   // Set globalstates from imported context
@@ -71,6 +54,7 @@ const useMapIconLayer = (_iconLayer, _view) => {
               id: item.id,
               title: item.title,
               mode: item.mode,
+              disruptionSeverity: item.disruptionSeverity,
               servicesAffected: affectedIds,
               startDate,
               endDate
@@ -112,6 +96,16 @@ const useMapIconLayer = (_iconLayer, _view) => {
               type: 'string'
             },
             {
+              name: 'severity',
+              alias: 'severity',
+              type: 'string'
+            },
+            {
+              name: 'disruptionSeverity',
+              alias: 'disruptionSeverity',
+              type: 'string'
+            },
+            {
               name: 'servicesAffected',
               alias: 'servicesAffected',
               type: 'string'
@@ -149,30 +143,41 @@ const useMapIconLayer = (_iconLayer, _view) => {
         const query = flayer.createQuery(); // Create a query based on feature layer above
         query.where = queryBuilder; // .where uses the SQL query we built
 
-        flayer.queryFeatures(query).then(result => {
-          // function that takes a result, and creates a graphic, then adds to iconLayer on map
-          function addGraphics(item) {
-            item.features.forEach(feature => {
-              const graphic = new Graphic({
-                geometry: feature.geometry,
-                attributes: feature.attributes,
-                symbol: {
-                  // autocasts as new SimpleMarkerSymbol()
-                  type: 'picture-marker',
-                  url: busMinor, // Set to svg disruption indicator
-                  height: '30px',
-                  width: '51px'
-                }
-              });
-              iconLayer.current.add(graphic); // Add graphic to iconLayer on map
-            });
-          }
-
+        // function that takes a result, and creates a graphic, then adds to iconLayer on map
+        function addGraphics(results) {
           iconLayer.current.removeAll(); // Remove all graphics from iconLayer
-          addGraphics(result); // Add queried result as a graphic to iconLayer
+          // Foreach result the loop through (async as we have to await the icon to be resolved)
+          results.features.forEach(async (feature, i) => {
+            // Await for the correct icon to come back based on mode/severity
+            const icon = await modeIcon(
+              feature.attributes.mode,
+              feature.attributes.disruptionSeverity
+            );
+            // Create new graphic
+            const graphic = new Graphic({
+              geometry: feature.geometry,
+              attributes: feature.attributes,
+              symbol: {
+                // autocasts as new SimpleMarkerSymbol()
+                type: 'picture-marker',
+                url: icon, // Set to svg disruption indicator
+                height: '30px',
+                width: '51px'
+              }
+            });
 
-          view.goTo({ target: iconLayer.current.graphics.items });
-        });
+            iconLayer.current.add(graphic); // Add graphic to iconLayer on map
+
+            // If it's the last item in the array then...
+            if (results.features.length - 1 === i) {
+              view.current.goTo({ target: iconLayer.current.graphics }); // Set the view of the map to our current graphics layer
+            }
+          });
+        }
+
+        flayer.queryFeatures(query).then(result => {
+          addGraphics(result);
+        }); // Add queried result as a graphic to iconLayer
       });
     }
 
