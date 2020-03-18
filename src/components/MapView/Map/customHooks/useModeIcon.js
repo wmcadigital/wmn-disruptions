@@ -34,7 +34,6 @@ const modeIcon = (mode, _severity) => {
   }
 
   return import(`assets/map-icons/${mode}-${severity}.png`).then(image => {
-    console.log({ image });
     return image.default;
   });
 };

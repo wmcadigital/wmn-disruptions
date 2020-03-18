@@ -106,6 +106,11 @@ const useMapIconLayer = (_iconLayer, _view) => {
               type: 'string'
             },
             {
+              name: 'servicesAffected',
+              alias: 'servicesAffected',
+              type: 'string'
+            },
+            {
               name: 'startDate',
               alias: 'startDate',
               type: 'string'
@@ -137,6 +142,7 @@ const useMapIconLayer = (_iconLayer, _view) => {
 
         const query = flayer.createQuery(); // Create a query based on feature layer above
         query.where = queryBuilder; // .where uses the SQL query we built
+        console.log({ queryBuilder });
 
         flayer.queryFeatures(query).then(result => {
           // function that takes a result, and creates a graphic, then adds to iconLayer on map
@@ -146,10 +152,7 @@ const useMapIconLayer = (_iconLayer, _view) => {
               let graphic;
 
               const getSymbol = async () => {
-                icon = await modeIcon(
-                  feature.attributes.mode,
-                  feature.attributes.disruptionSeverity
-                );
+                icon = modeIcon(feature.attributes.mode, feature.attributes.disruptionSeverity);
 
                 graphic = new Graphic({
                   geometry: feature.geometry,
@@ -157,11 +160,12 @@ const useMapIconLayer = (_iconLayer, _view) => {
                   symbol: {
                     // autocasts as new SimpleMarkerSymbol()
                     type: 'picture-marker',
-                    url: icon, // Set to svg disruption indicator
+                    url: await icon, // Set to svg disruption indicator
                     height: '30px',
                     width: '51px'
                   }
                 });
+
                 iconLayer.current.add(graphic); // Add graphic to iconLayer on map
               };
 
@@ -169,6 +173,7 @@ const useMapIconLayer = (_iconLayer, _view) => {
             });
           }
 
+          console.log({ result });
           iconLayer.current.removeAll(); // Remove all graphics from iconLayer
           addGraphics(result); // Add queried result as a graphic to iconLayer
 
