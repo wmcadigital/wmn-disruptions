@@ -33,6 +33,7 @@ const modeIcon = (mode, _severity) => {
       break;
   }
 
+  // Return the correct icon back (icon variations are commented above)
   return import(`assets/map-icons/${mode}-${severity}.png`).then(image => {
     return image.default;
   });

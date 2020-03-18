@@ -142,43 +142,42 @@ const useMapIconLayer = (_iconLayer, _view) => {
 
         const query = flayer.createQuery(); // Create a query based on feature layer above
         query.where = queryBuilder; // .where uses the SQL query we built
-        console.log({ queryBuilder });
+
+        // function that takes a result, and creates a graphic, then adds to iconLayer on map
+        function addGraphics(results) {
+          iconLayer.current.removeAll(); // Remove all graphics from iconLayer
+          // Foreach result the loop through (async as we have to await the icon to be resolved)
+          results.features.forEach(async (feature, i) => {
+            // Await for the correct icon to come back based on mode/severity
+            const icon = await modeIcon(
+              feature.attributes.mode,
+              feature.attributes.disruptionSeverity
+            );
+            // Create new graphic
+            const graphic = new Graphic({
+              geometry: feature.geometry,
+              attributes: feature.attributes,
+              symbol: {
+                // autocasts as new SimpleMarkerSymbol()
+                type: 'picture-marker',
+                url: icon, // Set to svg disruption indicator
+                height: '30px',
+                width: '51px'
+              }
+            });
+
+            iconLayer.current.add(graphic); // Add graphic to iconLayer on map
+
+            // If it's the last item in the array then...
+            if (results.features.length - 1 === i) {
+              view.current.goTo({ target: iconLayer.current.graphics }); // Set the view of the map to our current graphics layer
+            }
+          });
+        }
 
         flayer.queryFeatures(query).then(result => {
-          // function that takes a result, and creates a graphic, then adds to iconLayer on map
-          function addGraphics(item) {
-            item.features.forEach(feature => {
-              let icon;
-              let graphic;
-
-              const getSymbol = async () => {
-                icon = modeIcon(feature.attributes.mode, feature.attributes.disruptionSeverity);
-
-                graphic = new Graphic({
-                  geometry: feature.geometry,
-                  attributes: feature.attributes,
-                  symbol: {
-                    // autocasts as new SimpleMarkerSymbol()
-                    type: 'picture-marker',
-                    url: await icon, // Set to svg disruption indicator
-                    height: '30px',
-                    width: '51px'
-                  }
-                });
-
-                iconLayer.current.add(graphic); // Add graphic to iconLayer on map
-              };
-
-              getSymbol();
-            });
-          }
-
-          console.log({ result });
-          iconLayer.current.removeAll(); // Remove all graphics from iconLayer
-          addGraphics(result); // Add queried result as a graphic to iconLayer
-
-          view.goTo({ target: iconLayer.current.graphics.items });
-        });
+          addGraphics(result);
+        }); // Add queried result as a graphic to iconLayer
       });
     }
 
