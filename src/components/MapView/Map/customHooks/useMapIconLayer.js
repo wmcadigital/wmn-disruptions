@@ -1,9 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { loadModules } from 'esri-loader';
 import { format } from 'fecha';
-import busMinor from 'assets/map-icons/bus-minor.png';
 import useDateFilter from 'customHooks/useDateFilter';
-
 import {
   FetchDisruptionsContext,
   AutoCompleteContext,
@@ -11,22 +9,7 @@ import {
   WhenContext
 } from 'globalState';
 
-// Import map icons
-// bus icons
-// import busMajor from 'assets/map-icons/bus-major.png';
-// import busSevere from 'assets/map-icons/bus-severe.png';
-// tram icons
-// import tramMinor from 'assets/map-icons/tram-minor.png';
-// import tramMajor from 'assets/map-icons/tram-major.png';
-// import tramSevere from 'assets/map-icons/tram-severe.png';
-// train icons
-// import trainMinor from 'assets/map-icons/train-minor.png';
-// import trainMajor from 'assets/map-icons/train-major.png';
-// import trainSevere from 'assets/map-icons/train-severe.png';
-// roads icons
-// import roadsMinor from 'assets/map-icons/roads-minor.png';
-// import roadsMajor from 'assets/map-icons/roads-major.png';
-// import roadsSevere from 'assets/map-icons/roads-severe.png';
+import modeIcon from './useModeIcon';
 
 const useMapIconLayer = (_iconLayer, _view) => {
   // Set globalstates from imported context
@@ -71,6 +54,7 @@ const useMapIconLayer = (_iconLayer, _view) => {
               id: item.id,
               title: item.title,
               mode: item.mode,
+              disruptionSeverity: item.disruptionSeverity,
               servicesAffected: affectedIds,
               startDate,
               endDate
@@ -112,8 +96,13 @@ const useMapIconLayer = (_iconLayer, _view) => {
               type: 'string'
             },
             {
-              name: 'servicesAffected',
-              alias: 'servicesAffected',
+              name: 'severity',
+              alias: 'severity',
+              type: 'string'
+            },
+            {
+              name: 'disruptionSeverity',
+              alias: 'disruptionSeverity',
               type: 'string'
             },
             {
@@ -153,18 +142,30 @@ const useMapIconLayer = (_iconLayer, _view) => {
           // function that takes a result, and creates a graphic, then adds to iconLayer on map
           function addGraphics(item) {
             item.features.forEach(feature => {
-              const graphic = new Graphic({
-                geometry: feature.geometry,
-                attributes: feature.attributes,
-                symbol: {
-                  // autocasts as new SimpleMarkerSymbol()
-                  type: 'picture-marker',
-                  url: busMinor, // Set to svg disruption indicator
-                  height: '30px',
-                  width: '51px'
-                }
-              });
-              iconLayer.current.add(graphic); // Add graphic to iconLayer on map
+              let icon;
+              let graphic;
+
+              const getSymbol = async () => {
+                icon = await modeIcon(
+                  feature.attributes.mode,
+                  feature.attributes.disruptionSeverity
+                );
+
+                graphic = new Graphic({
+                  geometry: feature.geometry,
+                  attributes: feature.attributes,
+                  symbol: {
+                    // autocasts as new SimpleMarkerSymbol()
+                    type: 'picture-marker',
+                    url: icon, // Set to svg disruption indicator
+                    height: '30px',
+                    width: '51px'
+                  }
+                });
+                iconLayer.current.add(graphic); // Add graphic to iconLayer on map
+              };
+
+              getSymbol();
             });
           }
 
