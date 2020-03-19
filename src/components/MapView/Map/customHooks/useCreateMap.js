@@ -56,10 +56,12 @@ const useCreateMap = (_mapRef, _map, _iconLayer, _polyline, _view) => {
         zoom: 10
       });
 
-      const goToOverride = () => {
-        return view.current.goTo({ target: iconLayer.current.graphics });
-      };
+      const goToOverride = (e, options) => {
+        const goToCoords = iconLayer.current.graphics.items;
+        goToCoords.push(options.target.target);
 
+        return view.current.goTo(goToCoords);
+      };
       // Create a locate button
       const trackBtn = new Track({
         view: view.current, // Attaches the Locate button to the view
