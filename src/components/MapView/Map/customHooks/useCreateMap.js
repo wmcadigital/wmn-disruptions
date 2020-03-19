@@ -23,14 +23,14 @@ const useCreateMap = (_mapRef, _map, _iconLayer, _polyline, _view) => {
         'esri/views/MapView',
         'esri/Basemap',
         'esri/layers/VectorTileLayer',
-        'esri/widgets/Locate',
+        'esri/widgets/Track',
         'esri/Graphic',
         'esri/layers/GraphicsLayer'
       ],
       {
         css: true
       }
-    ).then(([Map, MapView, Basemap, VectorTileLayer, Locate, Graphic, GraphicsLayer]) => {
+    ).then(([Map, MapView, Basemap, VectorTileLayer, Track, Graphic, GraphicsLayer]) => {
       // When loaded, create a new basemap
       const basemap = new Basemap({
         baseLayers: [
@@ -56,9 +56,14 @@ const useCreateMap = (_mapRef, _map, _iconLayer, _polyline, _view) => {
         zoom: 10
       });
 
+      const goToOverride = () => {
+        return view.current.goTo({ target: iconLayer.current.graphics });
+      };
+
       // Create a locate button
-      const locateBtn = new Locate({
+      const trackBtn = new Track({
         view: view.current, // Attaches the Locate button to the view
+        goToOverride,
         graphic: new Graphic({
           // overwrites the default symbol used for the graphic placed at the location of the user when found
           symbol: {
@@ -74,7 +79,7 @@ const useCreateMap = (_mapRef, _map, _iconLayer, _polyline, _view) => {
       view.current.ui.move(['zoom'], 'top-right');
 
       // Add the locate widget to the top right corner of the view.current
-      view.current.ui.add(locateBtn, {
+      view.current.ui.add(trackBtn, {
         position: 'top-right'
       });
 
