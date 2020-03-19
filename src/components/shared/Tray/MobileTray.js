@@ -9,7 +9,7 @@ import TrayComponents from './TrayComponents/TrayComponents';
 // Import styles
 import s from './Tray.module.scss';
 
-const MobileTray = ({ windowWidth }) => {
+const MobileTray = ({ windowWidth, windowHeight }) => {
   const slideableTray = useRef(); // Ref to track swipe dom element
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [containerHeight, setContainerHeight] = useState(0); // Set ContainerHeight to state, we will make the tray confine to these bounds
@@ -106,7 +106,7 @@ const MobileTray = ({ windowWidth }) => {
       disabled={lockTray}
       cancel="input"
     >
-      <div className={`${s.tray} wmnds-grid `}>
+      <div className={`${s.tray} wmnds-grid `} style={{ height: `${windowHeight - 138}px` }}>
         <Swipe
           className={`${s.swipeTrayWrapper} wmnds-p-md ${isTrayOpen ? s.trayIsOpen : ''}`}
           onSwipeUp={() => onSwipeUp()}
@@ -125,7 +125,8 @@ const MobileTray = ({ windowWidth }) => {
 
 // Set props
 MobileTray.propTypes = {
-  windowWidth: PropTypes.number.isRequired
+  windowWidth: PropTypes.number.isRequired,
+  windowHeight: PropTypes.number.isRequired
 };
 
 export default MobileTray;
