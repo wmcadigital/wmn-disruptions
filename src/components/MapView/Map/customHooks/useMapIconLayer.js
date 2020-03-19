@@ -11,7 +11,7 @@ import {
 
 import modeIcon from './useModeIcon';
 
-const useMapIconLayer = (_iconLayer, _view) => {
+const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
   // Set globalstates from imported context
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
@@ -24,6 +24,7 @@ const useMapIconLayer = (_iconLayer, _view) => {
     // Reassign injected useRef params to internal vars
     const iconLayer = _iconLayer;
     const view = _view;
+    const currentLocation = _currentLocation;
 
     // If disruption state has data in it...
     if (fetchDisruptionsState.data.length) {
@@ -170,7 +171,12 @@ const useMapIconLayer = (_iconLayer, _view) => {
 
             // If it's the last item in the array then...
             if (results.features.length - 1 === i) {
-              view.current.goTo({ target: iconLayer.current.graphics }); // Set the view of the map to our current graphics layer
+              // Set locations to goto (if there is users currentLocation  available then we want to show them in the view as well as the location of the graphic items, else just show graphic items)
+              const locations = currentLocation.current
+                ? [iconLayer.current.graphics.items, currentLocation.current]
+                : iconLayer.current.graphics.items;
+
+              view.current.goTo(locations); // Go to locations set abov
             }
           });
         }
@@ -189,6 +195,7 @@ const useMapIconLayer = (_iconLayer, _view) => {
       }
     };
   }, [
+    _currentLocation,
     _iconLayer,
     _view,
     autoCompleteState.selectedService.id,

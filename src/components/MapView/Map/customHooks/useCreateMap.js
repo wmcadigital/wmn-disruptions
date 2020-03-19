@@ -4,7 +4,7 @@ import { AutoCompleteContext } from 'globalState';
 // Import map icons
 import locateCircle from 'assets/svgs/map/locate-circle.svg';
 
-const useCreateMap = (_mapRef, _map, _iconLayer, _polyline, _view) => {
+const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _view) => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
 
   // Map useEffect (this is to apply core mapping stuff on page/component load)
@@ -12,6 +12,7 @@ const useCreateMap = (_mapRef, _map, _iconLayer, _polyline, _view) => {
     // Reassign injected useRef params to internal vars
     const mapRef = _mapRef;
     const map = _map;
+    const currentLocation = _currentLocation;
     const iconLayer = _iconLayer;
     const polyline = _polyline;
     const view = _view;
@@ -23,14 +24,14 @@ const useCreateMap = (_mapRef, _map, _iconLayer, _polyline, _view) => {
         'esri/views/MapView',
         'esri/Basemap',
         'esri/layers/VectorTileLayer',
-        'esri/widgets/Track',
+        'esri/widgets/Locate',
         'esri/Graphic',
         'esri/layers/GraphicsLayer'
       ],
       {
         css: true
       }
-    ).then(([Map, MapView, Basemap, VectorTileLayer, Track, Graphic, GraphicsLayer]) => {
+    ).then(([Map, MapView, Basemap, VectorTileLayer, Locate, Graphic, GraphicsLayer]) => {
       // When loaded, create a new basemap
       const basemap = new Basemap({
         baseLayers: [
@@ -57,13 +58,17 @@ const useCreateMap = (_mapRef, _map, _iconLayer, _polyline, _view) => {
       });
 
       const goToOverride = (e, options) => {
-        const goToCoords = iconLayer.current.graphics.items;
-        goToCoords.push(options.target.target);
+        currentLocation.current = options.target.target; // Set currentLocation to the target of locate button (latLng of user)
+        // Set locations to goto (if there are graphics items available then we want to show them in the view as well as the location of the user, else show just location of user)
+        const locations = iconLayer.current.graphics.items
+          ? [iconLayer.current.graphics.items, currentLocation.current]
+          : currentLocation.current;
 
-        return view.current.goTo(goToCoords);
+        return view.current.goTo(locations); // Go to locations set above
       };
+
       // Create a locate button
-      const trackBtn = new Track({
+      const locateBtn = new Locate({
         view: view.current, // Attaches the Locate button to the view
         goToOverride,
         graphic: new Graphic({
@@ -81,7 +86,7 @@ const useCreateMap = (_mapRef, _map, _iconLayer, _polyline, _view) => {
       view.current.ui.move(['zoom'], 'top-right');
 
       // Add the locate widget to the top right corner of the view.current
-      view.current.ui.add(trackBtn, {
+      view.current.ui.add(locateBtn, {
         position: 'top-right'
       });
 
@@ -147,6 +152,7 @@ const useCreateMap = (_mapRef, _map, _iconLayer, _polyline, _view) => {
       };
     });
   }, [
+    _currentLocation,
     _iconLayer,
     _map,
     _mapRef,
