@@ -64,6 +64,8 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
           ? [iconLayer.current.graphics.items, currentLocation.current]
           : currentLocation.current;
 
+        console.log(view.current.graphics);
+
         return view.current.goTo(locations); // Go to locations set above
       };
 

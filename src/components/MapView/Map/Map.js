@@ -24,7 +24,7 @@ const WebMapView = () => {
   useMapIconLayer(iconLayer, view, currentLocation);
 
   // Custom hook to plot a route line on the map
-  useMapPolyline(polyline, view);
+  useMapPolyline(polyline, view, currentLocation);
 
   return (
     <div id="disruptions-map" className={`webmap ${s.map}`} ref={mapRef} title="Disruptions map" />
