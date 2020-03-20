@@ -1,5 +1,7 @@
 // Using https://developers.arcgis.com/labs/browse/?product=javascript&topic=any and ESRI JS API
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef } from 'react';
+// Import customHooks
+import useWindowHeightWidth from 'customHooks/useWindowHeightWidth';
 // Import custom hooks for map functionality
 import useCreateMap from './customHooks/useCreateMap';
 import useMapIconLayer from './customHooks/useMapIconLayer';
@@ -9,17 +11,7 @@ import useMapPolyline from './customHooks/useMapPolyline';
 import s from './Map.module.scss';
 
 const WebMapView = () => {
-  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
-
-  // Check window width on resize, used to determine if we should show the mobile or desktop panel in the return/render at the bottom
-  useEffect(() => {
-    // Add event listner to window resize, if resized then update width with new window.width
-    window.addEventListener('resize', () => setWindowHeight(window.innerHeight));
-    // Cleanup: remove eventListener
-    return () => {
-      window.removeEventListener('resize', () => setWindowHeight(window.innerHeight));
-    };
-  }, [windowHeight, setWindowHeight]); // Empty array to only run on componentDidMount
+  const { eleHeight } = useWindowHeightWidth(); // Get window height and width
 
   // Set map refs so we can reassign them within custom functions/hooks below (similar to the state of our map)
   const mapRef = useRef(); // This ref is used to reference the dom node the map mounts on
@@ -44,7 +36,7 @@ const WebMapView = () => {
       className={`webmap ${s.map}`}
       ref={mapRef}
       title="Disruptions map"
-      style={{ height: `${windowHeight - 138}px` }}
+      style={{ height: `${eleHeight}px` }}
     />
   );
 };
