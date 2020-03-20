@@ -1,22 +1,23 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
-import PropTypes from 'prop-types';
 import Draggable from 'react-draggable'; // Uses https://www.npmjs.com/package/react-draggable
 import Swipe from 'react-easy-swipe';
 // Import contexts
 import { AutoCompleteContext } from 'globalState';
+// Import customHooks
+import useWindowHeightWidth from 'customHooks/useWindowHeightWidth';
 // Import Components
 import TrayComponents from './TrayComponents/TrayComponents';
 // Import styles
 import s from './Tray.module.scss';
 
-const MobileTray = ({ windowWidth, windowHeight }) => {
+const MobileTray = () => {
   const slideableTray = useRef(); // Ref to track swipe dom element
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
+  const { windowWidth, eleHeight } = useWindowHeightWidth(); // Get window height and width
   const [containerHeight, setContainerHeight] = useState(0); // Set ContainerHeight to state, we will make the tray confine to these bounds
   const [isTrayOpen, setIsTrayOpen] = useState(false); // Used to store bool if tray is fully open
   const [lockTray, setLockTray] = useState(false); // Store bool if we should lock the tray or not
   const [startPosition, setStartPosition] = useState(); // Used to capture start position of scroll event
-
   const [position, setPosition] = useState(-100); // Set initial position of tray
 
   // Open tray if there is a selectedMapDisruption (map icon has been clicked)
@@ -106,7 +107,7 @@ const MobileTray = ({ windowWidth, windowHeight }) => {
       disabled={lockTray}
       cancel="input"
     >
-      <div className={`${s.tray} wmnds-grid `} style={{ height: `${windowHeight - 138}px` }}>
+      <div className={`${s.tray} wmnds-grid `} style={{ height: `${eleHeight}px` }}>
         <Swipe
           className={`${s.swipeTrayWrapper} wmnds-p-md ${isTrayOpen ? s.trayIsOpen : ''}`}
           onSwipeUp={() => onSwipeUp()}
@@ -121,12 +122,6 @@ const MobileTray = ({ windowWidth, windowHeight }) => {
       </div>
     </Draggable>
   );
-};
-
-// Set props
-MobileTray.propTypes = {
-  windowWidth: PropTypes.number.isRequired,
-  windowHeight: PropTypes.number.isRequired
 };
 
 export default MobileTray;
