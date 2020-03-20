@@ -1,5 +1,6 @@
 import React from 'react';
-
+// Import customHooks
+import useWindowHeightWidth from 'customHooks/useWindowHeightWidth';
 // Import Components
 import TrayComponents from './TrayComponents/TrayComponents';
 import MobileTray from './MobileTray';
@@ -7,6 +8,8 @@ import MobileTray from './MobileTray';
 import s from './Tray.module.scss';
 
 const Tray = () => {
+  const { windowWidth, windowHeight } = useWindowHeightWidth();
+
   // Output for how the mobile tray looks
   const mobileTray = <MobileTray windowWidth={windowWidth} windowHeight={windowHeight} />;
 
