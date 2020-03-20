@@ -5,18 +5,14 @@ $offset-top: $size-lg;
 
 .map {
   width: 100%;
-  height: calc(100% - 122px);
+  height: calc(100vh - 122px);
   background-color: #eee;
   top: $offset-top;
   left: 0;
   z-index: -1;
 
   @media all and(min-width: 410px) {
-    height: calc(100% - 138px);
-  }
-
-  @media only screen and (min-width: $breakpoint-md) {
-    height: 80%;
+    height: calc(100vh - 138px);
   }
 }
 
