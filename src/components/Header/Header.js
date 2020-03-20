@@ -23,7 +23,7 @@ const Header = ({ isMapVisible }) => {
           </li>
           <li className="wmnds-breadcrumb__list-item">
             <a
-              href="/components/breadcrumb/"
+              href="/"
               className="wmnds-breadcrumb__link wmnds-breadcrumb__link--current"
               aria-current="page"
             >
