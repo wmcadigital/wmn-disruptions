@@ -10,7 +10,7 @@ const Header = ({ isMapVisible }) => {
   const [fetchDisruptionState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
 
   return (
-    <>
+    <div className={s.headerWrapper}>
       <nav
         aria-label="Breadcrumb"
         className="wmnds-breadcrumb wmnds-breadcrumb--mobile-app wmnds-container"
@@ -51,7 +51,7 @@ const Header = ({ isMapVisible }) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
