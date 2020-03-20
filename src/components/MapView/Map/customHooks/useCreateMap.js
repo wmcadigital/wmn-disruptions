@@ -123,16 +123,22 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
           const getGraphics = response => {
             const selectedMapDisruption = response.results[0].graphic.attributes.id;
 
+            // Scroll the tray to the clicked disruption
+            const scrollTray = () => {
+              const scrollPos = document.getElementById(
+                `scroll-holder-for-${selectedMapDisruption}`
+              ).offsetTop;
+              document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
+            };
+
             if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
               autoCompleteDispatch({
                 type: 'UDPATE_SELECTED_MAP_DISRUPTION',
                 selectedMapDisruption
               });
+              scrollTray();
             } else if (autoCompleteState.selectedService.id) {
-              const scrollPos = document.getElementById(
-                `scroll-holder-for-${selectedMapDisruption}`
-              ).offsetTop;
-              document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
+              scrollTray();
             }
           };
 
