@@ -25,7 +25,7 @@
     "react": "^16.13.1",
     "react-datepicker": "^2.14.1",
     "react-debounce-input": "^3.2.2",
-    "react-dom": "^16.13.0",
+    "react-dom": "^16.13.1",
     "react-draggable": "^4.2.0",
     "react-easy-swipe": "0.0.18",
     "react-scripts": "3.4.1"
