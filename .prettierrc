@@ -1,5 +1,4 @@
 {
-  "arrowParens": "avoid",
   "bracketSpacing": true,
   "tabWidth": 2,
   "useTabs": false,
