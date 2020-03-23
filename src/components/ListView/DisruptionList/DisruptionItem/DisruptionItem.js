@@ -60,15 +60,19 @@ const DisruptionItem = ({ disruption }) => {
 
         <div className="wmnds-p-l-md">
           {disruption.servicesAffected &&
-            disruption.servicesAffected.map((affected) => (
-              <FavBusButton
-                id={affected.id}
-                severity={disruption.disruptionSeverity}
-                text={affected.serviceNumber}
-                title={`${affected.routeDescriptions[0].description} (${affected.operatorName})`}
-                key={affected.id}
-              />
-            ))}
+            disruption.servicesAffected
+              .sort(
+                (a, b) => a.serviceNumber.replace(/\D/g, '') - b.serviceNumber.replace(/\D/g, '')
+              )
+              .map((affected) => (
+                <FavBusButton
+                  id={affected.id}
+                  severity={disruption.disruptionSeverity}
+                  text={affected.serviceNumber}
+                  title={`${affected.routeDescriptions[0].description} (${affected.operatorName})`}
+                  key={affected.id}
+                />
+              ))}
         </div>
 
         <div className="wmnds-accordion__content" id="accordion-custom-01">
