@@ -154,6 +154,7 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
               feature.attributes.mode,
               feature.attributes.disruptionSeverity
             );
+
             // Create new graphic
             const graphic = new Graphic({
               geometry: feature.geometry,
@@ -162,7 +163,11 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
                 // autocasts as new SimpleMarkerSymbol()
                 type: 'picture-marker',
                 url: icon, // Set to svg disruption indicator
-                height: '30px',
+                // Chnange height based on selected
+                height:
+                  feature.attributes.id === autoCompleteState.selectedMapDisruption
+                    ? '200px'
+                    : '30px',
                 width: '51px',
               },
             });
@@ -198,6 +203,7 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
     _currentLocation,
     _iconLayer,
     _view,
+    autoCompleteState.selectedMapDisruption,
     autoCompleteState.selectedService.id,
     fetchDisruptionsState.data,
     fromDate,
