@@ -21,7 +21,7 @@ const DisruptionInfo = ({ disruption, listView }) => {
           </div>
           <div className="wmnds-col-1">
             {disruption.servicesAffected &&
-              disruption.servicesAffected.map(affected => (
+              disruption.servicesAffected.map((affected) => (
                 <FavBusButton
                   id={affected.id}
                   severity={disruption.disruptionSeverity}
@@ -58,12 +58,12 @@ const DisruptionInfo = ({ disruption, listView }) => {
 // PropTypes
 DisruptionInfo.propTypes = {
   disruption: PropTypes.objectOf(PropTypes.any).isRequired,
-  listView: PropTypes.bool
+  listView: PropTypes.bool,
 };
 
 // Default props
 DisruptionInfo.defaultProps = {
-  listView: false
+  listView: false,
 };
 
 export default DisruptionInfo;

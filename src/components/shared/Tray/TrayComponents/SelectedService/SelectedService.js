@@ -24,7 +24,7 @@ const SelectedService = () => {
       {/* If there are selectedData then there must be disruptions, loop through */}
       {selectedData.length > 0 &&
         fetchDisruptionsState.isMapVisible &&
-        selectedData.map(disruption => (
+        selectedData.map((disruption) => (
           <DisruptedService
             disruption={disruption}
             key={disruption.id}

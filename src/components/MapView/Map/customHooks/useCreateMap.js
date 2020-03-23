@@ -28,10 +28,10 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
           'esri/layers/VectorTileLayer',
           'esri/widgets/Locate',
           'esri/Graphic',
-          'esri/layers/GraphicsLayer'
+          'esri/layers/GraphicsLayer',
         ],
         {
-          css: true
+          css: true,
         }
       ).then(([Map, MapView, Basemap, VectorTileLayer, Locate, Graphic, GraphicsLayer]) => {
         // When loaded, create a new basemap
@@ -40,15 +40,15 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
             new VectorTileLayer({
               portalItem: {
                 // set the basemap to the one being used: https://tfwm.maps.arcgis.com/home/item.html?id=53f165a8863c4d40ba017042e248355e
-                id: '53f165a8863c4d40ba017042e248355e'
-              }
-            })
-          ]
+                id: '53f165a8863c4d40ba017042e248355e',
+              },
+            }),
+          ],
         });
 
         // Create a new map with the basemap set above
         map.current = new Map({
-          basemap
+          basemap,
         });
 
         // Create a new map view with settings
@@ -56,7 +56,7 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
           container: mapRef.current,
           map: map.current,
           center: [-2.0047209, 52.4778132],
-          zoom: 10
+          zoom: 10,
         });
 
         const goToOverride = (e, options) => {
@@ -79,9 +79,9 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
               type: 'picture-marker',
               url: locateCircle, // Set to svg circle when user hits 'locate' button
               height: '150px',
-              width: '150px'
-            }
-          })
+              width: '150px',
+            },
+          }),
         });
 
         // Move zoom widget to top-right corner of view.current
@@ -89,7 +89,7 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
 
         // Add the locate widget to the top right corner of the view.current
         view.current.ui.add(locateBtn, {
-          position: 'top-right'
+          position: 'top-right',
         });
 
         // Set up a graphics layer placeholder so we can inject a polyline into it in future
@@ -100,14 +100,14 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
         map.current.addMany([polyline.current, iconLayer.current]);
 
         // on pointer move
-        view.current.on('pointer-move', e => {
+        view.current.on('pointer-move', (e) => {
           // capture lat/longs of point
           const screenPoint = {
             x: e.x,
-            y: e.y
+            y: e.y,
           };
           // Check lat longs on map view and pass anything found as a response
-          view.current.hitTest(screenPoint).then(response => {
+          view.current.hitTest(screenPoint).then((response) => {
             // If there is a response and it contains an attribute id then it's one of our icon graphics
             if (response.results[0].graphic.attributes.id) {
               mapRef.current.style.cursor = 'pointer'; // change map cursor to pointer
@@ -120,7 +120,7 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
         let mapClick; // set placeholder click event that we can assign an on click
 
         if (view.current) {
-          const getGraphics = response => {
+          const getGraphics = (response) => {
             const selectedMapDisruption = response.results[0].graphic.attributes.id;
 
             // Scroll the tray to the clicked disruption
@@ -134,7 +134,7 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
             if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
               autoCompleteDispatch({
                 type: 'UDPATE_SELECTED_MAP_DISRUPTION',
-                selectedMapDisruption
+                selectedMapDisruption,
               });
               scrollTray();
             } else if (autoCompleteState.selectedService.id) {
@@ -143,7 +143,7 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
           };
 
           // Set up a click event handler and retrieve the screen point
-          mapClick = view.current.on('click', e => {
+          mapClick = view.current.on('click', (e) => {
             // intersect the given screen x, y coordinates
             const { screenPoint } = e;
             // the hitTest() checks to see if any graphics in the view.current
@@ -169,7 +169,7 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
     _polyline,
     _view,
     autoCompleteDispatch,
-    autoCompleteState.selectedService.id
+    autoCompleteState.selectedService.id,
   ]);
 };
 

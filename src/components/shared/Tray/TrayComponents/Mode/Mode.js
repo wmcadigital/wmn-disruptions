@@ -9,11 +9,11 @@ const Mode = () => {
   const [modeState, modeDispatch] = useContext(ModeContext); // Get the state of modeButtons from modeContext
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of autoComplete from AutoCompleteContext
 
-  const updateMode = mode => {
+  const updateMode = (mode) => {
     // Update the mode context to selected mode
     modeDispatch({
       type: 'UPDATE_MODE',
-      mode
+      mode,
     });
     // Reset selected disruption ID from map (if any)
     if (autoCompleteState.selectedMapDisruption) {

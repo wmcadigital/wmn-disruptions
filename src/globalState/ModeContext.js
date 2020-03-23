@@ -2,12 +2,12 @@ import React, { useReducer, createContext } from 'react';
 
 export const ModeContext = createContext(); // Create when context
 
-export const ModeProvider = props => {
+export const ModeProvider = (props) => {
   const { children } = props || {};
 
   // Set intial state of when
   const initialState = {
-    mode: null // Can be any of the modes (bus, train, tram, roads)
+    mode: null, // Can be any of the modes (bus, train, tram, roads)
   };
 
   // Set up a reducer so we can change state based on centralised logic here
@@ -17,7 +17,7 @@ export const ModeProvider = props => {
       case 'UPDATE_MODE':
         return {
           ...state,
-          mode: action.mode
+          mode: action.mode,
         };
       // Default should return intial state if error
       default:

@@ -40,7 +40,7 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch }) => {
 // PropTypes
 SelectedServiceHeader.propTypes = {
   autoCompleteState: PropTypes.objectOf(PropTypes.any).isRequired,
-  autoCompleteDispatch: PropTypes.func.isRequired
+  autoCompleteDispatch: PropTypes.func.isRequired,
 };
 
 export default SelectedServiceHeader;

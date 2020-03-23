@@ -55,12 +55,12 @@ FavBusButton.propTypes = {
   id: PropTypes.string, // button type, by default it is type="button"
   severity: PropTypes.string.isRequired, // severity of disruption
   text: PropTypes.string.isRequired, // text inside button
-  title: PropTypes.string
+  title: PropTypes.string,
 };
 
 FavBusButton.defaultProps = {
   id: null,
-  title: null
+  title: null,
 };
 
 export default FavBusButton;

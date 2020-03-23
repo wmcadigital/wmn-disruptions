@@ -12,7 +12,7 @@ const Button = ({
   btnClass,
   iconLeft,
   iconRight,
-  disabled
+  disabled,
 }) => {
   return (
     // eslint-disable-next-line react/button-has-type
@@ -49,7 +49,7 @@ Button.propTypes = {
   btnClass: PropTypes.string, // Set custom button classes, will default to wmnds-btn (primary btn)
   iconLeft: PropTypes.string, // Set icon left on button
   iconRight: PropTypes.string, // Set icon right on button
-  disabled: PropTypes.bool // Sets if the button is disabled or not
+  disabled: PropTypes.bool, // Sets if the button is disabled or not
 };
 
 Button.defaultProps = {
@@ -61,7 +61,7 @@ Button.defaultProps = {
   btnClass: '',
   iconLeft: null,
   iconRight: null,
-  disabled: false
+  disabled: false,
 };
 
 export default Button;

@@ -2,7 +2,7 @@ import React, { useReducer, createContext } from 'react';
 
 export const AutoCompleteContext = createContext(); // Create when context
 
-export const AutoCompleteProvider = props => {
+export const AutoCompleteProvider = (props) => {
   const { children } = props || {};
 
   // Set intial state of when
@@ -15,8 +15,8 @@ export const AutoCompleteProvider = props => {
       id: null,
       severity: null,
       serviceNumber: null,
-      routeName: null
-    }
+      routeName: null,
+    },
   };
 
   // Set up a reducer so we can change state based on centralised logic here
@@ -26,22 +26,22 @@ export const AutoCompleteProvider = props => {
       case 'UPDATE_QUERY':
         return {
           ...state,
-          query: action.query
+          query: action.query,
         };
       case 'UDPATE_SELECTED_MAP_DISRUPTION':
         return {
           ...state,
-          selectedMapDisruption: action.selectedMapDisruption
+          selectedMapDisruption: action.selectedMapDisruption,
         };
       case 'UPDATE_DATA':
         return {
           ...state,
-          data: action.data
+          data: action.data,
         };
       case 'UPDATE_SELECTED_SERVICE':
         return {
           ...state,
-          selectedService: action.selectedService
+          selectedService: action.selectedService,
         };
       case 'RESET_SELECTED_SERVICE':
         return initialState;

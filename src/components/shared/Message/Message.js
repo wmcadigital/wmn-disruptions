@@ -35,13 +35,13 @@ const Message = ({ type, title, message }) => {
 Message.propTypes = {
   type: PropTypes.string,
   title: PropTypes.string,
-  message: PropTypes.string
+  message: PropTypes.string,
 };
 
 Message.defaultProps = {
   type: 'success',
   title: 'Good service',
-  message: 'No incidents reported.'
+  message: 'No incidents reported.',
 };
 
 export default Message;

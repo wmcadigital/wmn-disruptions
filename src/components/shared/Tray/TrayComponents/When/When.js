@@ -69,7 +69,7 @@ const When = () => {
           <DatePicker
             selected={whenState.whenCustomDate || today}
             minDate={today}
-            onChange={date => updateWhen('customDate', date)}
+            onChange={(date) => updateWhen('customDate', date)}
             calendarClassName="disruptions-date-picker"
             inline
             locale="en-GB"

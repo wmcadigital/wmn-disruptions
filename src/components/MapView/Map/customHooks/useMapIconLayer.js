@@ -6,7 +6,7 @@ import {
   FetchDisruptionsContext,
   AutoCompleteContext,
   ModeContext,
-  WhenContext
+  WhenContext,
 } from 'globalState';
 
 import modeIcon from './useModeIcon';
@@ -33,7 +33,7 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
         const today = format(new Date(), 'YYYY-MM-DD');
 
         // Create new graphic for each lat long in disruptions list
-        const disruptionsData = fetchDisruptionsState.data.map(item => {
+        const disruptionsData = fetchDisruptionsState.data.map((item) => {
           let startDate = today;
           let endDate = today;
           // If disruption time window exists then set start/end dates to those
@@ -45,7 +45,7 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
           let affectedIds = '';
           // If servicedsAffected on disruption add them to the affectedIds var so we can query them
           if (item.servicesAffected) {
-            item.servicesAffected.forEach(service => {
+            item.servicesAffected.forEach((service) => {
               affectedIds += `${service.id}, `;
             });
           }
@@ -58,16 +58,16 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
               disruptionSeverity: item.disruptionSeverity,
               servicesAffected: affectedIds,
               startDate,
-              endDate
+              endDate,
             },
             geometry: {
               type: 'point',
               longitude: item.lon || 0,
               latitude: item.lat || 0,
               spatialreference: {
-                wkid: 4326
-              }
-            }
+                wkid: 4326,
+              },
+            },
           });
         });
 
@@ -79,49 +79,49 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
             {
               name: 'oid',
               alias: 'oid',
-              type: 'oid'
+              type: 'oid',
             },
             {
               name: 'id',
               alias: 'id',
-              type: 'string'
+              type: 'string',
             },
             {
               name: 'title',
               alias: 'title',
-              type: 'string'
+              type: 'string',
             },
             {
               name: 'mode',
               alias: 'mode',
-              type: 'string'
+              type: 'string',
             },
             {
               name: 'severity',
               alias: 'severity',
-              type: 'string'
+              type: 'string',
             },
             {
               name: 'disruptionSeverity',
               alias: 'disruptionSeverity',
-              type: 'string'
+              type: 'string',
             },
             {
               name: 'servicesAffected',
               alias: 'servicesAffected',
-              type: 'string'
+              type: 'string',
             },
             {
               name: 'startDate',
               alias: 'startDate',
-              type: 'string'
+              type: 'string',
             },
             {
               name: 'endDate',
               alias: 'endDate',
-              type: 'string'
-            }
-          ]
+              type: 'string',
+            },
+          ],
         });
 
         // QUERY FEATURE LAYER, Any fields to be queried need to be included in fields list of feature layer above.
@@ -163,8 +163,8 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
                 type: 'picture-marker',
                 url: icon, // Set to svg disruption indicator
                 height: '30px',
-                width: '51px'
-              }
+                width: '51px',
+              },
             });
 
             iconLayer.current.add(graphic); // Add graphic to iconLayer on map
@@ -181,7 +181,7 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
           });
         }
 
-        flayer.queryFeatures(query).then(result => {
+        flayer.queryFeatures(query).then((result) => {
           addGraphics(result);
         }); // Add queried result as a graphic to iconLayer
       });
@@ -203,7 +203,7 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
     fromDate,
     modeState.mode,
     toDate,
-    whenState.when
+    whenState.when,
   ]);
 };
 

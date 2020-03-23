@@ -68,7 +68,7 @@ DisruptionIndicatorMedium.propTypes = {
   narrow: PropTypes.bool,
   severity: PropTypes.string,
   text: PropTypes.string,
-  title: PropTypes.string
+  title: PropTypes.string,
 };
 
 DisruptionIndicatorMedium.defaultProps = {
@@ -77,7 +77,7 @@ DisruptionIndicatorMedium.defaultProps = {
   narrow: false,
   severity: '',
   text: null,
-  title: null
+  title: null,
 };
 
 export default DisruptionIndicatorMedium;

@@ -40,9 +40,9 @@ const Header = ({ isMapVisible }) => {
             <Button
               btnClass={`wmnds-btn--secondary wmnds-float--right ${s.listMapBtn}`}
               onClick={() =>
-                setFetchDisruptionsState(prevState => ({
+                setFetchDisruptionsState((prevState) => ({
                   ...prevState,
-                  isMapVisible: !isMapVisible
+                  isMapVisible: !isMapVisible,
                 }))
               }
               iconRight="general-chevron-right"
@@ -57,7 +57,7 @@ const Header = ({ isMapVisible }) => {
 
 // Set props
 Header.propTypes = {
-  isMapVisible: PropTypes.bool.isRequired
+  isMapVisible: PropTypes.bool.isRequired,
 };
 
 export default Header;
