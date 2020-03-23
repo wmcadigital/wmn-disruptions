@@ -34,7 +34,7 @@ const modeIcon = (mode, _severity, selected) => {
   }
 
   // Return the correct icon back (icon variations are commented above)
-  return import(`assets/map-icons/${mode}-${severity}${selected ? '-hover' : ''}.png`).then(
+  return import(`assets/map-icons/${mode}-${severity}${selected ? '-hover' : ''}.jpg`).then(
     (image) => {
       return image.default;
     }
