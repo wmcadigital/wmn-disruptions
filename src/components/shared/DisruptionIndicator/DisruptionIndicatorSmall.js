@@ -49,12 +49,12 @@ const DisruptionIndicatorSmall = ({ className, iconLeft, severity }) => {
 DisruptionIndicatorSmall.propTypes = {
   className: PropTypes.string,
   iconLeft: PropTypes.string.isRequired,
-  severity: PropTypes.string
+  severity: PropTypes.string,
 };
 
 DisruptionIndicatorSmall.defaultProps = {
   className: '',
-  severity: ''
+  severity: '',
 };
 
 export default DisruptionIndicatorSmall;

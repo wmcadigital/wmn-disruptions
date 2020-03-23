@@ -15,7 +15,7 @@ const BusAutoComplete = () => {
   const [loading, setLoading] = useState(false); // Set loading state for spinner
   const [errorInfo, setErrorInfo] = useState(); // Placeholder to set error messaging
 
-  const updateQuery = query => {
+  const updateQuery = (query) => {
     // Reset selected disruption ID from map (if any)
     if (autoCompleteState.selectedMapDisruption) {
       autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' });
@@ -35,34 +35,34 @@ const BusAutoComplete = () => {
           )}`,
           {
             headers: {
-              'Ocp-Apim-Subscription-Key': '9a2a6bd91c8f49598089ecb5448b45ef'
+              'Ocp-Apim-Subscription-Key': '9a2a6bd91c8f49598089ecb5448b45ef',
             },
-            cancelToken: source.token // Set token with API call, so we can cancel this call on unmount
+            cancelToken: source.token, // Set token with API call, so we can cancel this call on unmount
           }
         )
-        .then(bus => {
+        .then((bus) => {
           setLoading(false); // Set loading state to false after data is received
           // If bus.data.services isn't there, then we can't map the results to it, so return null
           autoCompleteDispatch({
             type: 'UPDATE_DATA',
-            data: bus.data.services
+            data: bus.data.services,
           }); // Update data state with services returned
 
           // if no bus data, set error
           if (!bus.data.length) {
             setErrorInfo({
               title: 'No results found',
-              message: 'Make sure you are looking for the right service, and try again.'
+              message: 'Make sure you are looking for the right service, and try again.',
             });
           }
         })
-        .catch(error => {
+        .catch((error) => {
           if (!axios.isCancel(error)) {
             setLoading(false); // Set loading state to false after data is received
             // Update error message
             setErrorInfo({
               title: 'Please try again',
-              message: 'Apologies, we are having technical difficulties.'
+              message: 'Apologies, we are having technical difficulties.',
             });
             // eslint-disable-next-line no-console
             console.log({ error });
@@ -90,7 +90,7 @@ const BusAutoComplete = () => {
           placeholder="Search for a service"
           className="wmnds-autocomplete__input wmnds-col-1 wmnds"
           value={autoCompleteState.query}
-          onChange={e => updateQuery(e.target.value)}
+          onChange={(e) => updateQuery(e.target.value)}
           aria-label="Search for a service"
           debounceTimeout={600}
         />
@@ -102,7 +102,7 @@ const BusAutoComplete = () => {
         // Only show autocomplete results if there is a query
         autoCompleteState.query && (
           <ul className="wmnds-autocomplete-suggestions">
-            {autoCompleteState.data.map(result => (
+            {autoCompleteState.data.map((result) => (
               <BusAutoCompleteResult key={result.id} result={result} />
             ))}
           </ul>

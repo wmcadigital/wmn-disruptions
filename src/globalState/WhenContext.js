@@ -3,7 +3,7 @@ import { format } from 'fecha';
 
 export const WhenContext = createContext(); // Create when context
 
-export const WhenProvider = props => {
+export const WhenProvider = (props) => {
   const { children } = props || {};
 
   // Set intial state of when
@@ -12,7 +12,7 @@ export const WhenProvider = props => {
     // The below state is to help with datepicker(users custom date)
     whenCustomDate: null, // Used to map the datetime of chosen date in datepicker
     isDatePickerOpen: false, // For toggling datepicker open/closed
-    datePickerText: 'Choose date' // Text for datepicker button, will change to dd/mm/yyyy if custom date chosen
+    datePickerText: 'Choose date', // Text for datepicker button, will change to dd/mm/yyyy if custom date chosen
   };
 
   // Set up a reducer so we can change state based on centralised logic here
@@ -23,13 +23,13 @@ export const WhenProvider = props => {
         return {
           ...state,
           when: action.when,
-          isDatePickerOpen: false
+          isDatePickerOpen: false,
         };
       // Toggle datepicker open/closed
       case 'TOGGLE_DATEPICKER':
         return {
           ...state,
-          isDatePickerOpen: !state.isDatePickerOpen
+          isDatePickerOpen: !state.isDatePickerOpen,
         };
       // Update state to use custom date from datepicker, close datepicker and update button text to shorthand date
       case 'UPDATE_CUSTOMDATE': {
@@ -41,7 +41,7 @@ export const WhenProvider = props => {
           datePickerText: chosenDate,
           when: 'customDate',
           whenCustomDate: action.date,
-          isDatePickerOpen: false
+          isDatePickerOpen: false,
         };
       }
       // Default should return intial state if error

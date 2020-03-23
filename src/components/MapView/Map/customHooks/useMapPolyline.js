@@ -21,24 +21,24 @@ const useMapPolyline = (_polyline, _view, _currentLocation) => {
           `https://trasnport-api-jon-dev.azure-api.net/bus/v1/RouteGeoJSON/${autoCompleteState.selectedService.id}`,
           {
             headers: {
-              'Ocp-Apim-Subscription-Key': '9a2a6bd91c8f49598089ecb5448b45ef'
-            }
+              'Ocp-Apim-Subscription-Key': '9a2a6bd91c8f49598089ecb5448b45ef',
+            },
           }
         )
-        .then(route => {
+        .then((route) => {
           // lazy load the required ArcGIS API for JavaScript modules and CSS
           loadModules(['esri/Graphic']).then(([Graphic]) => {
             // Create a new polyline with the geoJSON from the API for the ID
             const poly = new Graphic({
               geometry: {
                 type: 'polyline',
-                paths: route.data.geoJson.features[0].geometry.coordinates
+                paths: route.data.geoJson.features[0].geometry.coordinates,
               },
               symbol: {
                 type: 'simple-line', // autocasts as new SimpleLineSymbol()
                 color: '#3c1053', // RGB color values as an array
-                width: 4
-              }
+                width: 4,
+              },
             });
 
             polyline.current.add(poly); // Add polyline to the map

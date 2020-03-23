@@ -6,7 +6,7 @@ import {
   FetchDisruptionsContext,
   AutoCompleteContext,
   ModeContext,
-  WhenContext
+  WhenContext,
 } from 'globalState';
 
 import modeIcon from './useModeIcon';
@@ -33,7 +33,7 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
         const today = format(new Date(), 'YYYY-MM-DD');
 
         // Create new graphic for each lat long in disruptions list
-        const disruptionsData = fetchDisruptionsState.data.map(item => {
+        const disruptionsData = fetchDisruptionsState.data.map((item) => {
           let startDate = today;
           let endDate = today;
           // If disruption time window exists then set start/end dates to those
@@ -45,7 +45,7 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
           let affectedIds = '';
           // If servicedsAffected on disruption add them to the affectedIds var so we can query them
           if (item.servicesAffected) {
-            item.servicesAffected.forEach(service => {
+            item.servicesAffected.forEach((service) => {
               affectedIds += `${service.id}, `;
             });
           }
@@ -58,16 +58,16 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
               disruptionSeverity: item.disruptionSeverity,
               servicesAffected: affectedIds,
               startDate,
-              endDate
+              endDate,
             },
             geometry: {
               type: 'point',
               longitude: item.lon || 0,
               latitude: item.lat || 0,
               spatialreference: {
-                wkid: 4326
-              }
-            }
+                wkid: 4326,
+              },
+            },
           });
         });
 
@@ -79,49 +79,49 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
             {
               name: 'oid',
               alias: 'oid',
-              type: 'oid'
+              type: 'oid',
             },
             {
               name: 'id',
               alias: 'id',
-              type: 'string'
+              type: 'string',
             },
             {
               name: 'title',
               alias: 'title',
-              type: 'string'
+              type: 'string',
             },
             {
               name: 'mode',
               alias: 'mode',
-              type: 'string'
+              type: 'string',
             },
             {
               name: 'severity',
               alias: 'severity',
-              type: 'string'
+              type: 'string',
             },
             {
               name: 'disruptionSeverity',
               alias: 'disruptionSeverity',
-              type: 'string'
+              type: 'string',
             },
             {
               name: 'servicesAffected',
               alias: 'servicesAffected',
-              type: 'string'
+              type: 'string',
             },
             {
               name: 'startDate',
               alias: 'startDate',
-              type: 'string'
+              type: 'string',
             },
             {
               name: 'endDate',
               alias: 'endDate',
-              type: 'string'
-            }
-          ]
+              type: 'string',
+            },
+          ],
         });
 
         // QUERY FEATURE LAYER, Any fields to be queried need to be included in fields list of feature layer above.
@@ -149,11 +149,13 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
           iconLayer.current.removeAll(); // Remove all graphics from iconLayer
           // Foreach result the loop through (async as we have to await the icon to be resolved)
           results.features.forEach(async (feature, i) => {
-            // Await for the correct icon to come back based on mode/severity
+            // Await for the correct icon to come back based on mode/severity (if the current feature matches selectedMapDisruption, pass true to get hover icon)
             const icon = await modeIcon(
               feature.attributes.mode,
-              feature.attributes.disruptionSeverity
+              feature.attributes.disruptionSeverity,
+              feature.attributes.id === autoCompleteState.selectedMapDisruption
             );
+
             // Create new graphic
             const graphic = new Graphic({
               geometry: feature.geometry,
@@ -162,9 +164,10 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
                 // autocasts as new SimpleMarkerSymbol()
                 type: 'picture-marker',
                 url: icon, // Set to svg disruption indicator
+                // Chnange height based on selected
                 height: '30px',
-                width: '51px'
-              }
+                width: '51px',
+              },
             });
 
             iconLayer.current.add(graphic); // Add graphic to iconLayer on map
@@ -181,7 +184,7 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
           });
         }
 
-        flayer.queryFeatures(query).then(result => {
+        flayer.queryFeatures(query).then((result) => {
           addGraphics(result);
         }); // Add queried result as a graphic to iconLayer
       });
@@ -198,12 +201,13 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
     _currentLocation,
     _iconLayer,
     _view,
+    autoCompleteState.selectedMapDisruption,
     autoCompleteState.selectedService.id,
     fetchDisruptionsState.data,
     fromDate,
     modeState.mode,
     toDate,
-    whenState.when
+    whenState.when,
   ]);
 };
 

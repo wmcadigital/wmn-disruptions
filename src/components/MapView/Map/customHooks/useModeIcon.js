@@ -15,7 +15,7 @@
 // import roadsMajor from 'assets/map-icons/roads-major.png';
 // import roadsSevere from 'assets/map-icons/roads-severe.png';
 
-const modeIcon = (mode, _severity) => {
+const modeIcon = (mode, _severity, selected) => {
   let severity;
   switch (_severity) {
     // Major disruption (high)
@@ -34,9 +34,11 @@ const modeIcon = (mode, _severity) => {
   }
 
   // Return the correct icon back (icon variations are commented above)
-  return import(`assets/map-icons/${mode}-${severity}.png`).then(image => {
-    return image.default;
-  });
+  return import(`assets/map-icons/${mode}-${severity}${selected ? '-hover' : ''}.png`).then(
+    (image) => {
+      return image.default;
+    }
+  );
 };
 
 export default modeIcon;

@@ -12,17 +12,20 @@ const InnerApp = () => {
   const [fetchDisruptionState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
 
   useEffect(() => {
-    setFetchDisruptionsState(prevState => ({ ...prevState, isFetching: true }));
+    setFetchDisruptionsState((prevState) => ({ ...prevState, isFetching: true }));
     axios
       .get('https://trasnport-api-jon-dev.azure-api.net/Disruption/v2', {
         headers: {
-          'Ocp-Apim-Subscription-Key': '9a2a6bd91c8f49598089ecb5448b45ef'
-        }
+          'Ocp-Apim-Subscription-Key': '9a2a6bd91c8f49598089ecb5448b45ef',
+        },
       })
-      .then(response => {
-        setFetchDisruptionsState(prevState => ({ ...prevState, data: response.data.disruptions }));
+      .then((response) => {
+        setFetchDisruptionsState((prevState) => ({
+          ...prevState,
+          data: response.data.disruptions,
+        }));
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.response) {
           // The request was made and the server responded with a status code
           console.log(error.response.data);
@@ -31,7 +34,7 @@ const InnerApp = () => {
         }
       })
       .then(() => {
-        setFetchDisruptionsState(prevState => ({ ...prevState, isFetching: false }));
+        setFetchDisruptionsState((prevState) => ({ ...prevState, isFetching: false }));
       });
   }, [setFetchDisruptionsState]);
 

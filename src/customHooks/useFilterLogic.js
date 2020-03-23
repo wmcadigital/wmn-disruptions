@@ -5,7 +5,7 @@ import {
   AutoCompleteContext,
   FetchDisruptionsContext,
   ModeContext,
-  WhenContext
+  WhenContext,
 } from 'globalState';
 
 import useDateFilter from './useDateFilter';
@@ -22,7 +22,7 @@ const useFilterLogic = () => {
   // When filtering
   if (whenState.when) {
     // Filter results on date range
-    filteredData = filteredData.filter(disrItem => {
+    filteredData = filteredData.filter((disrItem) => {
       let returnitem;
       if (disrItem.mode === 'bus') {
         // 2020-02-05T15:30:00Z
@@ -42,13 +42,13 @@ const useFilterLogic = () => {
 
     // Mode filtering
     if (modeState.mode) {
-      filteredData = filteredData.filter(disrItem => disrItem.mode === modeState.mode);
+      filteredData = filteredData.filter((disrItem) => disrItem.mode === modeState.mode);
     }
 
     // SelectedMapDisruption filtering
     if (autoCompleteState.selectedMapDisruption) {
       filteredData = filteredData.filter(
-        disrItem => disrItem.id === autoCompleteState.selectedMapDisruption
+        (disrItem) => disrItem.id === autoCompleteState.selectedMapDisruption
       );
     }
 
@@ -56,9 +56,9 @@ const useFilterLogic = () => {
     if (autoCompleteState.selectedService.id) {
       // The below will check all disruptions and will return any disruption where the mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
       filteredData = filteredData.filter(
-        disrItem =>
+        (disrItem) =>
           disrItem.mode === 'bus' &&
-          disrItem.servicesAffected.some(el => el.id === autoCompleteState.selectedService.id)
+          disrItem.servicesAffected.some((el) => el.id === autoCompleteState.selectedService.id)
       );
     }
   }

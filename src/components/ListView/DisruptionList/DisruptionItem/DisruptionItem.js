@@ -24,9 +24,9 @@ const DisruptionItem = ({ disruption }) => {
           className="wmnds-accordion__summary-wrapper"
           aria-expanded={!!openAccordions[disruption.id]}
           onClick={() =>
-            setopenAccordions(prevState => ({
+            setopenAccordions((prevState) => ({
               ...prevState,
-              [disruption.id]: !prevState[disruption.id]
+              [disruption.id]: !prevState[disruption.id],
             }))
           }
         >
@@ -60,15 +60,19 @@ const DisruptionItem = ({ disruption }) => {
 
         <div className="wmnds-p-l-md">
           {disruption.servicesAffected &&
-            disruption.servicesAffected.map(affected => (
-              <FavBusButton
-                id={affected.id}
-                severity={disruption.disruptionSeverity}
-                text={affected.serviceNumber}
-                title={`${affected.routeDescriptions[0].description} (${affected.operatorName})`}
-                key={affected.id}
-              />
-            ))}
+            disruption.servicesAffected
+              .sort(
+                (a, b) => a.serviceNumber.replace(/\D/g, '') - b.serviceNumber.replace(/\D/g, '')
+              )
+              .map((affected) => (
+                <FavBusButton
+                  id={affected.id}
+                  severity={disruption.disruptionSeverity}
+                  text={affected.serviceNumber}
+                  title={`${affected.routeDescriptions[0].description} (${affected.operatorName})`}
+                  key={affected.id}
+                />
+              ))}
         </div>
 
         <div className="wmnds-accordion__content" id="accordion-custom-01">
@@ -82,7 +86,7 @@ const DisruptionItem = ({ disruption }) => {
 
 // PropTypes
 DisruptionItem.propTypes = {
-  disruption: PropTypes.objectOf(PropTypes.any).isRequired
+  disruption: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default DisruptionItem;

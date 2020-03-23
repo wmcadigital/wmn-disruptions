@@ -4,7 +4,7 @@ import { AutoCompleteContext } from 'globalState';
 // Import components
 import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
 
-const BusAutoCompleteResult = props => {
+const BusAutoCompleteResult = (props) => {
   const { result } = props || {};
 
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
@@ -21,8 +21,8 @@ const BusAutoCompleteResult = props => {
         id: result.id,
         severity: result.disruptionSeverity,
         serviceNumber: result.serviceNumber,
-        routeName: result.routes[0].routeName
-      }
+        routeName: result.routes[0].routeName,
+      },
     });
   };
 

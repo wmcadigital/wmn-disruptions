@@ -13,7 +13,7 @@ const DisruptionList = () => {
   return (
     <>
       {filteredData.length ? (
-        filteredData.map(disruption => (
+        filteredData.map((disruption) => (
           <DisruptionItem disruption={disruption} key={disruption.id} />
         ))
       ) : (

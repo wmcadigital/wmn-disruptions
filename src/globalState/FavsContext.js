@@ -2,7 +2,7 @@ import React, { useReducer, createContext } from 'react';
 
 export const FavsContext = createContext(); // Create when context
 
-export const FavsProvider = props => {
+export const FavsProvider = (props) => {
   const { children } = props || {};
 
   // Set intial state of favs (get from localStorage OR set default)
@@ -10,7 +10,7 @@ export const FavsProvider = props => {
     bus: [],
     train: [],
     tram: [],
-    roads: []
+    roads: [],
   };
 
   // Set up a reducer so we can change state based on centralised logic here
@@ -21,13 +21,13 @@ export const FavsProvider = props => {
       case 'ADD_FAV':
         return {
           ...state,
-          bus: [...state.bus, action.id]
+          bus: [...state.bus, action.id],
         };
       // Remove favourite
       case 'REMOVE_FAV':
         return {
           ...state,
-          bus: state.bus.filter(item => item !== action.id)
+          bus: state.bus.filter((item) => item !== action.id),
         };
       // Default should return intial state if error
       default:

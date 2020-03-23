@@ -18,11 +18,11 @@ const CloseButton = ({ onClick, isFloated }) => {
 
 CloseButton.propTypes = {
   onClick: PropTypes.func.isRequired,
-  isFloated: PropTypes.bool
+  isFloated: PropTypes.bool,
 };
 
 CloseButton.defaultProps = {
-  isFloated: false
+  isFloated: false,
 };
 
 export default CloseButton;
