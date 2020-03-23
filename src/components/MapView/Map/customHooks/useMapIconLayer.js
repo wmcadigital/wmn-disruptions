@@ -166,7 +166,7 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
                 url: icon, // Set to svg disruption indicator
                 // Chnange height based on selected
                 height: '30px',
-                width: '51px',
+                width: '50px',
               },
             });
 
