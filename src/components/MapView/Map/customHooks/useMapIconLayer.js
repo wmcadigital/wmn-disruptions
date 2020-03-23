@@ -149,10 +149,11 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
           iconLayer.current.removeAll(); // Remove all graphics from iconLayer
           // Foreach result the loop through (async as we have to await the icon to be resolved)
           results.features.forEach(async (feature, i) => {
-            // Await for the correct icon to come back based on mode/severity
+            // Await for the correct icon to come back based on mode/severity (if the current feature matches selectedMapDisruption, pass true to get hover icon)
             const icon = await modeIcon(
               feature.attributes.mode,
-              feature.attributes.disruptionSeverity
+              feature.attributes.disruptionSeverity,
+              feature.attributes.id === autoCompleteState.selectedMapDisruption
             );
 
             // Create new graphic
@@ -164,10 +165,7 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
                 type: 'picture-marker',
                 url: icon, // Set to svg disruption indicator
                 // Chnange height based on selected
-                height:
-                  feature.attributes.id === autoCompleteState.selectedMapDisruption
-                    ? '200px'
-                    : '30px',
+                height: '30px',
                 width: '51px',
               },
             });
