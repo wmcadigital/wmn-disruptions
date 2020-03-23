@@ -21,15 +21,19 @@ const DisruptionInfo = ({ disruption, listView }) => {
           </div>
           <div className="wmnds-col-1">
             {disruption.servicesAffected &&
-              disruption.servicesAffected.map((affected) => (
-                <FavBusButton
-                  id={affected.id}
-                  severity={disruption.disruptionSeverity}
-                  text={affected.serviceNumber}
-                  title={`${affected.routeDescriptions[0].description} (${affected.operatorName})`}
-                  key={affected.id}
-                />
-              ))}
+              disruption.servicesAffected
+                .sort(
+                  (a, b) => a.serviceNumber.replace(/\D/g, '') - b.serviceNumber.replace(/\D/g, '')
+                )
+                .map((affected) => (
+                  <FavBusButton
+                    id={affected.id}
+                    severity={disruption.disruptionSeverity}
+                    text={affected.serviceNumber}
+                    title={`${affected.routeDescriptions[0].description} (${affected.operatorName})`}
+                    key={affected.id}
+                  />
+                ))}
           </div>
         </>
       )}
