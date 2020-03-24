@@ -11,9 +11,12 @@
 }
 
 .selectedSummary {
-  margin-right: 50px;
-  max-width: 80px;
+  margin-top: $size-md;
+  width: 100%;
+
   @media all and (min-width: 380px) {
-    max-width: 130px;
+    max-width: calc(100% - (190px));
+    margin-top: 0;
+    margin-right: $size-md;
   }
 }

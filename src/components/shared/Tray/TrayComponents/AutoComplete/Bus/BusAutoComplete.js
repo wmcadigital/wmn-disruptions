@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { DebounceInput } from 'react-debounce-input'; // https://www.npmjs.com/package/react-debounce-input
 
@@ -14,6 +14,8 @@ const BusAutoComplete = () => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [loading, setLoading] = useState(false); // Set loading state for spinner
   const [errorInfo, setErrorInfo] = useState(); // Placeholder to set error messaging
+  const resultsList = useRef(null);
+  const debounceInput = useRef(null);
 
   const updateQuery = (query) => {
     // Reset selected disruption ID from map (if any)
@@ -77,6 +79,39 @@ const BusAutoComplete = () => {
     };
   }, [autoCompleteDispatch, autoCompleteState.query]);
 
+  // Function for handling keyboard/keydown events (controls the up/down arrow on autocomplete results)
+  const handleKeyDown = ({ keyCode, target }) => {
+    // Keycodes:
+    // 40 = down arrow
+    // 38 = up arrow
+    // 13 = enter
+    // 32 = space
+
+    // If down arrow pressed and current target is input (we are still in autocomplete debounce) and there are results
+    if (target.localName === 'input') {
+      if (keyCode === 40 && autoCompleteState.data.length) {
+        resultsList.current.firstChild.focus(); // Then focus on the first child in results list
+      }
+    } else {
+      // If down arrow and there is a next sibling/result
+      if (keyCode === 40 && target.nextSibling) {
+        target.nextSibling.focus(); // Then focus on next sibling/result
+      }
+      // Else if up arrow and there is a prev sibling/result
+      else if (keyCode === 38 && target.previousSibling) {
+        target.previousSibling.focus(); // Then focus on prev sibling/result
+      }
+      // Else if up arrow and no previous sibling
+      else if (keyCode === 38) {
+        debounceInput.current.focus(); // Then focus back on autoComplete input
+      }
+      // If enter or space pressed
+      if (keyCode === 13 || keyCode === 32) {
+        target.click(); // then emulate click event (select it)
+      }
+    }
+  };
+
   return (
     <>
       <div className={`wmnds-autocomplete wmnds-grid ${loading ? 'wmnds-is--loading' : ''}`}>
@@ -93,6 +128,8 @@ const BusAutoComplete = () => {
           onChange={(e) => updateQuery(e.target.value)}
           aria-label="Search for a service"
           debounceTimeout={600}
+          onKeyDown={(e) => handleKeyDown(e)}
+          inputRef={debounceInput}
         />
       </div>
       {/* If there is no data.length(results) and the user hasn't submitted a query and the state isn't loading then the user should be displayed with no results message, else show results */}
@@ -101,9 +138,13 @@ const BusAutoComplete = () => {
       ) : (
         // Only show autocomplete results if there is a query
         autoCompleteState.query && (
-          <ul className="wmnds-autocomplete-suggestions">
+          <ul className="wmnds-autocomplete-suggestions" ref={resultsList}>
             {autoCompleteState.data.map((result) => (
-              <BusAutoCompleteResult key={result.id} result={result} />
+              <BusAutoCompleteResult
+                key={result.id}
+                result={result}
+                handleKeyDown={handleKeyDown}
+              />
             ))}
           </ul>
         )

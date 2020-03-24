@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import { AutoCompleteContext } from 'globalState';
-
 // Import components
 import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
+// Import styles
+import s from './BusAutoCompleteResult.module.scss';
 
 const BusAutoCompleteResult = (props) => {
-  const { result } = props || {};
+  const { result, handleKeyDown } = props || {};
 
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
 
@@ -59,26 +60,20 @@ const BusAutoCompleteResult = (props) => {
     <li
       className="wmnds-autocomplete-suggestions__li wmnds-grid"
       title={`${text} on ${result.serviceNumber}`}
-      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       tabIndex="0"
       // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
       role="button"
       aria-pressed="false"
-      onKeyDown={() => updateSelectedService()}
+      onKeyDown={(e) => handleKeyDown(e)}
       onClick={() => updateSelectedService()}
     >
-      <div className="wmnds-col-auto wmnds-m-r-md">
-        <DisruptionIndicatorMedium
-          severity={result.disruptionSeverity}
-          text={result.serviceNumber}
-        />
-      </div>
+      <DisruptionIndicatorMedium
+        className="wmnds-col-auto"
+        severity={result.disruptionSeverity}
+        text={result.serviceNumber}
+      />
       {/* Right section */}
-      <div className="wmnds-col-1-2">
-        <strong>{result.routes[0].routeName}</strong>
-        {/* <br />
-        and return journey */}
-      </div>
+      <strong className={`${s.routeName} wmnds-col-auto`}>{result.routes[0].routeName}</strong>
     </li>
   );
 };

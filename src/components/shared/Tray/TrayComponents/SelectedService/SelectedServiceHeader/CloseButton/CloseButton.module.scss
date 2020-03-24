@@ -8,10 +8,14 @@
   cursor: pointer;
   border: 0;
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: 1rem;
   margin: auto;
   right: $size-sm;
+
+  @media all and(min-width: 380px) {
+    top: 0;
+    bottom: 0;
+  }
 }
 
 .closeButtonFloated {
