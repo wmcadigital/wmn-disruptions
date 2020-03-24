@@ -6,7 +6,7 @@ import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/Dis
 import s from './BusAutoCompleteResult.module.scss';
 
 const BusAutoCompleteResult = (props) => {
-  const { result, onKeyDown } = props || {};
+  const { result, handleKeyDown } = props || {};
 
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
 
@@ -64,7 +64,7 @@ const BusAutoCompleteResult = (props) => {
       // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
       role="button"
       aria-pressed="false"
-      onKeyDown={onKeyDown}
+      onKeyDown={(e) => handleKeyDown(e)}
       onClick={() => updateSelectedService()}
     >
       <DisruptionIndicatorMedium

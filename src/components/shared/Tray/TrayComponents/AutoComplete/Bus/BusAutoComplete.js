@@ -78,8 +78,8 @@ const BusAutoComplete = () => {
     };
   }, [autoCompleteDispatch, autoCompleteState.query]);
 
-  const onKeyDown = (e) => {
-    console.log({ e });
+  const handleKeyDown = (e) => {
+    console.log(e.keyCode);
     let active;
     if (e.target.localName === 'input' && autoCompleteState.data.length) {
       active = resultsList.current.firstChild;
@@ -111,7 +111,7 @@ const BusAutoComplete = () => {
           onChange={(e) => updateQuery(e.target.value)}
           aria-label="Search for a service"
           debounceTimeout={600}
-          onKeyDown={(e) => onKeyDown(e)}
+          onKeyDown={(e) => handleKeyDown(e)}
         />
       </div>
       {/* If there is no data.length(results) and the user hasn't submitted a query and the state isn't loading then the user should be displayed with no results message, else show results */}
@@ -125,7 +125,7 @@ const BusAutoComplete = () => {
               <BusAutoCompleteResult
                 key={result.id}
                 result={result}
-                onKeyDown={(e) => onKeyDown(e)}
+                handleKeyDown={handleKeyDown}
               />
             ))}
           </ul>
