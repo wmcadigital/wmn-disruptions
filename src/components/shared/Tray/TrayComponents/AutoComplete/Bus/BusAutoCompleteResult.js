@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import { AutoCompleteContext } from 'globalState';
-
 // Import components
 import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
+// Import styles
+import s from './BusAutoCompleteResult.module.scss';
 
 const BusAutoCompleteResult = (props) => {
   const { result } = props || {};
@@ -67,18 +68,16 @@ const BusAutoCompleteResult = (props) => {
       onKeyDown={() => updateSelectedService()}
       onClick={() => updateSelectedService()}
     >
-      <div className="wmnds-col-auto wmnds-m-r-md">
+      <div className="wmnds-col-auto">
         <DisruptionIndicatorMedium
           severity={result.disruptionSeverity}
           text={result.serviceNumber}
         />
       </div>
       {/* Right section */}
-      <div className="wmnds-col-1-2">
-        <strong>{result.routes[0].routeName}</strong>
-        {/* <br />
+      <strong className={`${s.routeName} wmnds-col-auto`}>{result.routes[0].routeName}</strong>
+      {/* <br />
         and return journey */}
-      </div>
     </li>
   );
 };
