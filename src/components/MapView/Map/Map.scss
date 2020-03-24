@@ -1,0 +1,74 @@
+@import '../../../assets/styles/vars';
+@import '../../../assets/styles/mixins';
+
+$offset-top: $size-lg;
+
+.disruptions-esri-map {
+  width: 100%;
+  height: calc(100vh - 122px);
+  background-color: #eee;
+  top: $offset-top;
+  left: 0;
+  z-index: -1;
+
+  @media all and(min-width: 410px) {
+    height: calc(100vh - 138px);
+  }
+
+  // Styling for ui in the top right
+  .esri-ui-top-right {
+    flex-flow: column-reverse;
+
+    .esri-zoom {
+      background: 0;
+      box-shadow: none;
+      border: 0;
+    }
+
+    // locate and zoom buttons
+    .esri-locate,
+    .esri-zoom .esri-widget--button {
+      width: 35px;
+      height: 35px;
+      border-radius: 5px;
+      margin-bottom: $size-sm;
+      box-shadow: none;
+    }
+
+    // zoom buttons
+    .esri-zoom .esri-widget--button {
+      background-color: get-color(information);
+      color: white;
+
+      &:hover {
+        background-color: get-color(information, 30, dark);
+      }
+
+      // make icons a bit bigger
+      .esri-icon {
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
+
+    // locate button
+    .esri-locate {
+      background: none;
+      color: get-color(primary);
+      border: 1px solid get-color(primary);
+
+      &:hover {
+        background-color: get-color(secondary, 70);
+      }
+
+      // custom locate icon
+      .esri-icon-locate:before {
+        content: '';
+        display: block;
+        height: 18px;
+        width: 18px;
+        background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m223.13 1.766-208.7 96.324c-24.079 11.238-16.053 46.555 9.632 46.555h88.3v88.298c0 25.684 35.317 33.716 46.556 9.632l96.325-208.7c8.026-19.27-12.845-40.14-32.11-32.109z' fill='%233c1053'/%3E%3C/svg%3E%0A");
+      }
+    }
+  }
+}
