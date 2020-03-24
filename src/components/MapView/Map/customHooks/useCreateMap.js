@@ -34,6 +34,7 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
           css: true,
         }
       ).then(([Map, MapView, Basemap, VectorTileLayer, Locate, Graphic, GraphicsLayer]) => {
+        // CREATE MAP VIEW
         // When loaded, create a new basemap
         const basemap = new Basemap({
           baseLayers: [
@@ -59,6 +60,11 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
           zoom: 10,
         });
 
+        // Move zoom widget to top-right corner of view.current
+        view.current.ui.move(['zoom'], 'top-right');
+        // END CREATE MAP VIEW
+
+        // LOCATE BUTTON
         const goToOverride = (e, options) => {
           currentLocation.current = options.target.target; // Set currentLocation to the target of locate button (latLng of user)
           // Set locations to goto (if there are graphics items available then we want to show them in the view as well as the location of the user, else show just location of user)
@@ -73,6 +79,7 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
         const locateBtn = new Locate({
           view: view.current, // Attaches the Locate button to the view
           goToOverride,
+          iconClass: 'hello',
           graphic: new Graphic({
             // overwrites the default symbol used for the graphic placed at the location of the user when found
             symbol: {
@@ -83,22 +90,22 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
             },
           }),
         });
-
-        // Move zoom widget to top-right corner of view.current
-        view.current.ui.move(['zoom'], 'top-right');
-
         // Add the locate widget to the top right corner of the view.current
         view.current.ui.add(locateBtn, {
           position: 'top-right',
         });
+        // END LOCATE BUTTON
 
+        // SETUP GRAPHIC LAYERS
         // Set up a graphics layer placeholder so we can inject a polyline into it in future
         polyline.current = new GraphicsLayer();
         // Set up a graphics layer placeholder so we can inject disruption icons into it in future
         iconLayer.current = new GraphicsLayer();
 
         map.current.addMany([polyline.current, iconLayer.current]);
+        // END GRAPHIC LAYERS
 
+        // POINTER EVENTS
         // on pointer move
         view.current.on('pointer-move', (e) => {
           // capture lat/longs of point
@@ -150,6 +157,7 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
             view.current.hitTest(screenPoint).then(getGraphics);
           });
         }
+        // END POINTER EVENTS
 
         // If component unmounting
         return () => {

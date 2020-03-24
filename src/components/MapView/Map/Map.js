@@ -6,9 +6,8 @@ import useWindowHeightWidth from 'customHooks/useWindowHeightWidth';
 import useCreateMap from './customHooks/useCreateMap';
 import useMapIconLayer from './customHooks/useMapIconLayer';
 import useMapPolyline from './customHooks/useMapPolyline';
-// import useMapPointerEvents from './customHooks/useMapPointerEvents';
 // Import custom styling
-import s from './Map.module.scss';
+import './Map.scss';
 
 const WebMapView = () => {
   const { eleHeight } = useWindowHeightWidth(); // Get window height and width
@@ -33,7 +32,7 @@ const WebMapView = () => {
   return (
     <div
       id="disruptions-map"
-      className={`webmap ${s.map}`}
+      className="webmap disruptions-esri-map"
       ref={mapRef}
       title="Disruptions map"
       style={{ height: `${eleHeight}px` }}
