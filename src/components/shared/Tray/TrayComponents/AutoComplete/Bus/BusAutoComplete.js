@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { DebounceInput } from 'react-debounce-input'; // https://www.npmjs.com/package/react-debounce-input
 
@@ -14,6 +14,7 @@ const BusAutoComplete = () => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [loading, setLoading] = useState(false); // Set loading state for spinner
   const [errorInfo, setErrorInfo] = useState(); // Placeholder to set error messaging
+  const resultsList = useRef(null);
 
   const updateQuery = (query) => {
     // Reset selected disruption ID from map (if any)
@@ -77,6 +78,23 @@ const BusAutoComplete = () => {
     };
   }, [autoCompleteDispatch, autoCompleteState.query]);
 
+  const onKeyDown = (e) => {
+    console.log({ e });
+    let active;
+    if (e.target.localName === 'input' && autoCompleteState.data.length) {
+      active = resultsList.current.firstChild;
+    } else {
+      active = e.target;
+    }
+
+    // arrow up/down button should select next/previous list element
+    if (e.keyCode === 38 && active.previousSibling) {
+      active.previousSibling.focus();
+    } else if (e.keyCode === 40 && active.nextSibling) {
+      active.nextSibling.focus();
+    }
+  };
+
   return (
     <>
       <div className={`wmnds-autocomplete wmnds-grid ${loading ? 'wmnds-is--loading' : ''}`}>
@@ -93,6 +111,7 @@ const BusAutoComplete = () => {
           onChange={(e) => updateQuery(e.target.value)}
           aria-label="Search for a service"
           debounceTimeout={600}
+          onKeyDown={(e) => onKeyDown(e)}
         />
       </div>
       {/* If there is no data.length(results) and the user hasn't submitted a query and the state isn't loading then the user should be displayed with no results message, else show results */}
@@ -101,9 +120,13 @@ const BusAutoComplete = () => {
       ) : (
         // Only show autocomplete results if there is a query
         autoCompleteState.query && (
-          <ul className="wmnds-autocomplete-suggestions">
+          <ul className="wmnds-autocomplete-suggestions" ref={resultsList}>
             {autoCompleteState.data.map((result) => (
-              <BusAutoCompleteResult key={result.id} result={result} />
+              <BusAutoCompleteResult
+                key={result.id}
+                result={result}
+                onKeyDown={(e) => onKeyDown(e)}
+              />
             ))}
           </ul>
         )
