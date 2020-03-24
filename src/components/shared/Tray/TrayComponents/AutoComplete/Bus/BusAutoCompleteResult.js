@@ -60,7 +60,6 @@ const BusAutoCompleteResult = (props) => {
     <li
       className="wmnds-autocomplete-suggestions__li wmnds-grid"
       title={`${text} on ${result.serviceNumber}`}
-      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       tabIndex="0"
       // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
       role="button"
