@@ -68,12 +68,12 @@ const BusAutoCompleteResult = (props) => {
       onKeyDown={() => updateSelectedService()}
       onClick={() => updateSelectedService()}
     >
-      <div className="wmnds-col-auto">
-        <DisruptionIndicatorMedium
-          severity={result.disruptionSeverity}
-          text={result.serviceNumber}
-        />
-      </div>
+      <DisruptionIndicatorMedium
+        className="wmnds-col-auto"
+        severity={result.disruptionSeverity}
+        text={result.serviceNumber}
+      />
+
       {/* Right section */}
       <strong className={`${s.routeName} wmnds-col-auto`}>{result.routes[0].routeName}</strong>
       {/* <br />
