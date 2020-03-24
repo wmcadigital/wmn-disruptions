@@ -15,15 +15,14 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch }) => {
         <div
           className={`wmnds-grid wmnds-grid--align-center wmnds-m-t-xs wmnds-m-b-md ${s.selectedItemBox}`}
         >
-          <div className="wmnds-col-auto wmnds-m-r-md">
-            <DisruptionIndicatorMedium
-              severity={selectedService.severity}
-              text={selectedService.serviceNumber}
-            />
-          </div>
-          <div className={`wmnds-col-auto ${s.selectedSummary}`}>
-            <strong>{selectedService.routeName}</strong>
-          </div>
+          <DisruptionIndicatorMedium
+            className="wmnds-col-auto wmnds-m-r-md"
+            severity={selectedService.severity}
+            text={selectedService.serviceNumber}
+          />
+          <strong className={`wmnds-col-auto ${s.selectedSummary}`}>
+            {selectedService.routeName}
+          </strong>
 
           <CloseButton onClick={() => autoCompleteDispatch()} />
         </div>

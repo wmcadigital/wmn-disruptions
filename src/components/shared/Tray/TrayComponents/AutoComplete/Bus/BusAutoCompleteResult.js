@@ -73,11 +73,8 @@ const BusAutoCompleteResult = (props) => {
         severity={result.disruptionSeverity}
         text={result.serviceNumber}
       />
-
       {/* Right section */}
       <strong className={`${s.routeName} wmnds-col-auto`}>{result.routes[0].routeName}</strong>
-      {/* <br />
-        and return journey */}
     </li>
   );
 };
