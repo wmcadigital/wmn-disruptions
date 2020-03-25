@@ -12,11 +12,13 @@ const InnerApp = () => {
   const [fetchDisruptionState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
 
   useEffect(() => {
+    const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
+
     setFetchDisruptionsState((prevState) => ({ ...prevState, isFetching: true }));
     axios
-      .get('https://trasnport-api-jon-dev.azure-api.net/Disruption/v2', {
+      .get(`${REACT_APP_API_HOST}/Disruption/v2`, {
         headers: {
-          'Ocp-Apim-Subscription-Key': '9a2a6bd91c8f49598089ecb5448b45ef',
+          'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
         },
       })
       .then((response) => {
