@@ -16,15 +16,14 @@ const useMapPolyline = (_polyline, _view, _currentLocation) => {
     }
     // If there is an ID and query in state, then lets hit the API and get the geoJSON
     if (autoCompleteState.selectedService.id) {
+      const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
+
       axios
-        .get(
-          `https://trasnport-api-jon-dev.azure-api.net/bus/v1/RouteGeoJSON/${autoCompleteState.selectedService.id}`,
-          {
-            headers: {
-              'Ocp-Apim-Subscription-Key': '9a2a6bd91c8f49598089ecb5448b45ef',
-            },
-          }
-        )
+        .get(`${REACT_APP_API_HOST}/bus/v1/RouteGeoJSON/${autoCompleteState.selectedService.id}`, {
+          headers: {
+            'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
+          },
+        })
         .then((route) => {
           // lazy load the required ArcGIS API for JavaScript modules and CSS
           loadModules(['esri/Graphic']).then(([Graphic]) => {

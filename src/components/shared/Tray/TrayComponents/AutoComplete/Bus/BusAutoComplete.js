@@ -29,19 +29,15 @@ const BusAutoComplete = () => {
     const source = axios.CancelToken.source(); // Set source of cancelToken
     // If autocomplete has query
     if (autoCompleteState.query) {
+      const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
       setLoading(true); // Update loading state to true as we are hitting API
       axios
-        .get(
-          `https://trasnport-api-jon-dev.azure-api.net/bus/v1/service?q=${encodeURI(
-            autoCompleteState.query
-          )}`,
-          {
-            headers: {
-              'Ocp-Apim-Subscription-Key': '9a2a6bd91c8f49598089ecb5448b45ef',
-            },
-            cancelToken: source.token, // Set token with API call, so we can cancel this call on unmount
-          }
-        )
+        .get(`${REACT_APP_API_HOST}/bus/v1/service?q=${encodeURI(autoCompleteState.query)}`, {
+          headers: {
+            'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
+          },
+          cancelToken: source.token, // Set token with API call, so we can cancel this call on unmount
+        })
         .then((bus) => {
           setLoading(false); // Set loading state to false after data is received
           // If bus.data.services isn't there, then we can't map the results to it, so return null

@@ -13,8 +13,8 @@ const InnerApp = () => {
 
   useEffect(() => {
     const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
-
     setFetchDisruptionsState((prevState) => ({ ...prevState, isFetching: true }));
+
     axios
       .get(`${REACT_APP_API_HOST}/Disruption/v2`, {
         headers: {
