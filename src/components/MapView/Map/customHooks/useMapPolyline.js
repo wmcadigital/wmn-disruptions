@@ -3,12 +3,14 @@ import { loadModules } from 'esri-loader';
 import axios from 'axios';
 import { AutoCompleteContext } from 'globalState';
 
-const useMapPolyline = (_polyline, _view, _currentLocation) => {
+const useMapPolyline = (_polyline, _iconLayer, _view, _currentLocation) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
 
   // This useEffect is to plot the line on the map
   useEffect(() => {
-    const polyline = _polyline; // Reassign injected useRef params to internal vars
+    // Reassign injected useRef params to internal vars
+    const polyline = _polyline;
+    const iconLayer = _iconLayer;
     const currentLocation = _currentLocation;
     const view = _view;
     if (polyline.current) {
@@ -42,13 +44,15 @@ const useMapPolyline = (_polyline, _view, _currentLocation) => {
 
             polyline.current.add(poly); // Add polyline to the map
 
-            const locations = currentLocation.current ? [poly, currentLocation.current] : poly;
+            const locations = currentLocation.current
+              ? [poly, iconLayer.current.graphics.items, currentLocation.current]
+              : [poly, iconLayer.current.graphics.items];
 
             view.current.goTo(locations); // Go to locations set abov
           });
         });
     }
-  }, [_currentLocation, _polyline, _view, autoCompleteState.selectedService.id]);
+  }, [_currentLocation, _iconLayer, _polyline, _view, autoCompleteState.selectedService.id]);
 };
 
 export default useMapPolyline;
