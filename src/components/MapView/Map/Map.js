@@ -27,7 +27,7 @@ const WebMapView = () => {
   useMapIconLayer(iconLayer, view, currentLocation);
 
   // Custom hook to plot a route line on the map
-  useMapPolyline(polyline, view, currentLocation);
+  useMapPolyline(polyline, iconLayer, view, currentLocation);
 
   return (
     <div
