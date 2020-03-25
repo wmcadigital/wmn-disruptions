@@ -69,7 +69,11 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
           currentLocation.current = options.target.target; // Set currentLocation to the target of locate button (latLng of user)
           // Set locations to goto (if there are graphics items available then we want to show them in the view as well as the location of the user, else show just location of user)
           const locations = iconLayer.current.graphics.items
-            ? [iconLayer.current.graphics.items, currentLocation.current]
+            ? [
+                polyline.current.graphics.items,
+                iconLayer.current.graphics.items,
+                currentLocation.current,
+              ]
             : currentLocation.current;
 
           return view.current.goTo(locations); // Go to locations set above

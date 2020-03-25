@@ -45,8 +45,12 @@ const useMapPolyline = (_polyline, _iconLayer, _view, _currentLocation) => {
             polyline.current.add(poly); // Add polyline to the map
 
             const locations = currentLocation.current
-              ? [poly, iconLayer.current.graphics.items, currentLocation.current]
-              : [poly, iconLayer.current.graphics.items];
+              ? [
+                  polyline.current.graphics.items,
+                  iconLayer.current.graphics.items,
+                  currentLocation.current,
+                ]
+              : [polyline.current.graphics.items, iconLayer.current.graphics.items];
 
             view.current.goTo(locations); // Go to locations set abov
           });
