@@ -12,9 +12,9 @@
   },
   "copyright": "WMCA",
   "dependencies": {
-    "@testing-library/jest-dom": "^5.1.1",
+    "@testing-library/jest-dom": "^5.5.0",
     "@testing-library/react": "^10.0.1",
-    "@testing-library/user-event": "^10.0.0",
+    "@testing-library/user-event": "^10.1.0",
     "axios": "^0.19.2",
     "date-fns": "^2.12.0",
     "dompurify": "^2.0.7",
@@ -33,14 +33,14 @@
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
-    "eslint-config-prettier": "^6.10.1",
+    "eslint-config-prettier": "^6.11.0",
     "eslint-config-react-app": "^5.2.1",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jam3": "^0.2.3",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
-    "prettier": "^2.0.2"
+    "prettier": "^2.0.5"
   },
   "scripts": {
     "start": "react-scripts start",
