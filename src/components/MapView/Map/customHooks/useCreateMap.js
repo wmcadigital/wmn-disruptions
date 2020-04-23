@@ -184,6 +184,7 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
     _view,
     autoCompleteDispatch,
     autoCompleteState.selectedService.id,
+    fetchDisruptionState.data.length,
   ]);
 };
 
