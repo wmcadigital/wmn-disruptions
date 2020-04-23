@@ -16,7 +16,7 @@
     "@testing-library/react": "^10.0.1",
     "@testing-library/user-event": "^10.0.0",
     "axios": "^0.19.2",
-    "date-fns": "^2.11.0",
+    "date-fns": "^2.12.0",
     "dompurify": "^2.0.7",
     "esri-loader": "^2.14.0",
     "fecha": "^4.2.0",
