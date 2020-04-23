@@ -1,11 +1,12 @@
 import { useEffect, useContext } from 'react';
 import { loadModules } from 'esri-loader';
-import { AutoCompleteContext } from 'globalState';
+import { AutoCompleteContext, FetchDisruptionsContext } from 'globalState';
 // Import map icons
 import locateCircle from 'assets/svgs/map/locate-circle.svg';
 
 const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _view) => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
+  const [fetchDisruptionState] = useContext(FetchDisruptionsContext);
 
   // Map useEffect (this is to apply core mapping stuff on page/component load)
   useEffect(() => {
@@ -120,7 +121,7 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
           // Check lat longs on map view and pass anything found as a response
           view.current.hitTest(screenPoint).then((response) => {
             // If there is a response and it contains an attribute id then it's one of our icon graphics
-            if (response.results[0].graphic.attributes.id) {
+            if (response.results.length && response.results[0].graphic.attributes.id) {
               mapRef.current.style.cursor = 'pointer'; // change map cursor to pointer
             } else {
               mapRef.current.style.cursor = 'default'; // else keep default pointer
@@ -130,7 +131,8 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
 
         let mapClick; // set placeholder click event that we can assign an on click
 
-        if (view.current) {
+        // Only run the below if the map is available and there is data back from the API (data.length)
+        if (view.current && fetchDisruptionState.data.length) {
           const getGraphics = (response) => {
             const selectedMapDisruption = response.results[0].graphic.attributes.id;
 
