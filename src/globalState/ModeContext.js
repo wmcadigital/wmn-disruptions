@@ -14,11 +14,23 @@ export const ModeProvider = (props) => {
   const reducer = (state, action) => {
     // Update the mode to chosen
     switch (action.type) {
-      case 'UPDATE_MODE':
+      case 'UPDATE_MODE': {
+        const setQueryStringWithoutPageReload = (qsValue) => {
+          console.log(qsValue);
+          const newurl = `${window.location.protocol}//${window.location.host}${window.location.pathname}${qsValue}`;
+
+          window.history.pushState({ path: newurl }, '', newurl);
+        };
+
+        const params = new URLSearchParams(window.location.search.slice(1));
+        params.set('mode', 'train');
+        console.log({ a: params.getAll('mode') });
+        setQueryStringWithoutPageReload(`?${params.toString()}`);
         return {
           ...state,
           mode: action.mode,
         };
+      }
       // Default should return intial state if error
       default:
         return initialState;
