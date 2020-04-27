@@ -1,14 +1,16 @@
 import React, { useReducer, createContext } from 'react';
+import useUrlMap from 'customHooks/useUrlMap';
 
 export const ModeContext = createContext(); // Create when context
 
 export const ModeProvider = (props) => {
   const { children } = props || {};
-  const url = new URL(typeof window !== 'undefined' ? window.location.href : '');
+
+  const { set, get } = useUrlMap();
 
   // Set intial state of when
   const initialState = {
-    mode: url.searchParams.get('mode') || null, // Can be any of the modes (bus, train, tram, roads)
+    mode: get('mode') || null, // Can be any of the modes (bus, train, tram, roads)
   };
 
   // Set up a reducer so we can change state based on centralised logic here
@@ -16,9 +18,7 @@ export const ModeProvider = (props) => {
     // Update the mode to chosen
     switch (action.type) {
       case 'UPDATE_MODE': {
-        url.searchParams.set('mode', action.mode);
-        window.history.pushState({}, '', url.href);
-
+        set('mode', action.mode);
         return {
           ...state,
           mode: action.mode,
