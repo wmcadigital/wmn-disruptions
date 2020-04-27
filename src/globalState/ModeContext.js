@@ -1,12 +1,12 @@
 import React, { useReducer, createContext } from 'react';
+// Import custom hooks
 import useUrlMap from 'customHooks/useUrlMap';
 
 export const ModeContext = createContext(); // Create when context
 
 export const ModeProvider = (props) => {
   const { children } = props || {};
-
-  const { set, get } = useUrlMap();
+  const { set, get } = useUrlMap(); // Use set/get from useURLMap (used to map state to URL)
 
   // Set intial state of when
   const initialState = {
