@@ -1,17 +1,16 @@
 import React, { useReducer, createContext } from 'react';
 import { format } from 'fecha';
-// Import custom hooks
+// Import Helper functions
 import {
   setSearchParam,
   getSearchParam,
   delSearchParam,
-} from 'globalState/helpers/URLSearchParams';
+} from 'globalState/helpers/URLSearchParams'; // (used to sync state with URL)
 
 export const WhenContext = createContext(); // Create when context
 
 export const WhenProvider = (props) => {
   const { children } = props || {};
-  // Use setSearchParam, getSearchParam, delSearchParam from useURLMap (used to sync state with URL)
 
   // Set intial state of when
   const initialState = {

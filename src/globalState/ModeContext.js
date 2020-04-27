@@ -1,12 +1,11 @@
 import React, { useReducer, createContext } from 'react';
-// Import custom hooks
-import { setSearchParam, getSearchParam } from 'globalState/helpers/URLSearchParams';
+// Import Helper functions
+import { setSearchParam, getSearchParam } from 'globalState/helpers/URLSearchParams'; // (used to sync state with URL)
 
 export const ModeContext = createContext(); // Create when context
 
 export const ModeProvider = (props) => {
   const { children } = props || {};
-  // const { setSearchParam, getSearchParam } = useUrlMap(); // Use setSearchParam, getSearchParam, delSearchparam from useURLMap (used to sync state with URL)
 
   // Set intial state of when
   const initialState = {

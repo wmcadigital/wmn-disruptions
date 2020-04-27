@@ -1,4 +1,10 @@
 import React, { useReducer, createContext } from 'react';
+// Import Helper functions
+import {
+  setSearchParam,
+  getSearchParam,
+  delSearchParam,
+} from 'globalState/helpers/URLSearchParams'; // (used to sync state with URL)
 
 export const AutoCompleteContext = createContext(); // Create when context
 
@@ -7,12 +13,12 @@ export const AutoCompleteProvider = (props) => {
 
   // Set intial state of when
   const initialState = {
-    query: '',
+    query: getSearchParam('query') || '',
     data: [],
     selectedMapDisruption: null, // This is used to stash disruption id if a user clicks disruption on map
     // The selected service is used to store details when a user has clicked an autocomplete
     selectedService: {
-      id: null,
+      id: getSearchParam('selectedService') || null,
       severity: null,
       serviceNumber: null,
       routeName: null,
@@ -24,6 +30,7 @@ export const AutoCompleteProvider = (props) => {
     // Update the mode to chosen
     switch (action.type) {
       case 'UPDATE_QUERY':
+        setSearchParam('query', action.query);
         return {
           ...state,
           query: action.query,
@@ -39,6 +46,7 @@ export const AutoCompleteProvider = (props) => {
           data: action.data,
         };
       case 'UPDATE_SELECTED_SERVICE':
+        setSearchParam('selectedService', action.selectedService.id);
         return {
           ...state,
           selectedService: action.selectedService,
