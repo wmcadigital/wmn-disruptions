@@ -52,7 +52,11 @@ export const AutoCompleteProvider = (props) => {
           selectedService: action.selectedService,
         };
       case 'RESET_SELECTED_SERVICE':
-        return initialState;
+        delSearchParam('selectedService');
+        return {
+          ...state,
+          selectedService: {},
+        };
       // Default should return intial state if error
       default:
         return initialState;

@@ -132,7 +132,7 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
         let mapClick; // set placeholder click event that we can assign an on click
 
         // Only run the below if the map is available and there is data back from the API (data.length)
-        if (view.current && fetchDisruptionState.data.length) {
+        if (view.current) {
           const getGraphics = (response) => {
             const selectedMapDisruption = response.results[0].graphic.attributes.id;
 

@@ -17,7 +17,7 @@ const useMapPolyline = (_polyline, _iconLayer, _view, _currentLocation) => {
       polyline.current.removeAll();
     }
     // If there is an ID and query in state, then lets hit the API and get the geoJSON
-    if (autoCompleteState.selectedService.id) {
+    if (autoCompleteState.selectedService.id && polyline.current) {
       const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
 
       axios
