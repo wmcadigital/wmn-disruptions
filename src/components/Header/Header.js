@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { FetchDisruptionsContext } from 'globalState';
 // Import components
 import Button from 'components/shared/Button/Button';
 // Import styles
 import s from './Header.module.scss';
 
-const Header = ({ isMapVisible }) => {
+const Header = () => {
   const [fetchDisruptionState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
 
   return (
@@ -42,7 +41,7 @@ const Header = ({ isMapVisible }) => {
               onClick={() =>
                 setFetchDisruptionsState((prevState) => ({
                   ...prevState,
-                  isMapVisible: !isMapVisible,
+                  isMapVisible: !prevState.isMapVisible,
                 }))
               }
               iconRight="general-chevron-right"
@@ -53,11 +52,6 @@ const Header = ({ isMapVisible }) => {
       </div>
     </div>
   );
-};
-
-// Set props
-Header.propTypes = {
-  isMapVisible: PropTypes.bool.isRequired,
 };
 
 export default Header;
