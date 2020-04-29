@@ -41,6 +41,8 @@ const InnerApp = () => {
       });
   }, [setFetchDisruptionsState]);
 
+  console.log(fetchDisruptionState.isMapVisible);
+
   return (
     <>
       <Header />

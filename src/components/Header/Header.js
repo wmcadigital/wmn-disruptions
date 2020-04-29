@@ -2,11 +2,23 @@ import React, { useContext } from 'react';
 import { FetchDisruptionsContext } from 'globalState';
 // Import components
 import Button from 'components/shared/Button/Button';
+// Import Helper functions
+import { setSearchParam } from 'globalState/helpers/URLSearchParams'; // (used to sync state with URL)
 // Import styles
 import s from './Header.module.scss';
 
 const Header = () => {
   const [fetchDisruptionState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
+
+  const handleClick = () => {
+    // Update the state of the isMapVisible to opposite of what it was
+    setFetchDisruptionsState((prevState) => ({
+      ...prevState,
+      isMapVisible: !prevState.isMapVisible,
+    }));
+    // Update URL param to opposite of what it was
+    setSearchParam('isMapVisible', !fetchDisruptionState.isMapVisible);
+  };
 
   return (
     <div className={s.headerWrapper}>
@@ -38,12 +50,7 @@ const Header = () => {
           <div className="wmnds-col-auto">
             <Button
               btnClass={`wmnds-btn--secondary wmnds-float--right ${s.listMapBtn}`}
-              onClick={() =>
-                setFetchDisruptionsState((prevState) => ({
-                  ...prevState,
-                  isMapVisible: !prevState.isMapVisible,
-                }))
-              }
+              onClick={handleClick}
               iconRight="general-chevron-right"
               text={fetchDisruptionState.isMapVisible ? 'List View' : 'Map View'}
             />
