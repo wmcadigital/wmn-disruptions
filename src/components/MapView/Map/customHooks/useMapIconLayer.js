@@ -183,10 +183,11 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
             }
           });
         }
-
-        flayer.queryFeatures(query).then((result) => {
-          addGraphics(result);
-        }); // Add queried result as a graphic to iconLayer
+        view.current.then(() => {
+          flayer.queryFeatures(query).then((result) => {
+            addGraphics(result);
+          }); // Add queried result as a graphic to iconLayer
+        });
       });
     }
 

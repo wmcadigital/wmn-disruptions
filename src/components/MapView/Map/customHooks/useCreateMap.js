@@ -10,13 +10,14 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
 
   // Map useEffect (this is to apply core mapping stuff on page/component load)
   useEffect(() => {
+    console.log('map getting ready');
     // Reassign injected useRef params to internal vars
     const mapRef = _mapRef;
     const map = _map;
     const currentLocation = _currentLocation;
     const iconLayer = _iconLayer;
     const polyline = _polyline;
-    const view = _view;
+    // const view = _view;
     // If there is no map currently set up, then set it up
     // if (!map.current) {
     // lazy load the required ArcGIS API for JavaScript modules and CSS
@@ -54,15 +55,15 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
       });
 
       // Create a new map view with settings
-      view.current = new MapView({
+      view = new MapView({
         container: mapRef.current,
         map: map.current,
         center: [-2.0047209, 52.4778132],
         zoom: 10,
       });
 
-      // Move zoom widget to top-right corner of view.current
-      view.current.ui.move(['zoom'], 'top-right');
+      // Move zoom widget to top-right corner of view
+      view.ui.move(['zoom'], 'top-right');
       // END CREATE MAP VIEW
 
       // LOCATE BUTTON
@@ -77,12 +78,12 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
             ]
           : currentLocation.current;
 
-        return view.current.goTo(locations); // Go to locations set above
+        return view.goTo(locations); // Go to locations set above
       };
 
       // Create a locate button
       const locateBtn = new Locate({
-        view: view.current, // Attaches the Locate button to the view
+        view: view, // Attaches the Locate button to the view
         goToOverride,
         iconClass: 'hello',
         graphic: new Graphic({
@@ -95,8 +96,8 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
           },
         }),
       });
-      // Add the locate widget to the top right corner of the view.current
-      view.current.ui.add(locateBtn, {
+      // Add the locate widget to the top right corner of the view
+      view.ui.add(locateBtn, {
         position: 'top-right',
       });
       // END LOCATE BUTTON
@@ -112,14 +113,14 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
 
       // POINTER EVENTS
       // on pointer move
-      view.current.on('pointer-move', (e) => {
+      view.on('pointer-move', (e) => {
         // capture lat/longs of point
         const screenPoint = {
           x: e.x,
           y: e.y,
         };
         // Check lat longs on map view and pass anything found as a response
-        view.current.hitTest(screenPoint).then((response) => {
+        view.hitTest(screenPoint).then((response) => {
           // If there is a response and it contains an attribute id then it's one of our icon graphics
           if (response.results.length && response.results[0].graphic.attributes.id) {
             mapRef.current.style.cursor = 'pointer'; // change map cursor to pointer
@@ -132,7 +133,7 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
       let mapClick; // set placeholder click event that we can assign an on click
 
       // Only run the below if the map is available and there is data back from the API (data.length)
-      if (view.current) {
+      if (view) {
         const getGraphics = (response) => {
           const selectedMapDisruption = response.results[0].graphic.attributes.id;
 
@@ -155,20 +156,20 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
         };
 
         // Set up a click event handler and retrieve the screen point
-        mapClick = view.current.on('click', (e) => {
+        mapClick = view.on('click', (e) => {
           // intersect the given screen x, y coordinates
           const { screenPoint } = e;
-          // the hitTest() checks to see if any graphics in the view.current
-          view.current.hitTest(screenPoint).then(getGraphics);
+          // the hitTest() checks to see if any graphics in the view
+          view.hitTest(screenPoint).then(getGraphics);
         });
       }
       // END POINTER EVENTS
 
       // If component unmounting
       return () => {
-        if (view.current) {
+        if (view) {
           // destroy the map view
-          view.current.container = null;
+          view.container = null;
           mapClick.remove(); // remove click event
         }
       };

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // Import packages
 import React, { useEffect, useContext } from 'react';
 import axios from 'axios';
@@ -31,17 +30,17 @@ const InnerApp = () => {
       .catch((error) => {
         if (error.response) {
           // The request was made and the server responded with a status code
+          /* eslint-disable no-console */
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
+          /* eslint-enable no-console */
         }
       })
       .then(() => {
         setFetchDisruptionsState((prevState) => ({ ...prevState, isFetching: false }));
       });
   }, [setFetchDisruptionsState]);
-
-  console.log(fetchDisruptionState.isMapVisible);
 
   return (
     <>
