@@ -26,8 +26,11 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
     const view = _view;
     const currentLocation = _currentLocation;
 
+    console.log({ viewCurr: _view.current });
+    console.log({ view });
+
     // If disruption state has data in it...
-    if (fetchDisruptionsState.data.length) {
+    if (fetchDisruptionsState.data.length && view.current) {
       // lazy load the required ArcGIS API for JavaScript modules and CSS
       loadModules(['esri/Graphic', 'esri/layers/FeatureLayer']).then(([Graphic, FeatureLayer]) => {
         const today = format(new Date(), 'YYYY-MM-DD');
@@ -174,7 +177,7 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
 
             // If it's the last item in the array then...
             if (results.features.length - 1 === i) {
-              // Set locations to goto (if there is users currentLocation  available then we want to show them in the view as well as the location of the graphic items, else just show graphic items)
+              // Set locations to goto (if there is users currentLocation  available then we want to show them in the view.current as well as the location of the graphic items, else just show graphic items)
               const locations = currentLocation.current
                 ? [iconLayer.current.graphics.items, currentLocation.current]
                 : iconLayer.current.graphics.items;
@@ -183,11 +186,10 @@ const useMapIconLayer = (_iconLayer, _view, _currentLocation) => {
             }
           });
         }
-        view.current.then(() => {
-          flayer.queryFeatures(query).then((result) => {
-            addGraphics(result);
-          }); // Add queried result as a graphic to iconLayer
-        });
+
+        flayer.queryFeatures(query).then((result) => {
+          addGraphics(result);
+        }); // Add queried result as a graphic to iconLayer
       });
     }
 

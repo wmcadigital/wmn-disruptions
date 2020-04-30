@@ -17,7 +17,7 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
     const currentLocation = _currentLocation;
     const iconLayer = _iconLayer;
     const polyline = _polyline;
-    // const view = _view;
+    const view = _view;
     // If there is no map currently set up, then set it up
     // if (!map.current) {
     // lazy load the required ArcGIS API for JavaScript modules and CSS
@@ -55,7 +55,7 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
       });
 
       // Create a new map view with settings
-      view = new MapView({
+      view.current = new MapView({
         container: mapRef.current,
         map: map.current,
         center: [-2.0047209, 52.4778132],
@@ -63,7 +63,7 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
       });
 
       // Move zoom widget to top-right corner of view
-      view.ui.move(['zoom'], 'top-right');
+      view.current.ui.move(['zoom'], 'top-right');
       // END CREATE MAP VIEW
 
       // LOCATE BUTTON
@@ -78,12 +78,12 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
             ]
           : currentLocation.current;
 
-        return view.goTo(locations); // Go to locations set above
+        return view.current.goTo(locations); // Go to locations set above
       };
 
       // Create a locate button
       const locateBtn = new Locate({
-        view: view, // Attaches the Locate button to the view
+        view, // Attaches the Locate button to the view
         goToOverride,
         iconClass: 'hello',
         graphic: new Graphic({
@@ -97,7 +97,7 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
         }),
       });
       // Add the locate widget to the top right corner of the view
-      view.ui.add(locateBtn, {
+      view.current.ui.add(locateBtn, {
         position: 'top-right',
       });
       // END LOCATE BUTTON
@@ -113,14 +113,14 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
 
       // POINTER EVENTS
       // on pointer move
-      view.on('pointer-move', (e) => {
+      view.current.on('pointer-move', (e) => {
         // capture lat/longs of point
         const screenPoint = {
           x: e.x,
           y: e.y,
         };
         // Check lat longs on map view and pass anything found as a response
-        view.hitTest(screenPoint).then((response) => {
+        view.current.hitTest(screenPoint).then((response) => {
           // If there is a response and it contains an attribute id then it's one of our icon graphics
           if (response.results.length && response.results[0].graphic.attributes.id) {
             mapRef.current.style.cursor = 'pointer'; // change map cursor to pointer
@@ -156,11 +156,11 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
         };
 
         // Set up a click event handler and retrieve the screen point
-        mapClick = view.on('click', (e) => {
+        mapClick = view.current.on('click', (e) => {
           // intersect the given screen x, y coordinates
           const { screenPoint } = e;
           // the hitTest() checks to see if any graphics in the view
-          view.hitTest(screenPoint).then(getGraphics);
+          view.current.hitTest(screenPoint).then(getGraphics);
         });
       }
       // END POINTER EVENTS
@@ -169,7 +169,7 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
       return () => {
         if (view) {
           // destroy the map view
-          view.container = null;
+          view.current.container = null;
           mapClick.remove(); // remove click event
         }
       };
