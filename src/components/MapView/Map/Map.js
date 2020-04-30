@@ -14,20 +14,21 @@ const WebMapView = () => {
 
   // Set map refs so we can reassign them within custom functions/hooks below (similar to the state of our map)
   const mapRef = useRef(); // This ref is used to reference the dom node the map mounts on
-  const view = useRef(); // Used to ref the view of the map
+  // const view = useRef(); // Used to ref the view of the map
   const map = useRef(); // Used to ref the map itself
   const currentLocation = useRef();
   const iconLayer = useRef(); // Used to ref a graphicsLayer for icons on map
   const polyline = useRef(); // Used to ref a graphicsLayer for the polyline of a route
 
+  console.log(1);
   // Custom hook to define the core mapping settings/placeholders on page/component load
-  useCreateMap(mapRef, map, currentLocation, iconLayer, polyline, view);
-
+  const { v } = useCreateMap(mapRef, map, currentLocation, iconLayer, polyline);
+  console.log(2);
   // Custom hook to add the disruption icons to the map
-  useMapIconLayer(iconLayer, view, currentLocation);
-
+  useMapIconLayer(iconLayer, v, currentLocation);
+  console.log(3);
   // Custom hook to plot a route line on the map
-  useMapPolyline(polyline, iconLayer, view, currentLocation);
+  useMapPolyline(polyline, iconLayer, v, currentLocation);
 
   return (
     <div
