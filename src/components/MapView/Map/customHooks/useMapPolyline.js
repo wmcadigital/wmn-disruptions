@@ -3,7 +3,7 @@ import { loadModules } from 'esri-loader';
 import axios from 'axios';
 import { AutoCompleteContext } from 'globalState';
 
-const useMapPolyline = (mapState) => {
+const useMapPolyline = (mapState, currentLocationState) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
 
   // This useEffect is to plot the line on the map

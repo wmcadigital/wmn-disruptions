@@ -4,8 +4,9 @@ import { AutoCompleteContext } from 'globalState';
 // Import map icons
 import locateCircle from 'assets/svgs/map/locate-circle.svg';
 
-const useCreateMap = (_mapRef, _map, _currentLocation) => {
+const useCreateMap = (_mapRef) => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
+  const [currentLocationState, setCurrentLocationState] = useState();
   const [viewState, setViewState] = useState();
   const [mapState, setMapState] = useState();
 
@@ -13,7 +14,6 @@ const useCreateMap = (_mapRef, _map, _currentLocation) => {
   useEffect(() => {
     // Reassign injected useRef params to internal vars
     const mapRef = _mapRef;
-    // const currentLocation = _currentLocation;
     // If there is no map currently set up, then set it up
     if (!mapState) {
       // lazy load the required ArcGIS API for JavaScript modules and CSS
@@ -61,9 +61,10 @@ const useCreateMap = (_mapRef, _map, _currentLocation) => {
         view.ui.move(['zoom'], 'top-right');
         // END CREATE MAP VIEW
 
+        let currentLocation;
         // LOCATE BUTTON
         const goToOverride = (e, options) => {
-          const currentLocation = options.target.target; // Set currentLocation to the target of locate button (latLng of user)
+          currentLocation = options.target.target; // Set currentLocation to the target of locate button (latLng of user)
           // Set locations to goto (if there are graphics items available then we want to show them in the view as well as the location of the user, else show just location of user)
           const locations = map.layers.items
             ? [map.layers.items.map((layer) => layer.graphics), currentLocation]
@@ -93,12 +94,6 @@ const useCreateMap = (_mapRef, _map, _currentLocation) => {
         });
         // END LOCATE BUTTON
 
-        // SETUP GRAPHIC LAYERS
-        // Set up a graphics layer placeholder so we can inject a polyline into it in future
-        // polyline.current = new GraphicsLayer();
-
-        // END GRAPHIC LAYERS
-        console.log('graphics layer created in createMap');
         // POINTER EVENTS
         // on pointer move
         view.on('pointer-move', (e) => {
@@ -154,8 +149,9 @@ const useCreateMap = (_mapRef, _map, _currentLocation) => {
         }
         // END POINTER EVENTS
 
-        setViewState(view);
+        setCurrentLocationState(currentLocation);
         setMapState(map);
+        setViewState(view);
 
         // If component unmounting
         return () => {
@@ -167,15 +163,9 @@ const useCreateMap = (_mapRef, _map, _currentLocation) => {
         };
       });
     }
-  }, [
-    _currentLocation,
-    _mapRef,
-    autoCompleteDispatch,
-    autoCompleteState.selectedService.id,
-    mapState,
-  ]);
+  }, [_mapRef, autoCompleteDispatch, autoCompleteState.selectedService.id, mapState]);
 
-  return { viewState, mapState };
+  return { mapState, viewState, currentLocationState };
 };
 
 export default useCreateMap;

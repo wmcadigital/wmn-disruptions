@@ -11,7 +11,7 @@ import {
 
 import modeIcon from './useModeIcon';
 
-const useMapIconLayer = (mapState) => {
+const useMapIconLayer = (mapState, viewState, currentLocationState) => {
   // Set globalstates from imported context
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
@@ -22,6 +22,9 @@ const useMapIconLayer = (mapState) => {
   // This useEffect is to add the disruption icons to the map
   useEffect(() => {
     const map = mapState; // Reassign injected mapState to 'map' to be consistent
+    const currentLocation = currentLocationState; // Reassign injected mapState to 'map' to be consistent
+    const view = viewState;
+
     let graphicsLayer; // Set here, so we can cleanup in the return
 
     // const currentLocation = _currentLocation;
@@ -152,7 +155,7 @@ const useMapIconLayer = (mapState) => {
           function addGraphics(results) {
             graphicsLayer.removeAll(); // Remove all graphics from iconLayer
             // Foreach result the loop through (async as we have to await the icon to be resolved)
-            results.features.forEach(async (feature) => {
+            results.features.forEach(async (feature, i) => {
               // Await for the correct icon to come back based on mode/severity (if the current feature matches selectedMapDisruption, pass true to get hover icon)
               const icon = await modeIcon(
                 feature.attributes.mode,
@@ -175,16 +178,12 @@ const useMapIconLayer = (mapState) => {
               });
 
               graphicsLayer.add(graphic); // Add graphic to iconLayer on map
-
               // If it's the last item in the array then...
-              // if (results.features.length - 1 === i) {
-              //   // Set locations to goto (if there is users currentLocation  available then we want to show them in the view as well as the location of the graphic items, else just show graphic items)
-              //   const locations = currentLocation.current
-              //     ? [iconLayer.current.graphics.items, currentLocation.current]
-              //     : iconLayer.current.graphics.items;
-
-              //   view.goTo(locations); // Go to locations set abov
-              // }
+              if (results.features.length - 1 === i) {
+                // Set locations to goto (if there is users currentLocation  available then we want to show them in the view as well as the location of the graphic items, else just show graphic items)
+                const locations = map.layers.items.map((layer) => layer.graphics.items);
+                view.goTo(locations); // Go to locations set abov
+              }
             });
           }
 
@@ -204,11 +203,13 @@ const useMapIconLayer = (mapState) => {
   }, [
     autoCompleteState.selectedMapDisruption,
     autoCompleteState.selectedService.id,
+    currentLocationState,
     fetchDisruptionsState.data,
     fromDate,
     mapState,
     modeState.mode,
     toDate,
+    viewState,
     whenState.when,
   ]);
 };
