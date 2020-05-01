@@ -118,24 +118,30 @@ const useCreateMap = (_mapRef) => {
         // Only run the below if the map is available and there is data back from the API (data.length)
         if (view) {
           const getGraphics = (response) => {
-            const selectedMapDisruption = response.results[0].graphic.attributes.id;
+            const selectedGraphic = response.results.filter((result) => {
+              return result.graphic.attributes.id;
+            });
 
-            // Scroll the tray to the clicked disruption
-            const scrollTray = () => {
-              const scrollPos = document.getElementById(
-                `scroll-holder-for-${selectedMapDisruption}`
-              ).offsetTop;
-              document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
-            };
+            if (selectedGraphic.length) {
+              const selectedMapDisruption = selectedGraphic[0].graphic.attributes.id || null;
 
-            if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
-              autoCompleteDispatch({
-                type: 'UDPATE_SELECTED_MAP_DISRUPTION',
-                selectedMapDisruption,
-              });
-              scrollTray();
-            } else if (autoCompleteState.selectedService.id) {
-              scrollTray();
+              // Scroll the tray to the clicked disruption
+              const scrollTray = () => {
+                const scrollPos = document.getElementById(
+                  `scroll-holder-for-${selectedMapDisruption}`
+                ).offsetTop;
+                document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
+              };
+
+              if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
+                autoCompleteDispatch({
+                  type: 'UDPATE_SELECTED_MAP_DISRUPTION',
+                  selectedMapDisruption,
+                });
+                scrollTray();
+              } else if (autoCompleteState.selectedService.id) {
+                scrollTray();
+              }
             }
           };
 

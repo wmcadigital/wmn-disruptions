@@ -3,16 +3,17 @@ import { loadModules } from 'esri-loader';
 import axios from 'axios';
 import { AutoCompleteContext } from 'globalState';
 
-const useMapPolyline = (mapState, currentLocationState) => {
+const useMapPolyline = (mapState, viewState) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
 
   // This useEffect is to plot the line on the map
   useEffect(() => {
     const map = mapState; // Reassign injected mapState to 'map' to be consistent
+    const view = viewState;
     let graphicsLayer; // Set here, so we can cleanup in the return
 
     // If there is an ID and query in state, then lets hit the API and get the geoJSON
-    if (autoCompleteState.selectedService.id && map) {
+    if (autoCompleteState.selectedService.id && map && view) {
       const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
 
       axios
@@ -43,15 +44,9 @@ const useMapPolyline = (mapState, currentLocationState) => {
 
               graphicsLayer.add(polyline); // Add polyline to graphicsLayer on map
 
-              // const locations = currentLocation.current
-              //   ? [
-              //       polyline.current.graphics.items,
-              //       iconLayer.current.graphics.items,
-              //       currentLocation.current,
-              //     ]
-              //   : [polyline.current.graphics.items, iconLayer.current.graphics.items];
-
-              // view.current.goTo(locations); // Go to locations set abov
+              // Set locations to goto (if there is users currentLocation  available then we want to show them in the view as well as the location of the graphic items, else just show graphic items)
+              const locations = map.layers.items.map((layer) => layer.graphics.items);
+              view.goTo(locations); // Go to locations set above
             }
           );
         });
@@ -62,7 +57,7 @@ const useMapPolyline = (mapState, currentLocationState) => {
         map.remove(graphicsLayer); // remove the graphicsLayer on the map
       }
     };
-  }, [autoCompleteState.selectedService.id, mapState]);
+  }, [autoCompleteState.selectedService.id, mapState, viewState]);
 };
 
 export default useMapPolyline;

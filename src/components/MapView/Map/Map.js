@@ -20,7 +20,7 @@ const WebMapView = () => {
   // Custom hook to add the disruption icons to the map
   useMapIconLayer(mapState, viewState, currentLocationState);
   // Custom hook to plot a route line on the map
-  useMapPolyline(mapState, currentLocationState);
+  useMapPolyline(mapState, viewState, currentLocationState);
 
   return (
     <div
