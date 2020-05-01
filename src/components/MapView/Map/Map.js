@@ -23,7 +23,7 @@ const WebMapView = () => {
   // Custom hook to define the core mapping settings/placeholders on page/component load
   const { viewState, mapState } = useCreateMap(mapRef);
   // Custom hook to add the disruption icons to the map
-  useMapIconLayer(viewState, mapState);
+  useMapIconLayer(mapState);
   // Custom hook to plot a route line on the map
   // useMapPolyline(viewState);
 

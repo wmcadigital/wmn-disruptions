@@ -1,12 +1,11 @@
 import { useEffect, useContext, useState } from 'react';
 import { loadModules } from 'esri-loader';
-import { AutoCompleteContext, FetchDisruptionsContext } from 'globalState';
+import { AutoCompleteContext } from 'globalState';
 // Import map icons
 import locateCircle from 'assets/svgs/map/locate-circle.svg';
 
 const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline) => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
-  const [fetchDisruptionState] = useContext(FetchDisruptionsContext);
   const [viewState, setViewState] = useState();
   const [mapState, setMapState] = useState();
 
@@ -31,12 +30,11 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline) =>
           'esri/layers/VectorTileLayer',
           'esri/widgets/Locate',
           'esri/Graphic',
-          'esri/layers/GraphicsLayer',
         ],
         {
           css: true,
         }
-      ).then(([Map, MapView, Basemap, VectorTileLayer, Locate, Graphic, GraphicsLayer]) => {
+      ).then(([Map, MapView, Basemap, VectorTileLayer, Locate, Graphic]) => {
         // CREATE MAP VIEW
         // When loaded, create a new basemap
         const basemap = new Basemap({
@@ -180,7 +178,6 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline) =>
   }, [
     _currentLocation,
     _iconLayer,
-    _map,
     _mapRef,
     _polyline,
     autoCompleteDispatch,

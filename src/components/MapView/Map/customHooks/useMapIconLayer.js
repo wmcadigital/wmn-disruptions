@@ -11,7 +11,7 @@ import {
 
 import modeIcon from './useModeIcon';
 
-const useMapIconLayer = (viewState, mapState) => {
+const useMapIconLayer = (mapState) => {
   // Set globalstates from imported context
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
@@ -22,8 +22,9 @@ const useMapIconLayer = (viewState, mapState) => {
   // This useEffect is to add the disruption icons to the map
   useEffect(() => {
     // Reassign injected useRef params to internal vars
-    // const iconLayer = _iconLayer;
-    const map = mapState;
+    const map = mapState; // Reassign injected mapState to 'map' to be consistent
+    let graphicsLayer; // Set here, so we can cleanup in the return
+
     // const currentLocation = _currentLocation;
 
     // If disruption state has data in it...
@@ -32,9 +33,9 @@ const useMapIconLayer = (viewState, mapState) => {
       loadModules(['esri/Graphic', 'esri/layers/GraphicsLayer', 'esri/layers/FeatureLayer']).then(
         ([Graphic, GraphicsLayer, FeatureLayer]) => {
           const today = format(new Date(), 'YYYY-MM-DD');
-          const graphicsLayer = new GraphicsLayer(); // Set up a graphics layer placeholder so we can inject disruption icons into it in future
+          graphicsLayer = new GraphicsLayer(); // Set up a graphics layer placeholder so we can inject disruption icons into it in future
 
-          map.add(graphicsLayer);
+          map.add(graphicsLayer); // Add graphics layer to map
 
           // Create new graphic for each lat long in disruptions list
           const disruptionsData = fetchDisruptionsState.data.map((item) => {
@@ -152,7 +153,7 @@ const useMapIconLayer = (viewState, mapState) => {
           function addGraphics(results) {
             graphicsLayer.removeAll(); // Remove all graphics from iconLayer
             // Foreach result the loop through (async as we have to await the icon to be resolved)
-            results.features.forEach(async (feature, i) => {
+            results.features.forEach(async (feature) => {
               // Await for the correct icon to come back based on mode/severity (if the current feature matches selectedMapDisruption, pass true to get hover icon)
               const icon = await modeIcon(
                 feature.attributes.mode,
@@ -196,12 +197,11 @@ const useMapIconLayer = (viewState, mapState) => {
     }
 
     // If component unmounting
-    // return () => {
-    //   if (view) {
-    //     // remove the iconLayer on the map
-    //     iconLayer.current.removeAll();
-    //   }
-    // };
+    return () => {
+      if (graphicsLayer) {
+        map.remove(graphicsLayer); // remove the graphicsLayer on the map
+      }
+    };
   }, [
     autoCompleteState.selectedMapDisruption,
     autoCompleteState.selectedService.id,
@@ -210,7 +210,6 @@ const useMapIconLayer = (viewState, mapState) => {
     mapState,
     modeState.mode,
     toDate,
-    viewState,
     whenState.when,
   ]);
 };
