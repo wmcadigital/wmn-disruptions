@@ -63,14 +63,13 @@ const useMapPolyline = (mapState) => {
             }
           );
         });
-
-      // If component unmounting
-      return () => {
-        if (graphicsLayer) {
-          map.remove(graphicsLayer); // remove the graphicsLayer on the map
-        }
-      };
     }
+    // If component unmounting
+    return () => {
+      if (graphicsLayer) {
+        map.remove(graphicsLayer); // remove the graphicsLayer on the map
+      }
+    };
   }, [autoCompleteState.selectedService.id, mapState]);
 };
 
