@@ -13,10 +13,9 @@ const useCreateMap = (_mapRef, _map, _currentLocation) => {
   useEffect(() => {
     // Reassign injected useRef params to internal vars
     const mapRef = _mapRef;
-    const currentLocation = _currentLocation;
+    // const currentLocation = _currentLocation;
     // If there is no map currently set up, then set it up
     if (!mapState) {
-      console.log('map getting ready');
       // lazy load the required ArcGIS API for JavaScript modules and CSS
       // Make sure that the referenced module is also injected as a param in the .then function below
       loadModules(
@@ -64,17 +63,13 @@ const useCreateMap = (_mapRef, _map, _currentLocation) => {
 
         // LOCATE BUTTON
         const goToOverride = (e, options) => {
-          currentLocation.current = options.target.target; // Set currentLocation to the target of locate button (latLng of user)
+          const currentLocation = options.target.target; // Set currentLocation to the target of locate button (latLng of user)
           // Set locations to goto (if there are graphics items available then we want to show them in the view as well as the location of the user, else show just location of user)
-          // // const locations = iconLayer.current.graphics.items
-          // //   ? [
-          // //       polyline.current.graphics.items,
-          // //       iconLayer.current.graphics.items,
-          // //       currentLocation.current,
-          // //     ]
-          // //   : currentLocation.current;
+          const locations = map.layers.items
+            ? [map.layers.items.map((layer) => layer.graphics), currentLocation]
+            : currentLocation;
 
-          // return view.goTo(locations); // Go to locations set above
+          return view.goTo(locations); // Go to locations set above
         };
 
         // Create a locate button
