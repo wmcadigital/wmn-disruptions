@@ -104,8 +104,12 @@ const useCreateMap = (_mapRef) => {
           };
           // Check lat longs on map view and pass anything found as a response
           view.hitTest(screenPoint).then((response) => {
-            // If there is a response and it contains an attribute id then it's one of our icon graphics
-            if (response.results.length && response.results[0].graphic.attributes.id) {
+            const hoveredGraphics = response.results.filter((result) => {
+              return result.graphic.attributes && result.graphic.attributes.id;
+            }); // Return anything hovered over that contains attributes and attributes.id (this is so we can tell it is a disruption icon)
+
+            // If the hovereredGraphics has length, then it means we have hovered over a disruption
+            if (hoveredGraphics.length) {
               mapRef.current.style.cursor = 'pointer'; // change map cursor to pointer
             } else {
               mapRef.current.style.cursor = 'default'; // else keep default pointer
@@ -113,46 +117,43 @@ const useCreateMap = (_mapRef) => {
           });
         });
 
-        let mapClick; // set placeholder click event that we can assign an on click
+        // On pointer click
+        const getGraphics = (response) => {
+          const selectedGraphic = response.results.filter((result) => {
+            return result.graphic.attributes && result.graphic.attributes.id;
+          }); // Return anything clicked on that contains attributes and attributes.id (this is so we can tell it is a disruption icon)
 
-        // Only run the below if the map is available and there is data back from the API (data.length)
-        if (view) {
-          const getGraphics = (response) => {
-            const selectedGraphic = response.results.filter((result) => {
-              return result.graphic.attributes.id;
-            });
+          // If the hovereredGraphics has length, then it means we have clicked on a disruption
+          if (selectedGraphic.length) {
+            const selectedMapDisruption = selectedGraphic[0].graphic.attributes.id; // get the first graphic from the array of clicked (in case we clicked on more than one disruption clusterd together)
 
-            if (selectedGraphic.length) {
-              const selectedMapDisruption = selectedGraphic[0].graphic.attributes.id || null;
-
-              // Scroll the tray to the clicked disruption
-              const scrollTray = () => {
-                const scrollPos = document.getElementById(
-                  `scroll-holder-for-${selectedMapDisruption}`
-                ).offsetTop;
-                document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
-              };
-
-              if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
-                autoCompleteDispatch({
-                  type: 'UDPATE_SELECTED_MAP_DISRUPTION',
-                  selectedMapDisruption,
-                });
-                scrollTray();
-              } else if (autoCompleteState.selectedService.id) {
-                scrollTray();
-              }
+            // Scroll the tray to the clicked disruption
+            const scrollTray = () => {
+              const scrollPos = document.getElementById(
+                `scroll-holder-for-${selectedMapDisruption}`
+              ).offsetTop;
+              document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
+            };
+            // If the clicked graphic is not undefined and it is not the current selected item
+            if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
+              // Update state to make it selected map disruption
+              autoCompleteDispatch({
+                type: 'UDPATE_SELECTED_MAP_DISRUPTION',
+                selectedMapDisruption,
+              });
             }
-          };
+            scrollTray(); // Scroll tray to disruption info
+          }
+        };
 
-          // Set up a click event handler and retrieve the screen point
-          mapClick = view.on('click', (e) => {
-            // intersect the given screen x, y coordinates
-            const { screenPoint } = e;
-            // the hitTest() checks to see if any graphics in the view
-            view.hitTest(screenPoint).then(getGraphics);
-          });
-        }
+        // Set up a click event handler and retrieve the screen point
+        const mapClick = view.on('click', (e) => {
+          // intersect the given screen x, y coordinates
+          const { screenPoint } = e;
+          // the hitTest() checks to see if any graphics in the view
+          view.hitTest(screenPoint).then(getGraphics);
+        });
+
         // END POINTER EVENTS
 
         setCurrentLocationState(currentLocation);
