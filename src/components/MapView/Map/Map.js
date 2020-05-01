@@ -5,7 +5,7 @@ import useWindowHeightWidth from 'customHooks/useWindowHeightWidth';
 // Import custom hooks for map functionality
 import useCreateMap from './customHooks/useCreateMap';
 import useMapIconLayer from './customHooks/useMapIconLayer';
-// import useMapPolyline from './customHooks/useMapPolyline';
+import useMapPolyline from './customHooks/useMapPolyline';
 // Import custom styling
 import './Map.scss';
 
@@ -25,7 +25,7 @@ const WebMapView = () => {
   // Custom hook to add the disruption icons to the map
   useMapIconLayer(mapState);
   // Custom hook to plot a route line on the map
-  // useMapPolyline(viewState);
+  useMapPolyline(mapState);
 
   return (
     <div

@@ -4,22 +4,19 @@ import { AutoCompleteContext } from 'globalState';
 // Import map icons
 import locateCircle from 'assets/svgs/map/locate-circle.svg';
 
-const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline) => {
+const useCreateMap = (_mapRef, _map, _currentLocation) => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [viewState, setViewState] = useState();
   const [mapState, setMapState] = useState();
 
   // Map useEffect (this is to apply core mapping stuff on page/component load)
   useEffect(() => {
-    console.log('map getting ready');
     // Reassign injected useRef params to internal vars
     const mapRef = _mapRef;
     const currentLocation = _currentLocation;
-    const iconLayer = _iconLayer;
-    const polyline = _polyline;
-    // const view = _view;
     // If there is no map currently set up, then set it up
     if (!mapState) {
+      console.log('map getting ready');
       // lazy load the required ArcGIS API for JavaScript modules and CSS
       // Make sure that the referenced module is also injected as a param in the .then function below
       loadModules(
@@ -69,15 +66,15 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline) =>
         const goToOverride = (e, options) => {
           currentLocation.current = options.target.target; // Set currentLocation to the target of locate button (latLng of user)
           // Set locations to goto (if there are graphics items available then we want to show them in the view as well as the location of the user, else show just location of user)
-          const locations = iconLayer.current.graphics.items
-            ? [
-                polyline.current.graphics.items,
-                iconLayer.current.graphics.items,
-                currentLocation.current,
-              ]
-            : currentLocation.current;
+          // // const locations = iconLayer.current.graphics.items
+          // //   ? [
+          // //       polyline.current.graphics.items,
+          // //       iconLayer.current.graphics.items,
+          // //       currentLocation.current,
+          // //     ]
+          // //   : currentLocation.current;
 
-          return view.goTo(locations); // Go to locations set above
+          // return view.goTo(locations); // Go to locations set above
         };
 
         // Create a locate button
@@ -177,9 +174,7 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline) =>
     }
   }, [
     _currentLocation,
-    _iconLayer,
     _mapRef,
-    _polyline,
     autoCompleteDispatch,
     autoCompleteState.selectedService.id,
     mapState,
