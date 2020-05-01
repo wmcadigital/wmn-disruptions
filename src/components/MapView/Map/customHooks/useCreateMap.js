@@ -1,24 +1,21 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import { loadModules } from 'esri-loader';
-import { AutoCompleteContext, FetchDisruptionsContext } from 'globalState';
+import { AutoCompleteContext } from 'globalState';
 // Import map icons
 import locateCircle from 'assets/svgs/map/locate-circle.svg';
 
-const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _view) => {
+const useCreateMap = (_mapRef) => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
-  const [fetchDisruptionState] = useContext(FetchDisruptionsContext);
+  const [currentLocationState, setCurrentLocationState] = useState();
+  const [viewState, setViewState] = useState();
+  const [mapState, setMapState] = useState();
 
   // Map useEffect (this is to apply core mapping stuff on page/component load)
   useEffect(() => {
     // Reassign injected useRef params to internal vars
     const mapRef = _mapRef;
-    const map = _map;
-    const currentLocation = _currentLocation;
-    const iconLayer = _iconLayer;
-    const polyline = _polyline;
-    const view = _view;
     // If there is no map currently set up, then set it up
-    if (!map.current) {
+    if (!mapState) {
       // lazy load the required ArcGIS API for JavaScript modules and CSS
       // Make sure that the referenced module is also injected as a param in the .then function below
       loadModules(
@@ -29,12 +26,11 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
           'esri/layers/VectorTileLayer',
           'esri/widgets/Locate',
           'esri/Graphic',
-          'esri/layers/GraphicsLayer',
         ],
         {
           css: true,
         }
-      ).then(([Map, MapView, Basemap, VectorTileLayer, Locate, Graphic, GraphicsLayer]) => {
+      ).then(([Map, MapView, Basemap, VectorTileLayer, Locate, Graphic]) => {
         // CREATE MAP VIEW
         // When loaded, create a new basemap
         const basemap = new Basemap({
@@ -49,40 +45,37 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
         });
 
         // Create a new map with the basemap set above
-        map.current = new Map({
+        const map = new Map({
           basemap,
         });
 
         // Create a new map view with settings
-        view.current = new MapView({
+        const view = new MapView({
           container: mapRef.current,
-          map: map.current,
+          map,
           center: [-2.0047209, 52.4778132],
           zoom: 10,
         });
 
-        // Move zoom widget to top-right corner of view.current
-        view.current.ui.move(['zoom'], 'top-right');
+        // Move zoom widget to top-right corner of view
+        view.ui.move(['zoom'], 'top-right');
         // END CREATE MAP VIEW
 
+        let currentLocation;
         // LOCATE BUTTON
         const goToOverride = (e, options) => {
-          currentLocation.current = options.target.target; // Set currentLocation to the target of locate button (latLng of user)
+          currentLocation = options.target.target; // Set currentLocation to the target of locate button (latLng of user)
           // Set locations to goto (if there are graphics items available then we want to show them in the view as well as the location of the user, else show just location of user)
-          const locations = iconLayer.current.graphics.items
-            ? [
-                polyline.current.graphics.items,
-                iconLayer.current.graphics.items,
-                currentLocation.current,
-              ]
-            : currentLocation.current;
+          const locations = map.layers.items
+            ? [map.layers.items.map((layer) => layer.graphics), currentLocation]
+            : currentLocation;
 
-          return view.current.goTo(locations); // Go to locations set above
+          return view.goTo(locations); // Go to locations set above
         };
 
         // Create a locate button
         const locateBtn = new Locate({
-          view: view.current, // Attaches the Locate button to the view
+          view, // Attaches the Locate button to the view
           goToOverride,
           iconClass: 'hello',
           graphic: new Graphic({
@@ -95,33 +88,28 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
             },
           }),
         });
-        // Add the locate widget to the top right corner of the view.current
-        view.current.ui.add(locateBtn, {
+        // Add the locate widget to the top right corner of the view
+        view.ui.add(locateBtn, {
           position: 'top-right',
         });
         // END LOCATE BUTTON
 
-        // SETUP GRAPHIC LAYERS
-        // Set up a graphics layer placeholder so we can inject a polyline into it in future
-        polyline.current = new GraphicsLayer();
-        // Set up a graphics layer placeholder so we can inject disruption icons into it in future
-        iconLayer.current = new GraphicsLayer();
-
-        map.current.addMany([polyline.current, iconLayer.current]);
-        // END GRAPHIC LAYERS
-
         // POINTER EVENTS
         // on pointer move
-        view.current.on('pointer-move', (e) => {
+        view.on('pointer-move', (e) => {
           // capture lat/longs of point
           const screenPoint = {
             x: e.x,
             y: e.y,
           };
           // Check lat longs on map view and pass anything found as a response
-          view.current.hitTest(screenPoint).then((response) => {
-            // If there is a response and it contains an attribute id then it's one of our icon graphics
-            if (response.results.length && response.results[0].graphic.attributes.id) {
+          view.hitTest(screenPoint).then((response) => {
+            const hoveredGraphics = response.results.filter((result) => {
+              return result.graphic.attributes && result.graphic.attributes.id;
+            }); // Return anything hovered over that contains attributes and attributes.id (this is so we can tell it is a disruption icon)
+
+            // If the hovereredGraphics has length, then it means we have hovered over a disruption
+            if (hoveredGraphics.length) {
               mapRef.current.style.cursor = 'pointer'; // change map cursor to pointer
             } else {
               mapRef.current.style.cursor = 'default'; // else keep default pointer
@@ -129,12 +117,15 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
           });
         });
 
-        let mapClick; // set placeholder click event that we can assign an on click
+        // On pointer click
+        const getGraphics = (response) => {
+          const selectedGraphic = response.results.filter((result) => {
+            return result.graphic.attributes && result.graphic.attributes.id;
+          }); // Return anything clicked on that contains attributes and attributes.id (this is so we can tell it is a disruption icon)
 
-        // Only run the below if the map is available and there is data back from the API (data.length)
-        if (view.current && fetchDisruptionState.data.length) {
-          const getGraphics = (response) => {
-            const selectedMapDisruption = response.results[0].graphic.attributes.id;
+          // If the hovereredGraphics has length, then it means we have clicked on a disruption
+          if (selectedGraphic.length) {
+            const selectedMapDisruption = selectedGraphic[0].graphic.attributes.id; // get the first graphic from the array of clicked (in case we clicked on more than one disruption clusterd together)
 
             // Scroll the tray to the clicked disruption
             const scrollTray = () => {
@@ -143,49 +134,45 @@ const useCreateMap = (_mapRef, _map, _currentLocation, _iconLayer, _polyline, _v
               ).offsetTop;
               document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
             };
-
+            // If the clicked graphic is not undefined and it is not the current selected item
             if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
+              // Update state to make it selected map disruption
               autoCompleteDispatch({
                 type: 'UDPATE_SELECTED_MAP_DISRUPTION',
                 selectedMapDisruption,
               });
-              scrollTray();
-            } else if (autoCompleteState.selectedService.id) {
-              scrollTray();
             }
-          };
+            scrollTray(); // Scroll tray to disruption info
+          }
+        };
 
-          // Set up a click event handler and retrieve the screen point
-          mapClick = view.current.on('click', (e) => {
-            // intersect the given screen x, y coordinates
-            const { screenPoint } = e;
-            // the hitTest() checks to see if any graphics in the view.current
-            view.current.hitTest(screenPoint).then(getGraphics);
-          });
-        }
+        // Set up a click event handler and retrieve the screen point
+        const mapClick = view.on('click', (e) => {
+          // intersect the given screen x, y coordinates
+          const { screenPoint } = e;
+          // the hitTest() checks to see if any graphics in the view
+          view.hitTest(screenPoint).then(getGraphics);
+        });
+
         // END POINTER EVENTS
+
+        setCurrentLocationState(currentLocation);
+        setMapState(map);
+        setViewState(view);
 
         // If component unmounting
         return () => {
-          if (view.current) {
+          if (view) {
             // destroy the map view
-            view.current.container = null;
+            view.container = null;
             mapClick.remove(); // remove click event
           }
         };
       });
     }
-  }, [
-    _currentLocation,
-    _iconLayer,
-    _map,
-    _mapRef,
-    _polyline,
-    _view,
-    autoCompleteDispatch,
-    autoCompleteState.selectedService.id,
-    fetchDisruptionState.data.length,
-  ]);
+  }, [_mapRef, autoCompleteDispatch, autoCompleteState.selectedService.id, mapState]);
+
+  return { mapState, viewState, currentLocationState };
 };
 
 export default useCreateMap;

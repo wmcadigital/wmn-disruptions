@@ -26,6 +26,7 @@ const BusAutoComplete = () => {
   };
 
   useEffect(() => {
+    let mounted = true; // Set mounted to true (used later to make sure we don't do events as component is unmounting)
     const source = axios.CancelToken.source(); // Set source of cancelToken
     // If autocomplete has query
     if (autoCompleteState.query) {
@@ -46,8 +47,23 @@ const BusAutoComplete = () => {
             data: bus.data.services,
           }); // Update data state with services returned
 
-          // if no bus data, set error
-          if (!bus.data.length) {
+          if (autoCompleteState.selectedService.id && bus.data.services.length) {
+            const result = bus.data.services.filter(
+              (service) => service.id === autoCompleteState.selectedService.id
+            )[0];
+            autoCompleteDispatch({
+              type: 'UPDATE_SELECTED_SERVICE',
+              selectedService: {
+                id: result.id,
+                severity: result.disruptionSeverity,
+                serviceNumber: result.serviceNumber,
+                routeName: result.routes[0].routeName,
+              },
+            });
+          }
+          // If there is no bus data and the component is mounted (must be mounted or we will be creating an event on unmounted error)...
+          if (!bus.data.length && mounted) {
+            // if no bus data, set error
             setErrorInfo({
               title: 'No results found',
               message: 'Make sure you are looking for the right service, and try again.',
@@ -71,9 +87,10 @@ const BusAutoComplete = () => {
     }
     // Unmount / cleanup
     return () => {
+      mounted = false; // Set mounted back to false on unmount
       source.cancel(); // cancel the request
     };
-  }, [autoCompleteDispatch, autoCompleteState.query]);
+  }, [autoCompleteDispatch, autoCompleteState.query, autoCompleteState.selectedService.id]);
 
   // Function for handling keyboard/keydown events (controls the up/down arrow on autocomplete results)
   const handleKeyDown = ({ keyCode, target }) => {

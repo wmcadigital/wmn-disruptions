@@ -1,9 +1,9 @@
-/* eslint-disable no-console */
 // Import packages
 import React, { useEffect, useContext } from 'react';
 import axios from 'axios';
-// Import components
+// Import Contexts
 import { FetchDisruptionsContext } from 'globalState';
+// Import components
 import Header from 'components/Header/Header';
 import MapView from 'components/MapView/MapView';
 import ListView from 'components/ListView/ListView';
@@ -30,9 +30,11 @@ const InnerApp = () => {
       .catch((error) => {
         if (error.response) {
           // The request was made and the server responded with a status code
+          /* eslint-disable no-console */
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
+          /* eslint-enable no-console */
         }
       })
       .then(() => {
@@ -42,10 +44,7 @@ const InnerApp = () => {
 
   return (
     <>
-      <Header
-        isMapVisible={fetchDisruptionState.isMapVisible}
-        setIsMapVisible={fetchDisruptionState.setIsMapVisible}
-      />
+      <Header />
 
       {/* If map is visible, show map and tray, else show list view */}
       {fetchDisruptionState.isMapVisible ? <MapView /> : <ListView />}

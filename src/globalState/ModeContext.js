@@ -1,4 +1,6 @@
 import React, { useReducer, createContext } from 'react';
+// Import Helper functions
+import { setSearchParam, getSearchParam } from 'globalState/helpers/URLSearchParams'; // (used to sync state with URL)
 
 export const ModeContext = createContext(); // Create when context
 
@@ -7,18 +9,20 @@ export const ModeProvider = (props) => {
 
   // Set intial state of when
   const initialState = {
-    mode: null, // Can be any of the modes (bus, train, tram, roads)
+    mode: getSearchParam('mode') || null, // Can be any of the modes (bus, train, tram, roads)
   };
 
   // Set up a reducer so we can change state based on centralised logic here
   const reducer = (state, action) => {
     // Update the mode to chosen
     switch (action.type) {
-      case 'UPDATE_MODE':
+      case 'UPDATE_MODE': {
+        setSearchParam('mode', action.mode);
         return {
           ...state,
           mode: action.mode,
         };
+      }
       // Default should return intial state if error
       default:
         return initialState;

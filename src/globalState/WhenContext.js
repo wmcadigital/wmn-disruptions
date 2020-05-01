@@ -1,5 +1,11 @@
 import React, { useReducer, createContext } from 'react';
 import { format } from 'fecha';
+// Import Helper functions
+import {
+  setSearchParam,
+  getSearchParam,
+  delSearchParam,
+} from 'globalState/helpers/URLSearchParams'; // (used to sync state with URL)
 
 export const WhenContext = createContext(); // Create when context
 
@@ -8,11 +14,13 @@ export const WhenProvider = (props) => {
 
   // Set intial state of when
   const initialState = {
-    when: 'now', // Can be 'now','tomorrow' or 'customDate'
+    when: getSearchParam('when') || 'now', // Can be 'now','tomorrow' or 'customDate'
     // The below state is to help with datepicker(users custom date)
-    whenCustomDate: null, // Used to map the datetime of chosen date in datepicker
+    whenCustomDate: getSearchParam('whenCustomDate')
+      ? new Date(getSearchParam('whenCustomDate'))
+      : null, // Used to map the datetime of chosen date in datepicker
     isDatePickerOpen: false, // For toggling datepicker open/closed
-    datePickerText: 'Choose date', // Text for datepicker button, will change to dd/mm/yyyy if custom date chosen
+    datePickerText: getSearchParam('datePickerText') || 'Choose date', // Text for datepicker button, will change to dd/mm/yyyy if custom date chosen
   };
 
   // Set up a reducer so we can change state based on centralised logic here
@@ -20,6 +28,9 @@ export const WhenProvider = (props) => {
     // Update the when to chosen
     switch (action.type) {
       case 'UPDATE_WHEN':
+        setSearchParam('when', action.when);
+        delSearchParam('whenCustomDate');
+        delSearchParam('datePickerText');
         return {
           ...state,
           when: action.when,
@@ -36,6 +47,9 @@ export const WhenProvider = (props) => {
         // Get the chosen date from datepicker and make shorthand dd/mm/yyyy
         const chosenDate = format(action.date, 'DD/MM/YYYY');
 
+        setSearchParam('when', 'customDate');
+        setSearchParam('whenCustomDate', action.date);
+        setSearchParam('datePickerText', chosenDate);
         return {
           ...state,
           datePickerText: chosenDate,
