@@ -3,13 +3,15 @@ import { loadModules } from 'esri-loader';
 import axios from 'axios';
 import { AutoCompleteContext } from 'globalState';
 
-const useMapPolyline = (mapState, viewState) => {
+const useMapPolyline = (mapState, viewState, currentLocationState) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
 
   // This useEffect is to plot the line on the map
   useEffect(() => {
     const map = mapState; // Reassign injected mapState to 'map' to be consistent
     const view = viewState;
+    const currentLocation = currentLocationState; // Reassign injected mapState to 'map' to be consistent
+
     let graphicsLayer; // Set here, so we can cleanup in the return
 
     // If there is an ID and query in state, then lets hit the API and get the geoJSON
@@ -46,6 +48,7 @@ const useMapPolyline = (mapState, viewState) => {
 
               // Set locations to goto (if there is users currentLocation  available then we want to show them in the view as well as the location of the graphic items, else just show graphic items)
               const locations = map.layers.items.map((layer) => layer.graphics.items);
+              if (currentLocation) locations.push(currentLocation);
               view.goTo(locations); // Go to locations set above
             }
           );
@@ -57,7 +60,7 @@ const useMapPolyline = (mapState, viewState) => {
         map.remove(graphicsLayer); // remove the graphicsLayer on the map
       }
     };
-  }, [autoCompleteState.selectedService.id, mapState, viewState]);
+  }, [autoCompleteState.selectedService.id, currentLocationState, mapState, viewState]);
 };
 
 export default useMapPolyline;

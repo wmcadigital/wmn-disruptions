@@ -182,7 +182,8 @@ const useMapIconLayer = (mapState, viewState, currentLocationState) => {
               if (results.features.length - 1 === i) {
                 // Set locations to goto (if there is users currentLocation  available then we want to show them in the view as well as the location of the graphic items, else just show graphic items)
                 const locations = map.layers.items.map((layer) => layer.graphics.items);
-                view.goTo(locations); // Go to locations set abov
+                if (currentLocation) locations.push(currentLocation);
+                view.goTo(locations); // Go to locations set above
               }
             });
           }
