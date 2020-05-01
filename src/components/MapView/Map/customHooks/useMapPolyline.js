@@ -8,15 +8,7 @@ const useMapPolyline = (mapState) => {
 
   // This useEffect is to plot the line on the map
   useEffect(() => {
-    // Reassign injected useRef params to internal vars
-    // const polyline = _polyline;
-    // const iconLayer = _iconLayer;
-    // const currentLocation = _currentLocation;
-    // const view = _view;
-    // if (polyline.current) {
-    //   polyline.current.removeAll();
-    // }
-    const map = mapState;
+    const map = mapState; // Reassign injected mapState to 'map' to be consistent
     let graphicsLayer; // Set here, so we can cleanup in the return
 
     // If there is an ID and query in state, then lets hit the API and get the geoJSON

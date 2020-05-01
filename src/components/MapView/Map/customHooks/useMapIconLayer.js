@@ -21,7 +21,6 @@ const useMapIconLayer = (mapState) => {
 
   // This useEffect is to add the disruption icons to the map
   useEffect(() => {
-    // Reassign injected useRef params to internal vars
     const map = mapState; // Reassign injected mapState to 'map' to be consistent
     let graphicsLayer; // Set here, so we can cleanup in the return
 
