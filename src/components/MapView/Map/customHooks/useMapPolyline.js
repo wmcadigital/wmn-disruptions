@@ -11,7 +11,7 @@ const useMapPolyline = (mapState, viewState, currentLocationState) => {
     const map = mapState; // Reassign injected mapState to 'map' to be consistent
     const view = viewState;
     const currentLocation = currentLocationState; // Reassign injected mapState to 'map' to be consistent
-
+    const abc = () => {};
     let graphicsLayer; // Set here, so we can cleanup in the return
 
     // If there is an ID and query in state, then lets hit the API and get the geoJSON
