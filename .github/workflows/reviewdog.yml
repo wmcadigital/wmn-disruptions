@@ -1,14 +1,18 @@
 name: reviewdog
-on: [pull_request]
+on:
+  pull_request:
+    branches:
+      - master
+
 jobs:
   eslint:
     name: runner / eslint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: eslint
+      - name: Run eslint with reviewdog
         uses: reviewdog/action-eslint@v1
         with:
           github_token: ${{ secrets.github_token }}
-          reporter: github-pr-review # Change reporter.
+          reporter: github-pr-check
           eslint_flags: 'src/'
