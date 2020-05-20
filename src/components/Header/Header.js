@@ -21,11 +21,8 @@ const Header = () => {
   };
 
   return (
-    <div className={s.headerWrapper}>
-      <nav
-        aria-label="Breadcrumb"
-        className="wmnds-breadcrumb wmnds-breadcrumb--mobile-app wmnds-container"
-      >
+    <div className={`wmnds-container ${s.headerWrapper}`}>
+      <nav aria-label="Breadcrumb" className="wmnds-breadcrumb wmnds-breadcrumb--mobile-app">
         <ol className="wmnds-breadcrumb__list">
           <li className="wmnds-breadcrumb__list-item">
             <a href="//wmnetwork.co.uk" className="wmnds-breadcrumb__link">
@@ -43,18 +40,16 @@ const Header = () => {
           </li>
         </ol>
       </nav>
-      <div className="wmnds-container">
-        <div className="wmnds-grid wmnds-grid--justify-between wmnds-grid--align-middle wmnds-p-b-sm wmnds-p-t-sm">
-          <h1 className={`wmnds-col-auto wmnds-m-b-none ${s.h1}`}>Disruptions</h1>
+      <div className="wmnds-grid wmnds-grid--justify-between wmnds-grid--align-middle wmnds-p-b-sm wmnds-p-t-sm">
+        <h1 className={`wmnds-col-auto wmnds-m-b-none ${s.h1}`}>Disruptions</h1>
 
-          <div className="wmnds-col-auto">
-            <Button
-              btnClass={`wmnds-btn--secondary wmnds-float--right ${s.listMapBtn}`}
-              onClick={handleClick}
-              iconRight="general-chevron-right"
-              text={fetchDisruptionState.isMapVisible ? 'List View' : 'Map View'}
-            />
-          </div>
+        <div className="wmnds-col-auto">
+          <Button
+            btnClass={`wmnds-btn--secondary wmnds-float--right ${s.listMapBtn}`}
+            onClick={handleClick}
+            iconRight="general-chevron-right"
+            text={fetchDisruptionState.isMapVisible ? 'List View' : 'Map View'}
+          />
         </div>
       </div>
     </div>
