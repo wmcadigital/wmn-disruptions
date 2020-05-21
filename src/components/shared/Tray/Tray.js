@@ -8,10 +8,10 @@ import MobileTray from './MobileTray';
 import s from './Tray.module.scss';
 
 const Tray = () => {
-  const { windowWidth, windowHeight } = useWindowHeightWidth(); // Get window height and width
+  const { windowWidth } = useWindowHeightWidth(); // Get window height and width
 
   // Output for how the mobile tray looks
-  const mobileTray = <MobileTray windowWidth={windowWidth} windowHeight={windowHeight} />;
+  const mobileTray = <MobileTray />;
 
   // Output for how the desktop tray looks
   const DesktopTray = (
