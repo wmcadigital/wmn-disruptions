@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useContext, useRef } from 'react';
 import PropTypes from 'prop-types';
+// Import contexts
+import { AutoCompleteContext } from 'globalState';
 // Imported components
 import DisruptionIndicatorSmall from 'components/shared/DisruptionIndicator/DisruptionIndicatorSmall';
 // import CloseButton from 'components/shared/CloseButton/CloseButton';
@@ -8,11 +10,18 @@ import DisruptionInfo from 'components/shared/DisruptionInfo/DisruptionInfo';
 import s from './DisruptedService.module.scss';
 
 const DisruptedService = ({ disruption }) => {
+  const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
+
+  const disruptionRef = useRef(null);
+
+  // Scroll the tray to the clicked disruption
+  if (autoCompleteState.selectedMapDisruption && disruptionRef.current) {
+    const { offsetTop } = disruptionRef.current;
+    document.getElementById('js-disruptions-tray').scrollTop = offsetTop;
+  }
+
   return (
-    <div
-      className={`wmnds-grid wmnds-p-t-lg wmnds-m-t-lg ${s.disruption}`}
-      id={`scroll-holder-for-${disruption.id}`}
-    >
+    <div className={`wmnds-grid wmnds-p-t-lg wmnds-m-t-lg ${s.disruption}`} ref={disruptionRef}>
       {/* Title of disruptions */}
       <div className="wmnds-col-1 wmnds-m-b-lg">
         <div className="wmnds-grid wmnds-grid--align-center">

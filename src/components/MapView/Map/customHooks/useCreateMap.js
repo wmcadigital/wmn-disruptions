@@ -127,13 +127,6 @@ const useCreateMap = (_mapRef) => {
           if (selectedGraphic.length) {
             const selectedMapDisruption = selectedGraphic[0].graphic.attributes.id; // get the first graphic from the array of clicked (in case we clicked on more than one disruption clusterd together)
 
-            // Scroll the tray to the clicked disruption
-            const scrollTray = () => {
-              const scrollPos = document.getElementById(
-                `scroll-holder-for-${selectedMapDisruption}`
-              ).offsetTop;
-              document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
-            };
             // If the clicked graphic is not undefined and it is not the current selected item
             if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
               // Update state to make it selected map disruption
@@ -142,7 +135,6 @@ const useCreateMap = (_mapRef) => {
                 selectedMapDisruption,
               });
             }
-            scrollTray(); // Scroll tray to disruption info
           }
         };
 
