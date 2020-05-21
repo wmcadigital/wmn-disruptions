@@ -11,6 +11,7 @@ import TrayComponents from './TrayComponents/TrayComponents';
 import s from './Tray.module.scss';
 
 const MobileTray = () => {
+  const draggableTray = useRef(); // Ref used to keep track of Draggable dom element
   const slideableTray = useRef(); // Ref to track swipe dom element
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const { eleHeight } = useWindowHeightWidth(); // Get window height and width
@@ -99,8 +100,13 @@ const MobileTray = () => {
       onStop={(e, data) => onStop(e, data)}
       disabled={lockTray}
       cancel="input"
+      nodeRef={draggableTray}
     >
-      <div className={`${s.tray} wmnds-grid `} style={{ height: `${eleHeight}px` }}>
+      <div
+        className={`${s.tray} wmnds-grid `}
+        style={{ height: `${eleHeight}px` }}
+        ref={draggableTray}
+      >
         <Swipe
           className={`${s.swipeTrayWrapper} wmnds-p-md ${isTrayOpen ? s.trayIsOpen : ''}`}
           onSwipeUp={() => onSwipeUp()}
