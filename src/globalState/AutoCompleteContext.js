@@ -59,10 +59,15 @@ export const AutoCompleteProvider = (props) => {
         delSearchParam('selectedMapDisruption');
         delSearchParam('query');
         return {
-          query: null,
+          query: '',
           data: [],
           selectedMapDisruption: null,
-          selectedService: {},
+          selectedService: {
+            id: null,
+            severity: null,
+            serviceNumber: null,
+            routeName: null,
+          },
         };
       // Default should return intial state if error
       default:

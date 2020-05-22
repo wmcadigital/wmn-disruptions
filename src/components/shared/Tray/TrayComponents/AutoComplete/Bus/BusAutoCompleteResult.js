@@ -73,7 +73,7 @@ const BusAutoCompleteResult = (props) => {
         text={result.serviceNumber}
       />
       {/* Right section */}
-      <strong className={`${s.routeName} wmnds-col-auto`}>{result.routes[0].routeName}</strong>
+      <strong className={`wmnds-col-auto ${s.routeName}`}>{result.routes[0].routeName}</strong>
     </li>
   );
 };

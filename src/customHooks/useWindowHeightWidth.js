@@ -7,13 +7,22 @@ const useWindowHeightWidth = () => {
 
   // Check window width on resize, used to determine if we should show the mobile or desktop panel in the return/render at the bottom
   useEffect(() => {
-    // Add event listner to window resize, if resized then update width with new window.width
-    window.addEventListener('resize', () => setWindowWidth(window.innerWidth));
-    window.addEventListener('resize', () => setWindowHeight(window.innerHeight));
+    let mounted = true;
+
+    // Function to update window.width and window.height to state
+    const updateWidthHeight = () => {
+      if (mounted) {
+        setWindowWidth(window.innerWidth);
+        setWindowHeight(window.innerHeight);
+      }
+    };
+    // Add event listener to window resize, if resized then update width with new window.width and window.height
+    window.addEventListener('resize', updateWidthHeight);
+
     // Cleanup: remove eventListener
     return () => {
-      window.removeEventListener('resize', () => setWindowWidth(window.innerWidth));
-      window.removeEventListener('resize', () => setWindowHeight(window.innerHeight));
+      mounted = false;
+      window.removeEventListener('resize', updateWidthHeight);
     };
   }, [windowWidth, windowHeight, setWindowWidth, setWindowHeight]);
 

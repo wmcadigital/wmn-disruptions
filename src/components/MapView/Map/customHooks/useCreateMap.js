@@ -9,11 +9,11 @@ const useCreateMap = (_mapRef) => {
   const [currentLocationState, setCurrentLocationState] = useState();
   const [viewState, setViewState] = useState();
   const [mapState, setMapState] = useState();
+  const mapRef = _mapRef;
 
   // Map useEffect (this is to apply core mapping stuff on page/component load)
   useEffect(() => {
     // Reassign injected useRef params to internal vars
-    const mapRef = _mapRef;
     // If there is no map currently set up, then set it up
     if (!mapState) {
       // lazy load the required ArcGIS API for JavaScript modules and CSS
@@ -94,7 +94,6 @@ const useCreateMap = (_mapRef) => {
         });
         // END LOCATE BUTTON
 
-        // POINTER EVENTS
         // on pointer move
         view.on('pointer-move', (e) => {
           // capture lat/longs of point
@@ -107,54 +106,16 @@ const useCreateMap = (_mapRef) => {
             const hoveredGraphics = response.results.filter((result) => {
               return result.graphic.attributes && result.graphic.attributes.id;
             }); // Return anything hovered over that contains attributes and attributes.id (this is so we can tell it is a disruption icon)
-
-            // If the hovereredGraphics has length, then it means we have hovered over a disruption
-            if (hoveredGraphics.length) {
-              mapRef.current.style.cursor = 'pointer'; // change map cursor to pointer
-            } else {
-              mapRef.current.style.cursor = 'default'; // else keep default pointer
+            if (mapRef.current) {
+              // If the hoveredGraphics has length, then it means we have hovered over a disruption
+              if (hoveredGraphics.length) {
+                mapRef.current.style.cursor = 'pointer'; // change map cursor to pointer
+              } else {
+                mapRef.current.style.cursor = 'default'; // else keep default pointer
+              }
             }
           });
         });
-
-        // On pointer click
-        const getGraphics = (response) => {
-          const selectedGraphic = response.results.filter((result) => {
-            return result.graphic.attributes && result.graphic.attributes.id;
-          }); // Return anything clicked on that contains attributes and attributes.id (this is so we can tell it is a disruption icon)
-
-          // If the hovereredGraphics has length, then it means we have clicked on a disruption
-          if (selectedGraphic.length) {
-            const selectedMapDisruption = selectedGraphic[0].graphic.attributes.id; // get the first graphic from the array of clicked (in case we clicked on more than one disruption clusterd together)
-
-            // Scroll the tray to the clicked disruption
-            const scrollTray = () => {
-              const scrollPos = document.getElementById(
-                `scroll-holder-for-${selectedMapDisruption}`
-              ).offsetTop;
-              document.getElementById('js-disruptions-tray').scrollTop = scrollPos;
-            };
-            // If the clicked graphic is not undefined and it is not the current selected item
-            if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
-              // Update state to make it selected map disruption
-              autoCompleteDispatch({
-                type: 'UDPATE_SELECTED_MAP_DISRUPTION',
-                selectedMapDisruption,
-              });
-            }
-            scrollTray(); // Scroll tray to disruption info
-          }
-        };
-
-        // Set up a click event handler and retrieve the screen point
-        const mapClick = view.on('click', (e) => {
-          // intersect the given screen x, y coordinates
-          const { screenPoint } = e;
-          // the hitTest() checks to see if any graphics in the view
-          view.hitTest(screenPoint).then(getGraphics);
-        });
-
-        // END POINTER EVENTS
 
         setCurrentLocationState(currentLocation);
         setMapState(map);
@@ -165,12 +126,11 @@ const useCreateMap = (_mapRef) => {
           if (view) {
             // destroy the map view
             view.container = null;
-            mapClick.remove(); // remove click event
           }
         };
       });
     }
-  }, [_mapRef, autoCompleteDispatch, autoCompleteState.selectedService.id, mapState]);
+  }, [_mapRef, autoCompleteDispatch, autoCompleteState.selectedService.id, mapRef, mapState]);
 
   return { mapState, viewState, currentLocationState };
 };

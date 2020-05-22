@@ -30,7 +30,7 @@ const useMapIconLayer = (mapState, viewState, currentLocationState) => {
     // const currentLocation = _currentLocation;
 
     // If disruption state has data in it...
-    if (fetchDisruptionsState.data.length && map) {
+    if (fetchDisruptionsState.data.length && view) {
       // lazy load the required ArcGIS API for JavaScript modules and CSS
       loadModules(['esri/Graphic', 'esri/layers/GraphicsLayer', 'esri/layers/FeatureLayer']).then(
         ([Graphic, GraphicsLayer, FeatureLayer]) => {

@@ -137,7 +137,7 @@ const BusAutoComplete = () => {
           name="busSearch"
           placeholder="Search for a service"
           className="wmnds-fe-input wmnds-autocomplete__input wmnds-col-1"
-          value={autoCompleteState.query}
+          value={autoCompleteState.query || ''}
           onChange={(e) => updateQuery(e.target.value)}
           aria-label="Search for a service"
           debounceTimeout={600}

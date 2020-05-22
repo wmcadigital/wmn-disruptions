@@ -8,6 +8,7 @@ import useMapIconLayer from './customHooks/useMapIconLayer';
 import useMapPolyline from './customHooks/useMapPolyline';
 // Import custom styling
 import './Map.scss';
+import useMapPointerEvents from './customHooks/useMapPointerEvents';
 
 const WebMapView = () => {
   const { eleHeight } = useWindowHeightWidth(); // Get window height and width
@@ -17,6 +18,7 @@ const WebMapView = () => {
 
   // Custom hook to define the core mapping settings/placeholders on page/component load
   const { mapState, viewState, currentLocationState } = useCreateMap(mapRef);
+  useMapPointerEvents(mapState, viewState);
   // Custom hook to add the disruption icons to the map
   useMapIconLayer(mapState, viewState, currentLocationState);
   // Custom hook to plot a route line on the map
