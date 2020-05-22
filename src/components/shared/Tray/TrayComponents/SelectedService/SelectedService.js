@@ -13,7 +13,6 @@ const SelectedService = () => {
   // The below will check all disruptions and will return any disruption where the mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
   const selectedData = useFilterLogic();
 
-  console.log({ selectedData, fetchDisruptionsState: fetchDisruptionsState.isMapVisible });
   return (
     <>
       <SelectedServiceHeader
