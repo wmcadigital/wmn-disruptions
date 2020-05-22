@@ -12,7 +12,6 @@ import useMapPointerEvents from './customHooks/useMapPointerEvents';
 
 const WebMapView = () => {
   const { eleHeight } = useWindowHeightWidth(); // Get window height and width
-
   const mapRef = useRef(); // This ref is used to reference the dom node the map mounts on
 
   // Custom hook to define the core mapping settings/placeholders on page/component load
