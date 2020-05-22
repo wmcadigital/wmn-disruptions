@@ -7,11 +7,9 @@ const useMapPointerEvents = (_mapRef, viewState) => {
 
   useEffect(() => {
     const view = viewState;
-    let mapClick;
+    let mapClick; // placholder var that we bind map clicks to
 
     if (view) {
-      // POINTER EVENTS
-
       // On pointer click
       const getGraphics = (response) => {
         const selectedGraphic = response.results.filter((result) => {
@@ -23,7 +21,7 @@ const useMapPointerEvents = (_mapRef, viewState) => {
           const selectedMapDisruption = selectedGraphic[0].graphic.attributes.id; // get the first graphic from the array of clicked (in case we clicked on more than one disruption clusterd together)
 
           // If the clicked graphic is not undefined and it is not the current selected item
-          if (selectedMapDisruption !== undefined && !autoCompleteState.selectedService.id) {
+          if (selectedMapDisruption !== undefined) {
             // Update state to make it selected map disruption
             autoCompleteDispatch({
               type: 'UDPATE_SELECTED_MAP_DISRUPTION',
@@ -41,7 +39,6 @@ const useMapPointerEvents = (_mapRef, viewState) => {
         view.hitTest(screenPoint).then(getGraphics);
       });
     }
-    // END POINTER EVENTS
     return () => {
       if (view) {
         mapClick.remove(); // remove click event
