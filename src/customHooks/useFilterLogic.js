@@ -62,7 +62,6 @@ const useFilterLogic = () => {
       );
     }
   }
-  console.log({ filteredData });
 
   return filteredData;
 };
