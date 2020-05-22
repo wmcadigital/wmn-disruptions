@@ -16,7 +16,7 @@ const useWindowHeightWidth = () => {
         setWindowHeight(window.innerHeight);
       }
     };
-    // Add event listner to window resize, if resized then update width with new window.width and window.height
+    // Add event listener to window resize, if resized then update width with new window.width and window.height
     window.addEventListener('resize', updateWidthHeight);
 
     // Cleanup: remove eventListener

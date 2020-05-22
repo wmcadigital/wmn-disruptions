@@ -107,7 +107,7 @@ const useCreateMap = (_mapRef) => {
               return result.graphic.attributes && result.graphic.attributes.id;
             }); // Return anything hovered over that contains attributes and attributes.id (this is so we can tell it is a disruption icon)
             if (mapRef.current) {
-              // If the hovereredGraphics has length, then it means we have hovered over a disruption
+              // If the hoveredGraphics has length, then it means we have hovered over a disruption
               if (hoveredGraphics.length) {
                 mapRef.current.style.cursor = 'pointer'; // change map cursor to pointer
               } else {
