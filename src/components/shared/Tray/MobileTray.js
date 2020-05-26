@@ -33,14 +33,12 @@ const MobileTray = () => {
 
   // OnStart function for start of swiping tray
   const onStart = (e, data) => {
-    document.body.style.overflow = 'hidden'; // Set body overflow to hidden, so we don't snap to body scrollbar
     setStartPosition(data.y);
   };
 
   // onStop function for stop of swiping tray
   const onStop = (e, data) => {
     let trayOpen; // placholder to set to true if tray is open
-    document.body.style.overflow = null; // Scrolling finished so return body overflow to normal
     const { lastY } = data; // Get lastY scroll position
 
     const secondThird = (-eleHeight / 3) * 2; // Get the second third of the container
@@ -78,6 +76,14 @@ const MobileTray = () => {
 
   const secondThird = (eleHeight / 3) * 2; // Get the second third of the container
 
+  const onSwipeStart = () => {
+    document.body.style.overflow = 'hidden'; // Set body overflow to hidden, so we don't snap to body scrollbar
+  };
+
+  const onSwipeEnd = () => {
+    document.body.style.overflow = null; // Scrolling finished so return body overflow to normal
+  };
+
   // On Swipe down
   const onSwipeDown = () => {
     // const trayScrollTop = slideableTray.current.swiper.scrollTop; // Get elementById so we can check the scollTop
@@ -89,7 +95,6 @@ const MobileTray = () => {
 
   // On Swipe up
   const onSwipeUp = () => {
-    console.log({ position });
     // const trayScrollTop = slideableTray.current.swiper.scrollTop; // Get elementById so we can check the scollTop
     // // If tray is open and the scrollTop is not 0 (we're not at the top of the tray scroll), so lock tray
     // return isTrayOpen && trayScrollTop !== 0 ? setLockTray(true) : null;
@@ -97,45 +102,9 @@ const MobileTray = () => {
     if (position === secondThird) setPosition(eleHeight);
   };
 
-  const onSwipeEnd = (event) => {
-    console.log({ event });
-    // let trayOpen; // placholder to set to true if tray is open
-    // document.body.style.overflow = null; // Scrolling finished so return body overflow to normal
-
-    // const secondThird = (-eleHeight / 3) * 2; // Get the second third of the container
-
-    // // Greater than/less than if statements are backwards as we are dealing with negative values (minus)
-    // if (lastY < startPosition) {
-    //   // scroll direction is up
-    //   if (lastY > secondThird) {
-    //     // If position is lower than secondThird
-    //     setPosition(secondThird); // Set position to secondThird
-    //   } else {
-    //     setPosition(-eleHeight); // Set position to top
-    //     trayOpen = true; // and set tray open to true
-    //   }
-    // } else {
-    //   // Else scroll direction is down
-    //   // eslint-disable-next-line no-lonely-if
-    //   if (lastY > secondThird) {
-    //     setPosition(100); // Set back to bottom
-    //   } else if (lastY === -eleHeight) {
-    //     // if lastY is the same as the container height then the tray must be open still...
-    //     trayOpen = true; // Set tray open
-    //   } else {
-    //     setPosition(secondThird); // Else set position to secondThird
-    //   }
-    // }
-
-    // // If lastY coords are at top of container, then set tralastY open to true, otherwise false
-    // return trayOpen ? setIsTrayOpen(true) : setIsTrayOpen(false);
-  };
-
   // useEffect(() => {
   //   if (eleHeight) setPosition(eleHeight - 100);
   // }, [eleHeight]);
-
-  console.log({ position });
 
   return (
     // <Draggable
@@ -158,9 +127,10 @@ const MobileTray = () => {
       ref={draggableTray}
     >
       <Swipe
-        className={`${s.swipeTrayWrapper} wmnds-p-md ${isTrayOpen ? s.trayIsOpen : ''}`}
-        onSwipeUp={() => onSwipeUp()}
-        onSwipeDown={() => onSwipeDown()}
+        className={`${s.swipeTrayWrapper} wmnds-p-md ${position === eleHeight ? s.trayIsOpen : ''}`}
+        onSwipeUp={onSwipeUp}
+        onSwipeDown={onSwipeDown}
+        onSwipeStart={onSwipeStart}
         onSwipeEnd={onSwipeEnd}
         ref={slideableTray}
       >
