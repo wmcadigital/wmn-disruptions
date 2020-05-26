@@ -76,11 +76,15 @@ const MobileTray = () => {
   USED TO CONTROL INTERNAL SCROLLING OF TRAY (OVERFLOW SCROLL)
   */
 
+  const secondThird = (eleHeight / 3) * 2; // Get the second third of the container
+
   // On Swipe down
   const onSwipeDown = () => {
-    const trayScrollTop = slideableTray.current.swiper.scrollTop; // Get elementById so we can check the scollTop
-    // If tray is open and the scrollTop is 0 (we're at the top of the tray scroll), then unlock tray
-    return isTrayOpen && trayScrollTop === 0 ? setLockTray(false) : null;
+    // const trayScrollTop = slideableTray.current.swiper.scrollTop; // Get elementById so we can check the scollTop
+    // // If tray is open and the scrollTop is 0 (we're at the top of the tray scroll), then unlock tray
+    // return isTrayOpen && trayScrollTop === 0 ? setLockTray(false) : null;
+    if (position === eleHeight) setPosition(secondThird);
+    if (position === secondThird) setPosition(100);
   };
 
   // On Swipe up
@@ -89,9 +93,8 @@ const MobileTray = () => {
     // const trayScrollTop = slideableTray.current.swiper.scrollTop; // Get elementById so we can check the scollTop
     // // If tray is open and the scrollTop is not 0 (we're not at the top of the tray scroll), so lock tray
     // return isTrayOpen && trayScrollTop !== 0 ? setLockTray(true) : null;
-    if (position === 100) setPosition(400);
-    if (position === 400) setPosition(eleHeight);
-    console.log({ positionEND: position });
+    if (position === 100) setPosition(secondThird);
+    if (position === secondThird) setPosition(eleHeight);
   };
 
   const onSwipeEnd = (event) => {
@@ -160,7 +163,6 @@ const MobileTray = () => {
         onSwipeDown={() => onSwipeDown()}
         onSwipeEnd={onSwipeEnd}
         ref={slideableTray}
-        id="hello"
       >
         <div className={`${s.drawerHandle} wmnds-col-1`}>
           <p>Swipe tray up</p>
