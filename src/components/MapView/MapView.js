@@ -5,8 +5,8 @@ import s from './MapView.module.scss';
 
 const MapView = () => {
   return (
-    <div className={s.disruptionsContainer} id="disruptions-container">
-      {/* Be careful with changeing this id (#disruptions-container) as it is being used by the tray to determine its container */}
+    // Be careful with changing this id (#disruptions-container) as it is being used by the tray to determine its container
+    <div className={s.disruptionsContainer}>
       <Map />
       <Tray />
     </div>
