@@ -18,7 +18,7 @@ const MobileTray = () => {
   const [isTrayOpen, setIsTrayOpen] = useState(false); // Used to store bool if tray is fully open
   const [lockTray, setLockTray] = useState(false); // Store bool if we should lock the tray or not
   const [startPosition, setStartPosition] = useState(); // Used to capture start position of scroll event
-  const [position, setPosition] = useState(-100); // Set initial position of tray
+  const [position, setPosition] = useState(100); // Set initial position of tray
 
   // Open tray if there is a selectedMapDisruption (map icon has been clicked)
   useEffect(() => {
@@ -59,7 +59,7 @@ const MobileTray = () => {
       // Else scroll direction is down
       // eslint-disable-next-line no-lonely-if
       if (lastY > secondThird) {
-        setPosition(-100); // Set back to bottom
+        setPosition(100); // Set back to bottom
       } else if (lastY === -eleHeight) {
         // if lastY is the same as the container height then the tray must be open still...
         trayOpen = true; // Set tray open
@@ -85,41 +85,90 @@ const MobileTray = () => {
 
   // On Swipe up
   const onSwipeUp = () => {
-    const trayScrollTop = slideableTray.current.swiper.scrollTop; // Get elementById so we can check the scollTop
-    // If tray is open and the scrollTop is not 0 (we're not at the top of the tray scroll), so lock tray
-    return isTrayOpen && trayScrollTop !== 0 ? setLockTray(true) : null;
+    console.log({ position });
+    // const trayScrollTop = slideableTray.current.swiper.scrollTop; // Get elementById so we can check the scollTop
+    // // If tray is open and the scrollTop is not 0 (we're not at the top of the tray scroll), so lock tray
+    // return isTrayOpen && trayScrollTop !== 0 ? setLockTray(true) : null;
+    if (position === 100) setPosition(400);
+    if (position === 400) setPosition(eleHeight);
+    console.log({ positionEND: position });
   };
 
+  const onSwipeEnd = (event) => {
+    console.log({ event });
+    // let trayOpen; // placholder to set to true if tray is open
+    // document.body.style.overflow = null; // Scrolling finished so return body overflow to normal
+
+    // const secondThird = (-eleHeight / 3) * 2; // Get the second third of the container
+
+    // // Greater than/less than if statements are backwards as we are dealing with negative values (minus)
+    // if (lastY < startPosition) {
+    //   // scroll direction is up
+    //   if (lastY > secondThird) {
+    //     // If position is lower than secondThird
+    //     setPosition(secondThird); // Set position to secondThird
+    //   } else {
+    //     setPosition(-eleHeight); // Set position to top
+    //     trayOpen = true; // and set tray open to true
+    //   }
+    // } else {
+    //   // Else scroll direction is down
+    //   // eslint-disable-next-line no-lonely-if
+    //   if (lastY > secondThird) {
+    //     setPosition(100); // Set back to bottom
+    //   } else if (lastY === -eleHeight) {
+    //     // if lastY is the same as the container height then the tray must be open still...
+    //     trayOpen = true; // Set tray open
+    //   } else {
+    //     setPosition(secondThird); // Else set position to secondThird
+    //   }
+    // }
+
+    // // If lastY coords are at top of container, then set tralastY open to true, otherwise false
+    // return trayOpen ? setIsTrayOpen(true) : setIsTrayOpen(false);
+  };
+
+  // useEffect(() => {
+  //   if (eleHeight) setPosition(eleHeight - 100);
+  // }, [eleHeight]);
+
+  console.log({ position });
+
   return (
-    <Draggable
-      axis="y"
-      grid={[1, 1]}
-      bounds={{ left: 0, top: -eleHeight, right: 0, bottom: -100 }}
-      position={{ x: 0, y: position }}
-      onStart={(e, data) => onStart(e, data)}
-      onStop={(e, data) => onStop(e, data)}
-      disabled={lockTray}
-      cancel="input"
-      nodeRef={draggableTray}
+    // <Draggable
+    //   axis="y"
+    //   grid={[1, 1]}
+    //   bounds={{ left: 0, top: -eleHeight, right: 0, bottom: -100 }}
+    //   position={{ x: 0, y: position }}
+    //   onStart={(e, data) => onStart(e, data)}
+    //   onStop={(e, data) => onStop(e, data)}
+    //   disabled={lockTray}
+    //   cancel={`.${s.swipeTrayWrapper} *`}
+    //   nodeRef={draggableTray}
+    // >
+    <div
+      className={`${s.tray} wmnds-grid `}
+      style={{
+        height: `${eleHeight}px`,
+        top: typeof eleHeight !== 'number' ? '100%' : eleHeight - position,
+      }}
+      ref={draggableTray}
     >
-      <div
-        className={`${s.tray} wmnds-grid `}
-        style={{ height: `${eleHeight}px` }}
-        ref={draggableTray}
+      <Swipe
+        className={`${s.swipeTrayWrapper} wmnds-p-md ${isTrayOpen ? s.trayIsOpen : ''}`}
+        onSwipeUp={() => onSwipeUp()}
+        onSwipeDown={() => onSwipeDown()}
+        onSwipeEnd={onSwipeEnd}
+        ref={slideableTray}
+        id="hello"
       >
-        <Swipe
-          className={`${s.swipeTrayWrapper} wmnds-p-md ${isTrayOpen ? s.trayIsOpen : ''}`}
-          onSwipeUp={() => onSwipeUp()}
-          onSwipeDown={() => onSwipeDown()}
-          ref={slideableTray}
-        >
-          <div className={`${s.drawerHandle} wmnds-col-1`}>
-            <p>Swipe tray up</p>
-          </div>
-          <TrayComponents />
-        </Swipe>
-      </div>
-    </Draggable>
+        <div className={`${s.drawerHandle} wmnds-col-1`}>
+          <p>Swipe tray up</p>
+        </div>
+        <TrayComponents />
+      </Swipe>
+    </div>
+    // </Draggable>
   );
 };
 
