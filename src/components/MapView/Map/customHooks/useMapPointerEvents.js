@@ -7,7 +7,7 @@ const useMapPointerEvents = (_mapRef, viewState) => {
 
   useEffect(() => {
     const view = viewState;
-    let mapClick; // placholder var that we bind map clicks to
+    let mapClick; // placeholder var that we bind map clicks to
 
     if (view) {
       // On pointer click
