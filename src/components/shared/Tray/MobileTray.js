@@ -14,9 +14,6 @@ const MobileTray = () => {
   const slideableTray = useRef(); // Ref to track swipe dom element
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const { eleHeight } = useWindowHeightWidth(); // Get window height and width
-  const [isTrayOpen, setIsTrayOpen] = useState(false); // Used to store bool if tray is fully open
-  const [lockTray, setLockTray] = useState(false); // Store bool if we should lock the tray or not
-  const [startPosition, setStartPosition] = useState(); // Used to capture start position of scroll event
   const [position, setPosition] = useState(100); // Set initial position of tray
 
   // Open tray if there is a selectedMapDisruption (map icon has been clicked)
