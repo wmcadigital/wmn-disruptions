@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
-import Draggable from 'react-draggable'; // Uses https://www.npmjs.com/package/react-draggable
 import Swipe from 'react-easy-swipe';
 // Import contexts
 import { AutoCompleteContext } from 'globalState';
@@ -11,115 +10,69 @@ import TrayComponents from './TrayComponents/TrayComponents';
 import s from './Tray.module.scss';
 
 const MobileTray = () => {
+  const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const draggableTray = useRef(); // Ref used to keep track of Draggable dom element
   const slideableTray = useRef(); // Ref to track swipe dom element
-  const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const { eleHeight } = useWindowHeightWidth(); // Get window height and width
-  const [isTrayOpen, setIsTrayOpen] = useState(false); // Used to store bool if tray is fully open
-  const [lockTray, setLockTray] = useState(false); // Store bool if we should lock the tray or not
-  const [startPosition, setStartPosition] = useState(); // Used to capture start position of scroll event
-  const [position, setPosition] = useState(-100); // Set initial position of tray
+  const initialTrayPosition = 100; // Initial position of tray
+  const secondThird = (eleHeight / 3) * 2; // Get the second third of the container height for tray to swipe to
+  const [trayPosition, setTrayPosition] = useState(initialTrayPosition); // Set initial position of tray
 
   // Open tray if there is a selectedMapDisruption (map icon has been clicked)
   useEffect(() => {
     if (autoCompleteState.selectedMapDisruption) {
-      setPosition(-eleHeight); // set tray to open
+      setTrayPosition(-eleHeight); // set tray to open
     }
   }, [autoCompleteState.selectedMapDisruption, eleHeight]);
 
-  /*
-  USED TO CONTROL SCROLLING OF TRAY ON MAP
-  */
+  // SWIPE METHODS USED TO CONTROL SCROLLING OF TRAY
 
-  // OnStart function for start of swiping tray
-  const onStart = (e, data) => {
+  const onSwipeStart = () => {
     document.body.style.overflow = 'hidden'; // Set body overflow to hidden, so we don't snap to body scrollbar
-    setStartPosition(data.y);
   };
 
-  // onStop function for stop of swiping tray
-  const onStop = (e, data) => {
-    let trayOpen; // placholder to set to true if tray is open
+  const onSwipeEnd = () => {
     document.body.style.overflow = null; // Scrolling finished so return body overflow to normal
-    const { lastY } = data; // Get lastY scroll position
-
-    const secondThird = (-eleHeight / 3) * 2; // Get the second third of the container
-
-    // Greater than/less than if statements are backwards as we are dealing with negative values (minus)
-    if (lastY < startPosition) {
-      // scroll direction is up
-      if (lastY > secondThird) {
-        // If position is lower than secondThird
-        setPosition(secondThird); // Set position to secondThird
-      } else {
-        setPosition(-eleHeight); // Set position to top
-        trayOpen = true; // and set tray open to true
-      }
-    } else {
-      // Else scroll direction is down
-      // eslint-disable-next-line no-lonely-if
-      if (lastY > secondThird) {
-        setPosition(-100); // Set back to bottom
-      } else if (lastY === -eleHeight) {
-        // if lastY is the same as the container height then the tray must be open still...
-        trayOpen = true; // Set tray open
-      } else {
-        setPosition(secondThird); // Else set position to secondThird
-      }
-    }
-
-    // If lastY coords are at top of container, then set tralastY open to true, otherwise false
-    return trayOpen ? setIsTrayOpen(true) : setIsTrayOpen(false);
   };
 
-  /*
-  USED TO CONTROL INTERNAL SCROLLING OF TRAY (OVERFLOW SCROLL)
-  */
-
-  // On Swipe down
   const onSwipeDown = () => {
-    const trayScrollTop = slideableTray.current.swiper.scrollTop; // Get elementById so we can check the scollTop
-    // If tray is open and the scrollTop is 0 (we're at the top of the tray scroll), then unlock tray
-    return isTrayOpen && trayScrollTop === 0 ? setLockTray(false) : null;
+    const trayScrollTop = slideableTray.current.swiper.scrollTop; // Get DOM element, so we can check the scollTop
+
+    if (trayPosition === eleHeight && trayScrollTop === 0) setTrayPosition(secondThird); // If tray is open(position===eleHeight) and the scrollTop is 0 (we're at the top of the tray scroll), then swipe down to secondThird position
+    if (trayPosition === secondThird) setTrayPosition(initialTrayPosition); // If tray is currently secondThird then swipe down to default position
   };
 
-  // On Swipe up
   const onSwipeUp = () => {
-    const trayScrollTop = slideableTray.current.swiper.scrollTop; // Get elementById so we can check the scollTop
-    // If tray is open and the scrollTop is not 0 (we're not at the top of the tray scroll), so lock tray
-    return isTrayOpen && trayScrollTop !== 0 ? setLockTray(true) : null;
+    if (trayPosition === initialTrayPosition) setTrayPosition(secondThird); // If tray is initial position then swipe up to secondThird position
+    if (trayPosition === secondThird) setTrayPosition(eleHeight); // If tray is currently secondThird, then swipe up to full position
   };
 
   return (
-    <Draggable
-      axis="y"
-      grid={[1, 1]}
-      bounds={{ left: 0, top: -eleHeight, right: 0, bottom: -100 }}
-      position={{ x: 0, y: position }}
-      onStart={(e, data) => onStart(e, data)}
-      onStop={(e, data) => onStop(e, data)}
-      disabled={lockTray}
-      cancel="input"
-      nodeRef={draggableTray}
+    <div
+      className={`${s.tray} wmnds-grid `}
+      // set height of tray to height of map/container, and set top position of tray based on logic above
+      style={{
+        height: `${eleHeight}px`,
+        top: typeof eleHeight !== 'number' ? '100%' : eleHeight - trayPosition,
+      }}
+      ref={draggableTray}
     >
-      <div
-        className={`${s.tray} wmnds-grid `}
-        style={{ height: `${eleHeight}px` }}
-        ref={draggableTray}
+      <Swipe
+        className={`${s.swipeTrayWrapper} wmnds-p-md ${
+          trayPosition === eleHeight ? s.trayIsOpen : ''
+        }`}
+        onSwipeUp={onSwipeUp}
+        onSwipeDown={onSwipeDown}
+        onSwipeStart={onSwipeStart}
+        onSwipeEnd={onSwipeEnd}
+        ref={slideableTray}
       >
-        <Swipe
-          className={`${s.swipeTrayWrapper} wmnds-p-md ${isTrayOpen ? s.trayIsOpen : ''}`}
-          onSwipeUp={() => onSwipeUp()}
-          onSwipeDown={() => onSwipeDown()}
-          ref={slideableTray}
-        >
-          <div className={`${s.drawerHandle} wmnds-col-1`}>
-            <p>Swipe tray up</p>
-          </div>
-          <TrayComponents />
-        </Swipe>
-      </div>
-    </Draggable>
+        <div className={`${s.drawerHandle} wmnds-col-1`}>
+          <p>Swipe tray up</p>
+        </div>
+        <TrayComponents />
+      </Swipe>
+    </div>
   );
 };
 
