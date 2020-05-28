@@ -63,9 +63,12 @@ const MobileTray = () => {
         className={`${s.swipeTrayWrapper} wmnds-p-md ${
           trayPosition === eleHeight ? s.trayIsOpen : ''
         }`}
+        allowMouseEvents
         onSwipeUp={onSwipeUp}
         onSwipeDown={onSwipeDown}
         onSwipeStart={onSwipeStart}
+        // Return true onSwipeMove to prevent page refreshing when swiping down
+        onSwipeMove={() => true}
         onSwipeEnd={onSwipeEnd}
         ref={slideableTray}
       >
