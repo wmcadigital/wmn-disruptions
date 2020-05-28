@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import Swipe from 'react-easy-swipe';
 // Import contexts
-import { AutoCompleteContext } from 'globalState';
+import { AutoCompleteContext, FetchDisruptionsContext } from 'globalState';
 // Import customHooks
 import useWindowHeightWidth from 'customHooks/useWindowHeightWidth';
 // Import Components
@@ -11,6 +11,8 @@ import s from './Tray.module.scss';
 
 const MobileTray = () => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
+  const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
+
   const draggableTray = useRef(); // Ref used to keep track of Draggable dom element
   const slideableTray = useRef(); // Ref to track swipe dom element
   const { eleHeight } = useWindowHeightWidth(); // Get window height and width
@@ -20,10 +22,10 @@ const MobileTray = () => {
 
   // Open tray if there is a selectedMapDisruption (map icon has been clicked)
   useEffect(() => {
-    if (autoCompleteState.selectedMapDisruption) {
-      setTrayPosition(-eleHeight); // set tray to open
+    if (autoCompleteState.selectedMapDisruption && fetchDisruptionsState.data.length) {
+      setTrayPosition(eleHeight); // set tray to open
     }
-  }, [autoCompleteState.selectedMapDisruption, eleHeight]);
+  }, [autoCompleteState.selectedMapDisruption, eleHeight, fetchDisruptionsState.data.length]);
 
   // SWIPE METHODS USED TO CONTROL SCROLLING OF TRAY
 

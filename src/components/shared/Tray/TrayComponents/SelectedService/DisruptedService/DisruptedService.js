@@ -15,7 +15,11 @@ const DisruptedService = ({ disruption }) => {
   const disruptionRef = useRef(null);
 
   // Scroll the tray to the clicked disruption
-  if (autoCompleteState.selectedMapDisruption && disruptionRef.current) {
+  if (
+    autoCompleteState.selectedMapDisruption &&
+    disruptionRef.current &&
+    document.getElementById('js-disruptions-tray')
+  ) {
     const { offsetTop } = disruptionRef.current;
     document.getElementById('js-disruptions-tray').scrollTop = offsetTop;
   }
