@@ -12,7 +12,7 @@ const useGETDisruptions = () => {
     const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
 
     axios
-      .get(`${REACT_APP_API_HOST}/Disruption/v23`, {
+      .get(`${REACT_APP_API_HOST}/Disruption/v2`, {
         headers: {
           'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
         },
