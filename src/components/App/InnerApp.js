@@ -8,18 +8,26 @@ import MapView from 'components/MapView/MapView';
 import ListView from 'components/ListView/ListView';
 import LoadingView from 'components/LoadingView/LoadingView';
 import useGETDisruptions from 'customHooks/useGETDisruptions';
+import Message from 'components/shared/Message/Message';
 
 const InnerApp = () => {
   const [fetchDisruptionState] = useContext(FetchDisruptionsContext);
   const { isFetching, errorInfo } = useGETDisruptions();
+  let viewToRender;
+
+  if (isFetching) {
+    viewToRender = <LoadingView />;
+  } else if (!errorInfo) {
+    // If map is visible, show map and tray, else show list view
+    viewToRender = fetchDisruptionState.isMapVisible ? <MapView /> : <ListView />;
+  } else {
+    viewToRender = <Message message={errorInfo.message} title={errorInfo.title} type="error" />;
+  }
 
   return (
     <>
       <Header />
-      {isFetching && <LoadingView />}
-      {/* If map is visible, show map and tray, else show list view */}
-      {!isFetching && fetchDisruptionState.isMapVisible && !errorInfo && <MapView />}
-      {!isFetching && !fetchDisruptionState.isMapVisible && !errorInfo && <ListView />}
+      {viewToRender}
     </>
   );
 };
