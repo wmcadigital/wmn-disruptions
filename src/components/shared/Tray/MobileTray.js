@@ -23,9 +23,9 @@ const MobileTray = () => {
   // Open tray if there is a selectedMapDisruption (map icon has been clicked)
   useEffect(() => {
     if (autoCompleteState.selectedMapDisruption && fetchDisruptionsState.data.length) {
-      setTrayPosition(eleHeight); // set tray to open
+      setTrayPosition(secondThird || initialTrayPosition); // set tray to open
     }
-  }, [autoCompleteState.selectedMapDisruption, eleHeight, fetchDisruptionsState.data.length]);
+  }, [autoCompleteState.selectedMapDisruption, fetchDisruptionsState.data.length, secondThird]);
 
   // SWIPE METHODS USED TO CONTROL SCROLLING OF TRAY
 
@@ -49,8 +49,11 @@ const MobileTray = () => {
     if (trayPosition === secondThird) setTrayPosition(eleHeight); // If tray is currently secondThird, then swipe up to full position
   };
 
+  console.log({ eleHeight, trayPosition });
+
   return (
     <div
+      id="js-disruptions-tray"
       className={`${s.tray} wmnds-grid `}
       // set height of tray to height of map/container, and set top position of tray based on logic above
       style={{
@@ -68,7 +71,7 @@ const MobileTray = () => {
         onSwipeDown={onSwipeDown}
         onSwipeStart={onSwipeStart}
         // Return true onSwipeMove to prevent page refreshing when swiping down
-        onSwipeMove={() => true}
+        // onSwipeMove={() => true}
         onSwipeEnd={onSwipeEnd}
         ref={slideableTray}
       >

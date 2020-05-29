@@ -21,7 +21,11 @@ const DisruptedService = ({ disruption }) => {
     document.getElementById('js-disruptions-tray')
   ) {
     const { offsetTop } = disruptionRef.current;
-    document.getElementById('js-disruptions-tray').scrollTop = offsetTop;
+    const tray = document.getElementById('js-disruptions-tray');
+    tray.style.overflow = 'scroll';
+    tray.scrollTop = offsetTop;
+
+    tray.style.overflow = 'hidden';
   }
 
   return (

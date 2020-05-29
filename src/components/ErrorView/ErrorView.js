@@ -2,7 +2,7 @@ import React from 'react';
 
 const ErrorPage = () => {
   return (
-    <div className="wmnds-container">
+    <div className="wmnds-container wmnds-p-t-md wmnds-p-b-md">
       <div className="wmnds-col-1 wmnds-col-md-3-4 wmnds-col-lg-1-2">
         {/* Error message */}
         <h3>Sorry, there is a problem with this service</h3>
