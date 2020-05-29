@@ -1,5 +1,5 @@
 // Import packages
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import axios from 'axios';
 // Import Contexts
 import { FetchDisruptionsContext } from 'globalState';
@@ -11,6 +11,8 @@ import LoadingView from 'components/LoadingView/LoadingView';
 
 const InnerApp = () => {
   const [fetchDisruptionState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
+
+  const [errorInfo, setErrorInfo] = useState(); // Placeholder to set error messaging
 
   useEffect(() => {
     const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
@@ -37,6 +39,10 @@ const InnerApp = () => {
           console.log(error.response.headers);
           /* eslint-enable no-console */
         }
+        setErrorInfo({
+          title: 'Please try again',
+          message: 'Apologies, we are having technical difficulties.',
+        });
       })
       .then(() => {
         setFetchDisruptionsState((prevState) => ({ ...prevState, isFetching: false }));
@@ -48,8 +54,12 @@ const InnerApp = () => {
       <Header />
       {fetchDisruptionState.isFetching && <LoadingView />}
       {/* If map is visible, show map and tray, else show list view */}
-      {!fetchDisruptionState.isFetching && fetchDisruptionState.isMapVisible && <MapView />}
-      {!fetchDisruptionState.isFetching && !fetchDisruptionState.isMapVisible && <ListView />}
+      {!fetchDisruptionState.isFetching && fetchDisruptionState.isMapVisible && !errorInfo && (
+        <MapView />
+      )}
+      {!fetchDisruptionState.isFetching && !fetchDisruptionState.isMapVisible && !errorInfo && (
+        <ListView />
+      )}
     </>
   );
 };
