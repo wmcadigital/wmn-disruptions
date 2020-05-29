@@ -13,22 +13,27 @@ import useGETDisruptions from 'customHooks/useGETDisruptions';
 
 const InnerApp = () => {
   const [fetchDisruptionState] = useContext(FetchDisruptionsContext);
-  const { isFetching, errorInfo } = useGETDisruptions();
+  const { isFetching, hasError } = useGETDisruptions();
 
+  // Logic to determine what view to render
   let viewToRender;
-
+  // If fetching, show loading view
   if (isFetching) {
     viewToRender = <LoadingView />;
-  } else if (!errorInfo) {
+  }
+  // If no error then show relevant app view
+  else if (!hasError) {
     // If map is visible, show map and tray, else show list view
     viewToRender = fetchDisruptionState.isMapVisible ? <MapView /> : <ListView />;
-  } else {
-    viewToRender = <ErrorView message={errorInfo.message} title={errorInfo.title} type="error" />;
+  }
+  // Else something must be wrong, so show error
+  else {
+    viewToRender = <ErrorView />;
   }
 
   return (
     <>
-      <Header />
+      <Header isFetching={isFetching} />
       {viewToRender}
     </>
   );

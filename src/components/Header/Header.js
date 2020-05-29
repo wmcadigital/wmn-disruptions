@@ -1,4 +1,6 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
+// Import contexts
 import { FetchDisruptionsContext } from 'globalState';
 // Import components
 import Button from 'components/shared/Button/Button';
@@ -7,7 +9,7 @@ import { setSearchParam } from 'globalState/helpers/URLSearchParams'; // (used t
 // Import styles
 import s from './Header.module.scss';
 
-const Header = () => {
+const Header = ({ isFetching, hasError }) => {
   const [fetchDisruptionState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
 
   const handleClick = () => {
@@ -43,17 +45,29 @@ const Header = () => {
       <div className="wmnds-grid wmnds-grid--justify-between wmnds-grid--align-middle wmnds-p-b-sm wmnds-p-t-sm">
         <h1 className={`wmnds-col-auto wmnds-m-b-none ${s.h1}`}>Disruptions</h1>
 
-        <div className="wmnds-col-auto">
-          <Button
-            btnClass={`wmnds-btn--secondary wmnds-float--right ${s.listMapBtn}`}
-            onClick={handleClick}
-            iconRight="general-chevron-right"
-            text={fetchDisruptionState.isMapVisible ? 'List View' : 'Map View'}
-          />
-        </div>
+        {/* Map/list view button should only show if no error and API has finished fetching */}
+        {!isFetching && !hasError && (
+          <div className="wmnds-col-auto">
+            <Button
+              btnClass={`wmnds-btn--secondary wmnds-float--right ${s.listMapBtn}`}
+              onClick={handleClick}
+              iconRight="general-chevron-right"
+              text={fetchDisruptionState.isMapVisible ? 'List View' : 'Map View'}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
+};
+
+Header.propTypes = {
+  hasError: PropTypes.bool,
+  isFetching: PropTypes.bool.isRequired,
+};
+
+Header.defaultProps = {
+  hasError: false,
 };
 
 export default Header;

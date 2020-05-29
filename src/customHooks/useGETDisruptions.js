@@ -6,7 +6,7 @@ import { FetchDisruptionsContext } from 'globalState';
 const useGETDisruptions = () => {
   const [, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
   const [isFetching, setIsFetching] = useState(true);
-  const [errorInfo, setErrorInfo] = useState(); // Placeholder to set error messaging
+  const [hasError, setHasError] = useState(false); // Placeholder to set error messaging
 
   useEffect(() => {
     const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
@@ -26,18 +26,14 @@ const useGETDisruptions = () => {
       .catch((error) => {
         // eslint-disable-next-line no-console
         console.error({ error });
-        // Set error messaging
-        setErrorInfo({
-          title: 'Please try again',
-          message: 'Apologies, we are having technical difficulties.',
-        });
+        setHasError(true);
       })
       .then(() => {
         setIsFetching(false);
       });
   }, [setFetchDisruptionsState]);
 
-  return { isFetching, errorInfo };
+  return { isFetching, hasError };
 };
 
 export default useGETDisruptions;
