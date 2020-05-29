@@ -7,6 +7,7 @@ import { FetchDisruptionsContext } from 'globalState';
 import Header from 'components/Header/Header';
 import MapView from 'components/MapView/MapView';
 import ListView from 'components/ListView/ListView';
+import LoadingView from 'components/LoadingView/LoadingView';
 
 const InnerApp = () => {
   const [fetchDisruptionState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
@@ -45,9 +46,10 @@ const InnerApp = () => {
   return (
     <>
       <Header />
-
+      {fetchDisruptionState.isFetching && <LoadingView />}
       {/* If map is visible, show map and tray, else show list view */}
-      {fetchDisruptionState.isMapVisible ? <MapView /> : <ListView />}
+      {!fetchDisruptionState.isFetching && fetchDisruptionState.isMapVisible && <MapView />}
+      {!fetchDisruptionState.isFetching && !fetchDisruptionState.isMapVisible && <ListView />}
     </>
   );
 };
