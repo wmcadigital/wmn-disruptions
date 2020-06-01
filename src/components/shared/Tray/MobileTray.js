@@ -20,6 +20,7 @@ const MobileTray = () => {
   const secondThird = (eleHeight / 3) * 2; // Get the second third of the container height for tray to swipe to
   const [trayPosition, setTrayPosition] = useState(initialTrayPosition); // Set initial position of tray
 
+  console.log('started');
   // Open tray if there is a selectedMapDisruption (map icon has been clicked)
   useEffect(() => {
     if (autoCompleteState.selectedMapDisruption && fetchDisruptionsState.data.length) {
@@ -28,9 +29,14 @@ const MobileTray = () => {
   }, [autoCompleteState.selectedMapDisruption, fetchDisruptionsState.data.length, secondThird]);
 
   // SWIPE METHODS USED TO CONTROL SCROLLING OF TRAY
-
   const onSwipeStart = () => {
     document.body.style.overflow = 'hidden'; // Set body overflow to hidden, so we don't snap to body scrollbar
+  };
+
+  const onSwipeMove = () => {
+    // Return true onSwipeMove to prevent page refreshing when swiping down on mobile browsers
+    // But only return true when the tray position is not at the top (othherwise it won't let us overscroll the overlay content when fully opened)
+    return trayPosition !== eleHeight;
   };
 
   const onSwipeEnd = () => {
@@ -48,8 +54,6 @@ const MobileTray = () => {
     if (trayPosition === initialTrayPosition) setTrayPosition(secondThird); // If tray is initial position then swipe up to secondThird position
     if (trayPosition === secondThird) setTrayPosition(eleHeight); // If tray is currently secondThird, then swipe up to full position
   };
-
-  console.log({ eleHeight, trayPosition });
 
   return (
     <div
@@ -70,8 +74,7 @@ const MobileTray = () => {
         onSwipeUp={onSwipeUp}
         onSwipeDown={onSwipeDown}
         onSwipeStart={onSwipeStart}
-        // Return true onSwipeMove to prevent page refreshing when swiping down
-        // onSwipeMove={() => true}
+        onSwipeMove={onSwipeMove}
         onSwipeEnd={onSwipeEnd}
         ref={slideableTray}
       >
