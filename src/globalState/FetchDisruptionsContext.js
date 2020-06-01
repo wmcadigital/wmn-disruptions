@@ -10,7 +10,6 @@ export const FetchDisruptionsProvider = (props) => {
   const [fetchDisruptionsState, setFetchDisruptionsState] = useState({
     isMapVisible: getSearchParam('isMapVisible') !== 'false', // store map visible. If the URL doesn't contain param 'isMapVisible' then it must be true (bool) else it's false (bool). Written like this as the url is a string and we need a bool here. This is set in Header component.
     data: [], // used to store data
-    isFetching: false, // used to control loading spinners
   });
 
   // Pass state and dispatch in context and make accessible to children it wraps

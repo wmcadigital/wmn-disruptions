@@ -1,53 +1,40 @@
 // Import packages
-import React, { useEffect, useContext } from 'react';
-import axios from 'axios';
-// Import Contexts
+import React, { useContext } from 'react';
+// Import contexts
 import { FetchDisruptionsContext } from 'globalState';
 // Import components
 import Header from 'components/Header/Header';
+import LoadingView from 'components/LoadingView/LoadingView';
+import ErrorView from 'components/ErrorView/ErrorView';
 import MapView from 'components/MapView/MapView';
 import ListView from 'components/ListView/ListView';
+// Import custom hooks
+import useGETDisruptions from 'customHooks/useGETDisruptions';
 
 const InnerApp = () => {
-  const [fetchDisruptionState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
+  const [fetchDisruptionState] = useContext(FetchDisruptionsContext);
+  const { isFetching, hasError } = useGETDisruptions();
 
-  useEffect(() => {
-    const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
-    setFetchDisruptionsState((prevState) => ({ ...prevState, isFetching: true }));
-
-    axios
-      .get(`${REACT_APP_API_HOST}/Disruption/v2`, {
-        headers: {
-          'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
-        },
-      })
-      .then((response) => {
-        setFetchDisruptionsState((prevState) => ({
-          ...prevState,
-          data: response.data.disruptions,
-        }));
-      })
-      .catch((error) => {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          /* eslint-disable no-console */
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-          /* eslint-enable no-console */
-        }
-      })
-      .then(() => {
-        setFetchDisruptionsState((prevState) => ({ ...prevState, isFetching: false }));
-      });
-  }, [setFetchDisruptionsState]);
+  // Logic to determine what view to render
+  let viewToRender;
+  // If fetching, show loading view
+  if (isFetching) {
+    viewToRender = <LoadingView />;
+  }
+  // If no error then show relevant app view
+  else if (!hasError) {
+    // If map is visible, show map and tray, else show list view
+    viewToRender = fetchDisruptionState.isMapVisible ? <MapView /> : <ListView />;
+  }
+  // Else something must be wrong, so show error
+  else {
+    viewToRender = <ErrorView />;
+  }
 
   return (
     <>
-      <Header />
-
-      {/* If map is visible, show map and tray, else show list view */}
-      {fetchDisruptionState.isMapVisible ? <MapView /> : <ListView />}
+      <Header isFetching={isFetching} />
+      {viewToRender}
     </>
   );
 };

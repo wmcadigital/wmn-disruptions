@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { useEffect, useContext, useRef } from 'react';
 import PropTypes from 'prop-types';
 // Import contexts
 import { AutoCompleteContext } from 'globalState';
@@ -13,16 +13,19 @@ const DisruptedService = ({ disruption }) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
 
   const disruptionRef = useRef(null);
-
-  // Scroll the tray to the clicked disruption
-  if (
-    autoCompleteState.selectedMapDisruption &&
-    disruptionRef.current &&
-    document.getElementById('js-disruptions-tray')
-  ) {
-    const { offsetTop } = disruptionRef.current;
-    document.getElementById('js-disruptions-tray').scrollTop = offsetTop;
-  }
+  useEffect(() => {
+    // Wrapped in useEffect as it is reliant on functionality from the useEffect in MobileTray.js
+    if (
+      autoCompleteState.selectedMapDisruption &&
+      disruptionRef.current &&
+      document.getElementById('js-disruptions-tray')
+    ) {
+      // Scroll the tray to the clicked disruption
+      const { offsetTop } = disruptionRef.current;
+      const tray = document.getElementById('js-disruptions-tray'); // Get ID of tray from MobileTray.js or Tray.js
+      tray.scrollTop = offsetTop + 1; // Scroll to the disruption ref'd below plus 1 pixel (hides the 1px border above disruption)
+    }
+  }, [autoCompleteState.selectedMapDisruption]);
 
   return (
     <div className={`wmnds-grid wmnds-p-t-lg wmnds-m-t-lg ${s.disruption}`} ref={disruptionRef}>
