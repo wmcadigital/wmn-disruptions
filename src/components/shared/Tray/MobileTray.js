@@ -20,11 +20,13 @@ const MobileTray = () => {
   const secondThird = (eleHeight / 3) * 2; // Get the second third of the container height for tray to swipe to
   const [trayPosition, setTrayPosition] = useState(initialTrayPosition); // Set initial position of tray
 
-  console.log('started');
   // Open tray if there is a selectedMapDisruption (map icon has been clicked)
   useEffect(() => {
     if (autoCompleteState.selectedMapDisruption && fetchDisruptionsState.data.length) {
       setTrayPosition(secondThird || initialTrayPosition); // set tray to open
+      const disruptionId = document.getElementById(autoCompleteState.selectedMapDisruption);
+      slideableTray.current.swiper.style.overflow = 'scroll';
+      slideableTray.current.swiper.scrollTop = disruptionId.offsetTop + 50;
     }
   }, [autoCompleteState.selectedMapDisruption, fetchDisruptionsState.data.length, secondThird]);
 

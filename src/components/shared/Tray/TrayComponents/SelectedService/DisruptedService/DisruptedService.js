@@ -15,18 +15,24 @@ const DisruptedService = ({ disruption }) => {
   const disruptionRef = useRef(null);
 
   // Scroll the tray to the clicked disruption
-  if (
-    autoCompleteState.selectedMapDisruption &&
-    disruptionRef.current &&
-    document.getElementById('js-disruptions-tray')
-  ) {
-    const { offsetTop } = disruptionRef.current;
-    const tray = document.getElementById('js-disruptions-tray');
-    tray.scrollTop = offsetTop;
-  }
+  // if (
+  //   autoCompleteState.selectedMapDisruption &&
+  //   disruptionRef.current &&
+  //   document.getElementById('js-disruptions-tray')
+  // ) {
+  //   const { offsetTop } = disruptionRef.current;
+  //   const tray = document.getElementById('js-disruptions-tray');
+  //   tray.style.overflow = 'scroll';
+  //   console.log({ offsetTop });
+
+  //   tray.scrollTop = offsetTop;
+
+  //   // console.log({ abc: offsetTop + 50 });
+  //   // tray.style.overflow = 'auto';
+  // }
 
   return (
-    <div className={`wmnds-grid wmnds-p-t-lg wmnds-m-t-lg ${s.disruption}`} ref={disruptionRef}>
+    <div className={`wmnds-grid wmnds-p-t-lg wmnds-m-t-lg ${s.disruption}`} id={disruption.id}>
       {/* Title of disruptions */}
       <div className="wmnds-col-1 wmnds-m-b-lg">
         <div className="wmnds-grid wmnds-grid--align-center">
@@ -36,7 +42,7 @@ const DisruptedService = ({ disruption }) => {
             className="wmnds-col-auto wmnds-m-r-md"
           />
 
-          <div className="wmnds-col-3-4">
+          <div className="wmnds-col-3-4" ref={disruptionRef}>
             {disruption.title} at <strong>{disruption.subtitle}</strong>
           </div>
         </div>
