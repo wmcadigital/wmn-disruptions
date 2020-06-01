@@ -17,18 +17,23 @@ const MobileTray = () => {
   const slideableTray = useRef(); // Ref to track swipe dom element
   const { eleHeight } = useWindowHeightWidth(); // Get window height and width
   const initialTrayPosition = 100; // Initial position of tray
-  const secondThird = (eleHeight / 3) * 2; // Get the second third of the container height for tray to swipe to
+  const half = eleHeight / 2; // Get the second third of the container height for tray to swipe to
   const [trayPosition, setTrayPosition] = useState(initialTrayPosition); // Set initial position of tray
 
-  // Open tray if there is a selectedMapDisruption (map icon has been clicked)
+  // Open tray if there is a selectedMapDisruption (map icon has been clicked) or a selected service
   useEffect(() => {
-    if (autoCompleteState.selectedMapDisruption && fetchDisruptionsState.data.length) {
-      setTrayPosition(secondThird || initialTrayPosition); // set tray to open
-      const disruptionId = document.getElementById(autoCompleteState.selectedMapDisruption);
-      slideableTray.current.swiper.style.overflow = 'scroll';
-      slideableTray.current.swiper.scrollTop = disruptionId.offsetTop + 50;
+    if (
+      (autoCompleteState.selectedMapDisruption || autoCompleteState.selectedService) &&
+      fetchDisruptionsState.data.length
+    ) {
+      setTrayPosition(half || initialTrayPosition); // set tray to open
     }
-  }, [autoCompleteState.selectedMapDisruption, fetchDisruptionsState.data.length, secondThird]);
+  }, [
+    autoCompleteState.selectedMapDisruption,
+    autoCompleteState.selectedService,
+    fetchDisruptionsState.data.length,
+    half,
+  ]);
 
   // SWIPE METHODS USED TO CONTROL SCROLLING OF TRAY
   const onSwipeStart = () => {
@@ -48,18 +53,17 @@ const MobileTray = () => {
   const onSwipeDown = () => {
     const trayScrollTop = slideableTray.current.swiper.scrollTop; // Get DOM element, so we can check the scollTop
 
-    if (trayPosition === eleHeight && trayScrollTop === 0) setTrayPosition(secondThird); // If tray is open(position===eleHeight) and the scrollTop is 0 (we're at the top of the tray scroll), then swipe down to secondThird position
-    if (trayPosition === secondThird) setTrayPosition(initialTrayPosition); // If tray is currently secondThird then swipe down to default position
+    if (trayPosition === eleHeight && trayScrollTop === 0) setTrayPosition(half); // If tray is open(position===eleHeight) and the scrollTop is 0 (we're at the top of the tray scroll), then swipe down to half position
+    if (trayPosition === half) setTrayPosition(initialTrayPosition); // If tray is currently half then swipe down to default position
   };
 
   const onSwipeUp = () => {
-    if (trayPosition === initialTrayPosition) setTrayPosition(secondThird); // If tray is initial position then swipe up to secondThird position
-    if (trayPosition === secondThird) setTrayPosition(eleHeight); // If tray is currently secondThird, then swipe up to full position
+    if (trayPosition === initialTrayPosition) setTrayPosition(half); // If tray is initial position then swipe up to half position
+    if (trayPosition === half) setTrayPosition(eleHeight); // If tray is currently half, then swipe up to full position
   };
 
   return (
     <div
-      id="js-disruptions-tray"
       className={`${s.tray} wmnds-grid `}
       // set height of tray to height of map/container, and set top position of tray based on logic above
       style={{
@@ -69,6 +73,7 @@ const MobileTray = () => {
       ref={draggableTray}
     >
       <Swipe
+        id="js-disruptions-tray"
         className={`${s.swipeTrayWrapper} wmnds-p-md ${
           trayPosition === eleHeight ? s.trayIsOpen : ''
         }`}

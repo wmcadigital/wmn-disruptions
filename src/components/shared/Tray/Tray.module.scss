@@ -36,10 +36,10 @@
   display: block;
   height: 100%;
   width: 100%;
+  overflow: auto;
 }
 // When the tray is open, add an overflow so user can scroll within open tray
 .trayIsOpen {
-  overflow: auto;
 }
 
 // The drawer handle/line at top of tray
