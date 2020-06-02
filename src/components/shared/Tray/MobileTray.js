@@ -20,6 +20,8 @@ const MobileTray = () => {
   const half = eleHeight / 2; // Get the second third of the container height for tray to swipe to
   const [trayPosition, setTrayPosition] = useState(initialTrayPosition); // Set initial position of tray
 
+  const [isSwipingDown, setIsSwipingDown] = useState(null);
+
   // Open tray if there is a selectedMapDisruption (map icon has been clicked) or a selected service
   useEffect(() => {
     if (
@@ -41,16 +43,18 @@ const MobileTray = () => {
   };
 
   const onSwipeMove = () => {
-    // Return true onSwipeMove to prevent page refreshing when swiping down on mobile browsers
+    // Return true onSwipeMove (prevents scroll during swipe). This helps prevent page refreshing when swiping down on mobile browsers
     // But only return true when the tray position is not at the top (othherwise it won't let us overscroll the overlay content when fully opened)
-    return trayPosition !== eleHeight;
+    return isSwipingDown;
   };
 
   const onSwipeEnd = () => {
     document.body.style.overflow = null; // Scrolling finished so return body overflow to normal
+    setIsSwipingDown(null);
   };
 
   const onSwipeDown = () => {
+    setIsSwipingDown(true);
     const trayScrollTop = slideableTray.current.swiper.scrollTop; // Get DOM element, so we can check the scollTop
 
     if (trayPosition === eleHeight && trayScrollTop === 0) setTrayPosition(half); // If tray is open(position===eleHeight) and the scrollTop is 0 (we're at the top of the tray scroll), then swipe down to half position
