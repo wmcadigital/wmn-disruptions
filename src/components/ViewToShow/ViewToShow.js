@@ -9,9 +9,9 @@ import ErrorView from 'components/ErrorView/ErrorView';
 import MapView from 'components/MapView/MapView';
 import ListView from 'components/ListView/ListView';
 // Import custom hooks
-import useGETDisruptions from 'customHooks/useGETDisruptions';
+import useGETDisruptions from './useGETDisruptions';
 
-const InnerApp = () => {
+const ViewToShow = () => {
   const [fetchDisruptionState] = useContext(FetchDisruptionsContext);
   const { isFetching, hasError } = useGETDisruptions();
 
@@ -39,4 +39,4 @@ const InnerApp = () => {
   );
 };
 
-export default InnerApp;
+export default ViewToShow;

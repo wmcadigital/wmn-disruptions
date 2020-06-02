@@ -2,13 +2,13 @@
 import React from 'react';
 // Import components
 import ContextProvider from 'globalState/ContextProvider';
-import InnerApp from './InnerApp';
+import ViewToShow from '../ViewToShow/ViewToShow';
 
 const App = () => {
   return (
     <React.StrictMode>
       <ContextProvider>
-        <InnerApp />
+        <ViewToShow />
       </ContextProvider>
     </React.StrictMode>
   );
