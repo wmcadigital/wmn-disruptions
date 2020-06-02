@@ -14,6 +14,7 @@ const Tray = () => {
   const mobileTray = <MobileTray />;
 
   // Output for how the desktop tray looks
+
   const DesktopTray = (
     <div className={`${s.tray} wmnds-grid wmnds-p-md`} id="js-disruptions-tray">
       <TrayComponents />
