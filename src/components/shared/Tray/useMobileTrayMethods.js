@@ -15,19 +15,12 @@ const useMobileTrayMethods = (slideableTray) => {
   const [isSwipingDown, setIsSwipingDown] = useState(null); // Used to track swiping down
 
   useEffect(() => {
+    const { selectedMapDisruption, selectedService } = autoCompleteState;
     // Open tray if there is a selectedMapDisruption (map icon has been clicked) or a selected service
-    if (
-      (autoCompleteState.selectedMapDisruption || autoCompleteState.selectedService) &&
-      fetchDisruptionsState.data.length
-    ) {
+    if ((selectedMapDisruption || selectedService) && fetchDisruptionsState.data.length) {
       setTrayPosition(half || initialTrayPosition); // set tray to open
     }
-  }, [
-    autoCompleteState.selectedMapDisruption,
-    autoCompleteState.selectedService,
-    fetchDisruptionsState.data.length,
-    half,
-  ]);
+  }, [fetchDisruptionsState.data.length, half, autoCompleteState]);
 
   // SWIPE METHODS USED TO CONTROL SCROLLING OF TRAY
   const onSwipeStart = () => {
