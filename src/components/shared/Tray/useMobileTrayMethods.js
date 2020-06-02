@@ -29,7 +29,7 @@ const useMobileTrayMethods = (slideableTray) => {
 
   const onSwipeMove = () => {
     // Return true onSwipeMove (prevents scroll during swipe). This helps prevent page refreshing when swiping down on mobile browsers
-    // But only return true when the tray position is not at the top (othherwise it won't let us overscroll the overlay content when fully opened)
+    // But only return true when the tray position is not at the top (otherwise it won't let us overscroll the overlay content when fully opened)
     return isSwipingDown;
   };
 
