@@ -22,6 +22,14 @@ const useMobileTrayMethods = (slideableTray) => {
     }
   }, [fetchDisruptionsState.data.length, half, autoCompleteState]);
 
+  useEffect(() => {
+    document.getElementById('disruptions-map').style.height = `${eleHeight - trayPosition}px`;
+
+    return () => {
+      document.getElementById('disruptions-map').style.height = '100%';
+    };
+  }, [eleHeight, trayPosition]);
+
   // SWIPE METHODS USED TO CONTROL SCROLLING OF TRAY
   const onSwipeStart = () => {
     document.body.style.overflow = 'hidden'; // Set body overflow to hidden, so we don't snap to body scrollbar

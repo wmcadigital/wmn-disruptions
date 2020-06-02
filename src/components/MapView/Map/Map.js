@@ -1,7 +1,5 @@
 // Using https://developers.arcgis.com/labs/browse/?product=javascript&topic=any and ESRI JS API
 import React, { useRef } from 'react';
-// Import customHooks
-import useWindowHeightWidth from 'customHooks/useWindowHeightWidth';
 // Import custom hooks for map functionality
 import useCreateMap from './customHooks/useCreateMap';
 import useMapIconLayer from './customHooks/useMapIconLayer';
@@ -11,7 +9,6 @@ import './Map.scss';
 import useMapPointerEvents from './customHooks/useMapPointerEvents';
 
 const WebMapView = () => {
-  const { eleHeight } = useWindowHeightWidth(); // Get window height and width
   const mapRef = useRef(); // This ref is used to reference the dom node the map mounts on
 
   // Custom hook to define the core mapping settings/placeholders on page/component load
@@ -29,7 +26,6 @@ const WebMapView = () => {
       className="webmap disruptions-esri-map"
       ref={mapRef}
       title="Disruptions map"
-      style={{ height: `${eleHeight}px` }}
     />
   );
 };

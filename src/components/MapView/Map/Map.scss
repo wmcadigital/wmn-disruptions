@@ -10,6 +10,7 @@ $offset-top: $size-lg;
   top: $offset-top;
   left: 0;
   z-index: -1;
+  transition: height 0.35s ease;
 
   @media all and(min-width: 410px) {
     height: calc(100vh - 138px);
