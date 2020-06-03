@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useCallback } from 'react';
 // Import contexts
 import { AutoCompleteContext, FetchDisruptionsContext } from 'globalState';
 // Import customHooks
@@ -12,7 +12,7 @@ const useMobileTrayMethods = (slideableTray) => {
   const initialTrayPosition = 100; // Initial position of tray
   const half = appHeight / 2; // Get half of the container height for tray to swipe to
   const [trayPosition, setTrayPosition] = useState(initialTrayPosition); // Set initial position of tray
-  const [isSwipingDown, setIsSwipingDown] = useState(null); // Used to track swiping down
+  const [isSwipingDown, setIsSwipingDown] = useState(); // Used to track swiping down
 
   useEffect(() => {
     const { selectedMapDisruption, selectedService } = autoCompleteState;
@@ -22,6 +22,7 @@ const useMobileTrayMethods = (slideableTray) => {
     }
   }, [fetchDisruptionsState.data.length, half, autoCompleteState]);
 
+  // Changes map height based on the tray height
   useEffect(() => {
     document.getElementById('disruptions-map').style.height = `${appHeight - trayPosition}px`;
 
@@ -35,20 +36,20 @@ const useMobileTrayMethods = (slideableTray) => {
     document.body.style.overflow = 'hidden'; // Set body overflow to hidden, so we don't snap to body scrollbar
   };
 
-  const onSwipeMove = () => {
+  const onSwipeMove = useCallback(() => {
     // Return true onSwipeMove (prevents scroll during swipe). This helps prevent page refreshing when swiping down on mobile browsers
     // But only return true when the tray position is not at the top (otherwise it won't let us overscroll the overlay content when fully opened)
-    return isSwipingDown;
-  };
+    console.log({ isSwipingDown });
+
+    // return isSwipingDown;
+  }, [isSwipingDown]);
 
   const onSwipeEnd = () => {
     document.body.style.overflow = null; // Scrolling finished so return body overflow to normal
-    // setIsSwipingDown(null);
+    // isSwipingDown = null;
   };
 
   const onSwipeDown = () => {
-    setIsSwipingDown(true); // this is set to assist onSwipeMove
-
     const trayScrollTop = slideableTray.current.swiper.scrollTop; // Get DOM element, so we can check the scollTop
 
     if (trayPosition === appHeight && trayScrollTop === 0) setTrayPosition(half); // If tray is open(position===appHeight) and the scrollTop is 0 (we're at the top of the tray scroll), then swipe down to half position
