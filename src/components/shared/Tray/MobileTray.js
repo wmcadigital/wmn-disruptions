@@ -12,7 +12,6 @@ const MobileTray = () => {
   const slideableTray = useRef(); // Ref to track swipe dom element
   const {
     onSwipeStart,
-    onSwipeMove,
     onSwipeEnd,
     onSwipeDown,
     onSwipeUp,
@@ -38,7 +37,6 @@ const MobileTray = () => {
         onSwipeUp={onSwipeUp}
         onSwipeDown={onSwipeDown}
         onSwipeStart={onSwipeStart}
-        onSwipeMove={onSwipeMove}
         onSwipeEnd={onSwipeEnd}
         ref={slideableTray}
       >

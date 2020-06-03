@@ -36,14 +36,6 @@ const useMobileTrayMethods = (slideableTray) => {
     document.body.style.overflow = 'hidden'; // Set body overflow to hidden, so we don't snap to body scrollbar
   };
 
-  const onSwipeMove = useCallback(() => {
-    // Return true onSwipeMove (prevents scroll during swipe). This helps prevent page refreshing when swiping down on mobile browsers
-    // But only return true when the tray position is not at the top (otherwise it won't let us overscroll the overlay content when fully opened)
-    console.log({ isSwipingDown });
-
-    // return isSwipingDown;
-  }, [isSwipingDown]);
-
   const onSwipeEnd = () => {
     document.body.style.overflow = null; // Scrolling finished so return body overflow to normal
     // isSwipingDown = null;
@@ -64,7 +56,7 @@ const useMobileTrayMethods = (slideableTray) => {
   };
 
   // Return methods to be used
-  return { onSwipeStart, onSwipeMove, onSwipeEnd, onSwipeDown, onSwipeUp, trayPosition, appHeight };
+  return { onSwipeStart, onSwipeEnd, onSwipeDown, onSwipeUp, trayPosition, appHeight };
 };
 
 export default useMobileTrayMethods;
