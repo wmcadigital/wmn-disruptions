@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 const useWindowHeightWidth = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth); // Store windows innerWidth so we can check on it for the render/return of this component
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
-  const [eleHeight, setEleHeight] = useState();
+  const [appHeight, setAppHeight] = useState();
 
   // Check window width on resize, used to determine if we should show the mobile or desktop panel in the return/render at the bottom
   useEffect(() => {
@@ -27,14 +27,15 @@ const useWindowHeightWidth = () => {
   }, [windowWidth, windowHeight, setWindowWidth, setWindowHeight]);
 
   useEffect(() => {
+    // Set app height to window height minus the header height
     if (windowWidth > 410) {
-      setEleHeight(windowHeight - 138);
+      setAppHeight(windowHeight - 138);
     } else {
-      setEleHeight(windowHeight - 122);
+      setAppHeight(windowHeight - 122);
     }
   }, [windowHeight, windowWidth]);
 
-  return { windowWidth, windowHeight, eleHeight };
+  return { windowWidth, windowHeight, appHeight };
 };
 
 export default useWindowHeightWidth;

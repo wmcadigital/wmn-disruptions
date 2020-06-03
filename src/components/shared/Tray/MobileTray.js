@@ -17,7 +17,7 @@ const MobileTray = () => {
     onSwipeDown,
     onSwipeUp,
     trayPosition,
-    eleHeight,
+    appHeight,
   } = useMobileTrayMethods(slideableTray); // Pull in methods etc. to use for mobile swiper
 
   return (
@@ -25,14 +25,14 @@ const MobileTray = () => {
       className={`${s.tray} wmnds-grid `}
       //  set top position of tray based on logic in useMobileTrayMethods
       style={{
-        top: typeof eleHeight !== 'number' ? '100%' : eleHeight - trayPosition,
+        top: typeof appHeight !== 'number' ? '100%' : appHeight - trayPosition,
       }}
       ref={draggableTray}
     >
       <Swipe
         id="js-disruptions-tray"
         className={`${s.swipeTrayWrapper} wmnds-p-md ${
-          trayPosition === eleHeight ? s.trayIsOpen : ''
+          trayPosition === appHeight ? s.trayIsOpen : ''
         }`}
         allowMouseEvents
         onSwipeUp={onSwipeUp}

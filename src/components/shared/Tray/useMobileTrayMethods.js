@@ -8,9 +8,9 @@ const useMobileTrayMethods = (slideableTray) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
 
-  const { eleHeight } = useWindowHeightWidth(); // Get window height and width
+  const { appHeight } = useWindowHeightWidth(); // Get window height and width
   const initialTrayPosition = 100; // Initial position of tray
-  const half = eleHeight / 2; // Get half of the container height for tray to swipe to
+  const half = appHeight / 2; // Get half of the container height for tray to swipe to
   const [trayPosition, setTrayPosition] = useState(initialTrayPosition); // Set initial position of tray
   const [isSwipingDown, setIsSwipingDown] = useState(null); // Used to track swiping down
 
@@ -23,12 +23,12 @@ const useMobileTrayMethods = (slideableTray) => {
   }, [fetchDisruptionsState.data.length, half, autoCompleteState]);
 
   useEffect(() => {
-    document.getElementById('disruptions-map').style.height = `${eleHeight - trayPosition}px`;
+    document.getElementById('disruptions-map').style.height = `${appHeight - trayPosition}px`;
 
     return () => {
       document.getElementById('disruptions-map').style.height = '100%';
     };
-  }, [eleHeight, trayPosition]);
+  }, [appHeight, trayPosition]);
 
   // SWIPE METHODS USED TO CONTROL SCROLLING OF TRAY
   const onSwipeStart = () => {
@@ -51,7 +51,7 @@ const useMobileTrayMethods = (slideableTray) => {
 
     const trayScrollTop = slideableTray.current.swiper.scrollTop; // Get DOM element, so we can check the scollTop
 
-    if (trayPosition === eleHeight && trayScrollTop === 0) setTrayPosition(half); // If tray is open(position===eleHeight) and the scrollTop is 0 (we're at the top of the tray scroll), then swipe down to half position
+    if (trayPosition === appHeight && trayScrollTop === 0) setTrayPosition(half); // If tray is open(position===appHeight) and the scrollTop is 0 (we're at the top of the tray scroll), then swipe down to half position
     if (trayPosition === half) setTrayPosition(initialTrayPosition); // If tray is currently half then swipe down to default position
   };
 
@@ -59,11 +59,11 @@ const useMobileTrayMethods = (slideableTray) => {
     setIsSwipingDown(false); // this is set to assist onSwipeMove
 
     if (trayPosition === initialTrayPosition) setTrayPosition(half); // If tray is initial position then swipe up to half position
-    if (trayPosition === half) setTrayPosition(eleHeight); // If tray is currently half, then swipe up to full position
+    if (trayPosition === half) setTrayPosition(appHeight); // If tray is currently half, then swipe up to full position
   };
 
   // Return methods to be used
-  return { onSwipeStart, onSwipeMove, onSwipeEnd, onSwipeDown, onSwipeUp, trayPosition, eleHeight };
+  return { onSwipeStart, onSwipeMove, onSwipeEnd, onSwipeDown, onSwipeUp, trayPosition, appHeight };
 };
 
 export default useMobileTrayMethods;
