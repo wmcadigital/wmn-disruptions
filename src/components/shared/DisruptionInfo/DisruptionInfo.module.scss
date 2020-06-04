@@ -1,0 +1,22 @@
+// Vars
+@import '../../../assets/styles/vars';
+
+body {
+  .mapBtn,
+  .listBtn {
+    padding: 0;
+    margin-bottom: $size-md;
+  }
+
+  // List buttons are split to 50% width on desktop, so add padding left/right
+  .listBtn {
+    @media only screen and (min-width: $breakpoint-sm) {
+      padding-left: $size-xs;
+
+      &:first-of-type {
+        padding-right: $size-xs;
+        padding-left: 0;
+      }
+    }
+  }
+}

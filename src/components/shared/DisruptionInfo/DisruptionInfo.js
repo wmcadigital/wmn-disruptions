@@ -9,12 +9,15 @@ import Button from 'components/shared/Button/Button';
 import Icon from 'components/shared/Icon/Icon';
 // Import Helper functions
 import { setSearchParam } from 'globalState/helpers/URLSearchParams'; // (used to sync state with URL)
+// Import styles
+import s from './DisruptionInfo.module.scss';
 
 const { sanitize } = dompurify;
 
 const DisruptionInfo = ({ disruption, listView }) => {
   const [, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the dispatch of autocomplete
   const [fetchDisruptionsState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state and dispatch of disruptions (contains isMapVisible)
+  const { isMapVisible } = fetchDisruptionsState;
 
   const handleViewOnMapBtn = () => {
     autoCompleteDispatch({
@@ -67,11 +70,7 @@ const DisruptionInfo = ({ disruption, listView }) => {
       />
 
       {/* Replan button */}
-      <span
-        className={`wmnds-col-1 ${
-          fetchDisruptionsState.isMapVisible ? '' : 'wmnds-col-sm-1-2'
-        } wmnds-p-r-xs wmnds-m-b-md`}
-      >
+      <span className={`wmnds-col-1 ${isMapVisible ? s.mapBtn : `${s.listBtn} wmnds-col-sm-1-2`}`}>
         <a
           className="wmnds-btn wmnds-btn--start wmnds-col-1"
           href="https://journeyplanner.networkwestmidlands.com/"
@@ -87,16 +86,12 @@ const DisruptionInfo = ({ disruption, listView }) => {
       </span>
 
       {/* Share button */}
-      <span
-        className={`wmnds-col-1 ${
-          fetchDisruptionsState.isMapVisible ? '' : 'wmnds-col-sm-1-2'
-        } wmnds-p-l-xs wmnds-m-b-md`}
-      >
+      <span className={`wmnds-col-1 ${isMapVisible ? s.mapBtn : `${s.listBtn} wmnds-col-sm-1-2`}`}>
         <Button btnClass="wmnds-col-1" text="Share disruption" iconRight="general-share" />
       </span>
 
       {/* View on map button */}
-      {!fetchDisruptionsState.isMapVisible && (
+      {!isMapVisible && (
         <Button
           btnClass="wmnds-btn--secondary wmnds-col-1"
           text="View on map"
