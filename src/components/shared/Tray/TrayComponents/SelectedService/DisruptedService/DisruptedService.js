@@ -16,7 +16,7 @@ const DisruptedService = ({ disruption }) => {
 
   useEffect(() => {
     // Wrapped in useEffect as it is reliant on functionality from the useEffect in MobileTray.js
-    // !selectedService as there is a useEffect in SelectedServiceHeader.js that controls that takes over scroll if selectd service
+    // !selectedService as there is a useEffect in SelectedServiceHeader.js that controls that takes over scroll if selected service
     if (
       !selectedService &&
       selectedMapDisruption &&
