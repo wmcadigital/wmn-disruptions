@@ -16,7 +16,7 @@ const useMobileTrayMethods = (slideableTray) => {
   // Open tray if there is a selectedMapDisruption (map icon has been clicked) or a selected service
   useEffect(() => {
     const { selectedMapDisruption, selectedService } = autoCompleteState;
-    if ((selectedMapDisruption || selectedService) && fetchDisruptionsState.data.length) {
+    if ((selectedMapDisruption || selectedService.id) && fetchDisruptionsState.data.length) {
       setTrayPosition(half || initialTrayPosition); // set tray to open
     }
   }, [fetchDisruptionsState.data.length, half, autoCompleteState]);
