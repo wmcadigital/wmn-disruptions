@@ -13,7 +13,6 @@
   position: absolute;
   height: 100%;
   transition: top 0.35s ease;
-  overscroll-behavior-y: contain;
 
   // On desktop/bigger displays
   @media only screen and (min-width: $breakpoint-md) {
@@ -33,8 +32,11 @@
   display: block;
   height: 100%;
   width: 100%;
-  overflow: auto;
-  overscroll-behavior-y: contain;
+  overflow: hidden;
+
+  &.trayIsOpen {
+    overflow: auto;
+  }
 }
 
 // The drawer handle/line at top of tray
