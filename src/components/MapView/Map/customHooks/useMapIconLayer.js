@@ -69,8 +69,9 @@ const useMapIconLayer = (mapState, viewState, currentLocationState) => {
               },
               geometry: {
                 type: 'point',
-                longitude: item.lon || 0,
-                latitude: item.lat || 0,
+                // If no lat/long then default to Birmingham city centre
+                longitude: item.lon || -1.8960335,
+                latitude: item.lat || 52.481755,
                 spatialreference: {
                   wkid: 4326,
                 },
