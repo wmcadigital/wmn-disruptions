@@ -15,8 +15,8 @@ const Button = ({
   disabled,
 }) => {
   return (
-    // eslint-disable-next-line react/button-has-type
     <button
+      // eslint-disable-next-line react/button-has-type
       type={type}
       title={title}
       className={`wmnds-btn ${btnClass} ${isActive ? 'wmnds-is--active' : ''} ${

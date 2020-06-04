@@ -1,15 +1,35 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import dompurify from 'dompurify';
-
+// Import contexts
+import { AutoCompleteContext, FetchDisruptionsContext } from 'globalState';
 // Imported components
 import FavBusButton from 'components/shared/FavButtons/FavBusButton/FavBusButton';
 import Button from 'components/shared/Button/Button';
 import Icon from 'components/shared/Icon/Icon';
+// Import Helper functions
+import { setSearchParam } from 'globalState/helpers/URLSearchParams'; // (used to sync state with URL)
 
 const { sanitize } = dompurify;
 
 const DisruptionInfo = ({ disruption, listView }) => {
+  const [, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the dispatch of autocomplete
+  const [fetchDisruptionsState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state and dispatch of disruptions (contains isMapVisible)
+
+  const handleViewOnMapBtn = () => {
+    autoCompleteDispatch({
+      type: 'UDPATE_SELECTED_MAP_DISRUPTION',
+      selectedMapDisruption: disruption.id,
+    });
+    // Update the state of the isMapVisible to opposite of what it was
+    setFetchDisruptionsState((prevState) => ({
+      ...prevState,
+      isMapVisible: true,
+    }));
+    // Update URL param to opposite of what it was
+    setSearchParam('isMapVisible', true);
+  };
+
   return (
     <>
       {/* If it's listView, then we don't want to show the affectedServices/favs as it's shown in accordion header */}
@@ -38,10 +58,21 @@ const DisruptionInfo = ({ disruption, listView }) => {
         </>
       )}
 
+      {/* View on map button */}
+      {!fetchDisruptionsState.isMapVisible && (
+        <Button
+          btnClass="wmnds-btn--secondary wmnds-float-right"
+          text="View on map"
+          onClick={handleViewOnMapBtn}
+        />
+      )}
+
       {/* Disruption description */}
       <div
-        className="wmnds-col-1 wmnds-m-b-lg"
-        dangerouslySetInnerHTML={{ __html: sanitize(disruption.description) }}
+        className="wmnds-m-b-lg wmnds-col-1 wmnds-col-md-3-4"
+        dangerouslySetInnerHTML={{
+          __html: sanitize(disruption.description),
+        }}
       />
       {/* Replan button */}
       <a
