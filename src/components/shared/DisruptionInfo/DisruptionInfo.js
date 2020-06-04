@@ -58,34 +58,51 @@ const DisruptionInfo = ({ disruption, listView }) => {
         </>
       )}
 
-      {/* View on map button */}
-      {!fetchDisruptionsState.isMapVisible && (
-        <Button
-          btnClass="wmnds-btn--secondary wmnds-float-right"
-          text="View on map"
-          onClick={handleViewOnMapBtn}
-        />
-      )}
-
       {/* Disruption description */}
       <div
-        className="wmnds-m-b-lg wmnds-col-1 wmnds-col-md-3-4"
+        className="wmnds-m-b-lg wmnds-col-1"
         dangerouslySetInnerHTML={{
           __html: sanitize(disruption.description),
         }}
       />
+
       {/* Replan button */}
-      <a
-        className="wmnds-btn wmnds-btn--start wmnds-col-1 wmnds-m-b-md"
-        href="https://journeyplanner.networkwestmidlands.com/"
-        target="_blank"
-        rel="noopener noreferrer"
+      <span
+        className={`wmnds-col-1 ${
+          fetchDisruptionsState.isMapVisible ? '' : 'wmnds-col-sm-1-2'
+        } wmnds-p-r-xs wmnds-m-b-md`}
       >
-        Replan your journey
-        <Icon iconName="general-chevron-right" iconClass="wmnds-btn__icon wmnds-btn__icon--right" />
-      </a>
+        <a
+          className="wmnds-btn wmnds-btn--start wmnds-col-1"
+          href="https://journeyplanner.networkwestmidlands.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Replan journey
+          <Icon
+            iconName="general-chevron-right"
+            iconClass="wmnds-btn__icon wmnds-btn__icon--right"
+          />
+        </a>
+      </span>
+
       {/* Share button */}
-      <Button btnClass="wmnds-col-1" text="Share disruption" iconRight="general-share" />
+      <span
+        className={`wmnds-col-1 ${
+          fetchDisruptionsState.isMapVisible ? '' : 'wmnds-col-sm-1-2'
+        } wmnds-p-l-xs wmnds-m-b-md`}
+      >
+        <Button btnClass="wmnds-col-1" text="Share disruption" iconRight="general-share" />
+      </span>
+
+      {/* View on map button */}
+      {!fetchDisruptionsState.isMapVisible && (
+        <Button
+          btnClass="wmnds-btn--secondary wmnds-col-1"
+          text="View on map"
+          onClick={handleViewOnMapBtn}
+        />
+      )}
     </>
   );
 };
