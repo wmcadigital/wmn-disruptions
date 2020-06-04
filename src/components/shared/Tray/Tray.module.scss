@@ -11,12 +11,8 @@
   width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.1);
   position: absolute;
-  height: calc(100vh - 122px);
+  height: 100%;
   transition: top 0.35s ease;
-
-  @media all and (min-width: 410px) {
-    height: calc(100vh - 138px);
-  }
 
   // On desktop/bigger displays
   @media only screen and (min-width: $breakpoint-md) {
@@ -36,7 +32,11 @@
   display: block;
   height: 100%;
   width: 100%;
-  overflow: auto;
+  overflow: hidden;
+
+  &.trayIsOpen {
+    overflow: auto;
+  }
 }
 
 // The drawer handle/line at top of tray

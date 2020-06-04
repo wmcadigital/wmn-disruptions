@@ -2,9 +2,4 @@
 .disruptionsContainer {
   position: relative;
   overflow: hidden;
-  height: calc(100vh - 122px);
-
-  @media all and(min-width: 410px) {
-    height: calc(100vh - 138px);
-  }
 }

@@ -33,7 +33,7 @@ const ViewToShow = () => {
 
   return (
     <>
-      <Header isFetching={isFetching} />
+      <Header isFetching={isFetching} hasError={hasError} />
       {viewToRender}
     </>
   );
