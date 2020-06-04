@@ -1,10 +1,8 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { DebounceInput } from 'react-debounce-input'; // https://www.npmjs.com/package/react-debounce-input
-
 // Import contexts
 import { AutoCompleteContext } from 'globalState';
-
 // Import components
 import Message from 'components/shared/Message/Message';
 import Icon from 'components/shared/Icon/Icon';
@@ -44,10 +42,10 @@ const BusAutoComplete = () => {
           // If bus.data.services isn't there, then we can't map the results to it, so return null
           autoCompleteDispatch({
             type: 'UPDATE_DATA',
-            data: bus.data.services,
+            data: bus.data.services || [],
           }); // Update data state with services returned
 
-          if (autoCompleteState.selectedService.id && bus.data.services.length) {
+          if (autoCompleteState.selectedService.id && bus.data?.services.length) {
             const result = bus.data.services.filter(
               (service) => service.id === autoCompleteState.selectedService.id
             )[0];
