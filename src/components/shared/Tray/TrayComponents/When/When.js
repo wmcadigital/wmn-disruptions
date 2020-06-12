@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import DatePicker, { registerLocale } from 'react-datepicker'; // Uses https://reactdatepicker.com/
 import { format } from 'fecha';
 import enGB from 'date-fns/locale/en-GB';
@@ -12,21 +12,13 @@ import 'react-datepicker/dist/react-datepicker.css';
 // Import Custom CSS for the date picker.
 import './datePicker.scss';
 
+// This is only set once as the date/time is relevant to when the user first accessed the app, otherwise the cached disruptions will be out of sync with the real world time
+const today = new Date(); // Get today's date
+const nowText = `Now ${format(today, 'HH:mm')}`; // Set nowText to be 'Now HH:MM'
+
 const When = () => {
   const [whenState, whenDispatch] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of autoComplete from AutoCompleteContext
-  const today = new Date(); // Get today's date
-  const formattedNowText = `Now ${format(today, 'HH:mm')}`; // The format we want our now text to be
-  const [nowText, setNowText] = useState(formattedNowText); // Set state for now text and start off with current time
-
-  useEffect(() => {
-    // Set an interval to run every minute to update nowText to keep time in sync
-    const interval = setInterval(() => {
-      setNowText(formattedNowText); // Set nowText to be 'Now HH:mm'
-    }, 1000 * 60);
-
-    return () => clearInterval(interval); // On unmount clear interval
-  }, [formattedNowText, today]);
 
   registerLocale('en-GB', enGB); // Register a local as en-gb which we use for datepicker below
 
