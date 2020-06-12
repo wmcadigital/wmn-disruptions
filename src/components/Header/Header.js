@@ -24,18 +24,11 @@ const Header = ({ isFetching, hasError }) => {
 
   return (
     <div className={`wmnds-container ${s.headerWrapper}`}>
-      {/* <!-- BETA INFO--> */}
+      {/* Hotjar feedback form */}
       <div className="wmnds-breadcrumb--mobile-app">
         <div className="wmnds-grid wmnds-banner-container">
           <div className="wmnds-col-auto wmnds-float-left wmnds-m-r-xsm">
-            <a
-              href="/"
-              target="_self"
-              className="wmnds-phase-indicator"
-              title="Beta homepage of West Midlands Network Design System"
-            >
-              Beta
-            </a>
+            <span className="wmnds-phase-indicator">Beta</span>
           </div>
           <div className="wmnds-col-auto">
             <p className="wmnds-banner-container__text">
@@ -54,7 +47,7 @@ const Header = ({ isFetching, hasError }) => {
           </div>
         </div>
       </div>
-      {/* <!-- END BETA INFO--> */}
+      {/* End Hotjar feedback form */}
 
       <nav aria-label="Breadcrumb" className="wmnds-breadcrumb wmnds-breadcrumb--mobile-app">
         <ol className="wmnds-breadcrumb__list">
