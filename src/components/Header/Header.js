@@ -24,6 +24,38 @@ const Header = ({ isFetching, hasError }) => {
 
   return (
     <div className={`wmnds-container ${s.headerWrapper}`}>
+      {/* <!-- BETA INFO--> */}
+      <div className="wmnds-breadcrumb--mobile-app">
+        <div className="wmnds-grid wmnds-banner-container">
+          <div className="wmnds-col-auto wmnds-float-left wmnds-m-r-xsm">
+            <a
+              href="/"
+              target="_self"
+              className="wmnds-phase-indicator"
+              title="Beta homepage of West Midlands Network Design System"
+            >
+              Beta
+            </a>
+          </div>
+          <div className="wmnds-col-auto">
+            <p className="wmnds-banner-container__text">
+              This is a new service - your{' '}
+              <a
+                href="https://surveys.hotjar.com/s?siteId=264586&surveyId=157894"
+                title="Service feedback survey"
+                rel="noopener noreferrer"
+                target="_blank"
+                className="wmnds-link"
+              >
+                feedback
+              </a>{' '}
+              will help us to improve it.
+            </p>
+          </div>
+        </div>
+      </div>
+      {/* <!-- END BETA INFO--> */}
+
       <nav aria-label="Breadcrumb" className="wmnds-breadcrumb wmnds-breadcrumb--mobile-app">
         <ol className="wmnds-breadcrumb__list">
           <li className="wmnds-breadcrumb__list-item">
@@ -42,6 +74,7 @@ const Header = ({ isFetching, hasError }) => {
           </li>
         </ol>
       </nav>
+
       <div className="wmnds-grid wmnds-grid--justify-between wmnds-grid--align-middle wmnds-p-b-sm wmnds-p-t-sm">
         <h1 className={`wmnds-col-auto wmnds-m-b-none ${s.h1}`}>Disruptions</h1>
 
