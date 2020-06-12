@@ -1,5 +1,10 @@
+@import '../../assets/styles/vars';
 // This ensures the tray is hidden at the bottom of the page
 .disruptionsContainer {
   position: relative;
   overflow: hidden;
+
+  @media all and(min-width: $breakpoint-md) {
+    min-height: 500px;
+  }
 }
