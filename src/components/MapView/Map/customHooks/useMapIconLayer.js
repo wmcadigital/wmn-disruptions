@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { loadModules } from 'esri-loader';
 import { format } from 'fecha';
 import useDateFilter from 'customHooks/useDateFilter';
@@ -11,18 +11,19 @@ import {
 
 import modeIcon from './useModeIcon';
 
-const useMapIconLayer = (mapState, viewState, currentLocationState) => {
+const useMapIconLayer = (mapState, viewState) => {
   // Set globalstates from imported context
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
   const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
   const [whenState] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
   const { fromDate, toDate } = useDateFilter();
+  const [isIconLayerCreated, setIsIconLayerCreated] = useState(false); // Set this to true when iconLayer has been created
+
   const graphicsLayer = useRef(null); // GraphicsLayer as useRef as we want to mutate it with the new data, we don't want to destroy and rebuild it on every re-render
   // This useEffect is to add the disruption icons to the map
   useEffect(() => {
     const map = mapState; // Reassign injected mapState to 'map' to be consistent
-    const currentLocation = currentLocationState; // Reassign injected mapState to 'map' to be consistent
     const view = viewState;
 
     // If disruption state has data in it...
@@ -178,13 +179,7 @@ const useMapIconLayer = (mapState, viewState, currentLocationState) => {
               });
 
               graphicsLayer.current.add(graphic); // Add graphic to iconLayer on map
-              // If it's the last item in the array then...
-              if (results.features.length - 1 === i) {
-                // Set locations to goto (if there is users currentLocation  available then we want to show them in the view as well as the location of the graphic items, else just show graphic items)
-                const locations = map.layers.items.map((layer) => layer.graphics.items);
-                if (currentLocation) locations.push(currentLocation);
-                view.goTo(locations); // Go to locations set above
-              }
+              setIsIconLayerCreated(true); // IconLayer created, set to true
             });
           }
 
@@ -197,7 +192,6 @@ const useMapIconLayer = (mapState, viewState, currentLocationState) => {
   }, [
     autoCompleteState.selectedMapDisruption,
     autoCompleteState.selectedService.id,
-    currentLocationState,
     fetchDisruptionsState.data,
     fromDate,
     mapState,
@@ -206,6 +200,8 @@ const useMapIconLayer = (mapState, viewState, currentLocationState) => {
     viewState,
     whenState.when,
   ]);
+
+  return { isIconLayerCreated };
 };
 
 export default useMapIconLayer;

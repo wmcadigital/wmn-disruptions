@@ -1,16 +1,16 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { loadModules } from 'esri-loader';
 import axios from 'axios';
 import { AutoCompleteContext } from 'globalState';
 
-const useMapPolyline = (mapState, viewState, currentLocationState) => {
+const useMapPolyline = (mapState, viewState) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
+  const [isPolylineCreated, setIsPolylineCreated] = useState(false); // Set this to true when polyline has been created
 
   // This useEffect is to plot the line on the map
   useEffect(() => {
     const map = mapState; // Reassign injected mapState to 'map' to be consistent
     const view = viewState;
-    const currentLocation = currentLocationState; // Reassign injected mapState to 'map' to be consistent
     const source = axios.CancelToken.source(); // Set source of cancelToken
 
     let graphicsLayer; // Set here, so we can cleanup in the return
@@ -48,11 +48,7 @@ const useMapPolyline = (mapState, viewState, currentLocationState) => {
               });
 
               graphicsLayer.add(polyline); // Add polyline to graphicsLayer on map
-
-              // Set locations to goto (if there is users currentLocation  available then we want to show them in the view as well as the location of the graphic items, else just show graphic items)
-              const locations = map.layers.items.map((layer) => layer.graphics.items);
-              if (currentLocation) locations.push(currentLocation);
-              view.goTo(locations); // Go to locations set above
+              setIsPolylineCreated(true); // Polyline created, set to true
             }
           );
         })
@@ -67,8 +63,11 @@ const useMapPolyline = (mapState, viewState, currentLocationState) => {
     return () => {
       source.cancel(); // cancel the request
       if (graphicsLayer) map.remove(graphicsLayer); // remove the graphicsLayer on the map
+      setIsPolylineCreated(false);
     };
-  }, [autoCompleteState.selectedService.id, currentLocationState, mapState, viewState]);
+  }, [autoCompleteState.selectedService.id, mapState, viewState]);
+
+  return { isPolylineCreated };
 };
 
 export default useMapPolyline;
