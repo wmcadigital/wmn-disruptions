@@ -11,6 +11,7 @@ const useMapPolyline = (mapState, viewState, currentLocationState) => {
     const map = mapState; // Reassign injected mapState to 'map' to be consistent
     const view = viewState;
     const currentLocation = currentLocationState; // Reassign injected mapState to 'map' to be consistent
+    const source = axios.CancelToken.source(); // Set source of cancelToken
 
     let graphicsLayer; // Set here, so we can cleanup in the return
 
@@ -23,6 +24,7 @@ const useMapPolyline = (mapState, viewState, currentLocationState) => {
           headers: {
             'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
           },
+          cancelToken: source.token, // Set token with API call, so we can cancel this call on unmount
         })
         .then((route) => {
           // lazy load the required ArcGIS API for JavaScript modules and CSS
@@ -52,13 +54,18 @@ const useMapPolyline = (mapState, viewState, currentLocationState) => {
               view.goTo(locations); // Go to locations set above
             }
           );
+        })
+        .catch((error) => {
+          if (!axios.isCancel(error)) {
+            // eslint-disable-next-line no-console
+            console.log({ error });
+          }
         });
     }
     // If component unmounting
     return () => {
-      if (graphicsLayer) {
-        map.remove(graphicsLayer); // remove the graphicsLayer on the map
-      }
+      source.cancel(); // cancel the request
+      if (graphicsLayer) map.remove(graphicsLayer); // remove the graphicsLayer on the map
     };
   }, [autoCompleteState.selectedService.id, currentLocationState, mapState, viewState]);
 };
