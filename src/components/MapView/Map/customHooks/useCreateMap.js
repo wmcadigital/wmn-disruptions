@@ -13,6 +13,9 @@ const useCreateMap = (_mapRef) => {
 
   // Map useEffect (this is to apply core mapping stuff on page/component load)
   useEffect(() => {
+    // const locations = mapState.layers.items
+    //   ? [mapState.layers.items.map((layer) => layer.graphics), currentLocationState]
+    //   : currentLocationState;
     // Reassign injected useRef params to internal vars
     // If there is no map currently set up, then set it up
     if (!mapState) {
@@ -61,16 +64,13 @@ const useCreateMap = (_mapRef) => {
         view.ui.move(['zoom'], 'top-right');
         // END CREATE MAP VIEW
 
-        let currentLocation;
         // LOCATE BUTTON
         const goToOverride = (e, options) => {
-          currentLocation = options.target.target; // Set currentLocation to the target of locate button (latLng of user)
+          setCurrentLocationState(options.target.target); // Set currentLocation to the target of locate button (latLng of user)
           // Set locations to goto (if there are graphics items available then we want to show them in the view as well as the location of the user, else show just location of user)
-          const locations = map.layers.items
-            ? [map.layers.items.map((layer) => layer.graphics), currentLocation]
-            : currentLocation;
 
-          return view.goTo(locations); // Go to locations set above
+          return view.goTo(currentLocationState); // Go to locations set above
+          // return true;
         };
 
         // Create a locate button
@@ -117,7 +117,6 @@ const useCreateMap = (_mapRef) => {
           });
         });
 
-        setCurrentLocationState(currentLocation);
         setMapState(map);
         setViewState(view);
 
@@ -130,7 +129,14 @@ const useCreateMap = (_mapRef) => {
         };
       });
     }
-  }, [_mapRef, autoCompleteDispatch, autoCompleteState.selectedService.id, mapRef, mapState]);
+  }, [
+    _mapRef,
+    autoCompleteDispatch,
+    autoCompleteState.selectedService.id,
+    currentLocationState,
+    mapRef,
+    mapState,
+  ]);
 
   return { mapState, viewState, currentLocationState };
 };

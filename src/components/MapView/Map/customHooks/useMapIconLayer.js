@@ -155,6 +155,7 @@ const useMapIconLayer = (mapState, viewState) => {
           // function that takes a result, and creates a graphic, then adds to iconLayer on map
           function addGraphics(results) {
             graphicsLayer.current.removeAll(); // Remove all graphics from iconLayer
+            setIsIconLayerCreated(false); // Reset this var as GoTO method relies on it to change
             // Foreach result the loop through (async as we have to await the icon to be resolved)
             results.features.forEach(async (feature, i) => {
               // Await for the correct icon to come back based on mode/severity (if the current feature matches selectedMapDisruption, pass true to get hover icon)

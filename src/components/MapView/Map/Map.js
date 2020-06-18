@@ -22,11 +22,10 @@ const WebMapView = () => {
 
   // Set locations to goto (if there is users currentLocation  available then we want to show them in the view as well as the location of the graphic items, else just show graphic items)
   useEffect(() => {
+    console.log(currentLocationState);
     // Function for zooming map to area (notice async as we to await for when map is ready)
     const goToArea = async () => {
-      const mlayers = mapState ? await mapState.layers.items : null;
-      if (mapRef.current && isIconLayerCreated && isPolylineCreated) {
-        console.log('running');
+      if ((mapState && isPolylineCreated) || isIconLayerCreated) {
         const locations = await mapState.layers.items.map((layer) => layer.graphics.items);
         if (currentLocationState) locations.push(currentLocationState);
         viewState.goTo(locations); // Go to locations set above
