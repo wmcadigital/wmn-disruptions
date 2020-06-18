@@ -32,6 +32,7 @@ const useMapPolyline = (mapState, viewState, currentLocationState) => {
             ([Graphic, GraphicsLayer]) => {
               graphicsLayer = new GraphicsLayer(); // Set up a graphics layer placeholder so we can inject disruption icons into it in future
               map.add(graphicsLayer); // Add graphics layer to map
+              map.reorder(graphicsLayer, -1); // Re-order so polyline is behind other layers
 
               // Create a new polyline with the geoJSON from the API for the ID
               const polyline = new Graphic({
