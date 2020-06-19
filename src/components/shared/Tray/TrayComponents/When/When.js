@@ -2,9 +2,10 @@ import React, { useContext } from 'react';
 import DatePicker, { registerLocale } from 'react-datepicker'; // Uses https://reactdatepicker.com/
 import { format } from 'fecha';
 import enGB from 'date-fns/locale/en-GB';
-
 // Import contexts
-import { AutoCompleteContext, WhenContext } from 'globalState';
+import { WhenContext } from 'globalState';
+// CustomHooks
+import useResetState from 'customHooks/useResetState';
 // Import components
 import Button from 'components/shared/Button/Button';
 // Import styles
@@ -18,7 +19,7 @@ const nowText = `Now ${format(today, 'HH:mm')}`; // Set nowText to be 'Now HH:MM
 
 const When = () => {
   const [whenState, whenDispatch] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
-  const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of autoComplete from AutoCompleteContext
+  const { reset } = useResetState('when');
 
   registerLocale('en-GB', enGB); // Register a local as en-gb which we use for datepicker below
 
@@ -29,10 +30,7 @@ const When = () => {
       // Update the when context to selected when
       whenDispatch({ type: 'UPDATE_WHEN', when });
     }
-    // Reset selected disruption ID from map (if any)
-    if (autoCompleteState.selectedMapDisruption) {
-      autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' });
-    }
+    reset();
   };
 
   return (

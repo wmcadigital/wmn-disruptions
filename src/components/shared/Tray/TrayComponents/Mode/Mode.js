@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
-
 // Import contexts
-import { AutoCompleteContext, ModeContext } from 'globalState';
+import { ModeContext } from 'globalState';
+// CustomHooks
+import useResetState from 'customHooks/useResetState';
 // Import components
 import Button from 'components/shared/Button/Button';
 
 const Mode = () => {
   const [modeState, modeDispatch] = useContext(ModeContext); // Get the state of modeButtons from modeContext
-  const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of autoComplete from AutoCompleteContext
+  const { reset } = useResetState('mode');
 
   const updateMode = (mode) => {
     // Update the mode context to selected mode
@@ -15,10 +16,7 @@ const Mode = () => {
       type: 'UPDATE_MODE',
       mode,
     });
-    // Reset selected disruption ID from map (if any)
-    if (autoCompleteState.selectedMapDisruption) {
-      autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' });
-    }
+    reset();
   };
 
   return (
