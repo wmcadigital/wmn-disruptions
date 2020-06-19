@@ -9,7 +9,7 @@ import Icon from 'components/shared/Icon/Icon';
 import BusAutoCompleteResult from './BusAutoCompleteResult';
 
 const BusAutoComplete = () => {
-  const { updateQuery, autoCompleteState, autoCompleteDispatch } = useResetState('autocomplete');
+  const { updateQuery, autoCompleteState, autoCompleteDispatch } = useResetState();
   const [loading, setLoading] = useState(false); // Set loading state for spinner
   const [errorInfo, setErrorInfo] = useState(); // Placeholder to set error messaging
   const resultsList = useRef(null);

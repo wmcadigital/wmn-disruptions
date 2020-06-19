@@ -16,7 +16,7 @@ const today = new Date(); // Get today's date
 const nowText = `Now ${format(today, 'HH:mm')}`; // Set nowText to be 'Now HH:MM'
 
 const When = () => {
-  const { updateWhen, whenState, whenDispatch } = useResetState('when');
+  const { updateWhen, whenState, whenDispatch } = useResetState();
 
   registerLocale('en-GB', enGB); // Register a local as en-gb which we use for datepicker below
 

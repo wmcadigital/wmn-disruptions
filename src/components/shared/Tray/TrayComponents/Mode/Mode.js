@@ -5,7 +5,7 @@ import useResetState from 'customHooks/useResetState';
 import Button from 'components/shared/Button/Button';
 
 const Mode = () => {
-  const { modeState, updateMode } = useResetState('mode');
+  const { modeState, updateMode } = useResetState();
 
   return (
     <div className="wmnds-grid">
