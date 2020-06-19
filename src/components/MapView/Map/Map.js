@@ -1,5 +1,5 @@
 // Using https://developers.arcgis.com/labs/browse/?product=javascript&topic=any and ESRI JS API
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 // Import custom hooks for map functionality
 import useCreateMap from './customHooks/useCreateMap';
 import useMapIconLayer from './customHooks/useMapIconLayer';
