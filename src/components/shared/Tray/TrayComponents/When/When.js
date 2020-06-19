@@ -1,9 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import DatePicker, { registerLocale } from 'react-datepicker'; // Uses https://reactdatepicker.com/
 import { format } from 'fecha';
 import enGB from 'date-fns/locale/en-GB';
-// Import contexts
-import { WhenContext } from 'globalState';
 // CustomHooks
 import useResetState from 'customHooks/useResetState';
 // Import components
@@ -18,8 +16,7 @@ const today = new Date(); // Get today's date
 const nowText = `Now ${format(today, 'HH:mm')}`; // Set nowText to be 'Now HH:MM'
 
 const When = () => {
-  const [whenState, whenDispatch] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
-  const { updateWhen } = useResetState('when');
+  const { updateWhen, whenState, whenDispatch } = useResetState('when');
 
   registerLocale('en-GB', enGB); // Register a local as en-gb which we use for datepicker below
 
