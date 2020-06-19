@@ -7,7 +7,7 @@ const useResetState = () => {
   const [modeState, modeDispatch] = useContext(ModeContext); // Get the state of modeButtons from modeContext
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of autoComplete from AutoCompleteContext
 
-  // Function for checking and reseting any selectd service or query
+  // Function for checking and resetting any selected service or query
   const resetQueryAndSelected = () => {
     // Reset selected disruption ID from map (if any)
     if (autoCompleteState.selectedMapDisruption || autoCompleteState.query) {

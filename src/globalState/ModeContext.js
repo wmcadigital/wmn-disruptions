@@ -8,7 +8,7 @@ import {
 
 export const ModeContext = createContext(); // Create when context
 
-// Set intial state of when
+// Set initial state of when
 const initialState = {
   mode: getSearchParam('mode') || null, // Can be any of the modes (bus, train, tram, roads)
 };
@@ -31,7 +31,7 @@ export const ModeProvider = (props) => {
         return {};
       }
 
-      // Default should return intial state if error
+      // Default should return initial state if error
       default:
         return initialState;
     }
