@@ -40,7 +40,7 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch }) => {
             {selectedService.routeName}
           </strong>
 
-          <CloseButton onClick={() => autoCompleteDispatch()} />
+          <CloseButton onClick={autoCompleteDispatch} />
         </div>
       )}
 
