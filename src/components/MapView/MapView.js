@@ -11,7 +11,7 @@ const MapView = () => {
   const { appHeight, windowWidth } = useWindowHeightWidth(); // Get window height and width
 
   // Show correct height based on screen size
-  const mapHeight = windowWidth < 768 ? appHeight : 'calc(100vh - 298px)'; // Minus 298px as this is the height of the header and footer
+  const mapHeight = windowWidth < 998 ? appHeight : 'calc(100vh - 298px)'; // Minus 298px as this is the height of the header and footer
 
   return (
     <div className={s.disruptionsContainer} style={{ height: mapHeight }}>
