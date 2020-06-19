@@ -15,7 +15,7 @@
   transition: top 0.35s ease;
 
   // On desktop/bigger displays
-  @media only screen and (min-width: $breakpoint-md) {
+  @media only screen and (min-width: 998px) {
     position: absolute;
     top: 28px;
     left: 48px;
@@ -24,6 +24,17 @@
     height: auto;
     max-height: 60%;
     overflow: auto;
+  }
+
+  // The tray on map displays different to the normal as it snaps to the left
+  &.mapTray {
+    @media only screen and (min-width: 998px) {
+      height: 100%;
+      position: relative;
+      left: 0;
+      top: 0;
+      max-height: 100%;
+    }
   }
 }
 
