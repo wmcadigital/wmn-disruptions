@@ -1,23 +1,11 @@
-import React, { useContext } from 'react';
-// Import contexts
-import { ModeContext } from 'globalState';
+import React from 'react';
 // CustomHooks
 import useResetState from 'customHooks/useResetState';
 // Import components
 import Button from 'components/shared/Button/Button';
 
 const Mode = () => {
-  const [modeState, modeDispatch] = useContext(ModeContext); // Get the state of modeButtons from modeContext
-  const { reset } = useResetState('mode');
-
-  const updateMode = (mode) => {
-    // Update the mode context to selected mode
-    modeDispatch({
-      type: 'UPDATE_MODE',
-      mode,
-    });
-    reset();
-  };
+  const { modeState, updateMode } = useResetState('mode');
 
   return (
     <div className="wmnds-grid">

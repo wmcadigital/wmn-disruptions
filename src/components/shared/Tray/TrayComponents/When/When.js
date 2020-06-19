@@ -19,19 +19,9 @@ const nowText = `Now ${format(today, 'HH:mm')}`; // Set nowText to be 'Now HH:MM
 
 const When = () => {
   const [whenState, whenDispatch] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
-  const { reset } = useResetState('when');
+  const { updateWhen } = useResetState('when');
 
   registerLocale('en-GB', enGB); // Register a local as en-gb which we use for datepicker below
-
-  const updateWhen = (when, date) => {
-    if (when === 'customDate') {
-      whenDispatch({ type: 'UPDATE_CUSTOMDATE', date });
-    } else {
-      // Update the when context to selected when
-      whenDispatch({ type: 'UPDATE_WHEN', when });
-    }
-    reset();
-  };
 
   return (
     <div className="wmnds-grid">
