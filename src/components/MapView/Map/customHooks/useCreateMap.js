@@ -13,9 +13,6 @@ const useCreateMap = (_mapRef) => {
 
   // Map useEffect (this is to apply core mapping stuff on page/component load)
   useEffect(() => {
-    // const locations = mapState.layers.items
-    //   ? [mapState.layers.items.map((layer) => layer.graphics), currentLocationState]
-    //   : currentLocationState;
     // Reassign injected useRef params to internal vars
     // If there is no map currently set up, then set it up
     if (!mapState) {
@@ -57,21 +54,18 @@ const useCreateMap = (_mapRef) => {
           container: mapRef.current,
           map,
           center: [-2.0047209, 52.4778132],
-          zoom: 10,
+          zoom: 14,
         });
 
         // Move zoom widget to top-right corner of view
         view.ui.move(['zoom'], 'top-right');
         // END CREATE MAP VIEW
 
-        // LOCATE BUTTON
-        const goToOverride = (e, options) => {
-          setCurrentLocationState(options.target.target); // Set currentLocation to the target of locate button (latLng of user)
-          // Set locations to goto (if there are graphics items available then we want to show them in the view as well as the location of the user, else show just location of user)
+        view.ui.move(['attribution'], 'bottom');
 
-          return view.goTo(currentLocationState); // Go to locations set above
-          // return true;
-        };
+        // LOCATE BUTTON
+        const goToOverride = async (e, options) =>
+          setCurrentLocationState(await options.target.target);
 
         // Create a locate button
         const locateBtn = new Locate({
