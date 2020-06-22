@@ -1,27 +1,19 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { DebounceInput } from 'react-debounce-input'; // https://www.npmjs.com/package/react-debounce-input
-// Import contexts
-import { AutoCompleteContext } from 'globalState';
+// CustomHooks
+import useResetState from 'customHooks/useResetState';
 // Import components
 import Message from 'components/shared/Message/Message';
 import Icon from 'components/shared/Icon/Icon';
 import BusAutoCompleteResult from './BusAutoCompleteResult';
 
 const BusAutoComplete = () => {
-  const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
+  const { updateQuery, autoCompleteState, autoCompleteDispatch } = useResetState();
   const [loading, setLoading] = useState(false); // Set loading state for spinner
   const [errorInfo, setErrorInfo] = useState(); // Placeholder to set error messaging
   const resultsList = useRef(null);
   const debounceInput = useRef(null);
-
-  const updateQuery = (query) => {
-    // Reset selected disruption ID from map (if any)
-    if (autoCompleteState.selectedMapDisruption) {
-      autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' });
-    }
-    autoCompleteDispatch({ type: 'UPDATE_QUERY', query });
-  };
 
   useEffect(() => {
     let mounted = true; // Set mounted to true (used later to make sure we don't do events as component is unmounting)

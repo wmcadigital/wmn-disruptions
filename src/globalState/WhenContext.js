@@ -28,9 +28,9 @@ export const WhenProvider = (props) => {
     // Update the when to chosen
     switch (action.type) {
       case 'UPDATE_WHEN':
-        setSearchParam('when', action.when);
         delSearchParam('whenCustomDate');
         delSearchParam('datePickerText');
+        setSearchParam('when', action.when);
         return {
           ...state,
           when: action.when,

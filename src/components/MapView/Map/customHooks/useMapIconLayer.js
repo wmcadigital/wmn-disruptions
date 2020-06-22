@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { loadModules } from 'esri-loader';
 import { format } from 'fecha';
 import useDateFilter from 'customHooks/useDateFilter';
@@ -11,23 +11,20 @@ import {
 
 import modeIcon from './useModeIcon';
 
-const useMapIconLayer = (mapState, viewState, currentLocationState) => {
+const useMapIconLayer = (mapState, viewState) => {
   // Set globalstates from imported context
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
   const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
   const [whenState] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
   const { fromDate, toDate } = useDateFilter();
+  const [isIconLayerCreated, setIsIconLayerCreated] = useState(false); // Set this to true when iconLayer has been created
 
+  const graphicsLayer = useRef(null); // GraphicsLayer as useRef as we want to mutate it with the new data, we don't want to destroy and rebuild it on every re-render
   // This useEffect is to add the disruption icons to the map
   useEffect(() => {
     const map = mapState; // Reassign injected mapState to 'map' to be consistent
-    const currentLocation = currentLocationState; // Reassign injected mapState to 'map' to be consistent
     const view = viewState;
-
-    let graphicsLayer; // Set here, so we can cleanup in the return
-
-    // const currentLocation = _currentLocation;
 
     // If disruption state has data in it...
     if (fetchDisruptionsState.data.length && view) {
@@ -35,9 +32,12 @@ const useMapIconLayer = (mapState, viewState, currentLocationState) => {
       loadModules(['esri/Graphic', 'esri/layers/GraphicsLayer', 'esri/layers/FeatureLayer']).then(
         ([Graphic, GraphicsLayer, FeatureLayer]) => {
           const today = format(new Date(), 'YYYY-MM-DD');
-          graphicsLayer = new GraphicsLayer(); // Set up a graphics layer placeholder so we can inject disruption icons into it in future
-
-          map.add(graphicsLayer); // Add graphics layer to map
+          // If there is no graphics layer currently, then we need to create one and attach it to the map
+          // Wrapped in an if statement so we don't create a new layer each time. We just create it once.
+          if (!graphicsLayer.current) {
+            graphicsLayer.current = new GraphicsLayer(); // Set up a graphics layer placeholder so we can inject disruption icons into it in future
+            map.add(graphicsLayer.current); // Add graphics layer to map
+          }
 
           // Create new graphic for each lat long in disruptions list
           const disruptionsData = fetchDisruptionsState.data.map((item) => {
@@ -154,7 +154,8 @@ const useMapIconLayer = (mapState, viewState, currentLocationState) => {
 
           // function that takes a result, and creates a graphic, then adds to iconLayer on map
           function addGraphics(results) {
-            graphicsLayer.removeAll(); // Remove all graphics from iconLayer
+            graphicsLayer.current.removeAll(); // Remove all graphics from iconLayer
+            setIsIconLayerCreated(false); // Reset this var as GoTO method relies on it to change
             // Foreach result the loop through (async as we have to await the icon to be resolved)
             results.features.forEach(async (feature, i) => {
               // Await for the correct icon to come back based on mode/severity (if the current feature matches selectedMapDisruption, pass true to get hover icon)
@@ -178,14 +179,8 @@ const useMapIconLayer = (mapState, viewState, currentLocationState) => {
                 },
               });
 
-              graphicsLayer.add(graphic); // Add graphic to iconLayer on map
-              // If it's the last item in the array then...
-              if (results.features.length - 1 === i) {
-                // Set locations to goto (if there is users currentLocation  available then we want to show them in the view as well as the location of the graphic items, else just show graphic items)
-                const locations = map.layers.items.map((layer) => layer.graphics.items);
-                if (currentLocation) locations.push(currentLocation);
-                view.goTo(locations); // Go to locations set above
-              }
+              graphicsLayer.current.add(graphic); // Add graphic to iconLayer on map
+              setIsIconLayerCreated(true); // IconLayer created, set to true
             });
           }
 
@@ -195,17 +190,9 @@ const useMapIconLayer = (mapState, viewState, currentLocationState) => {
         }
       );
     }
-
-    // If component unmounting
-    return () => {
-      if (graphicsLayer) {
-        map.remove(graphicsLayer); // remove the graphicsLayer on the map
-      }
-    };
   }, [
     autoCompleteState.selectedMapDisruption,
     autoCompleteState.selectedService.id,
-    currentLocationState,
     fetchDisruptionsState.data,
     fromDate,
     mapState,
@@ -214,6 +201,8 @@ const useMapIconLayer = (mapState, viewState, currentLocationState) => {
     viewState,
     whenState.when,
   ]);
+
+  return { isIconLayerCreated };
 };
 
 export default useMapIconLayer;
