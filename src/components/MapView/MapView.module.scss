@@ -4,7 +4,7 @@
   position: relative;
   overflow: hidden;
 
-  @media all and(min-width: $breakpoint-md) {
+  @media all and(min-width: 998px) {
     min-height: 500px;
   }
 }

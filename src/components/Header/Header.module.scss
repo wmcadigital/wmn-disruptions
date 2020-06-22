@@ -3,6 +3,12 @@
 
 .headerWrapper {
   background-color: get-color(background);
+
+  .breadcrumb {
+    @media all and(max-width:997px) {
+      display: none;
+    }
+  }
 }
 
 @media all and(max-width: 410px) {
