@@ -49,7 +49,10 @@ const Header = ({ isFetching, hasError }) => {
       </div> */}
       {/* End Hotjar feedback form */}
 
-      <nav aria-label="Breadcrumb" className="wmnds-breadcrumb wmnds-breadcrumb--mobile-app">
+      <nav
+        aria-label="Breadcrumb"
+        className={`${s.breadcrumb} wmnds-breadcrumb wmnds-breadcrumb--mobile-app`}
+      >
         <ol className="wmnds-breadcrumb__list">
           <li className="wmnds-breadcrumb__list-item">
             <a href="//wmnetwork.co.uk" className="wmnds-breadcrumb__link">
