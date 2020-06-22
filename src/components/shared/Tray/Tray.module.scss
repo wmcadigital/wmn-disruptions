@@ -13,6 +13,7 @@
   position: absolute;
   height: 100%;
   transition: top 0.35s ease;
+  user-select: none;
 
   // On desktop/bigger displays
   @media only screen and (min-width: 998px) {
@@ -24,6 +25,7 @@
     height: auto;
     max-height: 60%;
     overflow: auto;
+    user-select: auto;
   }
 
   // The tray on map displays different to the normal as it snaps to the left
