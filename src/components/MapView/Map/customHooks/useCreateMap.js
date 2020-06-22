@@ -54,24 +54,18 @@ const useCreateMap = (_mapRef) => {
           container: mapRef.current,
           map,
           center: [-2.0047209, 52.4778132],
-          zoom: 10,
+          zoom: 14,
         });
 
         // Move zoom widget to top-right corner of view
         view.ui.move(['zoom'], 'top-right');
         // END CREATE MAP VIEW
 
-        let currentLocation;
-        // LOCATE BUTTON
-        const goToOverride = (e, options) => {
-          currentLocation = options.target.target; // Set currentLocation to the target of locate button (latLng of user)
-          // Set locations to goto (if there are graphics items available then we want to show them in the view as well as the location of the user, else show just location of user)
-          const locations = map.layers.items
-            ? [map.layers.items.map((layer) => layer.graphics), currentLocation]
-            : currentLocation;
+        view.ui.move(['attribution'], 'bottom');
 
-          return view.goTo(locations); // Go to locations set above
-        };
+        // LOCATE BUTTON
+        const goToOverride = async (e, options) =>
+          setCurrentLocationState(await options.target.target);
 
         // Create a locate button
         const locateBtn = new Locate({
@@ -117,7 +111,6 @@ const useCreateMap = (_mapRef) => {
           });
         });
 
-        setCurrentLocationState(currentLocation);
         setMapState(map);
         setViewState(view);
 
@@ -130,7 +123,14 @@ const useCreateMap = (_mapRef) => {
         };
       });
     }
-  }, [_mapRef, autoCompleteDispatch, autoCompleteState.selectedService.id, mapRef, mapState]);
+  }, [
+    _mapRef,
+    autoCompleteDispatch,
+    autoCompleteState.selectedService.id,
+    currentLocationState,
+    mapRef,
+    mapState,
+  ]);
 
   return { mapState, viewState, currentLocationState };
 };
