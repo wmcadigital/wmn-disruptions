@@ -46,6 +46,11 @@ const useResetState = () => {
     autoCompleteDispatch({ type: 'UPDATE_QUERY', query }); // Update query to what user has typed
   };
 
+  // Function which resets all the trays/applications state and sets "when" to equal "now"
+  const resetTray = () => {
+    updateWhen('now');
+  };
+
   return {
     updateWhen,
     whenState,
@@ -55,6 +60,7 @@ const useResetState = () => {
     updateQuery,
     autoCompleteState,
     autoCompleteDispatch,
+    resetTray,
   };
 };
 
