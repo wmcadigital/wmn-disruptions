@@ -6,8 +6,6 @@
   z-index: 1;
   background-color: white;
   border-radius: 10px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
   width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.1);
   position: absolute;
@@ -24,8 +22,6 @@
     width: 100%;
     height: auto;
     max-height: 60%;
-    border: 0;
-    border-radius: 0;
     overflow: auto;
     user-select: auto;
   }
@@ -33,6 +29,8 @@
   // The tray on map displays different to the normal as it snaps to the left
   &.mapTray {
     @media only screen and (min-width: 768px) {
+      border: 0;
+      border-radius: 0;
       height: 100%;
       position: relative;
       left: 0;
