@@ -25,7 +25,7 @@ const Header = ({ isFetching, hasError }) => {
   return (
     <div className={`wmnds-container ${s.headerWrapper}`}>
       {/* Hotjar feedback form */}
-      {/* <div className="wmnds-breadcrumb--mobile-app">
+      <div className="wmnds-breadcrumb--mobile-app">
         <div className="wmnds-grid wmnds-banner-container">
           <div className="wmnds-col-auto wmnds-float-left wmnds-m-r-xsm">
             <span className="wmnds-phase-indicator">Beta</span>
@@ -46,7 +46,7 @@ const Header = ({ isFetching, hasError }) => {
             </p>
           </div>
         </div>
-      </div> */}
+      </div>
       {/* End Hotjar feedback form */}
 
       <nav
@@ -82,6 +82,7 @@ const Header = ({ isFetching, hasError }) => {
               onClick={handleClick}
               iconRight="general-chevron-right"
               text={fetchDisruptionState.isMapVisible ? 'List View' : 'Map View'}
+              id="wmnds-skip-link"
             />
           </div>
         )}
