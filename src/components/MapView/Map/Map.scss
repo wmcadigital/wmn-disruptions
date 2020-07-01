@@ -12,7 +12,7 @@ $offset-top: $size-lg;
   z-index: -1;
   transition: height 0.35s ease;
 
-  @media all and(min-width: 998px) {
+  @media all and(min-width: 768px) {
     width: calc(100% - 406px); // 406px is the width of the tray
     float: right;
   }

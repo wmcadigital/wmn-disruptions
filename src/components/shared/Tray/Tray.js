@@ -30,7 +30,7 @@ const Tray = () => {
   );
 
   // If the device is less than x show mobileTray otherwise show desktop tray
-  return <>{windowWidth < 998 ? mobileTray : DesktopTray}</>;
+  return <>{windowWidth < 768 ? mobileTray : DesktopTray}</>;
 };
 
 export default Tray;
