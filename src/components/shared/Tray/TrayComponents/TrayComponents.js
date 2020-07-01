@@ -20,7 +20,7 @@ const TrayComponents = () => {
         <div className="wmnds-col-1">
           <Button
             btnClass={`${s.resetBtn} wmnds-link wmnds-float-right`}
-            text="Reset"
+            text="Clear search"
             onClick={resetTray}
           />
         </div>
