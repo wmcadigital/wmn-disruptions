@@ -11,7 +11,7 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch }) => {
   const selectedServiceRef = useRef(null);
   const [disruptionsStorage, setDisruptionsStorage] = useState(
     JSON.parse(localStorage.getItem('disruptionsApp'))
-  ); // Get localstrage and map to state. Used to show hide message button.
+  ); // Get localstorage and map to state. Used to show hide message button.
 
   useEffect(() => {
     // Wrapped in useEffect as it is reliant on functionality from the useEffect in MobileTray.js
@@ -36,7 +36,7 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch }) => {
 
   // UseEffect to watch the above function(if disruptionStorage state updates)
   useEffect(() => {
-    // If it does change, set new vals to localstrage
+    // If it does change, set new vals to localstorage
     localStorage.setItem('disruptionsApp', JSON.stringify(disruptionsStorage));
   }, [disruptionsStorage]);
 
