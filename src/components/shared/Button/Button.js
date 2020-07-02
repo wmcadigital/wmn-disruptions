@@ -13,6 +13,7 @@ const Button = ({
   iconLeft,
   iconRight,
   disabled,
+  id,
 }) => {
   return (
     <button
@@ -24,6 +25,7 @@ const Button = ({
       }`}
       onClick={onClick}
       disabled={disabled}
+      id={id}
     >
       {/* If icon left is set then call icon component and inject correct svg */}
       {iconLeft ? <Icon iconClass="wmnds-btn__icon" iconName={iconLeft} /> : null}
@@ -50,6 +52,7 @@ Button.propTypes = {
   iconLeft: PropTypes.string, // Set icon left on button
   iconRight: PropTypes.string, // Set icon right on button
   disabled: PropTypes.bool, // Sets if the button is disabled or not
+  id: PropTypes.string,
 };
 
 Button.defaultProps = {
@@ -62,6 +65,7 @@ Button.defaultProps = {
   iconLeft: null,
   iconRight: null,
   disabled: false,
+  id: null,
 };
 
 export default Button;

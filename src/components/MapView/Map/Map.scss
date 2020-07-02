@@ -12,6 +12,11 @@ $offset-top: $size-lg;
   z-index: -1;
   transition: height 0.35s ease;
 
+  @media all and(min-width: 768px) {
+    width: calc(100% - 406px); // 406px is the width of the tray
+    float: right;
+  }
+
   // Styling for ui in the top right
   .esri-ui-top-right {
     flex-flow: column-reverse;
@@ -28,9 +33,14 @@ $offset-top: $size-lg;
       width: 35px;
       height: 35px;
       border-radius: 5px;
-
       margin-bottom: $size-sm;
       box-shadow: none;
+
+      &:focus {
+        outline: 0;
+        -webkit-box-shadow: 0 0 0 2px #fff, 0 0 0 4px #9d5baf;
+        box-shadow: 0 0 0 2px #fff, 0 0 0 4px #9d5baf;
+      }
     }
 
     // zoom buttons
