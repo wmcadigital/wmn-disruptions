@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
 import CloseButton from './CloseButton/CloseButton';
 import s from './SelectedServiceHeader.module.scss';
+import Icon from 'components/shared/Icon/Icon';
 
 const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch }) => {
   const { selectedService, selectedMapDisruption } = autoCompleteState;
@@ -22,6 +23,12 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch }) => {
       tray.scrollTop = offsetTop - 2; // Scroll to the disruption ref'd below minus 2 pixels
     }
   }, [autoCompleteState.selectedMapDisruption, selectedMapDisruption, selectedService]);
+
+  const handleCloseMsg = () => {
+    const disruptionsStorage = JSON.parse(localStorage.getItem('disruptionsApp'));
+    console.log({ disruptionsStorage });
+    // localStorage.setItem('disruptionsApp', JSON.stringify(favState));
+  };
 
   return (
     <>
@@ -46,6 +53,14 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch }) => {
 
       {/* Save routes message */}
       <div className="wmnds-msg-help wmnds-col-1 wmnds-m-t-md">
+        <button
+          type="button"
+          className="wmnds-msg-help__close-btn"
+          aria-label="Close help message"
+          onClick={handleCloseMsg}
+        >
+          <Icon iconName="general-cross" iconClass="wmnds-msg-help__close-icon" />
+        </button>
         Save routes to your homepage by pressing the star icon
       </div>
     </>
