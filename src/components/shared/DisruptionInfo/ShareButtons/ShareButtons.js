@@ -24,50 +24,56 @@ const ShareButtons = ({ isMapVisible }) => {
   const [showShareBtns, setShowShareBtns] = useState(false);
 
   return (
-    <div className={shareBtns.mainWrapper}>
-      <span className={`wmnds-col-1 ${isMapVisible ? s.mapBtn : `${s.listBtn} wmnds-col-sm-1-2`}`}>
+    <>
+      <div className={`wmnds-col-1 ${isMapVisible ? s.mapBtn : `${s.listBtn} wmnds-col-sm-1-2`}`}>
         <Button
-          btnClass="wmnds-col-1"
+          btnClass={`wmnds-col-1 ${showShareBtns ? 'wmnds-is--active' : ''}`}
           text="Share disruption"
           iconRight="general-share"
           onClick={() => setShowShareBtns(!showShareBtns)}
         />
-      </span>
 
-      <div className={`${shareBtns.wrapper} ${showShareBtns ? `${shareBtns.active}` : ''}`}>
-        <EmailShareButton className="wmnds-m-r-sm">
-          <EmailIcon size={45} />
-        </EmailShareButton>
-
-        <FacebookShareButton
-          className="wmnds-m-r-sm"
-          url={window.location.href}
-          hashtag="#wmn-disruptions"
+        <div
+          className={`wmnds-m-t-md ${shareBtns.wrapper} ${
+            showShareBtns ? `${shareBtns.active}` : ''
+          }`}
         >
-          <FacebookIcon size={45} />
-        </FacebookShareButton>
+          <div className={`${shareBtns.innerWrapper} wmnds-p-t-xs`}>
+            <EmailShareButton className="wmnds-m-r-md wmnds-m-b-md">
+              <EmailIcon size={45} />
+            </EmailShareButton>
 
-        <FacebookMessengerShareButton
-          className="wmnds-m-r-sm"
-          url={window.location.href}
-          hashtag="#wmn-disruptions"
-        >
-          <FacebookMessengerIcon size={45} />
-        </FacebookMessengerShareButton>
+            <FacebookShareButton
+              className="wmnds-m-r-md wmnds-m-b-sm"
+              url={window.location.href}
+              hashtag="#wmn-disruptions"
+            >
+              <FacebookIcon size={45} />
+            </FacebookShareButton>
 
-        <TwitterShareButton className="wmnds-m-r-sm" url={window.location.href}>
-          <TwitterIcon size={45} />
-        </TwitterShareButton>
+            <FacebookMessengerShareButton
+              className="wmnds-m-r-md wmnds-m-b-sm"
+              url={window.location.href}
+              hashtag="#wmn-disruptions"
+            >
+              <FacebookMessengerIcon size={45} />
+            </FacebookMessengerShareButton>
 
-        <LinkedinShareButton className="wmnds-m-r-sm" url={window.location.href}>
+            <TwitterShareButton className="wmnds-m-r-md wmnds-m-b-sm" url={window.location.href}>
+              <TwitterIcon size={45} />
+            </TwitterShareButton>
+
+            {/* <LinkedinShareButton className="wmnds-m-r-md wmnds-m-b-md" url={window.location.href}>
           <LinkedinIcon size={45} />
-        </LinkedinShareButton>
+        </LinkedinShareButton> */}
 
-        <WhatsappShareButton className="wmnds-m-r-sm" url={window.location.href}>
-          <WhatsappIcon size={45} />
-        </WhatsappShareButton>
+            <WhatsappShareButton url={window.location.href}>
+              <WhatsappIcon size={45} />
+            </WhatsappShareButton>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

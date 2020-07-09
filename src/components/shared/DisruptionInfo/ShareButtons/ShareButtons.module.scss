@@ -1,16 +1,29 @@
+// Vars
+@import '~assets/styles/vars';
+
 .mainWrapper {
   position: relative;
   width: 100%;
 }
 .wrapper {
-  position: absolute;
-  top: 0;
-  transition: top 1s ease-out;
+  height: 0;
+  width: 100%;
+  text-align: left;
   opacity: 0;
-  overflow: hidden;
-  z-index: -1;
+  overflow: visible;
+  overflow-y: hidden;
 }
+
+.innerWrapper {
+  transform: translateY(-100%);
+  transition: transform 300ms ease-out;
+}
+
 .active {
+  height: auto;
   opacity: 1;
-  top: 100%;
+
+  .innerWrapper {
+    transform: translateY(0);
+  }
 }
