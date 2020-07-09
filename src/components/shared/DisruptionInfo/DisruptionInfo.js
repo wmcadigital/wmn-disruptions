@@ -11,6 +11,7 @@ import Icon from 'components/shared/Icon/Icon';
 import { setSearchParam } from 'globalState/helpers/URLSearchParams'; // (used to sync state with URL)
 // Import styles
 import s from './DisruptionInfo.module.scss';
+import ShareButtons from './ShareButtons/ShareButtons';
 
 const { sanitize } = dompurify;
 
@@ -86,9 +87,7 @@ const DisruptionInfo = ({ disruption, listView }) => {
       </span>
 
       {/* Share button */}
-      <span className={`wmnds-col-1 ${isMapVisible ? s.mapBtn : `${s.listBtn} wmnds-col-sm-1-2`}`}>
-        <Button btnClass="wmnds-col-1" text="Share disruption" iconRight="general-share" />
-      </span>
+      <ShareButtons isMapVisible={isMapVisible} />
 
       {/* View on map button */}
       {!isMapVisible && (
