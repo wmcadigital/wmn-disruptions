@@ -1,0 +1,16 @@
+.mainWrapper {
+  position: relative;
+  width: 100%;
+}
+.wrapper {
+  position: absolute;
+  top: 0;
+  transition: top 1s ease-out;
+  opacity: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+.active {
+  opacity: 1;
+  top: 100%;
+}
