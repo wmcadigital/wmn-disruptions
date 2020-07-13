@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+// External components
 import {
   EmailIcon,
   EmailShareButton,
@@ -10,8 +11,6 @@ import {
   TwitterShareButton,
   WhatsappIcon,
   WhatsappShareButton,
-  WorkplaceShareButton,
-  OKIcon,
 } from 'react-share';
 // Components
 import PropTypes from 'prop-types';
@@ -32,7 +31,7 @@ const ShareButtons = ({ isMapVisible, disruption }) => {
           iconRight="general-share"
           onClick={() => setShowShareBtns(!showShareBtns)}
         />
-
+        {/* Toggle active class to wrapper when share button (above) is toggled */}
         <div className={`${shareBtns.wrapper} ${showShareBtns ? `${shareBtns.active}` : ''}`}>
           <EmailShareButton
             resetButtonStyle={false}
