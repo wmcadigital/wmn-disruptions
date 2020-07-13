@@ -7,7 +7,7 @@
   overflow-y: hidden;
   position: relative;
   max-height: 0;
-  transition: max-height 300ms ease-out;
+  transition: max-height 300ms ease-out, margin-top 300ms ease-out;
 
   // Stlying for social buttons
   button {
@@ -31,5 +31,6 @@
 
   &.active {
     max-height: 200px;
+    margin-top: $size-md;
   }
 }

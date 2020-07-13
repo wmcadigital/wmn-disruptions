@@ -11,6 +11,7 @@ import {
   WhatsappIcon,
   WhatsappShareButton,
 } from 'react-share';
+import dompurify from 'dompurify';
 // Components
 import PropTypes from 'prop-types';
 import Button from 'components/shared/Button/Button';
@@ -18,7 +19,9 @@ import Button from 'components/shared/Button/Button';
 import s from '../DisruptionInfo.module.scss';
 import shareBtns from './ShareButtons.module.scss';
 
-const ShareButtons = ({ isMapVisible }) => {
+const { sanitize } = dompurify;
+
+const ShareButtons = ({ isMapVisible, disruption }) => {
   const [showShareBtns, setShowShareBtns] = useState(false);
 
   return (
@@ -31,12 +34,13 @@ const ShareButtons = ({ isMapVisible }) => {
           onClick={() => setShowShareBtns(!showShareBtns)}
         />
 
-        <div
-          className={`wmnds-m-t-md ${shareBtns.wrapper} ${
-            showShareBtns ? `${shareBtns.active}` : ''
-          }`}
-        >
-          <EmailShareButton resetButtonStyle={false} className="wmnds-m-r-md wmnds-m-b-md">
+        <div className={`${shareBtns.wrapper} ${showShareBtns ? `${shareBtns.active}` : ''}`}>
+          <EmailShareButton
+            resetButtonStyle={false}
+            className="wmnds-m-r-md wmnds-m-b-md"
+            subject={`WMNetwork Disruption: ${disruption.title} at ${disruption.subtitle}`}
+            url={window.location.href}
+          >
             <EmailIcon size={45} />
           </EmailShareButton>
 
@@ -76,6 +80,7 @@ const ShareButtons = ({ isMapVisible }) => {
 };
 
 ShareButtons.propTypes = {
+  disruption: PropTypes.objectOf(PropTypes.any).isRequired,
   isMapVisible: PropTypes.bool.isRequired,
 };
 
