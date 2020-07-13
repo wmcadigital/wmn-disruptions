@@ -6,8 +6,6 @@ import {
   FacebookShareButton,
   FacebookMessengerIcon,
   FacebookMessengerShareButton,
-  LinkedinIcon,
-  LinkedinShareButton,
   TwitterIcon,
   TwitterShareButton,
   WhatsappIcon,
@@ -38,39 +36,39 @@ const ShareButtons = ({ isMapVisible }) => {
             showShareBtns ? `${shareBtns.active}` : ''
           }`}
         >
-          <div className={`${shareBtns.innerWrapper} wmnds-p-t-xs`}>
-            <EmailShareButton className="wmnds-m-r-md wmnds-m-b-md">
-              <EmailIcon size={45} />
-            </EmailShareButton>
+          <EmailShareButton resetButtonStyle={false} className="wmnds-m-r-md wmnds-m-b-md">
+            <EmailIcon size={45} />
+          </EmailShareButton>
 
-            <FacebookShareButton
-              className="wmnds-m-r-md wmnds-m-b-sm"
-              url={window.location.href}
-              hashtag="#wmn-disruptions"
-            >
-              <FacebookIcon size={45} />
-            </FacebookShareButton>
+          <FacebookShareButton
+            resetButtonStyle={false}
+            className="wmnds-m-r-md wmnds-m-b-sm"
+            url={window.location.href}
+            hashtag="#wmn-disruptions"
+          >
+            <FacebookIcon size={45} />
+          </FacebookShareButton>
 
-            <FacebookMessengerShareButton
-              className="wmnds-m-r-md wmnds-m-b-sm"
-              url={window.location.href}
-              hashtag="#wmn-disruptions"
-            >
-              <FacebookMessengerIcon size={45} />
-            </FacebookMessengerShareButton>
+          <FacebookMessengerShareButton
+            resetButtonStyle={false}
+            className="wmnds-m-r-md wmnds-m-b-sm"
+            url={window.location.href}
+            hashtag="#wmn-disruptions"
+          >
+            <FacebookMessengerIcon size={45} />
+          </FacebookMessengerShareButton>
 
-            <TwitterShareButton className="wmnds-m-r-md wmnds-m-b-sm" url={window.location.href}>
-              <TwitterIcon size={45} />
-            </TwitterShareButton>
+          <TwitterShareButton
+            resetButtonStyle={false}
+            className="wmnds-m-r-md wmnds-m-b-sm"
+            url={window.location.href}
+          >
+            <TwitterIcon size={45} />
+          </TwitterShareButton>
 
-            {/* <LinkedinShareButton className="wmnds-m-r-md wmnds-m-b-md" url={window.location.href}>
-          <LinkedinIcon size={45} />
-        </LinkedinShareButton> */}
-
-            <WhatsappShareButton url={window.location.href}>
-              <WhatsappIcon size={45} />
-            </WhatsappShareButton>
-          </div>
+          <WhatsappShareButton resetButtonStyle={false} url={window.location.href}>
+            <WhatsappIcon size={45} />
+          </WhatsappShareButton>
         </div>
       </div>
     </>

@@ -1,29 +1,35 @@
 // Vars
 @import '~assets/styles/vars';
 
-.mainWrapper {
-  position: relative;
-  width: 100%;
-}
 .wrapper {
-  height: 0;
   width: 100%;
   text-align: left;
-  opacity: 0;
-  overflow: visible;
   overflow-y: hidden;
-}
+  position: relative;
+  max-height: 0;
+  transition: max-height 300ms ease-out;
 
-.innerWrapper {
-  transform: translateY(-100%);
-  transition: transform 300ms ease-out;
-}
+  // Stlying for social buttons
+  button {
+    outline: 0;
+    background: none;
+    -webkit-appearance: none;
+    line-height: 0;
+    text-decoration: none;
+    border: 0;
+    padding: 0;
+    // These margins are so that the :focus state doesn't clip because of the parent overflow
+    margin-left: 4px;
+    margin-top: 4px;
 
-.active {
-  height: auto;
-  opacity: 1;
+    &:hover,
+    &:focus {
+      cursor: pointer;
+      opacity: 0.7;
+    }
+  }
 
-  .innerWrapper {
-    transform: translateY(0);
+  &.active {
+    max-height: 200px;
   }
 }
