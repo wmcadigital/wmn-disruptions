@@ -10,16 +10,15 @@ import {
   TwitterShareButton,
   WhatsappIcon,
   WhatsappShareButton,
+  WorkplaceShareButton,
+  OKIcon,
 } from 'react-share';
-import dompurify from 'dompurify';
 // Components
 import PropTypes from 'prop-types';
 import Button from 'components/shared/Button/Button';
 // Import styles
 import s from '../DisruptionInfo.module.scss';
 import shareBtns from './ShareButtons.module.scss';
-
-const { sanitize } = dompurify;
 
 const ShareButtons = ({ isMapVisible, disruption }) => {
   const [showShareBtns, setShowShareBtns] = useState(false);
@@ -38,7 +37,7 @@ const ShareButtons = ({ isMapVisible, disruption }) => {
           <EmailShareButton
             resetButtonStyle={false}
             className="wmnds-m-r-md wmnds-m-b-md"
-            subject={`WMNetwork Disruption: ${disruption.title} at ${disruption.subtitle}`}
+            subject="Shared from wmnetwork.co.uk"
             url={window.location.href}
           >
             <EmailIcon size={45} />
@@ -48,7 +47,7 @@ const ShareButtons = ({ isMapVisible, disruption }) => {
             resetButtonStyle={false}
             className="wmnds-m-r-md wmnds-m-b-sm"
             url={window.location.href}
-            hashtag="#wmn-disruptions"
+            hashtag="#WMNDisruption"
           >
             <FacebookIcon size={45} />
           </FacebookShareButton>
@@ -57,7 +56,6 @@ const ShareButtons = ({ isMapVisible, disruption }) => {
             resetButtonStyle={false}
             className="wmnds-m-r-md wmnds-m-b-sm"
             url={window.location.href}
-            hashtag="#wmn-disruptions"
           >
             <FacebookMessengerIcon size={45} />
           </FacebookMessengerShareButton>
@@ -65,7 +63,11 @@ const ShareButtons = ({ isMapVisible, disruption }) => {
           <TwitterShareButton
             resetButtonStyle={false}
             className="wmnds-m-r-md wmnds-m-b-sm"
-            url={window.location.href}
+            url={`\n${window.location.href}\n\n`}
+            title={`WMNetwork - Disruption: ${disruption.title} at ${disruption.subtitle} \n`}
+            hashtags={['WMNDisruption ']}
+            via="WMNetwork"
+            related={['WMNetwork']}
           >
             <TwitterIcon size={45} />
           </TwitterShareButton>
