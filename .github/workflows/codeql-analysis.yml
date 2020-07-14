@@ -2,10 +2,10 @@ name: 'Code scanning - action'
 
 on:
   push:
-    branches: [master, 'releases/**']
+    branches: [master, 'develop']
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [master, 'releases/**']
+    branches: [master, 'develop']
   schedule:
     - cron: '0 22 * * 4'
 
