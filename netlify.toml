@@ -7,3 +7,12 @@ package = "@sentry/netlify-build-plugin"
 [plugins.inputs]
   sentryOrg = "wmca-digital"
   sentryProject = "wmn-disruptions"
+  
+[[redirects]]
+  from = "/api/*"
+  to = "https://wmca-api-portal.azure-api.net/:splat"
+  status = 200
+  force = true
+
+[context.deploy-preview.environment]
+  REACT_APP_API_HOST = "https://disruptions.wmnetwork.co.uk/api"
