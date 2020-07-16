@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { format } from 'fecha';
+import { format, parse } from 'fecha';
 // Import contexts
 import {
   AutoCompleteContext,
@@ -15,26 +15,28 @@ const useFilterLogic = () => {
   const [autoCompleteState] = useContext(AutoCompleteContext);
   const [modeState] = useContext(ModeContext); // Get the state of whenButtons from WhenContext
   const [whenState] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
-  const { fromDate, toDate } = useDateFilter();
+  const { fromDate, toDate } = useDateFilter(); // Logic to determine what the correct from/to dates should be depending on selected when
 
-  let filteredData = fetchDisruptionsState.data;
+  let filteredData = fetchDisruptionsState.data; // All disruptions
 
   // When filtering
   if (whenState.when) {
     // Filter results on date range
     filteredData = filteredData.filter((disrItem) => {
       let returnitem;
-      if (disrItem.mode === 'bus') {
-        // 2020-02-05T15:30:00Z
-        const disrStartDate = format(new Date(disrItem.disruptionTimeWindow.start), 'YYYY-MM-DD');
-        const disrEndDate = format(new Date(disrItem.disruptionTimeWindow.end), 'YYYY-MM-DD');
 
-        if (
-          (disrStartDate >= fromDate && disrStartDate <= toDate) ||
-          (disrEndDate >= fromDate && disrStartDate <= toDate)
-        ) {
-          returnitem = disrItem;
-        }
+      const getValidDate = (date) => parse(date, 'isoDateTime') || new Date(); // Parse the date to make sure a correct date is available, if not return todays date
+
+      // 2020-02-05T15:30:00Z
+      const disrStartDate = format(getValidDate(disrItem.disruptionTimeWindow.start), 'YYYY-MM-DD');
+      const disrEndDate = format(getValidDate(disrItem.disruptionTimeWindow.end), 'YYYY-MM-DD');
+
+      // If disruption dates are within selected time range then return that disruption
+      if (
+        (disrStartDate >= fromDate && disrStartDate <= toDate) ||
+        (disrEndDate >= fromDate && disrStartDate <= toDate)
+      ) {
+        returnitem = disrItem;
       }
       return returnitem;
     });
