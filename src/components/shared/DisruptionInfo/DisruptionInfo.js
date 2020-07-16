@@ -50,13 +50,16 @@ const DisruptionInfo = ({ disruption, listView }) => {
                   (a, b) => a.serviceNumber.replace(/\D/g, '') - b.serviceNumber.replace(/\D/g, '')
                 )
                 .map((affected) => (
-                  <FavBusButton
-                    id={affected.id}
-                    severity={disruption.disruptionSeverity}
-                    text={affected.serviceNumber}
-                    title={`${affected.routeDescriptions[0].description} (${affected.operatorName})`}
-                    key={affected.id}
-                  />
+                  <>
+                    <FavBusButton
+                      id={affected.id}
+                      severity={disruption.disruptionSeverity}
+                      text={affected.serviceNumber}
+                      title={`${affected.routeDescriptions[0].description} (${affected.operatorName})`}
+                      mode={disruption.mode}
+                      key={affected.id}
+                    />
+                  </>
                 ))}
           </div>
         </>

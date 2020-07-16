@@ -67,6 +67,7 @@ const DisruptionItem = ({ disruption }) => {
               .map((affected) => (
                 <FavBusButton
                   id={affected.id}
+                  mode={disruption.mode}
                   severity={disruption.disruptionSeverity}
                   text={affected.serviceNumber}
                   title={`${affected.routeDescriptions[0].description} (${affected.operatorName})`}
