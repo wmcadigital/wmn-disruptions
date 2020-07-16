@@ -24,7 +24,8 @@ export const FavsProvider = (props) => {
         return {
           ...state,
           favs: {
-            bus: [...state.favs.bus, action.id],
+            ...state.favs,
+            [action.mode]: [...state.favs[action.mode], action.id],
           },
         };
       // Remove favourite
@@ -32,7 +33,8 @@ export const FavsProvider = (props) => {
         return {
           ...state,
           favs: {
-            bus: state.favs.bus.filter((item) => item !== action.id),
+            ...state.favs,
+            [action.mode]: state.favs[action.mode].filter((item) => item !== action.id),
           },
         };
       // Default should return intial state if error
