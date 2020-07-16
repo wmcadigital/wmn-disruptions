@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { loadModules } from 'esri-loader';
-import { format } from 'fecha';
+import { format, parse } from 'fecha';
 import useDateFilter from 'customHooks/useDateFilter';
 import {
   FetchDisruptionsContext,
@@ -41,28 +41,43 @@ const useMapIconLayer = (mapState, viewState) => {
 
           // Create new graphic for each lat long in disruptions list
           const disruptionsData = fetchDisruptionsState.data.map((item) => {
+            // Destructure values from item
+            const {
+              disruptionTimeWindow,
+              servicesAffected,
+              id,
+              title,
+              mode,
+              disruptionSeverity,
+              lat,
+              lon,
+            } = item;
+
             let startDate = today;
             let endDate = today;
+
             // If disruption time window exists then set start/end dates to those
-            if (item.disruptionTimeWindow) {
-              startDate = format(new Date(item.disruptionTimeWindow.start), 'YYYY-MM-DD');
-              endDate = format(new Date(item.disruptionTimeWindow.end), 'YYYY-MM-DD');
+            if (disruptionTimeWindow) {
+              const getValidDate = (date) => parse(date, 'isoDateTime') || new Date(); // Parse the date to make sure a correct date is available, if not return todays date
+
+              startDate = format(getValidDate(disruptionTimeWindow.start), 'YYYY-MM-DD');
+              endDate = format(getValidDate(disruptionTimeWindow.end), 'YYYY-MM-DD');
             }
 
             let affectedIds = '';
             // If servicedsAffected on disruption add them to the affectedIds var so we can query them
-            if (item.servicesAffected) {
-              item.servicesAffected.forEach((service) => {
+            if (servicesAffected) {
+              servicesAffected.forEach((service) => {
                 affectedIds += `${service.id}, `;
               });
             }
             // Return graphic element with attributes we want to query, and geomotry/location of disruption
             return new Graphic({
               attributes: {
-                id: item.id,
-                title: item.title,
-                mode: item.mode,
-                disruptionSeverity: item.disruptionSeverity,
+                id,
+                title,
+                mode,
+                disruptionSeverity,
                 servicesAffected: affectedIds,
                 startDate,
                 endDate,
@@ -70,8 +85,8 @@ const useMapIconLayer = (mapState, viewState) => {
               geometry: {
                 type: 'point',
                 // If no lat/long then default to Birmingham city centre
-                longitude: item.lon || -1.8960335,
-                latitude: item.lat || 52.481755,
+                longitude: lon || -1.8960335,
+                latitude: lat || 52.481755,
                 spatialreference: {
                   wkid: 4326,
                 },
@@ -157,7 +172,7 @@ const useMapIconLayer = (mapState, viewState) => {
             graphicsLayer.current.removeAll(); // Remove all graphics from iconLayer
             setIsIconLayerCreated(false); // Reset this var as GoTO method relies on it to change
             // Foreach result the loop through (async as we have to await the icon to be resolved)
-            results.features.forEach(async (feature, i) => {
+            results.features.forEach(async (feature) => {
               // Await for the correct icon to come back based on mode/severity (if the current feature matches selectedMapDisruption, pass true to get hover icon)
               const icon = await modeIcon(
                 feature.attributes.mode,
