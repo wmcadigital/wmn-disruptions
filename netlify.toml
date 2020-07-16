@@ -7,18 +7,8 @@ package = "@sentry/netlify-build-plugin"
 [plugins.inputs]
   sentryOrg = "wmca-digital"
   sentryProject = "wmn-disruptions"
-  
-[[redirects]]
-  from = "/api/*"
-  to = "https://wmca-api-portal.azure-api.net/:splat"
-  status = 200
-  force = true
-  
-[[headers]]
-  # Define which paths this specific [[headers]] block will cover.
-  for = "/*"
-  [headers.values]
-  Access-Control-Allow-Origin = "*"
 
+# Set env variables for deploy preview on netlify
 [context.deploy-preview.environment]
-  REACT_APP_API_HOST = "https://disruptions.wmnetwork.co.uk/api"
+  REACT_APP_API_HOST = "https://wmca-api-portal-staging.azure-api.net"
+  REACT_APP_API_KEY='0d4cca4a2c5d40c3bfbbfe45d1bbf294'
