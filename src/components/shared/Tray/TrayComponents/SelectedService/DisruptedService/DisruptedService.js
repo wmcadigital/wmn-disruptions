@@ -14,6 +14,8 @@ const DisruptedService = ({ disruption }) => {
   const { selectedService, selectedMapDisruption } = autoCompleteState;
   const disruptionRef = useRef(null);
 
+  const iconLeft = disruption.mode === 'tram' ? 'metro' : disruption.mode; // set icon to correct name for tram/metro
+
   useEffect(() => {
     // Wrapped in useEffect as it is reliant on functionality from the useEffect in MobileTray.js
     // !selectedService as there is a useEffect in SelectedServiceHeader.js that controls that takes over scroll if selected service
@@ -37,7 +39,7 @@ const DisruptedService = ({ disruption }) => {
         <div className="wmnds-grid wmnds-grid--align-center">
           <DisruptionIndicatorSmall
             severity={disruption.disruptionSeverity}
-            iconLeft={`modes-isolated-${disruption.mode}`}
+            iconLeft={`modes-isolated-${iconLeft}`}
             className="wmnds-col-auto wmnds-m-r-md"
           />
 
