@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { loadModules } from 'esri-loader';
 import { format, parse } from 'fecha';
 import useDateFilter from 'customHooks/useDateFilter';

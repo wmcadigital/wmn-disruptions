@@ -10,7 +10,6 @@ import s from './FavBusButton.module.scss';
 
 const FavBusButton = ({ id, severity, text, title, mode }) => {
   const [favState, favDispatch] = useContext(FavsContext); // Get fav state from globalState
-  console.log(favState.favs[mode].includes(id));
   const [isFav, setIsFav] = useState(favState.favs[mode].includes(id)); // Check favs on load to see if ours is included
 
   // UseEffect to watch for changes of favState, then we can reload component with new favourites
