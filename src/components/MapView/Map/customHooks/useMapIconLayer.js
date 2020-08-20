@@ -20,24 +20,21 @@ const useMapIconLayer = (mapState, viewState) => {
   const { fromDate, toDate } = useDateFilter();
   const [isIconLayerCreated, setIsIconLayerCreated] = useState(false); // Set this to true when iconLayer has been created
 
-  const graphicsLayer = useRef(null); // GraphicsLayer as useRef as we want to mutate it with the new data, we don't want to destroy and rebuild it on every re-render
   // This useEffect is to add the disruption icons to the map
   useEffect(() => {
     const map = mapState; // Reassign injected mapState to 'map' to be consistent
     const view = viewState;
+    let graphicsLayer; // Set here, so we can cleanup in the return
 
     // If disruption state has data in it...
     if (fetchDisruptionsState.data.length && view) {
       // lazy load the required ArcGIS API for JavaScript modules and CSS
       loadModules(['esri/Graphic', 'esri/layers/GraphicsLayer', 'esri/layers/FeatureLayer']).then(
         ([Graphic, GraphicsLayer, FeatureLayer]) => {
-          const today = format(new Date(), 'YYYY-MM-DD');
-          // If there is no graphics layer currently, then we need to create one and attach it to the map
-          // Wrapped in an if statement so we don't create a new layer each time. We just create it once.
-          if (!graphicsLayer.current) {
-            graphicsLayer.current = new GraphicsLayer(); // Set up a graphics layer placeholder so we can inject disruption icons into it in future
-            map.add(graphicsLayer.current); // Add graphics layer to map
-          }
+          const today = format(new Date(), 'YYYY-MM-DD'); // Get today's date in nice format to use in map function below
+
+          graphicsLayer = new GraphicsLayer(); // Set up a graphics layer placeholder so we can inject disruption icons into it in future
+          map.add(graphicsLayer); // Add graphics layer to map
 
           // Create new graphic for each lat long in disruptions list
           const disruptionsData = fetchDisruptionsState.data.map((item) => {
@@ -169,7 +166,7 @@ const useMapIconLayer = (mapState, viewState) => {
 
           // function that takes a result, and creates a graphic, then adds to iconLayer on map
           function addGraphics(results) {
-            graphicsLayer.current.removeAll(); // Remove all graphics from iconLayer
+            graphicsLayer.removeAll(); // Remove all graphics from iconLayer
             setIsIconLayerCreated(false); // Reset this var as GoTO method relies on it to change
             // Foreach result the loop through (async as we have to await the icon to be resolved)
             results.features.forEach(async (feature) => {
@@ -194,7 +191,7 @@ const useMapIconLayer = (mapState, viewState) => {
                 },
               });
 
-              graphicsLayer.current.add(graphic); // Add graphic to iconLayer on map
+              graphicsLayer.add(graphic); // Add graphic to iconLayer on map
               setIsIconLayerCreated(true); // IconLayer created, set to true
             });
           }
@@ -205,6 +202,11 @@ const useMapIconLayer = (mapState, viewState) => {
         }
       );
     }
+    // If component unmounting
+    return () => {
+      if (graphicsLayer) map.remove(graphicsLayer); // remove the graphicsLayer on the map
+      setIsIconLayerCreated(false);
+    };
   }, [
     autoCompleteState.selectedMapDisruption,
     autoCompleteState.selectedService.id,
