@@ -16,16 +16,24 @@ const useMapPolyline = (mapState, viewState) => {
     let graphicsLayer; // Set here, so we can cleanup in the return
 
     // If there is an ID and query in state, then lets hit the API and get the geoJSON
-    if (autoCompleteState.selectedService.id && map && view) {
+    if (
+      autoCompleteState.selectedService.id &&
+      autoCompleteState.selectedService.operator &&
+      map &&
+      view
+    ) {
       const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
 
       axios
-        .get(`${REACT_APP_API_HOST}/bus/v1/RouteGeoJSON/${autoCompleteState.selectedService.id}`, {
-          headers: {
-            'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
-          },
-          cancelToken: source.token, // Set token with API call, so we can cancel this call on unmount
-        })
+        .get(
+          `${REACT_APP_API_HOST}/bus/v1/RouteGeoJSON/${autoCompleteState.selectedService.id}/${autoCompleteState.selectedService.operator}`,
+          {
+            headers: {
+              'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
+            },
+            cancelToken: source.token, // Set token with API call, so we can cancel this call on unmount
+          }
+        )
         .then((route) => {
           // lazy load the required ArcGIS API for JavaScript modules and CSS
           loadModules(['esri/Graphic', 'esri/layers/GraphicsLayer']).then(
@@ -65,7 +73,12 @@ const useMapPolyline = (mapState, viewState) => {
       if (graphicsLayer) map.remove(graphicsLayer); // remove the graphicsLayer on the map
       setIsPolylineCreated(false);
     };
-  }, [autoCompleteState.selectedService.id, mapState, viewState]);
+  }, [
+    autoCompleteState.selectedService.id,
+    autoCompleteState.selectedService.operator,
+    mapState,
+    viewState,
+  ]);
 
   return { isPolylineCreated };
 };

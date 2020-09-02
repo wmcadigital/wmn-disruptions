@@ -20,6 +20,7 @@ const BusAutoCompleteResult = (props) => {
       type: 'UPDATE_SELECTED_SERVICE',
       selectedService: {
         id: result.id,
+        operator: result.routes[0].operatorCode,
         severity: result.disruptionSeverity,
         serviceNumber: result.serviceNumber,
         routeName: result.routes[0].routeName,

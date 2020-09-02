@@ -19,6 +19,7 @@ export const AutoCompleteProvider = (props) => {
     // The selected service is used to store details when a user has clicked an autocomplete
     selectedService: {
       id: getSearchParam('selectedService') || null,
+      operator: null,
       severity: null,
       serviceNumber: null,
       routeName: null,
@@ -64,6 +65,7 @@ export const AutoCompleteProvider = (props) => {
           selectedMapDisruption: null,
           selectedService: {
             id: null,
+            operator: null,
             severity: null,
             serviceNumber: null,
             routeName: null,
