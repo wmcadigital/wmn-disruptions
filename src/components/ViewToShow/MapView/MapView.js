@@ -3,7 +3,7 @@ import React from 'react';
 import useWindowHeightWidth from 'customHooks/useWindowHeightWidth';
 // Import components
 import Map from './Map/Map';
-import Tray from '../shared/Tray/Tray';
+import Tray from '../../shared/Tray/Tray';
 // Import styles
 import s from './MapView.module.scss';
 
