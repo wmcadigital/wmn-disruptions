@@ -6,9 +6,9 @@ import useResetState from 'customHooks/useResetState';
 // Import components
 import Message from 'components/shared/Message/Message';
 import Icon from 'components/shared/Icon/Icon';
-import BusAutoCompleteResult from './TramAutoCompleteResult/TramAutoCompleteResult';
+import TramAutoCompleteResult from './TramAutoCompleteResult/TramAutoCompleteResult';
 
-const BusAutoComplete = () => {
+const TramAutoComplete = () => {
   const { updateQuery, autoCompleteState, autoCompleteDispatch } = useResetState();
   const [loading, setLoading] = useState(false); // Set loading state for spinner
   const [errorInfo, setErrorInfo] = useState(); // Placeholder to set error messaging
@@ -23,22 +23,22 @@ const BusAutoComplete = () => {
       const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
       setLoading(true); // Update loading state to true as we are hitting API
       axios
-        .get(`${REACT_APP_API_HOST}/bus/v1/service?q=${encodeURI(autoCompleteState.query)}`, {
+        .get(`${REACT_APP_API_HOST}/metro/v1/stop?q=${encodeURI(autoCompleteState.query)}`, {
           headers: {
             'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
           },
           cancelToken: source.token, // Set token with API call, so we can cancel this call on unmount
         })
-        .then((bus) => {
+        .then((tram) => {
           setLoading(false); // Set loading state to false after data is received
-          // If bus.data.services isn't there, then we can't map the results to it, so return null
+          // If tram.data isn't there, then we can't map the results to it, so return null
           autoCompleteDispatch({
             type: 'UPDATE_DATA',
-            data: bus.data.services || [],
+            data: tram.data.data || [],
           }); // Update data state with services returned
 
-          if (autoCompleteState.selectedService.id && bus.data?.services.length) {
-            const result = bus.data.services.filter(
+          if (autoCompleteState.selectedService.id && tram.data?.data.length) {
+            const result = tram.data.data.filter(
               (service) => service.id === autoCompleteState.selectedService.id
             )[0];
             autoCompleteDispatch({
@@ -53,7 +53,7 @@ const BusAutoComplete = () => {
             });
           }
           // If there is no bus data and the component is mounted (must be mounted or we will be creating an event on unmounted error)...
-          if (!bus.data.length && mounted) {
+          if (!tram.data.data.length && mounted) {
             // if no bus data, set error
             setErrorInfo({
               title: 'No results found',
@@ -130,7 +130,7 @@ const BusAutoComplete = () => {
           className="wmnds-fe-input wmnds-autocomplete__input wmnds-col-1"
           value={autoCompleteState.query || ''}
           onChange={(e) => updateQuery(e.target.value)}
-          aria-label="Search for a service"
+          aria-label="Search for a stop"
           debounceTimeout={600}
           onKeyDown={(e) => handleKeyDown(e)}
           inputRef={debounceInput}
@@ -143,13 +143,13 @@ const BusAutoComplete = () => {
         // Only show autocomplete results if there is a query
         autoCompleteState.query && (
           <ul className="wmnds-autocomplete-suggestions" ref={resultsList}>
-            {autoCompleteState.data.map((result) => (
-              <BusAutoCompleteResult
+            {/* {autoCompleteState.data.map((result) => (
+              <TramAutoCompleteResult
                 key={result.id}
                 result={result}
                 handleKeyDown={handleKeyDown}
               />
-            ))}
+            ))} */}
           </ul>
         )
       )}
@@ -157,4 +157,4 @@ const BusAutoComplete = () => {
   );
 };
 
-export default BusAutoComplete;
+export default TramAutoComplete;
