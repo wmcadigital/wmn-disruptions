@@ -6,6 +6,7 @@ import { AutoCompleteContext } from 'globalState';
 const useMapPolyline = (mapState, viewState) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [isPolylineCreated, setIsPolylineCreated] = useState(false); // Set this to true when polyline has been created
+  const { id, operator } = autoCompleteState.selectedService;
 
   // This useEffect is to plot the line on the map
   useEffect(() => {
@@ -16,24 +17,16 @@ const useMapPolyline = (mapState, viewState) => {
     let graphicsLayer; // Set here, so we can cleanup in the return
 
     // If there is an ID and query in state, then lets hit the API and get the geoJSON
-    if (
-      autoCompleteState.selectedService.id &&
-      autoCompleteState.selectedService.operator &&
-      map &&
-      view
-    ) {
+    if (id && operator && map && view) {
       const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
 
       axios
-        .get(
-          `${REACT_APP_API_HOST}/bus/v1/RouteGeoJSON/${autoCompleteState.selectedService.id}/${autoCompleteState.selectedService.operator}`,
-          {
-            headers: {
-              'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
-            },
-            cancelToken: source.token, // Set token with API call, so we can cancel this call on unmount
-          }
-        )
+        .get(`${REACT_APP_API_HOST}/bus/v1/RouteGeoJSON/${id}/${operator}`, {
+          headers: {
+            'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
+          },
+          cancelToken: source.token, // Set token with API call, so we can cancel this call on unmount
+        })
         .then((route) => {
           // lazy load the required ArcGIS API for JavaScript modules and CSS
           loadModules(['esri/Graphic', 'esri/layers/GraphicsLayer']).then(
@@ -73,12 +66,7 @@ const useMapPolyline = (mapState, viewState) => {
       if (graphicsLayer) map.remove(graphicsLayer); // remove the graphicsLayer on the map
       setIsPolylineCreated(false);
     };
-  }, [
-    autoCompleteState.selectedService.id,
-    autoCompleteState.selectedService.operator,
-    mapState,
-    viewState,
-  ]);
+  }, [id, operator, mapState, viewState]);
 
   return { isPolylineCreated };
 };
