@@ -55,7 +55,7 @@ const useMapIconLayer = (mapState, viewState) => {
 
             // If disruption time window exists then set start/end dates to those
             if (disruptionTimeWindow) {
-              const getValidDate = (date) => parse(date, 'isoDateTime') || new Date(); // Parse the date to make sure a correct date is available, if not return todays date
+              const getValidDate = (date) => (date ? parse(date, 'isoDateTime') : new Date()); // Parse the date to make sure a correct date is available, if not return todays date
 
               startDate = format(getValidDate(disruptionTimeWindow.start), 'YYYY-MM-DD');
               endDate = format(getValidDate(disruptionTimeWindow.end), 'YYYY-MM-DD');
