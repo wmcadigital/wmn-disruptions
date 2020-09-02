@@ -6,7 +6,7 @@ import useResetState from 'customHooks/useResetState';
 // Import components
 import Message from 'components/shared/Message/Message';
 import Icon from 'components/shared/Icon/Icon';
-import BusAutoCompleteResult from './BusAutoCompleteResult';
+import BusAutoCompleteResult from './TramAutoCompleteResult/TramAutoCompleteResult';
 
 const BusAutoComplete = () => {
   const { updateQuery, autoCompleteState, autoCompleteDispatch } = useResetState();
