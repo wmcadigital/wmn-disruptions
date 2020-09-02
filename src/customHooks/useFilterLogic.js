@@ -25,7 +25,7 @@ const useFilterLogic = () => {
     filteredData = filteredData.filter((disrItem) => {
       let returnitem;
 
-      const getValidDate = (date) => parse(date, 'isoDateTime') || new Date(); // Parse the date to make sure a correct date is available, if not return todays date
+      const getValidDate = (date) => (date ? parse(date, 'isoDateTime') : new Date()); // Parse the date to make sure a correct date is available, if not return todays date
 
       // 2020-02-05T15:30:00Z
       const disrStartDate = format(getValidDate(disrItem.disruptionTimeWindow.start), 'YYYY-MM-DD');
