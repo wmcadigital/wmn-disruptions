@@ -27,11 +27,7 @@ const SelectedService = () => {
       {selectedData.length > 0 &&
         fetchDisruptionsState.isMapVisible &&
         selectedData.map((disruption) => (
-          <DisruptedService
-            disruption={disruption}
-            key={disruption.id}
-            selectedMapDisruption={autoCompleteState.selectedMapDisruption}
-          />
+          <DisruptedService disruption={disruption} key={disruption.id} />
         ))}
     </>
   );

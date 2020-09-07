@@ -48,19 +48,19 @@ const useFilterLogic = () => {
     }
 
     // SelectedMapDisruption filtering
-    if (autoCompleteState.selectedMapDisruption) {
+    if (autoCompleteState.selectedItem.id) {
       filteredData = filteredData.filter(
-        (disrItem) => disrItem.id === autoCompleteState.selectedMapDisruption
+        (disrItem) => disrItem.id === autoCompleteState.selectedItem.id
       );
     }
 
-    // ID filtering
-    if (autoCompleteState.selectedService.id) {
-      // The below will check all disruptions and will return any disruption where the mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
-      filteredData = filteredData.filter((disrItem) =>
-        disrItem.servicesAffected.some((el) => el.id === autoCompleteState.selectedService.id)
-      );
-    }
+    // // ID filtering
+    // if (autoCompleteState.selectedItem.id) {
+    //   // The below will check all disruptions and will return any disruption where the mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
+    //   filteredData = filteredData.filter((disrItem) =>
+    //     disrItem.servicesAffected.some((el) => el.id === autoCompleteState.selectedItem.id)
+    //   );
+    // }
   }
 
   return filteredData;

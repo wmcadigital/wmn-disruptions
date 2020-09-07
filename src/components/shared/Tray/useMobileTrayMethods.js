@@ -13,10 +13,10 @@ const useMobileTrayMethods = (slideableTray) => {
   const half = appHeight / 2; // Get half of the container height for tray to swipe to
   const [trayPosition, setTrayPosition] = useState(initialTrayPosition); // Set initial position of tray
 
-  // Open tray if there is a selectedMapDisruption (map icon has been clicked) or a selected service
+  // Open tray if there is a selectedItem (map icon has been clicked) or a selected service
   useEffect(() => {
-    const { selectedMapDisruption, selectedService } = autoCompleteState;
-    if ((selectedMapDisruption || selectedService.id) && fetchDisruptionsState.data.length) {
+    const { selectedItem } = autoCompleteState;
+    if (selectedItem.id && fetchDisruptionsState.data.length) {
       setTrayPosition(half || initialTrayPosition); // set tray to open
     }
   }, [fetchDisruptionsState.data.length, half, autoCompleteState]);

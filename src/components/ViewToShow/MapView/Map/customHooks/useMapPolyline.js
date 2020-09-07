@@ -6,7 +6,7 @@ import { AutoCompleteContext } from 'globalState';
 const useMapPolyline = (mapState, viewState) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [isPolylineCreated, setIsPolylineCreated] = useState(false); // Set this to true when polyline has been created
-  const { id, operator } = autoCompleteState.selectedService;
+  const { id, operator } = autoCompleteState.selectedItem;
 
   // This useEffect is to plot the line on the map
   useEffect(() => {

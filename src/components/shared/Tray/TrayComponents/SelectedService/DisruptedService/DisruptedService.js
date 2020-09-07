@@ -11,7 +11,7 @@ import s from './DisruptedService.module.scss';
 
 const DisruptedService = ({ disruption }) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
-  const { selectedService, selectedMapDisruption } = autoCompleteState;
+  const { selectedItem } = autoCompleteState;
   const disruptionRef = useRef(null);
 
   const iconLeft = disruption.mode === 'tram' ? 'metro' : disruption.mode; // set icon to correct name for tram/metro
@@ -20,8 +20,7 @@ const DisruptedService = ({ disruption }) => {
     // Wrapped in useEffect as it is reliant on functionality from the useEffect in MobileTray.js
     // !selectedService as there is a useEffect in SelectedServiceHeader.js that controls that takes over scroll if selected service
     if (
-      !selectedService &&
-      selectedMapDisruption &&
+      !selectedItem.id &&
       disruptionRef.current &&
       document.getElementById('js-disruptions-tray')
     ) {
@@ -30,7 +29,7 @@ const DisruptedService = ({ disruption }) => {
       const tray = document.getElementById('js-disruptions-tray'); // Get ID of tray from MobileTray.js or Tray.js
       tray.scrollTop = offsetTop + 1; // Scroll to the disruption ref'd below plus 1 pixel (hides the 1px border above disruption)
     }
-  }, [autoCompleteState.selectedMapDisruption, selectedMapDisruption, selectedService]);
+  }, [selectedItem.id]);
 
   return (
     <div className={`wmnds-grid wmnds-p-t-lg wmnds-m-t-lg ${s.disruption}`} ref={disruptionRef}>

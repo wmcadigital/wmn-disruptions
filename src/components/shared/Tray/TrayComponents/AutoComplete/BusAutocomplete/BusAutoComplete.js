@@ -37,9 +37,9 @@ const BusAutoComplete = () => {
             data: bus.data.services || [],
           }); // Update data state with services returned
 
-          if (autoCompleteState.selectedService.id && bus.data?.services.length) {
+          if (autoCompleteState.selectedItem.id && bus.data?.services.length) {
             const result = bus.data.services.filter(
-              (service) => service.id === autoCompleteState.selectedService.id
+              (service) => service.id === autoCompleteState.selectedItem.id
             )[0];
             autoCompleteDispatch({
               type: 'UPDATE_SELECTED_SERVICE',
@@ -81,7 +81,7 @@ const BusAutoComplete = () => {
       mounted = false; // Set mounted back to false on unmount
       source.cancel(); // cancel the request
     };
-  }, [autoCompleteDispatch, autoCompleteState.query, autoCompleteState.selectedService.id]);
+  }, [autoCompleteDispatch, autoCompleteState.query, autoCompleteState.selectedItem.id]);
 
   // Function for handling keyboard/keydown events (controls the up/down arrow on autocomplete results)
   const handleKeyDown = ({ keyCode, target }) => {

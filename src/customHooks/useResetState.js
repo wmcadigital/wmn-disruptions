@@ -10,7 +10,7 @@ const useResetState = () => {
   // Function for checking and resetting any selected service or query
   const resetQueryAndSelected = () => {
     // Reset selected disruption ID from map (if any)
-    if (autoCompleteState.selectedMapDisruption || autoCompleteState.query) {
+    if (autoCompleteState.selectedItem.id || autoCompleteState.query) {
       autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' });
     }
   };

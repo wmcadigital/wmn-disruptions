@@ -15,14 +15,17 @@ export const AutoCompleteProvider = (props) => {
   const initialState = {
     query: getSearchParam('query') || '',
     data: [],
-    selectedMapDisruption: getSearchParam('selectedMapDisruption') || null, // This is used to stash disruption id if a user clicks disruption on map
-    // The selected service is used to store details when a user has clicked an autocomplete
-    selectedService: {
-      id: getSearchParam('selectedService') || null,
-      operator: null,
-      severity: null,
-      serviceNumber: null,
-      routeName: null,
+    // selectedMapDisruption: getSearchParam('selectedMapDisruption') || null, // This is used to stash disruption id if a user clicks disruption on map
+    // // The selected service is used to store details when a user has clicked an autocomplete
+    // selectedService: {
+    //   id: getSearchParam('selectedService') || null,
+    //   operator: null,
+    //   severity: null,
+    //   serviceNumber: null,
+    //   routeName: null,
+    // },
+    selectedItem: {
+      id: getSearchParam('selectedItem') || null,
     },
   };
 
@@ -36,40 +39,35 @@ export const AutoCompleteProvider = (props) => {
           ...state,
           query: action.query,
         };
-      case 'UDPATE_SELECTED_MAP_DISRUPTION':
-        setSearchParam('selectedMapDisruption', action.selectedMapDisruption);
+      case 'UDPATE_SELECTED_ITEM':
+        setSearchParam('selectedItem', action.payload);
         return {
           ...state,
-          selectedMapDisruption: action.selectedMapDisruption,
+          selectedItem: {
+            id: action.payload,
+          },
         };
       case 'UPDATE_DATA':
         return {
           ...state,
           data: action.data,
         };
-      case 'UPDATE_SELECTED_SERVICE':
-        setSearchParam('selectedService', action.selectedService.id);
-        delSearchParam('selectedMapDisruption');
-        return {
-          ...state,
-          selectedService: action.selectedService,
-          selectedMapDisruption: null,
-        };
+      // case 'UPDATE_SELECTED_SERVICE':
+      //   setSearchParam('selectedService', action.selectedItem.id);
+      //   delSearchParam('selectedMapDisruption');
+      //   return {
+      //     ...state,
+      //     selectedService: action.selectedService,
+      //     selectedMapDisruption: null,
+      //   };
       case 'RESET_SELECTED_SERVICE':
-        delSearchParam('selectedService');
-        delSearchParam('selectedMapDisruption');
+        delSearchParam('selectedItem');
+        // delSearchParam('selectedMapDisruption');
         delSearchParam('query');
         return {
           query: '',
           data: [],
-          selectedMapDisruption: null,
-          selectedService: {
-            id: null,
-            operator: null,
-            severity: null,
-            serviceNumber: null,
-            routeName: null,
-          },
+          selectedItem: {},
         };
       // Default should return intial state if error
       default:

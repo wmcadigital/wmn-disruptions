@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import { AutoCompleteContext } from 'globalState';
 
 const useMapPointerEvents = (_mapRef, viewState) => {
-  const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
+  const [, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const mapRef = _mapRef;
 
   useEffect(() => {
@@ -24,8 +24,8 @@ const useMapPointerEvents = (_mapRef, viewState) => {
           if (selectedMapDisruption !== undefined) {
             // Update state to make it selected map disruption
             autoCompleteDispatch({
-              type: 'UDPATE_SELECTED_MAP_DISRUPTION',
-              selectedMapDisruption,
+              type: 'UDPATE_SELECTED_ITEM',
+              payload: selectedMapDisruption,
             });
           }
         }
@@ -44,7 +44,7 @@ const useMapPointerEvents = (_mapRef, viewState) => {
         mapClick.remove(); // remove click event
       }
     };
-  }, [autoCompleteDispatch, autoCompleteState.selectedService.id, mapRef, viewState]);
+  }, [autoCompleteDispatch, mapRef, viewState]);
 };
 
 export default useMapPointerEvents;

@@ -157,8 +157,8 @@ const useMapIconLayer = (mapState, viewState) => {
             queryBuilder += ` AND mode = '${modeState.mode}'`; // add mode query to queryBuilder
           }
           // If autocomplete ID
-          if (autoCompleteState.selectedService.id) {
-            queryBuilder += ` AND servicesAffected LIKE '%${autoCompleteState.selectedService.id}%'`; // Add selected id query to queryBuilder
+          if (autoCompleteState.selectedItem.id) {
+            queryBuilder += ` AND servicesAffected LIKE '%${autoCompleteState.selectedItem.id}%'`; // Add selected id query to queryBuilder
           }
 
           const query = flayer.createQuery(); // Create a query based on feature layer above
@@ -170,11 +170,11 @@ const useMapIconLayer = (mapState, viewState) => {
             setIsIconLayerCreated(false); // Reset this var as GoTO method relies on it to change
             // Foreach result the loop through (async as we have to await the icon to be resolved)
             results.features.forEach(async (feature) => {
-              // Await for the correct icon to come back based on mode/severity (if the current feature matches selectedMapDisruption, pass true to get hover icon)
+              // Await for the correct icon to come back based on mode/severity (if the current feature matches selectedItem, pass true to get hover icon)
               const icon = await modeIcon(
                 feature.attributes.mode,
                 feature.attributes.disruptionSeverity,
-                feature.attributes.id === autoCompleteState.selectedMapDisruption
+                feature.attributes.id === autoCompleteState.selectedItem.id
               );
 
               // Create new graphic
@@ -208,8 +208,7 @@ const useMapIconLayer = (mapState, viewState) => {
       setIsIconLayerCreated(false);
     };
   }, [
-    autoCompleteState.selectedMapDisruption,
-    autoCompleteState.selectedService.id,
+    autoCompleteState.selectedItem.id,
     fetchDisruptionsState.data,
     fromDate,
     mapState,
