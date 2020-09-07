@@ -23,7 +23,7 @@ const DisruptionInfo = ({ disruption, listView }) => {
   const handleViewOnMapBtn = () => {
     autoCompleteDispatch({
       type: 'UDPATE_SELECTED_ITEM',
-      payload: disruption.id,
+      payload: { id: disruption.id, selectedByMap: true },
     });
     // Update the state of the isMapVisible to opposite of what it was
     setFetchDisruptionsState((prevState) => ({

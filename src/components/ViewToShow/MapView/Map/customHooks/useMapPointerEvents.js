@@ -25,7 +25,7 @@ const useMapPointerEvents = (_mapRef, viewState) => {
             // Update state to make it selected map disruption
             autoCompleteDispatch({
               type: 'UDPATE_SELECTED_ITEM',
-              payload: selectedMapDisruption,
+              payload: { id: selectedMapDisruption, selectedByMap: true },
             });
           }
         }

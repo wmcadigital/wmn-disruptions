@@ -157,7 +157,7 @@ const useMapIconLayer = (mapState, viewState) => {
             queryBuilder += ` AND mode = '${modeState.mode}'`; // add mode query to queryBuilder
           }
           // If autocomplete ID
-          if (autoCompleteState.selectedItem.id) {
+          if (autoCompleteState.selectedItem.id && !autoCompleteState.selectedItem.selectedByMap) {
             queryBuilder += ` AND servicesAffected LIKE '%${autoCompleteState.selectedItem.id}%'`; // Add selected id query to queryBuilder
           }
 
