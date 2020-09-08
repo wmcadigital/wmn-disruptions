@@ -63,14 +63,6 @@ export const AutoCompleteProvider = (props) => {
           ...state,
           data: action.data,
         };
-      // case 'UPDATE_SELECTED_SERVICE':
-      //   setSearchParam('selectedService', action.selectedItem.id);
-      //   delSearchParam('selectedMapDisruption');
-      //   return {
-      //     ...state,
-      //     selectedService: action.selectedService,
-      //     selectedMapDisruption: null,
-      //   };
       case 'RESET_SELECTED_SERVICE':
         delSearchParam('selectedItem');
         delSearchParam('selectedByMap');

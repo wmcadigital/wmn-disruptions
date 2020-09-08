@@ -42,13 +42,13 @@ const TramAutoComplete = () => {
               (service) => service.id === autoCompleteState.selectedItem.id
             )[0];
             autoCompleteDispatch({
-              type: 'UPDATE_SELECTED_SERVICE',
-              selectedService: {
+              type: 'UPDATE_SELECTED_ITEM',
+              payload: {
                 id: result.id,
-                operator: result.routes[0].operatorCode,
+                // operator: result.routes[0].operatorCode,
                 severity: result.disruptionSeverity,
-                serviceNumber: result.serviceNumber,
-                routeName: result.routes[0].routeName,
+                stopName: result.name,
+                // routeName: result.routes[0].routeName,
               },
             });
           }
@@ -57,7 +57,7 @@ const TramAutoComplete = () => {
             // if no bus data, set error
             setErrorInfo({
               title: 'No results found',
-              message: 'Make sure you are looking for the right service, and try again.',
+              message: 'Make sure you are looking for the right tram stop, and try again.',
             });
           }
         })
@@ -126,7 +126,7 @@ const TramAutoComplete = () => {
         <DebounceInput
           type="text"
           name="busSearch"
-          placeholder="Search for a service"
+          placeholder="Search for a stop"
           className="wmnds-fe-input wmnds-autocomplete__input wmnds-col-1"
           value={autoCompleteState.query || ''}
           onChange={(e) => updateQuery(e.target.value)}
@@ -143,13 +143,13 @@ const TramAutoComplete = () => {
         // Only show autocomplete results if there is a query
         autoCompleteState.query && (
           <ul className="wmnds-autocomplete-suggestions" ref={resultsList}>
-            {/* {autoCompleteState.data.map((result) => (
+            {autoCompleteState.data.map((result) => (
               <TramAutoCompleteResult
                 key={result.id}
                 result={result}
                 handleKeyDown={handleKeyDown}
               />
-            ))} */}
+            ))}
           </ul>
         )
       )}

@@ -17,13 +17,13 @@ const BusAutoCompleteResult = (props) => {
     }
 
     autoCompleteDispatch({
-      type: 'UPDATE_SELECTED_SERVICE',
-      selectedService: {
+      type: 'UPDATE_SELECTED_ITEM',
+      payload: {
         id: result.id,
-        operator: result.routes[0].operatorCode,
-        severity: result.disruptionSeverity,
-        serviceNumber: result.serviceNumber,
-        routeName: result.routes[0].routeName,
+        // operator: result.routes[0].operatorCode,
+        severity: result.disruptionDetail.disruptionSeverity,
+        stopName: result.name,
+        // routeName: result.routes[0].routeName,
       },
     });
   };
@@ -31,9 +31,9 @@ const BusAutoCompleteResult = (props) => {
   // Set placeholder vars for switch below
   let text;
   // If the current service has disruption
-  if (result.hasDisruptions) {
+  if (result.disrupted) {
     // Do a switch on the disruption severity, then map the type and iconName to the correct vars
-    switch (result.disruptionSeverity) {
+    switch (result.disruptionDetail.disruptionSeverity) {
       // Minor disruption (normal)
       case 'normal':
         text = 'Minor disruption';
@@ -70,11 +70,11 @@ const BusAutoCompleteResult = (props) => {
     >
       <DisruptionIndicatorMedium
         className="wmnds-col-auto"
-        severity={result.disruptionSeverity}
-        text={result.serviceNumber}
+        severity={result?.disruptionDetail?.disruptionSeverity || 'success'}
+        noMarginOnIcon
       />
       {/* Right section */}
-      <strong className={`wmnds-col-auto ${s.routeName}`}>{result.routes[0].routeName}</strong>
+      <strong className={`wmnds-col-auto ${s.routeName}`}>{result.name}</strong>
     </li>
   );
 };
