@@ -27,6 +27,10 @@ export const AutoCompleteProvider = (props) => {
     selectedItem: {
       id: getSearchParam('selectedItem') || null,
       selectedByMap: getSearchParam('selectedByMap') || null,
+      operator: null,
+      severity: null,
+      serviceNumber: null,
+      routeName: null,
     },
   };
 
@@ -44,12 +48,12 @@ export const AutoCompleteProvider = (props) => {
         // If object contains selectedByMap
         if (action.payload.selectedByMap) {
           // Update URL
-          setSearchParam('selectedItem', action.payload.id);
           setSearchParam('selectedByMap', action.payload.selectedByMap);
         } else {
-          setSearchParam('selectedItem', action.payload);
+          delSearchParam('selectedMapDisruption');
         }
-
+        setSearchParam('selectedItem', action.payload.id);
+        console.log(action.payload);
         return {
           ...state,
           selectedItem: action.payload,

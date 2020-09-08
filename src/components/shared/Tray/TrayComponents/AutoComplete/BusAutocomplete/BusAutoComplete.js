@@ -42,8 +42,8 @@ const BusAutoComplete = () => {
               (service) => service.id === autoCompleteState.selectedItem.id
             )[0];
             autoCompleteDispatch({
-              type: 'UPDATE_SELECTED_SERVICE',
-              selectedService: {
+              type: 'UDPATE_SELECTED_ITEM',
+              payload: {
                 id: result.id,
                 operator: result.routes[0].operatorCode,
                 severity: result.disruptionSeverity,
@@ -53,7 +53,7 @@ const BusAutoComplete = () => {
             });
           }
           // If there is no bus data and the component is mounted (must be mounted or we will be creating an event on unmounted error)...
-          if (!bus.data.length && mounted) {
+          if (!bus.data && mounted) {
             // if no bus data, set error
             setErrorInfo({
               title: 'No results found',

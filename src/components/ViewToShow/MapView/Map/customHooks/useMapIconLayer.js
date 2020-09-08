@@ -209,6 +209,7 @@ const useMapIconLayer = (mapState, viewState) => {
     };
   }, [
     autoCompleteState.selectedItem.id,
+    autoCompleteState.selectedItem.selectedByMap,
     fetchDisruptionsState.data,
     fromDate,
     mapState,
