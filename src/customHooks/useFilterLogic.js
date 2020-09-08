@@ -55,12 +55,12 @@ const useFilterLogic = () => {
     }
 
     // // ID filtering
-    // if (autoCompleteState.selectedItem.id) {
-    //   // The below will check all disruptions and will return any disruption where the mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
-    //   filteredData = filteredData.filter((disrItem) =>
-    //     disrItem.servicesAffected.some((el) => el.id === autoCompleteState.selectedItem.id)
-    //   );
-    // }
+    if (autoCompleteState.selectedItem.id) {
+      // The below will check all disruptions and will return any disruption where the mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
+      filteredData = filteredData.filter((disrItem) =>
+        disrItem.servicesAffected.some((el) => el.id === autoCompleteState.selectedItem.id)
+      );
+    }
   }
 
   return filteredData;

@@ -53,7 +53,6 @@ export const AutoCompleteProvider = (props) => {
           delSearchParam('selectedMapDisruption');
         }
         setSearchParam('selectedItem', action.payload.id);
-        console.log(action.payload);
         return {
           ...state,
           selectedItem: action.payload,

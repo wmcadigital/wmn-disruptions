@@ -35,20 +35,23 @@ const useMapPolyline = (mapState, viewState) => {
               map.add(graphicsLayer); // Add graphics layer to map
               map.reorder(graphicsLayer, -1); // Re-order so polyline is behind other layers
 
-              // Create a new polyline with the geoJSON from the API for the ID
-              const polyline = new Graphic({
-                geometry: {
-                  type: 'polyline',
-                  paths: route.data.geoJson.features[0].geometry.coordinates,
-                },
-                symbol: {
-                  type: 'simple-line', // autocasts as new SimpleLineSymbol()
-                  color: '#3c1053', // RGB color values as an array
-                  width: 4,
-                },
-              });
+              if (route.data.geoJson?.features[0]?.geometry?.coordinates) {
+                // Create a new polyline with the geoJSON from the API for the ID
+                const polyline = new Graphic({
+                  geometry: {
+                    type: 'polyline',
+                    paths: route.data.geoJson?.features[0]?.geometry?.coordinates,
+                  },
+                  symbol: {
+                    type: 'simple-line', // autocasts as new SimpleLineSymbol()
+                    color: '#3c1053', // RGB color values as an array
+                    width: 4,
+                  },
+                });
 
-              graphicsLayer.add(polyline); // Add polyline to graphicsLayer on map
+                graphicsLayer.add(polyline); // Add polyline to graphicsLayer on map
+              }
+
               setIsPolylineCreated(true); // Polyline created, set to true
             }
           );
