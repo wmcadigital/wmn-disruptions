@@ -20,8 +20,9 @@ const BusAutoCompleteResult = (props) => {
       type: 'UDPATE_SELECTED_ITEM',
       payload: {
         id: result.id,
-        severity: result?.disruptionDetail?.disruptionSeverity || null,
+        severity: result?.disruptionDetail?.disruptionSeverity || 'success',
         stopName: result.name,
+        operator: 'MML1',
       },
     });
   };

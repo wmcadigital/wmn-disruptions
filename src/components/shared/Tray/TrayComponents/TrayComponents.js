@@ -30,7 +30,7 @@ const TrayComponents = () => {
 
       <Mode />
 
-      {!autoCompleteState.selectedItem.routeName && <AutoComplete />}
+      {!autoCompleteState.selectedItem.severity && <AutoComplete />}
 
       {autoCompleteState.selectedItem.id && <SelectedService />}
     </>

@@ -51,10 +51,10 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch }) => {
           <DisruptionIndicatorMedium
             className="wmnds-col-auto wmnds-m-r-md"
             severity={selectedItem.severity}
-            text={selectedItem.serviceNumber}
+            text={selectedItem.serviceNumber || selectedItem.operator}
           />
           <strong className={`wmnds-col-auto ${s.selectedSummary}`}>
-            {selectedItem.routeName}
+            {selectedItem.routeName || selectedItem.stopName}
           </strong>
 
           <CloseButton onClick={autoCompleteDispatch} />

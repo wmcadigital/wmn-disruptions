@@ -45,11 +45,11 @@ const TramAutoComplete = () => {
               type: 'UDPATE_SELECTED_ITEM',
               payload: {
                 id: result.id,
-                severity: result?.disruptionDetail?.disruptionSeverity || null,
+                severity: result?.disruptionDetail?.disruptionSeverity || 'none',
                 stopName: result.name,
+                operator: 'MML1',
               },
             });
-            console.log(true);
           }
           // If there is no tram data and the component is mounted (must be mounted or we will be creating an event on unmounted error)...
           if (!tram.data.data.length && mounted) {
