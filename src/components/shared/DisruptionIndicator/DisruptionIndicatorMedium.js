@@ -30,11 +30,6 @@ const DisruptionIndicatorMedium = ({
       iconRightName = 'warning-triangle';
       disruptedClass = 'severe';
       break;
-    // Major Disruption - Notice that the disruptionSeverity is capitalised in this case - Maybe ask Jon to make it lowercase?
-    case 'Major':
-      iconRightName = 'warning-triangle';
-      disruptedClass = 'severe';
-      break;
     // Minor disruption (normal)
     default:
       iconRightName = 'success';
