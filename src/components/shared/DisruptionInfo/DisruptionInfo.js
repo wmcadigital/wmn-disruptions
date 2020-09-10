@@ -45,6 +45,7 @@ const DisruptionInfo = ({ disruption, listView }) => {
           </div>
           <div className="wmnds-col-1">
             {disruption.servicesAffected &&
+              disruption.mode === 'bus' &&
               disruption.servicesAffected
                 .sort(
                   (a, b) => a.serviceNumber.replace(/\D/g, '') - b.serviceNumber.replace(/\D/g, '')
@@ -57,6 +58,21 @@ const DisruptionInfo = ({ disruption, listView }) => {
                     title={`${affected.routeDescriptions[0].description} (${affected.operatorName})`}
                     mode={disruption.mode}
                     key={affected.id}
+                  />
+                ))}
+
+            {disruption.servicesAffected &&
+              disruption.mode === 'tram' &&
+              disruption.stopsAffected
+                .sort((a, b) => a.name.replace(/\D/g, '') - b.name.replace(/\D/g, ''))
+                .map((affected) => (
+                  <FavBusButton
+                    id={affected.atcoCode}
+                    severity={disruption.disruptionSeverity}
+                    text={affected.name}
+                    title={`${disruption.servicesAffected[0].routeDescriptions[0].description} (${disruption.servicesAffected[0].operatorName})`}
+                    mode={disruption.mode}
+                    key={affected.atcoCode}
                   />
                 ))}
           </div>

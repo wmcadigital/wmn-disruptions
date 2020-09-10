@@ -33,7 +33,7 @@ const FavBusButton = ({ id, severity, text, title, mode }) => {
       <DisruptionIndicatorMedium
         text={text}
         severity={severity}
-        className="wmnds-p-t-xs wmnds-p-b-xs wmnds-p-l-xsm wmnds-p-r-xsm"
+        className={`wmnds-p-t-xs wmnds-p-b-xs wmnds-p-l-xsm wmnds-p-r-xsm wmnds-disruption-indicator-medium--${mode}`}
         title={title}
       />
 
