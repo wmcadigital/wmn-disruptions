@@ -42,19 +42,18 @@ const TramAutoComplete = () => {
               (service) => service.id === autoCompleteState.selectedItem.id
             )[0];
             autoCompleteDispatch({
-              type: 'UPDATE_SELECTED_ITEM',
+              type: 'UDPATE_SELECTED_ITEM',
               payload: {
                 id: result.id,
-                // operator: result.routes[0].operatorCode,
-                severity: result.disruptionSeverity,
+                severity: result?.disruptionDetail?.disruptionSeverity || null,
                 stopName: result.name,
-                // routeName: result.routes[0].routeName,
               },
             });
+            console.log(true);
           }
-          // If there is no bus data and the component is mounted (must be mounted or we will be creating an event on unmounted error)...
+          // If there is no tram data and the component is mounted (must be mounted or we will be creating an event on unmounted error)...
           if (!tram.data.data.length && mounted) {
-            // if no bus data, set error
+            // if no tram data, set error
             setErrorInfo({
               title: 'No results found',
               message: 'Make sure you are looking for the right tram stop, and try again.',
@@ -125,7 +124,7 @@ const TramAutoComplete = () => {
         </div>
         <DebounceInput
           type="text"
-          name="busSearch"
+          name="tramSearch"
           placeholder="Search for a stop"
           className="wmnds-fe-input wmnds-autocomplete__input wmnds-col-1"
           value={autoCompleteState.query || ''}
