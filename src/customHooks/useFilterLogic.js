@@ -56,10 +56,23 @@ const useFilterLogic = () => {
 
     // // ID filtering
     if (autoCompleteState.selectedItem.id) {
-      // The below will check all disruptions and will return any disruption where the mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
-      filteredData = filteredData.filter((disrItem) =>
-        disrItem.servicesAffected.some((el) => el.id === autoCompleteState.selectedItem.id)
-      );
+      // The below will check all disruptions and will return any disruption where:
+      switch (modeState.mode) {
+        // The mode is tram and the id the user clicked in the autocomplete is within the stopsAffected array
+        case 'tram':
+          filteredData = filteredData.filter((disrItem) =>
+            disrItem.stopsAffected.some((el) => el.atcoCode === autoCompleteState.selectedItem.id)
+          );
+
+          break;
+
+        // The mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
+        default: {
+          filteredData = filteredData.filter((disrItem) =>
+            disrItem.servicesAffected.some((el) => el.id === autoCompleteState.selectedItem.id)
+          );
+        }
+      }
     }
   }
 
