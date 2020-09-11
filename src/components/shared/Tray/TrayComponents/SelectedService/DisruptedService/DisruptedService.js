@@ -43,7 +43,12 @@ const DisruptedService = ({ disruption }) => {
           />
 
           <div className="wmnds-col-3-4">
-            {disruption.title} at <strong>{disruption.subtitle}</strong>
+            {disruption.title.charAt(0).toUpperCase() + disruption.title.slice(1)}
+            {disruption.mode !== 'tram' && (
+              <>
+                at <strong>{disruption.subtitle}</strong>
+              </>
+            )}
           </div>
         </div>
       </div>

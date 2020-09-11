@@ -41,7 +41,7 @@ const DisruptionInfo = ({ disruption, listView }) => {
         <>
           {/* Affected Services */}
           <div className="wmnds-col-1 ">
-            <strong>Affected Services:</strong>
+            <strong>Affected {disruption.mode !== 'tram' ? 'Services' : 'Stops'}:</strong>
           </div>
           <div className="wmnds-col-1">
             {disruption.servicesAffected &&
