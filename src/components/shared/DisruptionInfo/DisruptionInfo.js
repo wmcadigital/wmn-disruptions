@@ -80,12 +80,29 @@ const DisruptionInfo = ({ disruption, listView }) => {
       )}
 
       {/* Disruption description */}
-      <div
-        className="wmnds-m-b-lg wmnds-col-1"
-        dangerouslySetInnerHTML={{
-          __html: sanitize(disruption.description),
-        }}
-      />
+
+      {disruption.mode !== 'tram' ? (
+        <div
+          className="wmnds-m-b-lg wmnds-col-1"
+          dangerouslySetInnerHTML={{
+            __html: sanitize(disruption.description),
+          }}
+        />
+      ) : (
+        <div className="wmnds-m-b-lg wmnds-col-1">
+          {disruption.subtitle}
+          <br />
+          <br />
+          <a
+            href={disruption.description}
+            className="wmnds-link wmnds-col-1"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read more about this disruption on twitter
+          </a>
+        </div>
+      )}
 
       {/* Replan button */}
       <span className={`wmnds-col-1 ${isMapVisible ? s.mapBtn : `${s.listBtn} wmnds-col-sm-1-2`}`}>
