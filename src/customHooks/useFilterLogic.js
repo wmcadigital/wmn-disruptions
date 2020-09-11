@@ -55,7 +55,7 @@ const useFilterLogic = () => {
     }
 
     // // ID filtering
-    if (autoCompleteState.selectedItem.id) {
+    else if (autoCompleteState.selectedItem.id) {
       // The below will check all disruptions and will return any disruption where:
       switch (modeState.mode) {
         // The mode is tram and the id the user clicked in the autocomplete is within the stopsAffected array

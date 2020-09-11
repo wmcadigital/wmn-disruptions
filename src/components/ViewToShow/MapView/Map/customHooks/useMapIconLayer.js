@@ -42,6 +42,7 @@ const useMapIconLayer = (mapState, viewState) => {
             const {
               disruptionTimeWindow,
               servicesAffected,
+              stopsAffected,
               id,
               title,
               mode,
@@ -63,11 +64,16 @@ const useMapIconLayer = (mapState, viewState) => {
 
             let affectedIds = '';
             // If servicedsAffected on disruption add them to the affectedIds var so we can query them
-            if (servicesAffected) {
+            if (servicesAffected && mode !== 'tram') {
               servicesAffected.forEach((service) => {
                 affectedIds += `${service.id}, `;
               });
+            } else {
+              stopsAffected.forEach((stop) => {
+                affectedIds += `${stop.atcoCode}, `;
+              });
             }
+
             // Return graphic element with attributes we want to query, and geomotry/location of disruption
             return new Graphic({
               attributes: {
@@ -129,6 +135,11 @@ const useMapIconLayer = (mapState, viewState) => {
               {
                 name: 'servicesAffected',
                 alias: 'servicesAffected',
+                type: 'string',
+              },
+              {
+                name: 'stopsAffected',
+                alias: 'stopsAffected',
                 type: 'string',
               },
               {
