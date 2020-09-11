@@ -46,6 +46,7 @@ const DisruptedService = ({ disruption }) => {
             {disruption.title.charAt(0).toUpperCase() + disruption.title.slice(1)}
             {disruption.mode !== 'tram' && (
               <>
+                {' '}
                 at <strong>{disruption.subtitle}</strong>
               </>
             )}
