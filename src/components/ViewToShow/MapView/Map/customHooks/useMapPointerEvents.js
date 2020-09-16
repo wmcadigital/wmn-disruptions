@@ -22,6 +22,10 @@ const useMapPointerEvents = (_mapRef, viewState) => {
 
           // If the clicked graphic is not undefined and it is not the current selected item
           if (selectedMapDisruption !== undefined) {
+            // Reset stored autocomplete data
+            autoCompleteDispatch({
+              type: 'RESET_SELECTED_SERVICE',
+            });
             // Update state to make it selected map disruption
             autoCompleteDispatch({
               type: 'UDPATE_SELECTED_ITEM',

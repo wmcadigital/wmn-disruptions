@@ -21,6 +21,11 @@ const DisruptionInfo = ({ disruption, listView }) => {
   const { isMapVisible } = fetchDisruptionsState;
 
   const handleViewOnMapBtn = () => {
+    // Reset stored autocomplete data
+    autoCompleteDispatch({
+      type: 'RESET_SELECTED_SERVICE',
+    });
+    // Update API for selected API
     autoCompleteDispatch({
       type: 'UDPATE_SELECTED_ITEM',
       payload: { id: disruption.id, selectedByMap: true },
