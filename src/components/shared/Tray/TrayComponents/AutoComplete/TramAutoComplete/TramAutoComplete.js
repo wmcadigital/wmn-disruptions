@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
-import axios from 'axios';
+import React, { useRef } from 'react';
 import { DebounceInput } from 'react-debounce-input'; // https://www.npmjs.com/package/react-debounce-input
 // CustomHooks
 import useResetState from 'customHooks/useResetState';
@@ -9,13 +8,18 @@ import Icon from 'components/shared/Icon/Icon';
 import TramAutoCompleteResult from './TramAutoCompleteResult/TramAutoCompleteResult';
 // CustomHooks
 import useHandleAutoCompleteKeys from '../customHooks/useHandleAutoCompleteKeys';
+import useAutoCompleteAPI from '../customHooks/useAutoCompleteAPI';
 
 const TramAutoComplete = () => {
-  const { updateQuery, autoCompleteState, autoCompleteDispatch } = useResetState();
-  const [loading, setLoading] = useState(false); // Set loading state for spinner
-  const [errorInfo, setErrorInfo] = useState(); // Placeholder to set error messaging
+  const { updateQuery, autoCompleteState } = useResetState();
+
   const resultsList = useRef(null);
   const debounceInput = useRef(null);
+
+  const { loading, errorInfo } = useAutoCompleteAPI(
+    `/metro/v1/stop?q=${encodeURI(autoCompleteState.query)}`,
+    'tram'
+  );
 
   // Import handleKeyDown function from customHook (used by all modes)
   const { handleKeyDown } = useHandleAutoCompleteKeys(
@@ -23,73 +27,6 @@ const TramAutoComplete = () => {
     DebounceInput,
     autoCompleteState
   );
-
-  useEffect(() => {
-    let mounted = true; // Set mounted to true (used later to make sure we don't do events as component is unmounting)
-    const source = axios.CancelToken.source(); // Set source of cancelToken
-    // If autocomplete has query
-    if (autoCompleteState.query) {
-      const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
-      setLoading(true); // Update loading state to true as we are hitting API
-      axios
-        .get(`${REACT_APP_API_HOST}/metro/v1/stop?q=${encodeURI(autoCompleteState.query)}`, {
-          headers: {
-            'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
-          },
-          cancelToken: source.token, // Set token with API call, so we can cancel this call on unmount
-        })
-        .then((tram) => {
-          setLoading(false); // Set loading state to false after data is received
-          // If tram.data isn't there, then we can't map the results to it, so return null
-          autoCompleteDispatch({
-            type: 'UPDATE_DATA',
-            data: tram.data.data || [],
-          }); // Update data state with services returned
-
-          if (autoCompleteState.selectedItem.id && tram.data?.data.length) {
-            const result = tram.data.data.filter(
-              (service) => service.id === autoCompleteState.selectedItem.id
-            )[0];
-            autoCompleteDispatch({
-              type: 'UDPATE_SELECTED_ITEM',
-              payload: {
-                id: result.id,
-                severity: result?.disruptionDetail?.disruptionSeverity || 'none',
-                stopName: result.name,
-                operator: 'MML1',
-              },
-            });
-          }
-          // If there is no tram data and the component is mounted (must be mounted or we will be creating an event on unmounted error)...
-          if (!tram.data.data.length && mounted) {
-            // if no tram data, set error
-            setErrorInfo({
-              title: 'No results found',
-              message: 'Make sure you are looking for the right tram stop, and try again.',
-            });
-          }
-        })
-        .catch((error) => {
-          if (!axios.isCancel(error)) {
-            setLoading(false); // Set loading state to false after data is received
-            // Update error message
-            setErrorInfo({
-              title: 'Please try again',
-              message: 'Apologies, we are having technical difficulties.',
-            });
-            // eslint-disable-next-line no-console
-            console.log({ error });
-          }
-        });
-    } else {
-      setLoading(false);
-    }
-    // Unmount / cleanup
-    return () => {
-      mounted = false; // Set mounted back to false on unmount
-      source.cancel(); // cancel the request
-    };
-  }, [autoCompleteDispatch, autoCompleteState.query, autoCompleteState.selectedItem.id]);
 
   return (
     <>

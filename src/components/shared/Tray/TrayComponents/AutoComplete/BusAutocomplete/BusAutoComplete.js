@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { DebounceInput } from 'react-debounce-input'; // https://www.npmjs.com/package/react-debounce-input
 // CustomHooks
 import useResetState from 'customHooks/useResetState';
@@ -16,7 +16,10 @@ const BusAutoComplete = () => {
   const resultsList = useRef(null);
   const debounceInput = useRef(null);
 
-  const { loading, errorInfo } = useAutoCompleteAPI();
+  const { loading, errorInfo } = useAutoCompleteAPI(
+    `/bus/v1/service?q=${encodeURI(autoCompleteState.query)}`,
+    'bus'
+  );
 
   // Import handleKeyDown function from customHook (used by all modes)
   const { handleKeyDown } = useHandleAutoCompleteKeys(

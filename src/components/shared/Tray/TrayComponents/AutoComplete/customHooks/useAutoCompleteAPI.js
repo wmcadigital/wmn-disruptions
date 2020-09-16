@@ -3,7 +3,7 @@ import axios from 'axios';
 // Import contexts
 import { AutoCompleteContext } from 'globalState';
 
-const useAutoCompleteAPI = () => {
+const useAutoCompleteAPI = (apiPath, mode) => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the dispatch of autocomplete
   const [loading, setLoading] = useState(false); // Set loading state for spinner
   const [errorInfo, setErrorInfo] = useState(); // Placeholder to set error messaging
@@ -16,37 +16,64 @@ const useAutoCompleteAPI = () => {
       const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
       setLoading(true); // Update loading state to true as we are hitting API
       axios
-        .get(`${REACT_APP_API_HOST}/bus/v1/service?q=${encodeURI(autoCompleteState.query)}`, {
+        .get(REACT_APP_API_HOST + apiPath, {
           headers: {
             'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
           },
           cancelToken: source.token, // Set token with API call, so we can cancel this call on unmount
         })
-        .then((bus) => {
+        .then((response) => {
           setLoading(false); // Set loading state to false after data is received
-          // If bus.data.services isn't there, then we can't map the results to it, so return null
-          autoCompleteDispatch({
-            type: 'UPDATE_DATA',
-            data: bus.data.services || [],
-          }); // Update data state with services returned
 
-          if (autoCompleteState.selectedItem.id && bus.data?.services.length) {
-            const result = bus.data.services.filter(
-              (service) => service.id === autoCompleteState.selectedItem.id
-            )[0];
+          // BUS
+          if (mode === 'bus') {
+            // If response.data.services isn't there, then we can't map the results to it, so return null
             autoCompleteDispatch({
-              type: 'UDPATE_SELECTED_ITEM',
-              payload: {
-                id: result.id,
-                operator: result.routes[0].operatorCode,
-                severity: result.disruptionSeverity,
-                serviceNumber: result.serviceNumber,
-                routeName: result.routes[0].routeName,
-              },
-            });
+              type: 'UPDATE_DATA',
+              data: response.data.services || [],
+            }); // Update data state with services returned
+
+            if (autoCompleteState.selectedItem.id && response.data?.services.length) {
+              const result = response.data.services.filter(
+                (service) => service.id === autoCompleteState.selectedItem.id
+              )[0];
+              autoCompleteDispatch({
+                type: 'UDPATE_SELECTED_ITEM',
+                payload: {
+                  id: result.id,
+                  operator: result.routes[0].operatorCode,
+                  severity: result.disruptionSeverity,
+                  serviceNumber: result.serviceNumber,
+                  routeName: result.routes[0].routeName,
+                },
+              });
+            }
+          }
+          // TRAM
+          else if (mode === 'tram') {
+            // If tram.data isn't there, then we can't map the results to it, so return null
+            autoCompleteDispatch({
+              type: 'UPDATE_DATA',
+              data: response.data.data || [],
+            }); // Update data state with services returned
+
+            if (autoCompleteState.selectedItem.id && response.data?.data.length) {
+              const result = response.data.data.filter(
+                (service) => service.id === autoCompleteState.selectedItem.id
+              )[0];
+              autoCompleteDispatch({
+                type: 'UDPATE_SELECTED_ITEM',
+                payload: {
+                  id: result.id,
+                  severity: result?.disruptionDetail?.disruptionSeverity || 'none',
+                  stopName: result.name,
+                  operator: 'MML1',
+                },
+              });
+            }
           }
           // If there is no bus data and the component is mounted (must be mounted or we will be creating an event on unmounted error)...
-          if (!bus.data && mounted) {
+          if (!response.data && mounted) {
             // if no bus data, set error
             setErrorInfo({
               title: 'No results found',
@@ -74,7 +101,13 @@ const useAutoCompleteAPI = () => {
       mounted = false; // Set mounted back to false on unmount
       source.cancel(); // cancel the request
     };
-  }, [autoCompleteDispatch, autoCompleteState.query, autoCompleteState.selectedItem.id]);
+  }, [
+    apiPath,
+    autoCompleteDispatch,
+    autoCompleteState.query,
+    autoCompleteState.selectedItem.id,
+    mode,
+  ]);
 
   return { loading, errorInfo };
 };
