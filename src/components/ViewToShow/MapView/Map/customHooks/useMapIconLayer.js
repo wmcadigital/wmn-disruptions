@@ -1,6 +1,6 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { loadModules } from 'esri-loader';
-import { format } from 'fecha';
+import { format, parse } from 'fecha';
 import useDateFilter from 'customHooks/useDateFilter';
 import {
   FetchDisruptionsContext,
@@ -20,49 +20,67 @@ const useMapIconLayer = (mapState, viewState) => {
   const { fromDate, toDate } = useDateFilter();
   const [isIconLayerCreated, setIsIconLayerCreated] = useState(false); // Set this to true when iconLayer has been created
 
-  const graphicsLayer = useRef(null); // GraphicsLayer as useRef as we want to mutate it with the new data, we don't want to destroy and rebuild it on every re-render
   // This useEffect is to add the disruption icons to the map
   useEffect(() => {
     const map = mapState; // Reassign injected mapState to 'map' to be consistent
     const view = viewState;
+    let graphicsLayer; // Set here, so we can cleanup in the return
 
     // If disruption state has data in it...
     if (fetchDisruptionsState.data.length && view) {
       // lazy load the required ArcGIS API for JavaScript modules and CSS
       loadModules(['esri/Graphic', 'esri/layers/GraphicsLayer', 'esri/layers/FeatureLayer']).then(
         ([Graphic, GraphicsLayer, FeatureLayer]) => {
-          const today = format(new Date(), 'YYYY-MM-DD');
-          // If there is no graphics layer currently, then we need to create one and attach it to the map
-          // Wrapped in an if statement so we don't create a new layer each time. We just create it once.
-          if (!graphicsLayer.current) {
-            graphicsLayer.current = new GraphicsLayer(); // Set up a graphics layer placeholder so we can inject disruption icons into it in future
-            map.add(graphicsLayer.current); // Add graphics layer to map
-          }
+          const today = format(new Date(), 'YYYY-MM-DD'); // Get today's date in nice format to use in map function below
+
+          graphicsLayer = new GraphicsLayer(); // Set up a graphics layer placeholder so we can inject disruption icons into it in future
+          map.add(graphicsLayer); // Add graphics layer to map
 
           // Create new graphic for each lat long in disruptions list
           const disruptionsData = fetchDisruptionsState.data.map((item) => {
+            // Destructure values from item
+            const {
+              disruptionTimeWindow,
+              servicesAffected,
+              stopsAffected,
+              id,
+              title,
+              mode,
+              disruptionSeverity,
+              lat,
+              lon,
+            } = item;
+
             let startDate = today;
             let endDate = today;
+
             // If disruption time window exists then set start/end dates to those
-            if (item.disruptionTimeWindow) {
-              startDate = format(new Date(item.disruptionTimeWindow.start), 'YYYY-MM-DD');
-              endDate = format(new Date(item.disruptionTimeWindow.end), 'YYYY-MM-DD');
+            if (disruptionTimeWindow) {
+              const getValidDate = (date) => (date ? parse(date, 'isoDateTime') : new Date()); // Parse the date to make sure a correct date is available, if not return todays date
+
+              startDate = format(getValidDate(disruptionTimeWindow.start), 'YYYY-MM-DD');
+              endDate = format(getValidDate(disruptionTimeWindow.end), 'YYYY-MM-DD');
             }
 
             let affectedIds = '';
             // If servicedsAffected on disruption add them to the affectedIds var so we can query them
-            if (item.servicesAffected) {
-              item.servicesAffected.forEach((service) => {
+            if (servicesAffected && mode !== 'tram') {
+              servicesAffected.forEach((service) => {
                 affectedIds += `${service.id}, `;
               });
+            } else {
+              stopsAffected.forEach((stop) => {
+                affectedIds += `${stop.atcoCode}, `;
+              });
             }
+
             // Return graphic element with attributes we want to query, and geomotry/location of disruption
             return new Graphic({
               attributes: {
-                id: item.id,
-                title: item.title,
-                mode: item.mode,
-                disruptionSeverity: item.disruptionSeverity,
+                id,
+                title,
+                mode,
+                disruptionSeverity,
                 servicesAffected: affectedIds,
                 startDate,
                 endDate,
@@ -70,8 +88,8 @@ const useMapIconLayer = (mapState, viewState) => {
               geometry: {
                 type: 'point',
                 // If no lat/long then default to Birmingham city centre
-                longitude: item.lon || -1.8960335,
-                latitude: item.lat || 52.481755,
+                longitude: lon || -1.8960335,
+                latitude: lat || 52.481755,
                 spatialreference: {
                   wkid: 4326,
                 },
@@ -120,6 +138,11 @@ const useMapIconLayer = (mapState, viewState) => {
                 type: 'string',
               },
               {
+                name: 'stopsAffected',
+                alias: 'stopsAffected',
+                type: 'string',
+              },
+              {
                 name: 'startDate',
                 alias: 'startDate',
                 type: 'string',
@@ -145,8 +168,8 @@ const useMapIconLayer = (mapState, viewState) => {
             queryBuilder += ` AND mode = '${modeState.mode}'`; // add mode query to queryBuilder
           }
           // If autocomplete ID
-          if (autoCompleteState.selectedService.id) {
-            queryBuilder += ` AND servicesAffected LIKE '%${autoCompleteState.selectedService.id}%'`; // Add selected id query to queryBuilder
+          if (autoCompleteState.selectedItem.id && !autoCompleteState.selectedItem.selectedByMap) {
+            queryBuilder += ` AND servicesAffected LIKE '%${autoCompleteState.selectedItem.id}%'`; // Add selected id query to queryBuilder
           }
 
           const query = flayer.createQuery(); // Create a query based on feature layer above
@@ -154,15 +177,15 @@ const useMapIconLayer = (mapState, viewState) => {
 
           // function that takes a result, and creates a graphic, then adds to iconLayer on map
           function addGraphics(results) {
-            graphicsLayer.current.removeAll(); // Remove all graphics from iconLayer
+            graphicsLayer.removeAll(); // Remove all graphics from iconLayer
             setIsIconLayerCreated(false); // Reset this var as GoTO method relies on it to change
             // Foreach result the loop through (async as we have to await the icon to be resolved)
-            results.features.forEach(async (feature, i) => {
-              // Await for the correct icon to come back based on mode/severity (if the current feature matches selectedMapDisruption, pass true to get hover icon)
+            results.features.forEach(async (feature) => {
+              // Await for the correct icon to come back based on mode/severity (if the current feature matches selectedItem, pass true to get hover icon)
               const icon = await modeIcon(
                 feature.attributes.mode,
                 feature.attributes.disruptionSeverity,
-                feature.attributes.id === autoCompleteState.selectedMapDisruption
+                feature.attributes.id === autoCompleteState.selectedItem.id
               );
 
               // Create new graphic
@@ -179,7 +202,7 @@ const useMapIconLayer = (mapState, viewState) => {
                 },
               });
 
-              graphicsLayer.current.add(graphic); // Add graphic to iconLayer on map
+              graphicsLayer.add(graphic); // Add graphic to iconLayer on map
               setIsIconLayerCreated(true); // IconLayer created, set to true
             });
           }
@@ -190,9 +213,14 @@ const useMapIconLayer = (mapState, viewState) => {
         }
       );
     }
+    // If component unmounting
+    return () => {
+      if (graphicsLayer) map.remove(graphicsLayer); // remove the graphicsLayer on the map
+      setIsIconLayerCreated(false);
+    };
   }, [
-    autoCompleteState.selectedMapDisruption,
-    autoCompleteState.selectedService.id,
+    autoCompleteState.selectedItem.id,
+    autoCompleteState.selectedItem.selectedByMap,
     fetchDisruptionsState.data,
     fromDate,
     mapState,

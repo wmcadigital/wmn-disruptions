@@ -25,12 +25,14 @@ const TrayComponents = () => {
           />
         </div>
       </div>
+
       <When />
+
       <Mode />
-      {!autoCompleteState.selectedService.routeName && <AutoComplete />}
-      {(autoCompleteState.selectedService.routeName || autoCompleteState.selectedMapDisruption) && (
-        <SelectedService />
-      )}
+
+      {!autoCompleteState.selectedItem.severity && <AutoComplete />}
+
+      {autoCompleteState.selectedItem.id && <SelectedService />}
     </>
   );
 };

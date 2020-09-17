@@ -12,14 +12,15 @@ const BusAutoCompleteResult = (props) => {
 
   const updateSelectedService = () => {
     // Reset selected disruption ID from map (if any)
-    if (autoCompleteState.selectedMapDisruption) {
+    if (autoCompleteState.selectedItem.selectedByMap) {
       autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' });
     }
 
     autoCompleteDispatch({
-      type: 'UPDATE_SELECTED_SERVICE',
-      selectedService: {
+      type: 'UDPATE_SELECTED_ITEM',
+      payload: {
         id: result.id,
+        operator: result.routes[0].operatorCode,
         severity: result.disruptionSeverity,
         serviceNumber: result.serviceNumber,
         routeName: result.routes[0].routeName,

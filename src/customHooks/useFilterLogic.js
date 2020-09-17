@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { format } from 'fecha';
+import { format, parse } from 'fecha';
 // Import contexts
 import {
   AutoCompleteContext,
@@ -15,26 +15,28 @@ const useFilterLogic = () => {
   const [autoCompleteState] = useContext(AutoCompleteContext);
   const [modeState] = useContext(ModeContext); // Get the state of whenButtons from WhenContext
   const [whenState] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
-  const { fromDate, toDate } = useDateFilter();
+  const { fromDate, toDate } = useDateFilter(); // Logic to determine what the correct from/to dates should be depending on selected when
 
-  let filteredData = fetchDisruptionsState.data;
+  let filteredData = fetchDisruptionsState.data; // All disruptions
 
   // When filtering
   if (whenState.when) {
     // Filter results on date range
     filteredData = filteredData.filter((disrItem) => {
       let returnitem;
-      if (disrItem.mode === 'bus') {
-        // 2020-02-05T15:30:00Z
-        const disrStartDate = format(new Date(disrItem.disruptionTimeWindow.start), 'YYYY-MM-DD');
-        const disrEndDate = format(new Date(disrItem.disruptionTimeWindow.end), 'YYYY-MM-DD');
 
-        if (
-          (disrStartDate >= fromDate && disrStartDate <= toDate) ||
-          (disrEndDate >= fromDate && disrStartDate <= toDate)
-        ) {
-          returnitem = disrItem;
-        }
+      const getValidDate = (date) => (date ? parse(date, 'isoDateTime') : new Date()); // Parse the date to make sure a correct date is available, if not return todays date
+
+      // 2020-02-05T15:30:00Z
+      const disrStartDate = format(getValidDate(disrItem.disruptionTimeWindow.start), 'YYYY-MM-DD');
+      const disrEndDate = format(getValidDate(disrItem.disruptionTimeWindow.end), 'YYYY-MM-DD');
+
+      // If disruption dates are within selected time range then return that disruption
+      if (
+        (disrStartDate >= fromDate && disrStartDate <= toDate) ||
+        (disrEndDate >= fromDate && disrStartDate <= toDate)
+      ) {
+        returnitem = disrItem;
       }
       return returnitem;
     });
@@ -46,20 +48,31 @@ const useFilterLogic = () => {
     }
 
     // SelectedMapDisruption filtering
-    if (autoCompleteState.selectedMapDisruption) {
+    if (autoCompleteState.selectedItem.selectedByMap) {
       filteredData = filteredData.filter(
-        (disrItem) => disrItem.id === autoCompleteState.selectedMapDisruption
+        (disrItem) => disrItem.id === autoCompleteState.selectedItem.id
       );
     }
 
-    // ID filtering
-    if (autoCompleteState.selectedService.id) {
-      // The below will check all disruptions and will return any disruption where the mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
-      filteredData = filteredData.filter(
-        (disrItem) =>
-          disrItem.mode === 'bus' &&
-          disrItem.servicesAffected.some((el) => el.id === autoCompleteState.selectedService.id)
-      );
+    // // ID filtering
+    else if (autoCompleteState.selectedItem.id) {
+      // The below will check all disruptions and will return any disruption where:
+      switch (modeState.mode) {
+        // The mode is tram and the id the user clicked in the autocomplete is within the stopsAffected array
+        case 'tram':
+          filteredData = filteredData.filter((disrItem) =>
+            disrItem.stopsAffected.some((el) => el.atcoCode === autoCompleteState.selectedItem.id)
+          );
+
+          break;
+
+        // The mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
+        default: {
+          filteredData = filteredData.filter((disrItem) =>
+            disrItem.servicesAffected.some((el) => el.id === autoCompleteState.selectedItem.id)
+          );
+        }
+      }
     }
   }
 

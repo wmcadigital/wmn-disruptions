@@ -21,9 +21,14 @@ const DisruptionInfo = ({ disruption, listView }) => {
   const { isMapVisible } = fetchDisruptionsState;
 
   const handleViewOnMapBtn = () => {
+    // Reset stored autocomplete data
     autoCompleteDispatch({
-      type: 'UDPATE_SELECTED_MAP_DISRUPTION',
-      selectedMapDisruption: disruption.id,
+      type: 'RESET_SELECTED_SERVICE',
+    });
+    // Update API for selected API
+    autoCompleteDispatch({
+      type: 'UDPATE_SELECTED_ITEM',
+      payload: { id: disruption.id, selectedByMap: true },
     });
     // Update the state of the isMapVisible to opposite of what it was
     setFetchDisruptionsState((prevState) => ({
@@ -41,10 +46,11 @@ const DisruptionInfo = ({ disruption, listView }) => {
         <>
           {/* Affected Services */}
           <div className="wmnds-col-1 ">
-            <strong>Affected Services:</strong>
+            <strong>Affected {disruption.mode !== 'tram' ? 'Services' : 'Stops'}:</strong>
           </div>
           <div className="wmnds-col-1">
             {disruption.servicesAffected &&
+              disruption.mode === 'bus' &&
               disruption.servicesAffected
                 .sort(
                   (a, b) => a.serviceNumber.replace(/\D/g, '') - b.serviceNumber.replace(/\D/g, '')
@@ -55,7 +61,23 @@ const DisruptionInfo = ({ disruption, listView }) => {
                     severity={disruption.disruptionSeverity}
                     text={affected.serviceNumber}
                     title={`${affected.routeDescriptions[0].description} (${affected.operatorName})`}
+                    mode={disruption.mode}
                     key={affected.id}
+                  />
+                ))}
+
+            {disruption.servicesAffected &&
+              disruption.mode === 'tram' &&
+              disruption.stopsAffected
+                .sort((a, b) => a.name.replace(/\D/g, '') - b.name.replace(/\D/g, ''))
+                .map((affected) => (
+                  <FavBusButton
+                    id={affected.atcoCode}
+                    severity={disruption.disruptionSeverity}
+                    text={affected.name}
+                    title={`${disruption.servicesAffected[0].routeDescriptions[0].description} (${disruption.servicesAffected[0].operatorName})`}
+                    mode={disruption.mode}
+                    key={affected.atcoCode}
                   />
                 ))}
           </div>
@@ -63,12 +85,29 @@ const DisruptionInfo = ({ disruption, listView }) => {
       )}
 
       {/* Disruption description */}
-      <div
-        className="wmnds-m-b-lg wmnds-col-1"
-        dangerouslySetInnerHTML={{
-          __html: sanitize(disruption.description),
-        }}
-      />
+
+      {disruption.mode !== 'tram' ? (
+        <div
+          className="wmnds-m-b-lg wmnds-col-1"
+          dangerouslySetInnerHTML={{
+            __html: sanitize(disruption.description),
+          }}
+        />
+      ) : (
+        <div className="wmnds-m-b-lg wmnds-col-1">
+          {disruption.subtitle}
+          <br />
+          <br />
+          <a
+            href={disruption.description}
+            className="wmnds-link wmnds-col-1"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read more about this disruption on twitter
+          </a>
+        </div>
+      )}
 
       {/* Replan button */}
       <span className={`wmnds-col-1 ${isMapVisible ? s.mapBtn : `${s.listBtn} wmnds-col-sm-1-2`}`}>

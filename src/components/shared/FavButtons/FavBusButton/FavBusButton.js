@@ -8,22 +8,22 @@ import Icon from 'components/shared/Icon/Icon';
 
 import s from './FavBusButton.module.scss';
 
-const FavBusButton = ({ id, severity, text, title }) => {
+const FavBusButton = ({ id, severity, text, title, mode }) => {
   const [favState, favDispatch] = useContext(FavsContext); // Get fav state from globalState
-  const [isFav, setIsFav] = useState(favState.favs.bus.includes(id)); // Check favs on load to see if ours is included
+  const [isFav, setIsFav] = useState(favState.favs[mode].includes(id)); // Check favs on load to see if ours is included
 
   // UseEffect to watch for changes of favState, then we can reload component with new favourites
   useEffect(() => {
-    setIsFav(favState.favs.bus.includes(id)); // Check reloaded favs to see if our id is included in there
-  }, [favState.favs.bus, id, isFav]);
+    setIsFav(favState.favs[mode].includes(id)); // Check reloaded favs to see if our id is included in there
+  }, [favState.favs, id, mode]);
 
   const toggleFav = () => {
     setIsFav(!isFav); // Toggle the fav state
 
     if (isFav) {
-      favDispatch({ type: 'REMOVE_FAV', id }); // Remove favourite from globalState/localStorage
+      favDispatch({ type: 'REMOVE_FAV', id, mode }); // Remove favourite from globalState/localStorage
     } else {
-      favDispatch({ type: 'ADD_FAV', id }); // Add favourite to globalState/localStorage
+      favDispatch({ type: 'ADD_FAV', id, mode }); // Add favourite to globalState/localStorage
     }
   };
 
@@ -33,7 +33,7 @@ const FavBusButton = ({ id, severity, text, title }) => {
       <DisruptionIndicatorMedium
         text={text}
         severity={severity}
-        className="wmnds-p-t-xs wmnds-p-b-xs wmnds-p-l-xsm wmnds-p-r-xsm"
+        className={`wmnds-p-t-xs wmnds-p-b-xs wmnds-p-l-xsm wmnds-p-r-xsm wmnds-disruption-indicator-medium--${mode}`}
         title={title}
       />
 
@@ -53,6 +53,7 @@ const FavBusButton = ({ id, severity, text, title }) => {
 // Set props
 FavBusButton.propTypes = {
   id: PropTypes.string, // button type, by default it is type="button"
+  mode: PropTypes.string, // Mode type
   severity: PropTypes.string.isRequired, // severity of disruption
   text: PropTypes.string.isRequired, // text inside button
   title: PropTypes.string,
@@ -60,6 +61,7 @@ FavBusButton.propTypes = {
 
 FavBusButton.defaultProps = {
   id: null,
+  mode: 'bus',
   title: null,
 };
 

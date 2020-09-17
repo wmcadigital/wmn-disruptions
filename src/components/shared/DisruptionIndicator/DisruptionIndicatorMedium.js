@@ -1,8 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'components/shared/Icon/Icon';
+import './DisruptionIndicatorMedium.scss';
 
-const DisruptionIndicatorMedium = ({ className, iconLeft, narrow, severity, text, title }) => {
+const DisruptionIndicatorMedium = ({
+  className,
+  iconLeft,
+  narrow,
+  noMarginOnIcon,
+  severity,
+  text,
+  title,
+}) => {
   let iconRightName;
   let disruptedClass;
   // Removed the if statement - Icon now showing.
@@ -21,11 +30,6 @@ const DisruptionIndicatorMedium = ({ className, iconLeft, narrow, severity, text
     case 'veryHigh':
       iconRightName = 'warning-triangle';
       disruptedClass = 'severe';
-      break;
-    // Major Disruption - Notice that the disruptionSeverity is capitalised in this case - Maybe ask Jon to make it lowercase?
-    case 'Major':
-      iconRightName = 'warning-triangle';
-      disruptedClass = 'error';
       break;
     // Minor disruption (normal)
     default:
@@ -53,9 +57,10 @@ const DisruptionIndicatorMedium = ({ className, iconLeft, narrow, severity, text
       {text}
       <Icon
         iconName={`general-${iconRightName}`}
-        iconClass={`wmnds-disruption-indicator-medium__icon wmnds-disruption-indicator-medium__icon--right ${
-          !iconLeft && narrow ? 'wmnds-m-l-xl' : ''
-        }`}
+        iconClass={`wmnds-disruption-indicator-medium__icon ${
+          noMarginOnIcon ? '' : 'wmnds-disruption-indicator-medium__icon--right'
+        }
+          ${!iconLeft && narrow ? 'wmnds-m-l-xl' : ''}`}
       />
     </div>
   );
@@ -66,6 +71,7 @@ DisruptionIndicatorMedium.propTypes = {
   className: PropTypes.string,
   iconLeft: PropTypes.string,
   narrow: PropTypes.bool,
+  noMarginOnIcon: PropTypes.bool,
   severity: PropTypes.string,
   text: PropTypes.string,
   title: PropTypes.string,
@@ -75,6 +81,7 @@ DisruptionIndicatorMedium.defaultProps = {
   className: '',
   iconLeft: null,
   narrow: false,
+  noMarginOnIcon: false,
   severity: '',
   text: null,
   title: null,
