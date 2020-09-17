@@ -3,11 +3,11 @@ import React, { useContext } from 'react';
 // Import contexts
 import { FetchDisruptionsContext } from 'globalState';
 // Import components
-import Header from 'components/Header/Header';
-import LoadingView from 'components/LoadingView/LoadingView';
-import ErrorView from 'components/ErrorView/ErrorView';
-import MapView from 'components/MapView/MapView';
-import ListView from 'components/ListView/ListView';
+import Header from 'components/ViewToShow/Header/Header';
+import LoadingView from 'components/ViewToShow/LoadingView/LoadingView';
+import ErrorView from 'components/ViewToShow/ErrorView/ErrorView';
+import MapView from 'components/ViewToShow/MapView/MapView';
+import ListView from 'components/ViewToShow/ListView/ListView';
 // Import custom hooks
 import useGETDisruptions from './useGETDisruptions';
 

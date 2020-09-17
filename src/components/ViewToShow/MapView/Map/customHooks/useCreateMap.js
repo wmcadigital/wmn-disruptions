@@ -5,7 +5,7 @@ import { AutoCompleteContext } from 'globalState';
 import locateCircle from 'assets/svgs/map/locate-circle.svg';
 
 const useCreateMap = (_mapRef) => {
-  const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
+  const [, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [currentLocationState, setCurrentLocationState] = useState();
   const [viewState, setViewState] = useState();
   const [mapState, setMapState] = useState();
@@ -123,14 +123,7 @@ const useCreateMap = (_mapRef) => {
         };
       });
     }
-  }, [
-    _mapRef,
-    autoCompleteDispatch,
-    autoCompleteState.selectedService.id,
-    currentLocationState,
-    mapRef,
-    mapState,
-  ]);
+  }, [_mapRef, autoCompleteDispatch, currentLocationState, mapRef, mapState]);
 
   return { mapState, viewState, currentLocationState };
 };

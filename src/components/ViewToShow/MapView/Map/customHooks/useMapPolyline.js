@@ -6,6 +6,7 @@ import { AutoCompleteContext } from 'globalState';
 const useMapPolyline = (mapState, viewState) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [isPolylineCreated, setIsPolylineCreated] = useState(false); // Set this to true when polyline has been created
+  const { id, operator } = autoCompleteState.selectedItem;
 
   // This useEffect is to plot the line on the map
   useEffect(() => {
@@ -16,11 +17,11 @@ const useMapPolyline = (mapState, viewState) => {
     let graphicsLayer; // Set here, so we can cleanup in the return
 
     // If there is an ID and query in state, then lets hit the API and get the geoJSON
-    if (autoCompleteState.selectedService.id && map && view) {
+    if (id && operator && map && view) {
       const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
 
       axios
-        .get(`${REACT_APP_API_HOST}/bus/v1/RouteGeoJSON/${autoCompleteState.selectedService.id}`, {
+        .get(`${REACT_APP_API_HOST}/bus/v1/RouteGeoJSON/${id}/${operator}`, {
           headers: {
             'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
           },
@@ -34,20 +35,23 @@ const useMapPolyline = (mapState, viewState) => {
               map.add(graphicsLayer); // Add graphics layer to map
               map.reorder(graphicsLayer, -1); // Re-order so polyline is behind other layers
 
-              // Create a new polyline with the geoJSON from the API for the ID
-              const polyline = new Graphic({
-                geometry: {
-                  type: 'polyline',
-                  paths: route.data.geoJson.features[0].geometry.coordinates,
-                },
-                symbol: {
-                  type: 'simple-line', // autocasts as new SimpleLineSymbol()
-                  color: '#3c1053', // RGB color values as an array
-                  width: 4,
-                },
-              });
+              if (route.data.geoJson?.features[0]?.geometry?.coordinates) {
+                // Create a new polyline with the geoJSON from the API for the ID
+                const polyline = new Graphic({
+                  geometry: {
+                    type: 'polyline',
+                    paths: route.data.geoJson?.features[0]?.geometry?.coordinates,
+                  },
+                  symbol: {
+                    type: 'simple-line', // autocasts as new SimpleLineSymbol()
+                    color: '#3c1053', // RGB color values as an array
+                    width: 4,
+                  },
+                });
 
-              graphicsLayer.add(polyline); // Add polyline to graphicsLayer on map
+                graphicsLayer.add(polyline); // Add polyline to graphicsLayer on map
+              }
+
               setIsPolylineCreated(true); // Polyline created, set to true
             }
           );
@@ -65,7 +69,7 @@ const useMapPolyline = (mapState, viewState) => {
       if (graphicsLayer) map.remove(graphicsLayer); // remove the graphicsLayer on the map
       setIsPolylineCreated(false);
     };
-  }, [autoCompleteState.selectedService.id, mapState, viewState]);
+  }, [id, operator, mapState, viewState]);
 
   return { isPolylineCreated };
 };

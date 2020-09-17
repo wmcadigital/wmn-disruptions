@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 // Import contexts
 import { ModeContext } from 'globalState/ModeContext';
 // Import components
-import BusAutoComplete from './Bus/BusAutoComplete';
+import BusAutoComplete from './BusAutocomplete/BusAutoComplete';
+import TramAutoComplete from './TramAutoComplete/TramAutoComplete';
 
 const AutoComplete = () => {
   const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
@@ -21,10 +22,18 @@ const AutoComplete = () => {
     switch (modeState.mode) {
       case 'bus':
         return (
-          <div className="wmnds-grid">
+          <>
             {autoCompleteTitle('Search for a service')}
             <BusAutoComplete />
-          </div>
+          </>
+        );
+
+      case 'tram':
+        return (
+          <>
+            {autoCompleteTitle('Search for a stop')}
+            <TramAutoComplete />
+          </>
         );
 
       default:
@@ -33,7 +42,7 @@ const AutoComplete = () => {
   };
 
   // Render the correct component based on logic in switch statement above
-  return <>{autoCompleteToShow()}</>;
+  return <div className="wmnds-grid">{autoCompleteToShow()}</div>;
 };
 
 export default AutoComplete;

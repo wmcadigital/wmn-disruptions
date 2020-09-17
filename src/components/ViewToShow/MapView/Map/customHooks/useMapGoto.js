@@ -11,10 +11,10 @@ const useMapGoto = (
   useEffect(() => {
     // Function for zooming map to area (notice async as we to await for when map is ready)
     const goToArea = async () => {
-      if ((mapState && viewState && isPolylineCreated) || isIconLayerCreated) {
+      if (mapState && viewState && (isPolylineCreated || isIconLayerCreated)) {
         const locations = await mapState.layers.items.map((layer) => layer.graphics.items);
         if (currentLocationState) locations.push(currentLocationState);
-        viewState.goTo({ target: locations }); // Go to locations set above
+        viewState.goTo({ target: locations.flat() }); // Go to locations set above (flatten array so goto can understand better)
       }
     };
     goToArea();
