@@ -33,10 +33,12 @@ const Mode = () => {
       {/* Tram mode button */}
       <Button
         btnClass="wmnds-btn--mode wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm wmnds-p-xsm"
+        title="Tram mode coming soon"
         isActive={modeState.mode === 'tram'}
         onClick={() => updateMode('tram')}
         iconLeft="modes-isolated-metro"
         text="Tram"
+        disabled
       />
       {/* Roads mode button */}
       <Button
