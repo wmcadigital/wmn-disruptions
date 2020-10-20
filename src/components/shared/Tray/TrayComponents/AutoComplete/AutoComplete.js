@@ -34,6 +34,9 @@ const AutoComplete = () => {
           <>
             {autoCompleteTitle('Trains between')}
             <TrainAutoComplete />
+            <div className="wmnds-col-1">
+              <br />
+            </div>
             {autoCompleteTitle('and')}
             <TrainAutoComplete to />
           </>

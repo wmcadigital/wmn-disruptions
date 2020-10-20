@@ -25,11 +25,7 @@ const TrainAutoComplete = ({ to }) => {
   );
 
   // Import handleKeyDown function from customHook (used by all modes)
-  const { handleKeyDown } = useHandleAutoCompleteKeys(
-    resultsList,
-    DebounceInput,
-    autoCompleteState
-  );
+  const { handleKeyDown } = useHandleAutoCompleteKeys(resultsList, DebounceInput, results);
 
   return (
     <>
