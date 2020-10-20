@@ -3,7 +3,7 @@ import axios from 'axios';
 // Import contexts
 import { AutoCompleteContext } from 'globalState';
 
-const useAutoCompleteAPI = (apiPath, mode) => {
+const useAutoCompleteAPI = (apiPath, mode, query) => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the dispatch of autocomplete
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false); // Set loading state for spinner
@@ -13,7 +13,7 @@ const useAutoCompleteAPI = (apiPath, mode) => {
     let mounted = true; // Set mounted to true (used later to make sure we don't do events as component is unmounting)
     const source = axios.CancelToken.source(); // Set source of cancelToken
     // If autocomplete has query
-    if (autoCompleteState.query) {
+    if (query) {
       const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
       setLoading(true); // Update loading state to true as we are hitting API
       axios
@@ -53,7 +53,7 @@ const useAutoCompleteAPI = (apiPath, mode) => {
             }
           }
           // TRAM
-          else if (mode === 'tram') {
+          else if (mode === 'tram' || mode === 'train') {
             // If tram.data isn't there, then we can't map the results to it, so return null
             // autoCompleteDispatch({
             //   type: 'UPDATE_DATA',
@@ -105,13 +105,7 @@ const useAutoCompleteAPI = (apiPath, mode) => {
       mounted = false; // Set mounted back to false on unmount
       source.cancel(); // cancel the request
     };
-  }, [
-    apiPath,
-    autoCompleteDispatch,
-    autoCompleteState.query,
-    autoCompleteState.selectedItem.id,
-    mode,
-  ]);
+  }, [apiPath, autoCompleteDispatch, autoCompleteState.selectedItem.id, mode, query]);
 
   return { loading, errorInfo, results };
 };

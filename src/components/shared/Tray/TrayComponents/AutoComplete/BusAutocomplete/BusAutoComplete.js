@@ -18,7 +18,8 @@ const BusAutoComplete = () => {
 
   const { loading, errorInfo, results } = useAutoCompleteAPI(
     `/bus/v1/service?q=${encodeURI(autoCompleteState.query)}`,
-    'bus'
+    'bus',
+    autoCompleteState.query
   );
 
   // Import handleKeyDown function from customHook (used by all modes)

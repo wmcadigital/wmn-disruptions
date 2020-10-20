@@ -6,10 +6,9 @@ const useHandleAutoCompleteKeys = (resultsList, debounceInput, results) => {
     // 38 = up arrow
     // 13 = enter
     // 32 = space
-
     // If down arrow pressed and current target is input (we are still in autocomplete debounce) and there are results
     if (target.localName === 'input') {
-      if (keyCode === 40 && results.data.length) {
+      if (keyCode === 40 && results.length) {
         resultsList.current.firstChild.focus(); // Then focus on the first child in results list
       }
     } else {

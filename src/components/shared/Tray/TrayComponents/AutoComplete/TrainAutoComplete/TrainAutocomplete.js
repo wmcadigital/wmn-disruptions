@@ -21,7 +21,8 @@ const TrainAutoComplete = ({ to }) => {
 
   const { loading, errorInfo, results } = useAutoCompleteAPI(
     `/rail/v2/station?q=${encodeURI(trainQuery)}`,
-    'tram'
+    'train',
+    trainQuery
   );
 
   // Import handleKeyDown function from customHook (used by all modes)

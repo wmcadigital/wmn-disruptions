@@ -18,7 +18,8 @@ const TramAutoComplete = () => {
 
   const { loading, errorInfo, results } = useAutoCompleteAPI(
     `/metro/v1/stop?q=${encodeURI(autoCompleteState.query)}`,
-    'tram'
+    'tram',
+    autoCompleteState.query
   );
 
   // Import handleKeyDown function from customHook (used by all modes)
