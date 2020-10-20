@@ -12,7 +12,7 @@
   },
   "copyright": "WMCA",
   "dependencies": {
-    "@sentry/react": "^5.23.0",
+    "@sentry/react": "^5.24.2",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.0.4",
     "@testing-library/user-event": "^12.1.5",
@@ -28,7 +28,7 @@
     "react-datepicker": "^3.2.2",
     "react-debounce-input": "^3.2.2",
     "react-dom": "^16.13.1",
-    "react-easy-swipe": "0.0.18",
+    "react-easy-swipe": "0.0.21",
     "react-scripts": "3.4.3",
     "react-share": "^4.2.1"
   },
@@ -41,7 +41,7 @@
     "eslint-plugin-jam3": "^0.2.3",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react": "^7.21.2",
     "prettier": "^2.1.2"
   },
   "scripts": {
