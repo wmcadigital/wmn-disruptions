@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
 import { DebounceInput } from 'react-debounce-input'; // https://www.npmjs.com/package/react-debounce-input
 // CustomHooks
 import useResetState from 'customHooks/useResetState';
@@ -10,14 +11,16 @@ import TrainAutoCompleteResult from './TrainAutoCompleteResult/TrainAutoComplete
 import useHandleAutoCompleteKeys from '../customHooks/useHandleAutoCompleteKeys';
 import useAutoCompleteAPI from '../customHooks/useAutoCompleteAPI';
 
-const TrainAutoComplete = () => {
+const TrainAutoComplete = ({ to }) => {
   const { updateQuery, autoCompleteState } = useResetState();
 
   const resultsList = useRef(null);
   const debounceInput = useRef(null);
 
-  const { loading, errorInfo } = useAutoCompleteAPI(
-    `/metro/v1/stop?q=${encodeURI(autoCompleteState.query)}`,
+  const trainQuery = to ? autoCompleteState.queryTo : autoCompleteState.query;
+
+  const { loading, errorInfo, results } = useAutoCompleteAPI(
+    `/rail/v2/station?q=${encodeURI(trainQuery)}`,
     'tram'
   );
 
@@ -40,8 +43,8 @@ const TrainAutoComplete = () => {
           name="tramSearch"
           placeholder="Search for a stop"
           className="wmnds-fe-input wmnds-autocomplete__input wmnds-col-1"
-          value={autoCompleteState.query || ''}
-          onChange={(e) => updateQuery(e.target.value)}
+          value={trainQuery || ''}
+          onChange={(e) => updateQuery(e.target.value, to)}
           aria-label="Search for a stop"
           debounceTimeout={600}
           onKeyDown={(e) => handleKeyDown(e)}
@@ -49,13 +52,13 @@ const TrainAutoComplete = () => {
         />
       </div>
       {/* If there is no data.length(results) and the user hasn't submitted a query and the state isn't loading then the user should be displayed with no results message, else show results */}
-      {!autoCompleteState.data.length && autoCompleteState.query && !loading && errorInfo ? (
+      {!results.length && trainQuery && !loading && errorInfo ? (
         <Message type="error" title={errorInfo.title} message={errorInfo.message} />
       ) : (
         // Only show autocomplete results if there is a query
-        autoCompleteState.query && (
+        trainQuery && (
           <ul className="wmnds-autocomplete-suggestions" ref={resultsList}>
-            {autoCompleteState.data.map((result) => (
+            {results.map((result) => (
               <TrainAutoCompleteResult
                 key={result.id}
                 result={result}
@@ -67,6 +70,16 @@ const TrainAutoComplete = () => {
       )}
     </>
   );
+};
+
+// PropTypes
+TrainAutoComplete.propTypes = {
+  to: PropTypes.bool,
+};
+
+// Default props
+TrainAutoComplete.defaultProps = {
+  to: false,
 };
 
 export default TrainAutoComplete;

@@ -16,7 +16,7 @@ const BusAutoComplete = () => {
   const resultsList = useRef(null);
   const debounceInput = useRef(null);
 
-  const { loading, errorInfo } = useAutoCompleteAPI(
+  const { loading, errorInfo, results } = useAutoCompleteAPI(
     `/bus/v1/service?q=${encodeURI(autoCompleteState.query)}`,
     'bus'
   );
@@ -49,13 +49,13 @@ const BusAutoComplete = () => {
         />
       </div>
       {/* If there is no data.length(results) and the user hasn't submitted a query and the state isn't loading then the user should be displayed with no results message, else show results */}
-      {!autoCompleteState.data.length && autoCompleteState.query && !loading && errorInfo ? (
+      {!results.length && autoCompleteState.query && !loading && errorInfo ? (
         <Message type="error" title={errorInfo.title} message={errorInfo.message} />
       ) : (
         // Only show autocomplete results if there is a query
         autoCompleteState.query && (
           <ul className="wmnds-autocomplete-suggestions" ref={resultsList}>
-            {autoCompleteState.data.map((result) => (
+            {results.map((result) => (
               <BusAutoCompleteResult
                 key={result.id}
                 result={result}

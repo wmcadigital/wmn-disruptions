@@ -14,6 +14,7 @@ export const AutoCompleteProvider = (props) => {
   // Set intial state of when
   const initialState = {
     query: getSearchParam('query') || '',
+    queryTo: getSearchParam('queryTo') || '',
     data: [],
     // selectedMapDisruption: getSearchParam('selectedMapDisruption') || null, // This is used to stash disruption id if a user clicks disruption on map
     // // The selected service is used to store details when a user has clicked an autocomplete
@@ -31,6 +32,7 @@ export const AutoCompleteProvider = (props) => {
       severity: null,
       serviceNumber: null,
       routeName: null,
+      railLines: null,
     },
   };
 
@@ -43,6 +45,12 @@ export const AutoCompleteProvider = (props) => {
         return {
           ...state,
           query: action.query,
+        };
+      case 'UPDATE_QUERY_TO':
+        setSearchParam('queryTo', action.query);
+        return {
+          ...state,
+          queryTo: action.query,
         };
       case 'UDPATE_SELECTED_ITEM': {
         // If object contains selectedByMap

@@ -5,6 +5,7 @@ import { AutoCompleteContext } from 'globalState';
 
 const useAutoCompleteAPI = (apiPath, mode) => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the dispatch of autocomplete
+  const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false); // Set loading state for spinner
   const [errorInfo, setErrorInfo] = useState(); // Placeholder to set error messaging
 
@@ -28,10 +29,12 @@ const useAutoCompleteAPI = (apiPath, mode) => {
           // BUS
           if (mode === 'bus') {
             // If response.data.services isn't there, then we can't map the results to it, so return null
-            autoCompleteDispatch({
-              type: 'UPDATE_DATA',
-              data: response.data.services || [],
-            }); // Update data state with services returned
+            // autoCompleteDispatch({
+            //   type: 'UPDATE_DATA',
+            //   data: response.data.services || [],
+            // }); // Update data state with services returned
+
+            setResults(response.data.services || []);
 
             if (autoCompleteState.selectedItem.id && response.data?.services.length) {
               const result = response.data.services.filter(
@@ -52,10 +55,11 @@ const useAutoCompleteAPI = (apiPath, mode) => {
           // TRAM
           else if (mode === 'tram') {
             // If tram.data isn't there, then we can't map the results to it, so return null
-            autoCompleteDispatch({
-              type: 'UPDATE_DATA',
-              data: response.data.data || [],
-            }); // Update data state with services returned
+            // autoCompleteDispatch({
+            //   type: 'UPDATE_DATA',
+            //   data: response.data.data || [],
+            // }); // Update data state with services returned
+            setResults(response.data.data || []);
 
             if (autoCompleteState.selectedItem.id && response.data?.data.length) {
               const result = response.data.data.filter(
@@ -109,7 +113,7 @@ const useAutoCompleteAPI = (apiPath, mode) => {
     mode,
   ]);
 
-  return { loading, errorInfo };
+  return { loading, errorInfo, results };
 };
 
 export default useAutoCompleteAPI;
