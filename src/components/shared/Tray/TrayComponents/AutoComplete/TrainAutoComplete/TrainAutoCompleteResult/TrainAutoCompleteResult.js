@@ -20,9 +20,9 @@ const TrainAutoCompleteResult = (props) => {
       type: 'UDPATE_SELECTED_ITEM',
       payload: {
         id: result.id,
-        severity: result?.disruptionDetail?.disruptionSeverity || 'success',
+        severity: result?.disruptionSeverity || 'success',
         stopName: result.name,
-        operator: 'MML1',
+        lines: result.lines,
       },
     });
   };
