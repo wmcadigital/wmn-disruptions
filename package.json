@@ -18,7 +18,7 @@
     "@testing-library/user-event": "^12.1.6",
     "axios": "^0.20.0",
     "date-fns": "^2.16.1",
-    "dompurify": "^2.0.15",
+    "dompurify": "^2.1.1",
     "esri-loader": "^2.15.0",
     "fecha": "^4.2.0",
     "node-sass": "^4.14.1",
@@ -30,12 +30,12 @@
     "react-dom": "^16.13.1",
     "react-easy-swipe": "0.0.21",
     "react-scripts": "3.4.3",
-    "react-share": "^4.3.0"
+    "react-share": "^4.3.1"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.2.0",
-    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-prettier": "^6.13.0",
     "eslint-config-react-app": "^5.2.1",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jam3": "^0.2.3",
