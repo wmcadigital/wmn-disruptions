@@ -28,7 +28,6 @@ const Mode = () => {
         onClick={() => updateMode('train')}
         iconLeft="modes-isolated-rail"
         text="Train"
-        disabled
       />
       {/* Tram mode button */}
       <Button

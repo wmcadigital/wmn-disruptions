@@ -4,6 +4,7 @@ import { ModeContext } from 'globalState/ModeContext';
 // Import components
 import BusAutoComplete from './BusAutocomplete/BusAutoComplete';
 import TramAutoComplete from './TramAutoComplete/TramAutoComplete';
+import TrainAutoComplete from './TrainAutoComplete/TrainAutocomplete';
 
 const AutoComplete = () => {
   const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
@@ -25,6 +26,14 @@ const AutoComplete = () => {
           <>
             {autoCompleteTitle('Search for a service')}
             <BusAutoComplete />
+          </>
+        );
+
+      case 'train':
+        return (
+          <>
+            {autoCompleteTitle('Trains between')}
+            <TrainAutoComplete />
           </>
         );
 

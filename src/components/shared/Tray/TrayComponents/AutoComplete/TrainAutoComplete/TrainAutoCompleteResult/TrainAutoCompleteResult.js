@@ -3,9 +3,9 @@ import { AutoCompleteContext } from 'globalState';
 // Import components
 import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
 // Import styles
-import s from './TramAutoCompleteResult.module.scss';
+import s from './TrainAutoCompleteResult.module.scss';
 
-const TramAutoCompleteResult = (props) => {
+const TrainAutoCompleteResult = (props) => {
   const { result, handleKeyDown } = props || {};
 
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
@@ -78,4 +78,4 @@ const TramAutoCompleteResult = (props) => {
   );
 };
 
-export default TramAutoCompleteResult;
+export default TrainAutoCompleteResult;
