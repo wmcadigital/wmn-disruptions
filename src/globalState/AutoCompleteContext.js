@@ -15,7 +15,6 @@ export const AutoCompleteProvider = (props) => {
   const initialState = {
     query: getSearchParam('query') || '',
     queryTo: getSearchParam('queryTo') || '',
-    data: [],
     // selectedMapDisruption: getSearchParam('selectedMapDisruption') || null, // This is used to stash disruption id if a user clicks disruption on map
     // // The selected service is used to store details when a user has clicked an autocomplete
     // selectedService: {
@@ -66,18 +65,14 @@ export const AutoCompleteProvider = (props) => {
           selectedItem: action.payload,
         };
       }
-      case 'UPDATE_DATA':
-        return {
-          ...state,
-          data: action.data,
-        };
       case 'RESET_SELECTED_SERVICE':
         delSearchParam('selectedItem');
         delSearchParam('selectedByMap');
         delSearchParam('query');
+        delSearchParam('queryTo');
         return {
           query: '',
-          data: [],
+          queryTo: '',
           selectedItem: {},
         };
       // Default should return intial state if error
