@@ -11,6 +11,7 @@ const TrainAutoCompleteResult = (props) => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
 
   const updateSelectedService = () => {
+    console.log(result);
     // Reset selected disruption ID from map (if any)
     if (autoCompleteState.selectedItem.selectedByMap) {
       autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' });
