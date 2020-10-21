@@ -33,6 +33,14 @@ export const AutoCompleteProvider = (props) => {
       routeName: null,
       railLines: null,
     },
+    selectedItemTo: {
+      id: getSearchParam('selectedItemTo') || null,
+      operator: null,
+      severity: null,
+      serviceNumber: null,
+      routeName: null,
+      railLines: null,
+    },
   };
 
   // Set up a reducer so we can change state based on centralised logic here
@@ -65,8 +73,17 @@ export const AutoCompleteProvider = (props) => {
           selectedItem: action.payload,
         };
       }
+      case 'UDPATE_TO_SELECTED_ITEM': {
+        // If object contains selectedByMap
+        setSearchParam('selectedItemTo', action.payload.id);
+        return {
+          ...state,
+          selectedItemTo: action.payload,
+        };
+      }
       case 'RESET_SELECTED_SERVICE':
         delSearchParam('selectedItem');
+        delSearchParam('selectedItemTo');
         delSearchParam('selectedByMap');
         delSearchParam('query');
         delSearchParam('queryTo');
@@ -74,6 +91,7 @@ export const AutoCompleteProvider = (props) => {
           query: '',
           queryTo: '',
           selectedItem: {},
+          selectedItemTo: {},
         };
       // Default should return intial state if error
       default:

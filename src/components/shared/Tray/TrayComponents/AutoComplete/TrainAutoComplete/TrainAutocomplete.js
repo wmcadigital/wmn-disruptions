@@ -60,6 +60,7 @@ const TrainAutoComplete = ({ to }) => {
                 key={result.id}
                 result={result}
                 handleKeyDown={handleKeyDown}
+                to={to}
               />
             ))}
           </ul>
