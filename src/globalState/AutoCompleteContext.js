@@ -31,7 +31,7 @@ export const AutoCompleteProvider = (props) => {
       severity: null,
       serviceNumber: null,
       routeName: null,
-      railLines: null,
+      lines: [],
     },
     selectedItemTo: {
       id: getSearchParam('selectedItemTo') || null,
@@ -39,7 +39,7 @@ export const AutoCompleteProvider = (props) => {
       severity: null,
       serviceNumber: null,
       routeName: null,
-      railLines: null,
+      lines: [],
     },
   };
 

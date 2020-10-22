@@ -66,6 +66,29 @@ const useFilterLogic = () => {
 
           break;
 
+        case 'train': {
+          if (autoCompleteState.selectedItemTo.lines) {
+            const allLines = autoCompleteState.selectedItem.lines.concat(
+              autoCompleteState.selectedItemTo.lines
+            );
+
+            const getDuplicates = allLines.filter(
+              (item, index) => allLines.indexOf(item) !== index
+            );
+
+            const linesToCompareWith = getDuplicates.length ? getDuplicates : allLines;
+
+            filteredData = filteredData.filter((disrItem) =>
+              disrItem.servicesAffected[0].routeDescriptions.some((el) =>
+                linesToCompareWith.includes(el.description)
+              )
+            );
+
+            console.log(linesToCompareWith);
+          }
+          break;
+        }
+
         // The mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
         default: {
           filteredData = filteredData.filter((disrItem) =>

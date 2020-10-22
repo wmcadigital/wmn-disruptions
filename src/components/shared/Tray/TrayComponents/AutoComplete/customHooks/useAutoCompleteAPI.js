@@ -67,7 +67,7 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
             }
           }
           // TRAM
-          else if (mode === 'tram' || mode === 'train') {
+          else if (mode === 'tram') {
             setResults(response.data.data || []);
 
             if (selectedService.id && response.data?.data.length) {
@@ -97,9 +97,39 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
                 });
               }
             }
+          } else if (mode === 'train') {
+            setResults(response.data.data || []);
+
+            if (selectedService.id && response.data?.data.length) {
+              const result = response.data.data.filter(
+                (service) => service.id === selectedService.id
+              )[0];
+
+              const payload = {
+                id: result.id,
+                severity: result?.disruptionSeverity || 'success',
+                stopName: result.name,
+                lines: result.lines,
+              };
+
+              // Update "to"
+              if (to) {
+                autoCompleteDispatch({
+                  type: 'UDPATE_SELECTED_ITEM_TO',
+                  payload,
+                });
+              }
+              // Else update normal selectedItem
+              else {
+                autoCompleteDispatch({
+                  type: 'UDPATE_SELECTED_ITEM',
+                  payload,
+                });
+              }
+            }
           }
-          // If there is no bus data and the component is mounted (must be mounted or we will be creating an event on unmounted error)...
           if (!response.data && mounted) {
+            // If there is no bus data and the component is mounted (must be mounted or we will be creating an event on unmounted error)...
             // if no bus data, set error
             setErrorInfo({
               title: 'No results found',
