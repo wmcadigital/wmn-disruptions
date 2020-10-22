@@ -15,7 +15,6 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch, to }) 
 
   const selectedService = to ? selectedItemTo : selectedItem;
 
-  console.log(to);
   useEffect(() => {
     // Wrapped in useEffect as it is reliant on functionality from the useEffect in MobileTray.js
     if (
