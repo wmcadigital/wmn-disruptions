@@ -10,21 +10,33 @@ const TrainAutoCompleteResult = (props) => {
 
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
 
+  // Set payload object to pass below
+  const payload = {
+    id: result.id,
+    severity: result?.disruptionSeverity || 'success',
+    stopName: result.name,
+    lines: result.lines,
+  };
+
   const updateSelectedService = () => {
     // Reset selected disruption ID from map (if any)
     if (autoCompleteState.selectedItem.selectedByMap) {
       autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' });
     }
-
-    autoCompleteDispatch({
-      type: 'UDPATE_SELECTED_ITEM',
-      payload: {
-        id: result.id,
-        severity: result?.disruptionSeverity || 'success',
-        stopName: result.name,
-        lines: result.lines,
-      },
-    });
+    // Update "to"
+    if (to) {
+      autoCompleteDispatch({
+        type: 'UDPATE_SELECTED_ITEM_TO',
+        payload,
+      });
+    }
+    // Else update normal selectedItem
+    else {
+      autoCompleteDispatch({
+        type: 'UDPATE_SELECTED_ITEM',
+        payload,
+      });
+    }
   };
 
   // Set placeholder vars for switch below

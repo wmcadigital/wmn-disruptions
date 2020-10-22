@@ -3,11 +3,12 @@ import axios from 'axios';
 // Import contexts
 import { AutoCompleteContext } from 'globalState';
 
-const useAutoCompleteAPI = (apiPath, mode, query) => {
+const useAutoCompleteAPI = (apiPath, mode, query, to) => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the dispatch of autocomplete
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false); // Set loading state for spinner
   const [errorInfo, setErrorInfo] = useState(); // Placeholder to set error messaging
+  const selectedService = to ? autoCompleteState.selectedItemTo : autoCompleteState.selectedItem;
 
   useEffect(() => {
     let mounted = true; // Set mounted to true (used later to make sure we don't do events as component is unmounting)
@@ -36,20 +37,33 @@ const useAutoCompleteAPI = (apiPath, mode, query) => {
 
             setResults(response.data.services || []);
 
-            if (autoCompleteState.selectedItem.id && response.data?.services.length) {
+            if (selectedService.id && response.data?.services.length) {
               const result = response.data.services.filter(
-                (service) => service.id === autoCompleteState.selectedItem.id
+                (service) => service.id === selectedService.id
               )[0];
-              autoCompleteDispatch({
-                type: 'UDPATE_SELECTED_ITEM',
-                payload: {
-                  id: result.id,
-                  operator: result.routes[0].operatorCode,
-                  severity: result.disruptionSeverity,
-                  serviceNumber: result.serviceNumber,
-                  routeName: result.routes[0].routeName,
-                },
-              });
+
+              const payload = {
+                id: result.id,
+                operator: result.routes[0].operatorCode,
+                severity: result.disruptionSeverity,
+                serviceNumber: result.serviceNumber,
+                routeName: result.routes[0].routeName,
+              };
+
+              // Update "to"
+              if (to) {
+                autoCompleteDispatch({
+                  type: 'UDPATE_SELECTED_ITEM_TO',
+                  payload,
+                });
+              }
+              // Else update normal selectedItem
+              else {
+                autoCompleteDispatch({
+                  type: 'UDPATE_SELECTED_ITEM',
+                  payload,
+                });
+              }
             }
           }
           // TRAM
@@ -61,19 +75,32 @@ const useAutoCompleteAPI = (apiPath, mode, query) => {
             // }); // Update data state with services returned
             setResults(response.data.data || []);
 
-            if (autoCompleteState.selectedItem.id && response.data?.data.length) {
+            if (selectedService.id && response.data?.data.length) {
               const result = response.data.data.filter(
-                (service) => service.id === autoCompleteState.selectedItem.id
+                (service) => service.id === selectedService.id
               )[0];
-              autoCompleteDispatch({
-                type: 'UDPATE_SELECTED_ITEM',
-                payload: {
-                  id: result.id,
-                  severity: result?.disruptionDetail?.disruptionSeverity || 'none',
-                  stopName: result.name,
-                  operator: 'MML1',
-                },
-              });
+
+              const payload = {
+                id: result.id,
+                severity: result?.disruptionDetail?.disruptionSeverity || 'none',
+                stopName: result.name,
+                operator: 'MML1',
+              };
+
+              // Update "to"
+              if (to) {
+                autoCompleteDispatch({
+                  type: 'UDPATE_SELECTED_ITEM_TO',
+                  payload,
+                });
+              }
+              // Else update normal selectedItem
+              else {
+                autoCompleteDispatch({
+                  type: 'UDPATE_SELECTED_ITEM',
+                  payload,
+                });
+              }
             }
           }
           // If there is no bus data and the component is mounted (must be mounted or we will be creating an event on unmounted error)...
@@ -105,7 +132,7 @@ const useAutoCompleteAPI = (apiPath, mode, query) => {
       mounted = false; // Set mounted back to false on unmount
       source.cancel(); // cancel the request
     };
-  }, [apiPath, autoCompleteDispatch, autoCompleteState.selectedItem.id, mode, query]);
+  }, [apiPath, autoCompleteDispatch, selectedService.id, mode, query, to]);
 
   return { loading, errorInfo, results };
 };

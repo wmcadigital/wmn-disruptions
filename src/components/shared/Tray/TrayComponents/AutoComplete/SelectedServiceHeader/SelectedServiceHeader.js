@@ -6,18 +6,21 @@ import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/Dis
 import CloseButton from './CloseButton/CloseButton';
 import s from './SelectedServiceHeader.module.scss';
 
-const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch }) => {
-  const { selectedItem } = autoCompleteState;
+const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch, to }) => {
+  const { selectedItem, selectedItemTo } = autoCompleteState;
   const selectedServiceRef = useRef(null);
   const [disruptionsStorage, setDisruptionsStorage] = useState(
     JSON.parse(localStorage.getItem('disruptionsApp'))
   ); // Get localstorage and map to state. Used to show hide message button.
 
+  const selectedService = to ? selectedItemTo : selectedItem;
+
+  console.log(to);
   useEffect(() => {
     // Wrapped in useEffect as it is reliant on functionality from the useEffect in MobileTray.js
     if (
       selectedServiceRef.current &&
-      selectedItem.id &&
+      selectedService.id &&
       document.getElementById('js-disruptions-tray')
     ) {
       // Scroll the tray to the clicked disruption
@@ -25,7 +28,7 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch }) => {
       const tray = document.getElementById('js-disruptions-tray'); // Get ID of tray from MobileTray.js or Tray.js
       tray.scrollTop = offsetTop - 2; // Scroll to the disruption ref'd below minus 2 pixels
     }
-  }, [selectedItem.id]);
+  }, [selectedService.id]);
 
   // When a user closes help message, update state
   const handleCloseMsg = () => {
@@ -43,18 +46,18 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch }) => {
   return (
     <>
       {/* Close disruption box */}
-      {!selectedItem.selectedByMap && (
+      {!selectedService.selectedByMap && (
         <div
           className={`wmnds-grid wmnds-grid--align-center wmnds-m-t-xs wmnds-m-b-md ${s.selectedItemBox}`}
           ref={selectedServiceRef}
         >
           <DisruptionIndicatorMedium
             className="wmnds-col-auto wmnds-m-r-md"
-            severity={selectedItem.severity}
-            text={selectedItem.serviceNumber || selectedItem.operator}
+            severity={selectedService.severity}
+            text={selectedService.serviceNumber || selectedService.operator}
           />
           <strong className={`wmnds-col-auto ${s.selectedSummary}`}>
-            {selectedItem.routeName || selectedItem.stopName}
+            {selectedService.routeName || selectedService.stopName}
           </strong>
 
           <CloseButton onClick={autoCompleteDispatch} />
@@ -63,7 +66,7 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch }) => {
 
       {/* Save routes message, only show this message if the service is not "good" and if the user hasn't crossed it off already */}
       {typeof disruptionsStorage.hideFavsHelpMsg === 'undefined' &&
-        selectedItem.severity !== 'none' && (
+        selectedService.severity !== 'none' && (
           <div className="wmnds-msg-help wmnds-col-1 wmnds-m-t-md">
             <button
               type="button"
@@ -84,6 +87,11 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch }) => {
 SelectedServiceHeader.propTypes = {
   autoCompleteState: PropTypes.objectOf(PropTypes.any).isRequired,
   autoCompleteDispatch: PropTypes.func.isRequired,
+  to: PropTypes.bool,
+};
+
+SelectedServiceHeader.defaultProps = {
+  to: false,
 };
 
 export default SelectedServiceHeader;

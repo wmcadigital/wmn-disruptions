@@ -65,7 +65,7 @@ export const AutoCompleteProvider = (props) => {
           // Update URL
           setSearchParam('selectedByMap', action.payload.selectedByMap);
         } else {
-          delSearchParam('selectedMapDisruption');
+          delSearchParam('selectedByMap');
         }
         setSearchParam('selectedItem', action.payload.id);
         return {
@@ -73,8 +73,14 @@ export const AutoCompleteProvider = (props) => {
           selectedItem: action.payload,
         };
       }
-      case 'UDPATE_TO_SELECTED_ITEM': {
+      case 'UDPATE_SELECTED_ITEM_TO': {
         // If object contains selectedByMap
+        if (action.payload.selectedByMap) {
+          // Update URL
+          setSearchParam('selectedByMap', action.payload.selectedByMap);
+        } else {
+          delSearchParam('selectedByMap');
+        }
         setSearchParam('selectedItemTo', action.payload.id);
         return {
           ...state,

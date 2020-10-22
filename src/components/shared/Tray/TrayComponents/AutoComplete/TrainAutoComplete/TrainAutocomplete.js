@@ -19,11 +19,13 @@ const TrainAutoComplete = ({ to }) => {
   const debounceInput = useRef(null);
 
   const trainQuery = to ? autoCompleteState.queryTo : autoCompleteState.query;
+  const selectedService = to ? autoCompleteState.selectedItemTo : autoCompleteState.selectedItem;
 
   const { loading, errorInfo, results } = useAutoCompleteAPI(
     `/rail/v2/station?q=${encodeURI(trainQuery)}`,
     'train',
-    trainQuery
+    trainQuery,
+    to
   );
 
   // Import handleKeyDown function from customHook (used by all modes)
@@ -31,10 +33,11 @@ const TrainAutoComplete = ({ to }) => {
 
   return (
     <>
-      {autoCompleteState.selectedItem.id ? (
+      {selectedService.id ? (
         <SelectedServiceHeader
           autoCompleteState={autoCompleteState}
           autoCompleteDispatch={() => autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' })}
+          to={to}
         />
       ) : (
         <>
