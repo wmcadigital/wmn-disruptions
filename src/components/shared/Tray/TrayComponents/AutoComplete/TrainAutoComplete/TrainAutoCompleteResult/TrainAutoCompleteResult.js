@@ -42,9 +42,9 @@ const TrainAutoCompleteResult = (props) => {
   // Set placeholder vars for switch below
   let text;
   // If the current service has disruption
-  if (result.disrupted) {
+  if (result.hasDisruptions) {
     // Do a switch on the disruption severity, then map the type and iconName to the correct vars
-    switch (result.disruptionDetail.disruptionSeverity) {
+    switch (result.disruptionSeverity) {
       // Minor disruption (normal)
       case 'normal':
         text = 'Minor disruption';
@@ -81,7 +81,7 @@ const TrainAutoCompleteResult = (props) => {
     >
       <DisruptionIndicatorMedium
         className="wmnds-col-auto"
-        severity={result?.disruptionDetail?.disruptionSeverity || 'success'}
+        severity={result?.disruptionSeverity || 'success'}
         noMarginOnIcon
       />
       {/* Right section */}

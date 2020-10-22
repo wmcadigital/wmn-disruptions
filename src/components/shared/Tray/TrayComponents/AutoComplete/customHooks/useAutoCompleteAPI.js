@@ -68,11 +68,6 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
           }
           // TRAM
           else if (mode === 'tram' || mode === 'train') {
-            // If tram.data isn't there, then we can't map the results to it, so return null
-            // autoCompleteDispatch({
-            //   type: 'UPDATE_DATA',
-            //   data: response.data.data || [],
-            // }); // Update data state with services returned
             setResults(response.data.data || []);
 
             if (selectedService.id && response.data?.data.length) {
@@ -84,7 +79,7 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
                 id: result.id,
                 severity: result?.disruptionDetail?.disruptionSeverity || 'none',
                 stopName: result.name,
-                operator: 'MML1',
+                operator: mode === 'tram' ? 'MML1' : null,
               };
 
               // Update "to"
