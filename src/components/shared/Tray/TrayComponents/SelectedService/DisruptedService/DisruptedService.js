@@ -14,7 +14,22 @@ const DisruptedService = ({ disruption }) => {
   const { selectedItem } = autoCompleteState;
   const disruptionRef = useRef(null);
 
-  const iconLeft = disruption.mode === 'tram' ? 'metro' : disruption.mode; // set icon to correct name for tram/metro
+  // set icon to correct name for tram/metro, train/rail etc.
+  let iconLeft;
+
+  switch (disruption.mode) {
+    case 'tram':
+      iconLeft = 'metro';
+      break;
+
+    case 'train':
+      iconLeft = 'rail';
+      break;
+
+    default:
+      iconLeft = disruption.mode;
+      break;
+  }
 
   useEffect(() => {
     // Wrapped in useEffect as it is reliant on functionality from the useEffect in MobileTray.js

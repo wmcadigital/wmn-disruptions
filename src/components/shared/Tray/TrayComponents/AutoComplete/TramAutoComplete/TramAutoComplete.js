@@ -32,7 +32,7 @@ const TramAutoComplete = () => {
 
   return (
     <>
-      {autoCompleteState.selectedItem.id ? (
+      {autoCompleteState.selectedItem.id && !autoCompleteState.selectedItem.selectedByMap ? (
         <SelectedServiceHeader
           autoCompleteState={autoCompleteState}
           autoCompleteDispatch={() => autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' })}
