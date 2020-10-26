@@ -13,7 +13,7 @@ $offset-top: $size-lg;
   transition: height 0.35s ease;
 
   @media all and(min-width: 768px) {
-    width: calc(100% - 406px); // 406px is the width of the tray
+    width: calc(100% - 414px); // 414px is the width of the tray
     float: right;
   }
 
