@@ -6,7 +6,7 @@ import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/Dis
 import CloseButton from './CloseButton/CloseButton';
 import s from './SelectedServiceHeader.module.scss';
 
-const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch, to }) => {
+const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch, mode, to }) => {
   const { selectedItem, selectedItemTo } = autoCompleteState;
   const selectedServiceRef = useRef(null);
   const [disruptionsStorage, setDisruptionsStorage] = useState(
@@ -54,6 +54,7 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch, to }) 
             className="wmnds-col-auto wmnds-m-r-md"
             severity={selectedService.severity}
             text={selectedService.serviceNumber || selectedService.operator}
+            noMarginOnIcon={mode === 'train'}
           />
           <strong className={`wmnds-col-auto ${s.selectedSummary}`}>
             {selectedService.routeName || selectedService.stopName}
@@ -86,10 +87,12 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch, to }) 
 SelectedServiceHeader.propTypes = {
   autoCompleteState: PropTypes.objectOf(PropTypes.any).isRequired,
   autoCompleteDispatch: PropTypes.func.isRequired,
+  mode: PropTypes.string,
   to: PropTypes.bool,
 };
 
 SelectedServiceHeader.defaultProps = {
+  mode: '',
   to: false,
 };
 

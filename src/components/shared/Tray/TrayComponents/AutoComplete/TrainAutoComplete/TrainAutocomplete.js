@@ -39,6 +39,7 @@ const TrainAutoComplete = ({ to }) => {
           autoCompleteDispatch={() =>
             autoCompleteDispatch({ type: 'RESET_SELECTED_ITEM', payload: to })
           }
+          mode="train"
           to={to}
         />
       ) : (
