@@ -36,7 +36,7 @@ const TrainAutoComplete = ({ to }) => {
       {selectedService.id && !autoCompleteState.selectedItem.selectedByMap ? (
         <SelectedServiceHeader
           autoCompleteState={autoCompleteState}
-          autoCompleteDispatch={() => autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' })}
+          autoCompleteDispatch={() => autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICES' })}
           to={to}
         />
       ) : (

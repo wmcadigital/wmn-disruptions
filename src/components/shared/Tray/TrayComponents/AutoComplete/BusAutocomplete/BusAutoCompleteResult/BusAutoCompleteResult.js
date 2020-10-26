@@ -13,7 +13,7 @@ const BusAutoCompleteResult = (props) => {
   const updateSelectedService = () => {
     // Reset selected disruption ID from map (if any)
     if (autoCompleteState.selectedItem.selectedByMap) {
-      autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' });
+      autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICES' });
     }
 
     autoCompleteDispatch({

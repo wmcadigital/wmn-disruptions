@@ -23,7 +23,7 @@ const DisruptionInfo = ({ disruption, listView }) => {
   const handleViewOnMapBtn = () => {
     // Reset stored autocomplete data
     autoCompleteDispatch({
-      type: 'RESET_SELECTED_SERVICE',
+      type: 'RESET_SELECTED_SERVICES',
     });
     // Update API for selected API
     autoCompleteDispatch({

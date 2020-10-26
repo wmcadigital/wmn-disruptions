@@ -87,7 +87,7 @@ export const AutoCompleteProvider = (props) => {
           selectedItemTo: action.payload,
         };
       }
-      case 'RESET_SELECTED_SERVICE':
+      case 'RESET_SELECTED_SERVICES':
         delSearchParam('selectedItem');
         delSearchParam('selectedItemTo');
         delSearchParam('selectedByMap');
