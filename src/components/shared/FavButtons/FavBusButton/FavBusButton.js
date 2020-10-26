@@ -8,7 +8,7 @@ import Icon from 'components/shared/Icon/Icon';
 
 import s from './FavBusButton.module.scss';
 
-const FavBusButton = ({ id, severity, text, title, mode }) => {
+const FavBusButton = ({ id, severity, text, title, mode, narrow }) => {
   const [favState, favDispatch] = useContext(FavsContext); // Get fav state from globalState
   const [isFav, setIsFav] = useState(favState.favs[mode].includes(id)); // Check favs on load to see if ours is included
 
@@ -28,7 +28,7 @@ const FavBusButton = ({ id, severity, text, title, mode }) => {
   };
 
   return (
-    <div className={`${s.favButton} wmnds-m-b-md`}>
+    <div className={`${s.favButton} ${narrow ? s.favButtonNarrow : ''} wmnds-m-b-md`}>
       {/* Services Affected */}
       <DisruptionIndicatorMedium
         text={text}
@@ -40,7 +40,7 @@ const FavBusButton = ({ id, severity, text, title, mode }) => {
       {/* Faved Routed to be saved to local storage */}
       <button
         type="button"
-        className={s.starIconBtn}
+        className={`${s.starIconBtn}`}
         title={isFav ? `Remove ${title} from favourites` : `Favourite the ${title}`}
         onClick={toggleFav}
       >
@@ -54,6 +54,7 @@ const FavBusButton = ({ id, severity, text, title, mode }) => {
 FavBusButton.propTypes = {
   id: PropTypes.string, // button type, by default it is type="button"
   mode: PropTypes.string, // Mode type
+  narrow: PropTypes.bool,
   severity: PropTypes.string.isRequired, // severity of disruption
   text: PropTypes.string.isRequired, // text inside button
   title: PropTypes.string,
@@ -62,6 +63,7 @@ FavBusButton.propTypes = {
 FavBusButton.defaultProps = {
   id: null,
   mode: 'bus',
+  narrow: false,
   title: null,
 };
 
