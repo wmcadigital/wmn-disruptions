@@ -55,7 +55,7 @@ FavBusButton.propTypes = {
   id: PropTypes.string, // button type, by default it is type="button"
   mode: PropTypes.string, // Mode type
   narrow: PropTypes.bool,
-  severity: PropTypes.string.isRequired, // severity of disruption
+  severity: PropTypes.string, // severity of disruption
   text: PropTypes.string.isRequired, // text inside button
   title: PropTypes.string,
 };
@@ -64,6 +64,7 @@ FavBusButton.defaultProps = {
   id: null,
   mode: 'bus',
   narrow: false,
+  severity: 'purple',
   title: null,
 };
 
