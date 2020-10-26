@@ -16,6 +16,7 @@ const TrainAutoCompleteResult = (props) => {
     severity: result?.disruptionSeverity || 'success',
     stopName: result.name,
     lines: result.lines,
+    to,
   };
 
   const updateSelectedService = () => {
@@ -23,20 +24,12 @@ const TrainAutoCompleteResult = (props) => {
     if (autoCompleteState.selectedItem.selectedByMap) {
       autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICES' });
     }
-    // Update "to"
-    if (to) {
-      autoCompleteDispatch({
-        type: 'UDPATE_SELECTED_ITEM_TO',
-        payload,
-      });
-    }
-    // Else update normal selectedItem
-    else {
-      autoCompleteDispatch({
-        type: 'UDPATE_SELECTED_ITEM',
-        payload,
-      });
-    }
+
+    //  Update normal selectedItem
+    autoCompleteDispatch({
+      type: 'UDPATE_SELECTED_ITEM',
+      payload,
+    });
   };
 
   // Set placeholder vars for switch below

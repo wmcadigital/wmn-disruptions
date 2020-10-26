@@ -42,13 +42,12 @@ const useResetState = () => {
 
   // Function used in busautocomplete.js to update busautocomplete state and reset any state "below" it in the tray
   const updateQuery = (query, to) => {
-    if (to) {
-      // resetQueryAndSelected(); // Reset autocomplete/selectedService if in state
-      autoCompleteDispatch({ type: 'UPDATE_QUERY_TO', query }); // Update query to what user has typed
-    } else {
-      // resetQueryAndSelected(); // Reset autocomplete/selectedService if in state
-      autoCompleteDispatch({ type: 'UPDATE_QUERY', query }); // Update query to what user has typed
+    // Reset selected disruption ID from map (if any)
+    if (autoCompleteState.selectedItem.selectedByMap) {
+      resetQueryAndSelected(); // Reset autocomplete/selectedService if in state
     }
+
+    autoCompleteDispatch({ type: 'UPDATE_QUERY', query, to }); // Update query to what user has typed
   };
 
   // Function which resets all the trays/applications state and sets "when" to equal "now"

@@ -29,13 +29,7 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
 
           // BUS
           if (mode === 'bus') {
-            // If response.data.services isn't there, then we can't map the results to it, so return null
-            // autoCompleteDispatch({
-            //   type: 'UPDATE_DATA',
-            //   data: response.data.services || [],
-            // }); // Update data state with services returned
-
-            setResults(response.data.services || []);
+            setResults(response.data.services || []); // If response.data.services isn't there, then we can't map the results to it, so return null
 
             if (selectedService.id && response.data?.services.length) {
               const result = response.data.services.filter(
@@ -48,22 +42,14 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
                 severity: result.disruptionSeverity,
                 serviceNumber: result.serviceNumber,
                 routeName: result.routes[0].routeName,
+                to,
               };
 
-              // Update "to"
-              if (to) {
-                autoCompleteDispatch({
-                  type: 'UDPATE_SELECTED_ITEM_TO',
-                  payload,
-                });
-              }
-              // Else update normal selectedItem
-              else {
-                autoCompleteDispatch({
-                  type: 'UDPATE_SELECTED_ITEM',
-                  payload,
-                });
-              }
+              // Update selectedItem
+              autoCompleteDispatch({
+                type: 'UDPATE_SELECTED_ITEM',
+                payload,
+              });
             }
           }
           // TRAM
@@ -80,22 +66,14 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
                 severity: result?.disruptionDetail?.disruptionSeverity || 'none',
                 stopName: result.name,
                 operator: mode === 'tram' ? 'MML1' : null,
+                to,
               };
 
-              // Update "to"
-              if (to) {
-                autoCompleteDispatch({
-                  type: 'UDPATE_SELECTED_ITEM_TO',
-                  payload,
-                });
-              }
-              // Else update normal selectedItem
-              else {
-                autoCompleteDispatch({
-                  type: 'UDPATE_SELECTED_ITEM',
-                  payload,
-                });
-              }
+              // Update selectedItem
+              autoCompleteDispatch({
+                type: 'UDPATE_SELECTED_ITEM',
+                payload,
+              });
             }
           } else if (mode === 'train') {
             setResults(response.data.data || []);
@@ -110,22 +88,14 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
                 severity: result?.disruptionSeverity || 'success',
                 stopName: result.name,
                 lines: result.lines,
+                to,
               };
 
-              // Update "to"
-              if (to) {
-                autoCompleteDispatch({
-                  type: 'UDPATE_SELECTED_ITEM_TO',
-                  payload,
-                });
-              }
-              // Else update normal selectedItem
-              else {
-                autoCompleteDispatch({
-                  type: 'UDPATE_SELECTED_ITEM',
-                  payload,
-                });
-              }
+              // Update selectedItem
+              autoCompleteDispatch({
+                type: 'UDPATE_SELECTED_ITEM',
+                payload,
+              });
             }
           }
           if (!response.data && mounted) {
