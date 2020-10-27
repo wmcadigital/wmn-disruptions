@@ -5,7 +5,7 @@ import useFilterLogic from 'customHooks/useFilterLogic';
 // Imported components
 import Message from 'components/shared/Message/Message';
 import DisruptedService from './DisruptedService/DisruptedService';
-import InfoAboutSelectedService from './InfoAboutSelectedService';
+import InfoAboutSelectedService from './InfoAboutSelectedService/InfoAboutSelectedService';
 
 const SelectedService = () => {
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
