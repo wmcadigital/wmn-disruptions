@@ -6,6 +6,7 @@ import { AutoCompleteContext } from 'globalState';
 import DisruptionIndicatorSmall from 'components/shared/DisruptionIndicator/DisruptionIndicatorSmall';
 // import CloseButton from 'components/shared/CloseButton/CloseButton';
 import DisruptionInfo from 'components/shared/DisruptionInfo/DisruptionInfo';
+import useDisruptionAffectedItems from 'customHooks/useDisruptionAffectedItems';
 
 import s from './DisruptedService.module.scss';
 
@@ -14,22 +15,7 @@ const DisruptedService = ({ disruption }) => {
   const { selectedItem } = autoCompleteState;
   const disruptionRef = useRef(null);
 
-  // set icon to correct name for tram/metro, train/rail etc.
-  let iconLeft;
-  // Map correct icon
-  switch (disruption.mode) {
-    case 'tram':
-      iconLeft = 'metro';
-      break;
-
-    case 'train':
-      iconLeft = 'rail';
-      break;
-
-    default:
-      iconLeft = disruption.mode;
-      break;
-  }
+  const { iconLeft, title, affectedItems } = useDisruptionAffectedItems(disruption); // Get the correct modal icon and affectedItems
 
   useEffect(() => {
     // Wrapped in useEffect as it is reliant on functionality from the useEffect in MobileTray.js
@@ -57,18 +43,11 @@ const DisruptedService = ({ disruption }) => {
             className="wmnds-col-auto wmnds-m-r-md"
           />
 
-          <div className="wmnds-col-3-4">
-            {disruption.title.charAt(0).toUpperCase() + disruption.title.slice(1)}
-            {disruption.mode !== 'tram' && (
-              <>
-                {' '}
-                at <strong>{disruption.subtitle}</strong>
-              </>
-            )}
-          </div>
+          <div className="wmnds-col-3-4">{title()}</div>
         </div>
       </div>
 
+      {affectedItems()}
       <DisruptionInfo disruption={disruption} />
     </div>
   );

@@ -34,7 +34,7 @@ const InfoAboutSelectedService = () => {
     linesToCompareWith = getDuplicates.length ? getDuplicates : allLines;
 
     // Map linesToShow to each line selected and return a fav button for it
-    linesToShow = linesToCompareWith.map((line) => {
+    linesToShow = linesToCompareWith.sort().map((line) => {
       // Function used to shorten long train line names
       const lineName = () => {
         switch (line) {
