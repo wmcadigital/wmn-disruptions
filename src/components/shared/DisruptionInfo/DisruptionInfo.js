@@ -16,7 +16,7 @@ import s from './DisruptionInfo.module.scss';
 const { sanitize } = dompurify;
 
 const DisruptionInfo = ({ disruption, listView }) => {
-  const [, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the dispatch of autocomplete
+  const [autocompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the dispatch of autocomplete
   const [fetchDisruptionsState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state and dispatch of disruptions (contains isMapVisible)
   const { isMapVisible } = fetchDisruptionsState;
 
@@ -44,7 +44,7 @@ const DisruptionInfo = ({ disruption, listView }) => {
       {/* If it's listView, then we don't want to show the affectedServices/favs as it's shown in accordion header */}
       {!listView && (
         <>
-          {/* Affected Services */}
+          {/* Affected Services / Bus */}
           <div className="wmnds-col-1 ">
             <strong>Affected {disruption.mode !== 'tram' ? 'Services' : 'Stops'}:</strong>
           </div>
@@ -65,7 +65,7 @@ const DisruptionInfo = ({ disruption, listView }) => {
                     key={affected.id}
                   />
                 ))}
-
+            {/* Affectd Stops / Tram */}
             {disruption.servicesAffected &&
               disruption.mode === 'tram' &&
               disruption.stopsAffected
@@ -78,6 +78,22 @@ const DisruptionInfo = ({ disruption, listView }) => {
                     title={`${disruption.servicesAffected[0].routeDescriptions[0].description} (${disruption.servicesAffected[0].operatorName})`}
                     mode={disruption.mode}
                     key={affected.atcoCode}
+                  />
+                ))}
+
+            {/* Affectd Stations / Train */}
+            {disruption.servicesAffected[0].routeDescriptions &&
+              disruption.mode === 'train' &&
+              disruption.servicesAffected[0].routeDescriptions
+                .sort((a, b) => a.name - b.name)
+                .map((affected) => (
+                  <FavBtn
+                    id={affected.description}
+                    severity={disruption.disruptionSeverity}
+                    text={affected.description}
+                    title={`${autocompleteState.selectedItem.stopName} to ${autocompleteState.selectedItemTo.stopName}`}
+                    mode={disruption.mode}
+                    key={affected.id}
                   />
                 ))}
           </div>

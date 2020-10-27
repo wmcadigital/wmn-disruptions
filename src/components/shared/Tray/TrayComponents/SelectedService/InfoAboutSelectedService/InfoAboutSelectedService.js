@@ -49,14 +49,7 @@ const InfoAboutSelectedService = () => {
         }
       };
       return (
-        <FavBtn
-          key={line}
-          id={line}
-          text={lineName()}
-          title={`${selectedItem.stopName} to ${selectedItemTo.stopName}`}
-          mode={modeState.mode}
-          narrow
-        />
+        <FavBtn key={line} id={line} text={lineName()} title={line} mode={modeState.mode} narrow />
       );
     });
   }

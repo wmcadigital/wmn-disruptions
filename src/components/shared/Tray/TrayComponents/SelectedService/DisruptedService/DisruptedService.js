@@ -16,7 +16,7 @@ const DisruptedService = ({ disruption }) => {
 
   // set icon to correct name for tram/metro, train/rail etc.
   let iconLeft;
-
+  // Map correct icon
   switch (disruption.mode) {
     case 'tram':
       iconLeft = 'metro';
