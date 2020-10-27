@@ -5,10 +5,10 @@ import { FavsContext } from 'globalState';
 // Import Components
 import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
 import Icon from 'components/shared/Icon/Icon';
+// Styles
+import s from './FavBtn.module.scss';
 
-import s from './FavBusButton.module.scss';
-
-const FavBusButton = ({ id, severity, text, title, mode, narrow }) => {
+const FavBtn = ({ id, severity, text, title, mode, narrow }) => {
   const [favState, favDispatch] = useContext(FavsContext); // Get fav state from globalState
   const [isFav, setIsFav] = useState(favState.favs[mode].includes(id)); // Check favs on load to see if ours is included
 
@@ -51,7 +51,7 @@ const FavBusButton = ({ id, severity, text, title, mode, narrow }) => {
 };
 
 // Set props
-FavBusButton.propTypes = {
+FavBtn.propTypes = {
   id: PropTypes.string, // button type, by default it is type="button"
   mode: PropTypes.string, // Mode type
   narrow: PropTypes.bool,
@@ -60,7 +60,7 @@ FavBusButton.propTypes = {
   title: PropTypes.string,
 };
 
-FavBusButton.defaultProps = {
+FavBtn.defaultProps = {
   id: null,
   mode: 'bus',
   narrow: false,
@@ -68,4 +68,4 @@ FavBusButton.defaultProps = {
   title: null,
 };
 
-export default FavBusButton;
+export default FavBtn;

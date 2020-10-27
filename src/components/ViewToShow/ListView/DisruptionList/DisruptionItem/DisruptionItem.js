@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Icon from 'components/shared/Icon/Icon';
 import DisruptionIndicatorSmall from 'components/shared/DisruptionIndicator/DisruptionIndicatorSmall';
 import DisruptionInfo from 'components/shared/DisruptionInfo/DisruptionInfo';
-import FavBusButton from 'components/shared/FavButtons/FavBusButton/FavBusButton';
+import FavBusButton from 'components/shared/FavBtn/FavBtn';
 
 const DisruptionItem = ({ disruption }) => {
   const [openAccordions, setopenAccordions] = useState({}); // Used to track state of open and closed accordions

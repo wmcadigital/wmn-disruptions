@@ -6,7 +6,7 @@ import { AutoCompleteContext, FetchDisruptionsContext } from 'globalState';
 // Import Helper functions
 import { setSearchParam } from 'globalState/helpers/URLSearchParams'; // (used to sync state with URL)
 // Imported components
-import FavBusButton from 'components/shared/FavButtons/FavBusButton/FavBusButton';
+import FavBtn from 'components/shared/FavBtn/FavBtn';
 import Button from 'components/shared/Button/Button';
 import Icon from 'components/shared/Icon/Icon';
 import ShareButtons from './ShareButtons/ShareButtons';
@@ -56,7 +56,7 @@ const DisruptionInfo = ({ disruption, listView }) => {
                   (a, b) => a.serviceNumber.replace(/\D/g, '') - b.serviceNumber.replace(/\D/g, '')
                 )
                 .map((affected) => (
-                  <FavBusButton
+                  <FavBtn
                     id={affected.id}
                     severity={disruption.disruptionSeverity}
                     text={affected.serviceNumber}
@@ -71,7 +71,7 @@ const DisruptionInfo = ({ disruption, listView }) => {
               disruption.stopsAffected
                 .sort((a, b) => a.name.replace(/\D/g, '') - b.name.replace(/\D/g, ''))
                 .map((affected) => (
-                  <FavBusButton
+                  <FavBtn
                     id={affected.atcoCode}
                     severity={disruption.disruptionSeverity}
                     text={affected.name}

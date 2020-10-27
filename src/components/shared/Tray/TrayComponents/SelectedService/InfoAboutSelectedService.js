@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { AutoCompleteContext, ModeContext } from 'globalState';
-import FavBusButton from 'components/shared/FavButtons/FavBusButton/FavBusButton';
+import FavBtn from 'components/shared/FavBtn/FavBtn';
 
 const InfoAboutSelectedService = () => {
   const [autoCompleteState] = useContext(AutoCompleteContext);
@@ -40,13 +40,14 @@ const InfoAboutSelectedService = () => {
   return (
     <div className="wmnds-col-1 wmnds-p-t-md">
       <hr />
+      {/* Mode is not train */}
       {modeState.mode !== 'train' ? (
         <>
           <p>
             Press star icon to save {serviceText} <strong>{service}</strong> to your favourites
           </p>
 
-          <FavBusButton
+          <FavBtn
             id={selectedItem.id}
             severity={selectedItem.severity}
             text={service}
@@ -56,15 +57,16 @@ const InfoAboutSelectedService = () => {
           />
         </>
       ) : (
+        // Mode is train...
         <>
           <p>
             {linesToCompareWith.length} train line(s) are available between{' '}
             <strong>{selectedItem.stopName}</strong> and <strong>{selectedItemTo.stopName}</strong>{' '}
             train stations.
           </p>
-
+          {/* Loop through lines selected */}
           {linesToCompareWith.map((line) => (
-            <FavBusButton
+            <FavBtn
               key={line}
               id={line}
               text={line}
