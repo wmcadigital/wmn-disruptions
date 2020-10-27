@@ -34,7 +34,7 @@ const DisruptionIndicatorMedium = ({
 
     case 'purple':
       iconRightName = '';
-      disruptedClass = '';
+      disruptedClass = 'purple';
       break;
     // Minor disruption (normal)
     default:

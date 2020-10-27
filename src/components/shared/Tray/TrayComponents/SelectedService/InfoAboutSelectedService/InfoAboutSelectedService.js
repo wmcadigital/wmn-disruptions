@@ -25,7 +25,7 @@ const InfoAboutSelectedService = () => {
   let linesToCompareWith;
   let linesToShow;
   // If both selected item and selectedTo item then do logic
-  if (selectedItem.lines && selectedItemTo.lines) {
+  if (selectedItem.lines && selectedItemTo.lines && modeState.mode === 'train') {
     // Join the lines array of the from/to selected stations
     const allLines = selectedItem.lines.concat(selectedItemTo.lines);
     // Then get any duplicates found and pluck them out. If duplicates are found then this means the user MUST be interested in only them lines as that line was part of their from AND to station search.
@@ -74,7 +74,7 @@ const InfoAboutSelectedService = () => {
   }
 
   return (
-    <div className="wmnds-col-1 wmnds-p-t-md">
+    <div className="wmnds-col-1">
       <hr />
       {/* Mode is not train */}
       {modeState.mode !== 'train' ? (
@@ -85,7 +85,6 @@ const InfoAboutSelectedService = () => {
 
           <FavBtn
             id={selectedItem.id}
-            severity={selectedItem.severity}
             text={service}
             title={`${selectedItem.routeName} (${selectedItem.operator})`}
             mode={modeState.mode}

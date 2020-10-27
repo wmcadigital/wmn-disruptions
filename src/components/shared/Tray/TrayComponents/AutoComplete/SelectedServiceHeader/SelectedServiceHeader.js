@@ -51,10 +51,10 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch, mode, 
           ref={selectedServiceRef}
         >
           <DisruptionIndicatorMedium
-            className="wmnds-col-auto wmnds-m-r-md"
+            className="wmnds-p-t-xs wmnds-p-b-xs wmnds-p-l-xsm wmnds-p-r-xsm wmnds-col-auto wmnds-m-r-sm"
             severity={selectedService.severity}
-            text={selectedService.serviceNumber || selectedService.operator}
-            noMarginOnIcon={mode === 'train'}
+            text={selectedService.serviceNumber || null}
+            noMarginOnIcon={mode !== 'bus'}
           />
           <strong className={`wmnds-col-auto ${s.selectedSummary}`}>
             {selectedService.routeName || selectedService.stopName}
@@ -92,7 +92,7 @@ SelectedServiceHeader.propTypes = {
 };
 
 SelectedServiceHeader.defaultProps = {
-  mode: '',
+  mode: 'bus',
   to: false,
 };
 

@@ -8,8 +8,6 @@ import DisruptionIndicatorSmall from 'components/shared/DisruptionIndicator/Disr
 import DisruptionInfo from 'components/shared/DisruptionInfo/DisruptionInfo';
 import useDisruptionAffectedItems from 'customHooks/useDisruptionAffectedItems';
 
-import s from './DisruptedService.module.scss';
-
 const DisruptedService = ({ disruption }) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const { selectedItem } = autoCompleteState;
@@ -33,7 +31,8 @@ const DisruptedService = ({ disruption }) => {
   }, [selectedItem.id]);
 
   return (
-    <div className={`wmnds-grid wmnds-p-t-lg wmnds-m-t-lg ${s.disruption}`} ref={disruptionRef}>
+    <div className={`wmnds-grid wmnds-m-t-sm `} ref={disruptionRef}>
+      <hr className="wmnds-col-1" />
       {/* Title of disruptions */}
       <div className="wmnds-col-1 wmnds-m-b-lg">
         <div className="wmnds-grid wmnds-grid--align-center">
