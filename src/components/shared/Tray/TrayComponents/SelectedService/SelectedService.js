@@ -16,8 +16,8 @@ const SelectedService = () => {
 
   return (
     <>
-      {/* If ann item has been selected that is not by the map then show selected services that you can fav and also show save message box */}
-      {autoCompleteState.selectedItem.id && !autoCompleteState.selectedItem.selectedByMap && (
+      {/* If ann item has been selected that is not by the map then show selected services that you can fav and also show save message box. selectedItem.severity is used as the if statement to ensure all other data has been mapped to the state, using the id would cause an error as this can be gotten from the URL */}
+      {autoCompleteState.selectedItem.severity && !autoCompleteState.selectedItem.selectedByMap && (
         <>
           <hr className="wmnds-col-1" />
           <SaveRoutesMessage />

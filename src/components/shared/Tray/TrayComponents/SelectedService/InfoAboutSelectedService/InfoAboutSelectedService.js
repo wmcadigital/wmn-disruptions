@@ -63,10 +63,6 @@ const InfoAboutSelectedService = () => {
       service = selectedItem.stopName;
       break;
 
-    case 'train':
-      serviceText = 'line(s)';
-      break;
-
     default:
       serviceText = 'service';
       service = selectedItem.serviceNumber.toUpperCase();

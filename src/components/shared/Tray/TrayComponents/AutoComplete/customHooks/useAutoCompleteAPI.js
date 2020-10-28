@@ -26,7 +26,7 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
         })
         .then((response) => {
           setLoading(false); // Set loading state to false after data is received
-
+          let payload;
           // BUS
           if (mode === 'bus') {
             setResults(response.data.services || []); // If response.data.services isn't there, then we can't map the results to it, so return null
@@ -36,7 +36,7 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
                 (service) => service.id === selectedService.id
               )[0];
 
-              const payload = {
+              payload = {
                 id: result.id,
                 operator: result.routes[0].operatorCode,
                 severity: result.disruptionSeverity,
@@ -44,12 +44,6 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
                 routeName: result.routes[0].routeName,
                 to,
               };
-
-              // Update selectedItem
-              autoCompleteDispatch({
-                type: 'UDPATE_SELECTED_ITEM',
-                payload,
-              });
             }
           }
           // TRAM
@@ -61,19 +55,13 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
                 (service) => service.id === selectedService.id
               )[0];
 
-              const payload = {
+              payload = {
                 id: result.id,
                 severity: result?.disruptionDetail?.disruptionSeverity || 'none',
                 stopName: result.name,
                 operator: mode === 'tram' ? 'MML1' : null,
                 to,
               };
-
-              // Update selectedItem
-              autoCompleteDispatch({
-                type: 'UDPATE_SELECTED_ITEM',
-                payload,
-              });
             }
           } else if (mode === 'train') {
             setResults(response.data.data || []);
@@ -83,22 +71,25 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
                 (service) => service.id === selectedService.id
               )[0];
 
-              const payload = {
+              payload = {
                 id: result.id,
                 severity: result?.disruptionSeverity || 'success',
                 stopName: result.name,
                 lines: result.lines,
                 to,
               };
-
-              // Update selectedItem
-              autoCompleteDispatch({
-                type: 'UDPATE_SELECTED_ITEM',
-                payload,
-              });
             }
           }
-          if (!response.data && mounted) {
+
+          // Update selectedItem based on payload set above if item already selected
+          if (selectedService.id) {
+            autoCompleteDispatch({
+              type: 'UDPATE_SELECTED_ITEM',
+              payload,
+            });
+          }
+
+          if ((!response.data.data || !response.data.services) && mounted) {
             // If there is no bus data and the component is mounted (must be mounted or we will be creating an event on unmounted error)...
             // if no bus data, set error
             setErrorInfo({
