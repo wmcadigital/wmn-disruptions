@@ -14,8 +14,11 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch, mode, 
   useEffect(() => {
     // Wrapped in useEffect as it is reliant on functionality from the useEffect in MobileTray.js
     if (
+      ((mode === 'train' &&
+        autoCompleteState.selectedItem.id &&
+        autoCompleteState.selectedItemTo.id) ||
+        (mode !== 'train' && selectedService.id)) &&
       selectedServiceRef.current &&
-      selectedService.id &&
       document.getElementById('js-disruptions-tray')
     ) {
       // Scroll the tray to the clicked disruption
@@ -23,7 +26,12 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch, mode, 
       const tray = document.getElementById('js-disruptions-tray'); // Get ID of tray from MobileTray.js or Tray.js
       tray.scrollTop = offsetTop - 2; // Scroll to the disruption ref'd below minus 2 pixels
     }
-  }, [selectedService.id]);
+  }, [
+    autoCompleteState.selectedItem.id,
+    autoCompleteState.selectedItemTo.id,
+    mode,
+    selectedService.id,
+  ]);
 
   return (
     <>
