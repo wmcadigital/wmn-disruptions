@@ -60,7 +60,7 @@ const useDisruptionAffectedItems = (disruption) => {
                 key={affected.id}
               />
             ))}
-        {/* Affectd Stops / Tram */}
+        {/* Affected Stops / Tram */}
         {disruption.servicesAffected &&
           disruption.mode === 'tram' &&
           disruption.stopsAffected
@@ -88,7 +88,7 @@ const useDisruptionAffectedItems = (disruption) => {
               />
             ))}
 
-        {/* Affectd Stations / Train */}
+        {/* Affected Stations / Train */}
         {disruption.servicesAffected[0].routeDescriptions &&
           disruption.mode === 'train' &&
           disruption.servicesAffected[0].routeDescriptions

@@ -13,7 +13,7 @@ import s from './TrayComponents.module.scss';
 const TrayComponents = () => {
   const { autoCompleteState, modeState, resetTray } = useResetState(); // Get reset methods and state from custom hook
 
-  let showSelectedService; // placholder var
+  let showSelectedService; // placeholder var
   // If there is a selectedItem from a map click or the user has selected train (we need both the from/to Ids) or if any other mode we only need one id...
   if (
     autoCompleteState.selectedItem.selectedByMap ||

@@ -77,7 +77,7 @@ const useFilterLogic = () => {
             const getDuplicates = allLines.filter(
               (item, index) => allLines.indexOf(item) !== index
             );
-            // If duplicates exist, use them as that's what the user is interested in. Otherwise default to all lines (all will be unique)...this usually means the user has selected two stations that are on seperate lines.
+            // If duplicates exist, use them as that's what the user is interested in. Otherwise default to all lines (all will be unique)...this usually means the user has selected two stations that are on separate lines.
             const linesToCompareWith = getDuplicates.length ? getDuplicates : allLines;
             // Then filter out any disruptions that don't contain lines the user is interested in
             filteredData = filteredData.filter((disrItem) =>

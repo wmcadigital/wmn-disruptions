@@ -60,7 +60,7 @@ const TrainAutoCompleteResult = (props) => {
     text = 'Good service';
   }
 
-  // Return service with the above disruption logic, replace type and iconName with correc icon and class depending on disruption type
+  // Return service with the above disruption logic, replace type and iconName with correct icon and class depending on disruption type
   return (
     <li
       className="wmnds-autocomplete-suggestions__li wmnds-grid"

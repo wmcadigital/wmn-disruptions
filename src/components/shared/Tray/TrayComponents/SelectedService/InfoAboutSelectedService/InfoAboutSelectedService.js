@@ -30,7 +30,7 @@ const InfoAboutSelectedService = () => {
     const allLines = selectedItem.lines.concat(selectedItemTo.lines);
     // Then get any duplicates found and pluck them out. If duplicates are found then this means the user MUST be interested in only them lines as that line was part of their from AND to station search.
     const getDuplicates = allLines.filter((item, index) => allLines.indexOf(item) !== index);
-    // If duplicates exist, use them as that's what the user is interested in. Otherwise default to all lines (all will be unique)...this usually means the user has selected two stations that are on seperate lines.
+    // If duplicates exist, use them as that's what the user is interested in. Otherwise default to all lines (all will be unique)...this usually means the user has selected two stations that are on separate lines.
     linesToCompareWith = getDuplicates.length ? getDuplicates : allLines;
 
     // Map linesToShow to each line selected and return a fav button for it
