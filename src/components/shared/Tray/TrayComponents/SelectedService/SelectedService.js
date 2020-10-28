@@ -6,6 +6,7 @@ import useFilterLogic from 'customHooks/useFilterLogic';
 import Message from 'components/shared/Message/Message';
 import DisruptedService from './DisruptedService/DisruptedService';
 import InfoAboutSelectedService from './InfoAboutSelectedService/InfoAboutSelectedService';
+import SaveRoutesMessage from './SaveRoutesMessage/SaveRoutesMessage';
 
 const SelectedService = () => {
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
@@ -15,13 +16,16 @@ const SelectedService = () => {
 
   return (
     <>
-      {autoCompleteState.selectedItem.id && autoCompleteState.selectedItem.severity && (
-        <InfoAboutSelectedService />
+      {/* If ann item has been selected that is not by the map then show selected services that you can fav and also show save message box */}
+      {autoCompleteState.selectedItem.id && !autoCompleteState.selectedItem.selectedByMap && (
+        <>
+          <hr className="wmnds-col-1" />
+          <SaveRoutesMessage />
+          <InfoAboutSelectedService />
+        </>
       )}
-
       {/* If no selectedData then it must be good service */}
       {!selectedData.length && <Message />}
-
       {/* If there are selectedData then there must be disruptions, loop through */}
       {selectedData.length > 0 &&
         fetchDisruptionsState.isMapVisible &&

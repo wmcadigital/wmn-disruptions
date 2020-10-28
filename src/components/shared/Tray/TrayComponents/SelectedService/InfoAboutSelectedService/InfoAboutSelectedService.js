@@ -75,7 +75,6 @@ const InfoAboutSelectedService = () => {
 
   return (
     <div className="wmnds-col-1">
-      <hr />
       {/* Mode is not train */}
       {modeState.mode !== 'train' ? (
         <>
