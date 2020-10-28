@@ -3,12 +3,21 @@ import { AutoCompleteContext } from 'globalState';
 // Import components
 import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
 // Import styles
-import s from './BusAutoCompleteResult.module.scss';
+import s from './TrainAutoCompleteResult.module.scss';
 
-const BusAutoCompleteResult = (props) => {
-  const { result, handleKeyDown } = props || {};
+const TrainAutoCompleteResult = (props) => {
+  const { result, handleKeyDown, to } = props || {};
 
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
+
+  // Set payload object to pass below
+  const payload = {
+    id: result.id,
+    severity: result?.disruptionSeverity || 'success',
+    stopName: result.name,
+    lines: result.lines,
+    to,
+  };
 
   const updateSelectedService = () => {
     // Reset selected disruption ID from map (if any)
@@ -16,15 +25,10 @@ const BusAutoCompleteResult = (props) => {
       autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICES' });
     }
 
+    //  Update normal selectedItem
     autoCompleteDispatch({
       type: 'UDPATE_SELECTED_ITEM',
-      payload: {
-        id: result.id,
-        operator: result.routes[0].operatorCode,
-        severity: result.disruptionSeverity,
-        serviceNumber: result.serviceNumber,
-        routeName: result.routes[0].routeName,
-      },
+      payload,
     });
   };
 
@@ -56,7 +60,7 @@ const BusAutoCompleteResult = (props) => {
     text = 'Good service';
   }
 
-  // Return service with the above disruption logic, replace type and iconName with correc icon and class depending on disruption type
+  // Return service with the above disruption logic, replace type and iconName with correct icon and class depending on disruption type
   return (
     <li
       className="wmnds-autocomplete-suggestions__li wmnds-grid"
@@ -70,13 +74,13 @@ const BusAutoCompleteResult = (props) => {
     >
       <DisruptionIndicatorMedium
         className="wmnds-col-auto"
-        severity={result.disruptionSeverity}
-        text={result.serviceNumber}
+        severity={result?.disruptionSeverity || 'success'}
+        noMarginOnIcon
       />
       {/* Right section */}
-      <strong className={`wmnds-col-auto ${s.routeName}`}>{result.routes[0].routeName}</strong>
+      <strong className={`wmnds-col-auto ${s.routeName}`}>{result.name}</strong>
     </li>
   );
 };
 
-export default BusAutoCompleteResult;
+export default TrainAutoCompleteResult;

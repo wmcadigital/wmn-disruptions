@@ -5,7 +5,7 @@ import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/Dis
 // Import styles
 import s from './TramAutoCompleteResult.module.scss';
 
-const BusAutoCompleteResult = (props) => {
+const TramAutoCompleteResult = (props) => {
   const { result, handleKeyDown } = props || {};
 
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
@@ -13,7 +13,7 @@ const BusAutoCompleteResult = (props) => {
   const updateSelectedService = () => {
     // Reset selected disruption ID from map (if any)
     if (autoCompleteState.selectedItem.selectedByMap) {
-      autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICE' });
+      autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICES' });
     }
 
     autoCompleteDispatch({
@@ -78,4 +78,4 @@ const BusAutoCompleteResult = (props) => {
   );
 };
 
-export default BusAutoCompleteResult;
+export default TramAutoCompleteResult;

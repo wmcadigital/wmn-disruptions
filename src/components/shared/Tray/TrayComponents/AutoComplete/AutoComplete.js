@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 // Import contexts
-import { ModeContext } from 'globalState/ModeContext';
+import { ModeContext } from 'globalState';
 // Import components
 import BusAutoComplete from './BusAutocomplete/BusAutoComplete';
 import TramAutoComplete from './TramAutoComplete/TramAutoComplete';
+import TrainAutoComplete from './TrainAutoComplete/TrainAutocomplete';
 
 const AutoComplete = () => {
   const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
@@ -28,6 +29,16 @@ const AutoComplete = () => {
           </>
         );
 
+      case 'train':
+        return (
+          <>
+            {autoCompleteTitle('Trains between')}
+            <TrainAutoComplete />
+            {autoCompleteTitle('and')}
+            <TrainAutoComplete to />
+          </>
+        );
+
       case 'tram':
         return (
           <>
@@ -42,7 +53,7 @@ const AutoComplete = () => {
   };
 
   // Render the correct component based on logic in switch statement above
-  return <div className="wmnds-grid">{autoCompleteToShow()}</div>;
+  return <div className="wmnds-grid">{autoCompleteToShow()} </div>;
 };
 
 export default AutoComplete;

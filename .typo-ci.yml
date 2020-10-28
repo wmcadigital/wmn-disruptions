@@ -30,6 +30,7 @@ excluded_words:
   - networkwm
   - wmca
   - tfwm
+  - wmnds-
 
 # Would you like filenames to also be spellchecked?
 spellcheck_filenames: false

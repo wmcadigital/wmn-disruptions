@@ -6,7 +6,6 @@ import { AutoCompleteContext, FetchDisruptionsContext } from 'globalState';
 // Import Helper functions
 import { setSearchParam } from 'globalState/helpers/URLSearchParams'; // (used to sync state with URL)
 // Imported components
-import FavBusButton from 'components/shared/FavButtons/FavBusButton/FavBusButton';
 import Button from 'components/shared/Button/Button';
 import Icon from 'components/shared/Icon/Icon';
 import ShareButtons from './ShareButtons/ShareButtons';
@@ -15,7 +14,7 @@ import s from './DisruptionInfo.module.scss';
 
 const { sanitize } = dompurify;
 
-const DisruptionInfo = ({ disruption, listView }) => {
+const DisruptionInfo = ({ disruption }) => {
   const [, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the dispatch of autocomplete
   const [fetchDisruptionsState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state and dispatch of disruptions (contains isMapVisible)
   const { isMapVisible } = fetchDisruptionsState;
@@ -23,7 +22,7 @@ const DisruptionInfo = ({ disruption, listView }) => {
   const handleViewOnMapBtn = () => {
     // Reset stored autocomplete data
     autoCompleteDispatch({
-      type: 'RESET_SELECTED_SERVICE',
+      type: 'RESET_SELECTED_SERVICES',
     });
     // Update API for selected API
     autoCompleteDispatch({
@@ -41,49 +40,6 @@ const DisruptionInfo = ({ disruption, listView }) => {
 
   return (
     <>
-      {/* If it's listView, then we don't want to show the affectedServices/favs as it's shown in accordion header */}
-      {!listView && (
-        <>
-          {/* Affected Services */}
-          <div className="wmnds-col-1 ">
-            <strong>Affected {disruption.mode !== 'tram' ? 'Services' : 'Stops'}:</strong>
-          </div>
-          <div className="wmnds-col-1">
-            {disruption.servicesAffected &&
-              disruption.mode === 'bus' &&
-              disruption.servicesAffected
-                .sort(
-                  (a, b) => a.serviceNumber.replace(/\D/g, '') - b.serviceNumber.replace(/\D/g, '')
-                )
-                .map((affected) => (
-                  <FavBusButton
-                    id={affected.id}
-                    severity={disruption.disruptionSeverity}
-                    text={affected.serviceNumber}
-                    title={`${affected.routeDescriptions[0].description} (${affected.operatorName})`}
-                    mode={disruption.mode}
-                    key={affected.id}
-                  />
-                ))}
-
-            {disruption.servicesAffected &&
-              disruption.mode === 'tram' &&
-              disruption.stopsAffected
-                .sort((a, b) => a.name.replace(/\D/g, '') - b.name.replace(/\D/g, ''))
-                .map((affected) => (
-                  <FavBusButton
-                    id={affected.atcoCode}
-                    severity={disruption.disruptionSeverity}
-                    text={affected.name}
-                    title={`${disruption.servicesAffected[0].routeDescriptions[0].description} (${disruption.servicesAffected[0].operatorName})`}
-                    mode={disruption.mode}
-                    key={affected.atcoCode}
-                  />
-                ))}
-          </div>
-        </>
-      )}
-
       {/* Disruption description */}
 
       {disruption.mode !== 'tram' ? (
@@ -143,12 +99,6 @@ const DisruptionInfo = ({ disruption, listView }) => {
 // PropTypes
 DisruptionInfo.propTypes = {
   disruption: PropTypes.objectOf(PropTypes.any).isRequired,
-  listView: PropTypes.bool,
-};
-
-// Default props
-DisruptionInfo.defaultProps = {
-  listView: false,
 };
 
 export default DisruptionInfo;

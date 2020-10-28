@@ -73,11 +73,19 @@ const useMapIconLayer = (mapState, viewState) => {
 
             let affectedIds = '';
             // If servicedsAffected on disruption add them to the affectedIds var so we can query them
-            if (servicesAffected && mode !== 'tram') {
+            if (servicesAffected && mode === 'bus') {
               servicesAffected.forEach((service) => {
                 affectedIds += `${service.id}, `;
               });
-            } else {
+            }
+            // If train, we need to add lines to affectedIds
+            else if (servicesAffected && mode === 'train') {
+              servicesAffected[0].routeDescriptions.forEach((line) => {
+                affectedIds += `${line.description}`;
+              });
+            }
+            // Else, must be a tram
+            else {
               stopsAffected.forEach((stop) => {
                 affectedIds += `${stop.atcoCode}, `;
               });
@@ -176,8 +184,46 @@ const useMapIconLayer = (mapState, viewState) => {
           if (modeState.mode) {
             queryBuilder += ` AND mode = '${modeState.mode}'`; // add mode query to queryBuilder
           }
-          // If autocomplete ID
-          if (autoCompleteState.selectedItem.id && !autoCompleteState.selectedItem.selectedByMap) {
+
+          // TRAIN
+          if (
+            modeState.mode === 'train' &&
+            autoCompleteState.selectedItem.id &&
+            autoCompleteState.selectedItemTo.id
+          ) {
+            // Join the lines array of the from/to selected stations
+            const allLines = autoCompleteState.selectedItem.lines.concat(
+              autoCompleteState.selectedItemTo.lines
+            );
+            // Then get any duplicates found and pluck them out. If duplicates are found then this means the user MUST be interested in only them lines as that line was part of their from AND to station search.
+            const getDuplicates = allLines.filter(
+              (item, index) => allLines.indexOf(item) !== index
+            );
+            // If duplicates exist, use them as that's what the user is interested in. Otherwise default to all lines (all will be unique)...this usually means the user has selected two stations that are on separate lines.
+            const linesToCompareWith = getDuplicates.length ? getDuplicates : allLines;
+
+            let trainQuery = ''; // placeholder for generating the train query
+
+            // Loop through each of our lines that the user is interested in and generate a nice SQL query
+            linesToCompareWith.forEach((line, index) => {
+              let or = ''; // placeholder to add "OR" to sql query
+              if (index !== linesToCompareWith.length - 1) {
+                // If the item is not the last in the loop then add " OR " to the query as there will be more items to chain on to the query
+                or = ' OR ';
+              }
+              // Update the train query to check the disruption icon attributes if the servicesAffected contains our line in the loop
+              trainQuery += `(servicesAffected LIKE '%${line}%')${or}`;
+            });
+
+            queryBuilder += ` AND (${trainQuery})`; // Stack the train query all together and add it on to the main sql query
+          }
+          // ANYTHING ELSE (BUS, TRAM, ROADS)
+          else if (
+            autoCompleteState.selectedItem.id &&
+            !autoCompleteState.selectedItem.selectedByMap &&
+            modeState.mode !== 'train'
+          ) {
+            // If autocomplete ID
             queryBuilder += ` AND servicesAffected LIKE '%${autoCompleteState.selectedItem.id}%'`; // Add selected id query to queryBuilder
           }
 
@@ -229,7 +275,10 @@ const useMapIconLayer = (mapState, viewState) => {
     };
   }, [
     autoCompleteState.selectedItem.id,
+    autoCompleteState.selectedItem.lines,
     autoCompleteState.selectedItem.selectedByMap,
+    autoCompleteState.selectedItemTo.id,
+    autoCompleteState.selectedItemTo.lines,
     fetchDisruptionsState.data,
     fromDate,
     mapState,

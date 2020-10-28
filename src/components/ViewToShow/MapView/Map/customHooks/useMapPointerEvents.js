@@ -24,7 +24,7 @@ const useMapPointerEvents = (_mapRef, viewState) => {
           if (selectedMapDisruption !== undefined) {
             // Reset stored autocomplete data
             autoCompleteDispatch({
-              type: 'RESET_SELECTED_SERVICE',
+              type: 'RESET_SELECTED_SERVICES',
             });
             // Update state to make it selected map disruption
             autoCompleteDispatch({

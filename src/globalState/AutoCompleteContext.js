@@ -14,16 +14,8 @@ export const AutoCompleteProvider = (props) => {
   // Set intial state of when
   const initialState = {
     query: getSearchParam('query') || '',
-    data: [],
-    // selectedMapDisruption: getSearchParam('selectedMapDisruption') || null, // This is used to stash disruption id if a user clicks disruption on map
+    queryTo: getSearchParam('queryTo') || '',
     // // The selected service is used to store details when a user has clicked an autocomplete
-    // selectedService: {
-    //   id: getSearchParam('selectedService') || null,
-    //   operator: null,
-    //   severity: null,
-    //   serviceNumber: null,
-    //   routeName: null,
-    // },
     selectedItem: {
       id: getSearchParam('selectedItem') || null,
       selectedByMap: getSearchParam('selectedByMap') || null,
@@ -31,46 +23,81 @@ export const AutoCompleteProvider = (props) => {
       severity: null,
       serviceNumber: null,
       routeName: null,
+      stopName: null,
+      lines: [],
+      to: null,
+    },
+    selectedItemTo: {
+      id: getSearchParam('selectedItemTo') || null,
+      operator: null,
+      severity: null,
+      serviceNumber: null,
+      stopName: null,
+      routeName: null,
+      lines: [],
+      to: null,
     },
   };
 
   // Set up a reducer so we can change state based on centralised logic here
   const reducer = (state, action) => {
-    // Update the mode to chosen
+    // Update the query to what the user has typed
     switch (action.type) {
-      case 'UPDATE_QUERY':
-        setSearchParam('query', action.query);
+      case 'UPDATE_QUERY': {
+        const query = action.to ? 'queryTo' : 'query'; // If 'to' exists then make sure we set the correct field
+        setSearchParam(query, action.query);
+
         return {
           ...state,
-          query: action.query,
+          [query]: action.query,
         };
+      }
+      // Update the state to show item user has selected
       case 'UDPATE_SELECTED_ITEM': {
         // If object contains selectedByMap
         if (action.payload.selectedByMap) {
-          // Update URL
-          setSearchParam('selectedByMap', action.payload.selectedByMap);
+          setSearchParam('selectedByMap', action.payload.selectedByMap); // Update URL
         } else {
-          delSearchParam('selectedMapDisruption');
+          delSearchParam('selectedByMap'); // Delete URL
         }
-        setSearchParam('selectedItem', action.payload.id);
+
+        const item = action.payload.to ? 'selectedItemTo' : 'selectedItem'; // If 'to' exists in payload then make sure we set the correct field
+        setSearchParam(item, action.payload.id); // Set URL
         return {
           ...state,
-          selectedItem: action.payload,
+          [item]: action.payload,
         };
       }
-      case 'UPDATE_DATA':
+
+      // Used to cancel selected service/station etc. This is mainly used when using from/to stations
+      case 'RESET_SELECTED_ITEM': {
+        // If action.payload ('to') exists in payload then make sure we set the correct field
+        const item = action.payload ? 'selectedItemTo' : 'selectedItem';
+        const query = action.payload ? 'queryTo' : 'query';
+        // Delete correct things from URL
+        delSearchParam(item);
+        delSearchParam(query);
+
+        // Update state with deleted/cancelled service/item
         return {
           ...state,
-          data: action.data,
+          [query]: '',
+          [item]: {},
         };
-      case 'RESET_SELECTED_SERVICE':
+      }
+
+      // Used to reset everything
+      case 'RESET_SELECTED_SERVICES':
         delSearchParam('selectedItem');
+        delSearchParam('selectedItemTo');
         delSearchParam('selectedByMap');
         delSearchParam('query');
+        delSearchParam('queryTo');
         return {
           query: '',
-          data: [],
+          queryTo: '',
           selectedItem: {},
+          selectedItemTo: {},
         };
       // Default should return intial state if error
       default:

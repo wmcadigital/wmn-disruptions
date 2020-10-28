@@ -5,10 +5,10 @@ import { FavsContext } from 'globalState';
 // Import Components
 import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
 import Icon from 'components/shared/Icon/Icon';
+// Styles
+import s from './FavBtn.module.scss';
 
-import s from './FavBusButton.module.scss';
-
-const FavBusButton = ({ id, severity, text, title, mode }) => {
+const FavBtn = ({ id, severity, text, title, mode, narrow }) => {
   const [favState, favDispatch] = useContext(FavsContext); // Get fav state from globalState
   const [isFav, setIsFav] = useState(favState.favs[mode].includes(id)); // Check favs on load to see if ours is included
 
@@ -28,7 +28,7 @@ const FavBusButton = ({ id, severity, text, title, mode }) => {
   };
 
   return (
-    <div className={`${s.favButton} wmnds-m-b-md`}>
+    <div className={`${s.favButton} ${narrow ? s.favButtonNarrow : ''} wmnds-m-b-md`}>
       {/* Services Affected */}
       <DisruptionIndicatorMedium
         text={text}
@@ -40,7 +40,7 @@ const FavBusButton = ({ id, severity, text, title, mode }) => {
       {/* Faved Routed to be saved to local storage */}
       <button
         type="button"
-        className={s.starIconBtn}
+        className={`${s.starIconBtn}`}
         title={isFav ? `Remove ${title} from favourites` : `Favourite the ${title}`}
         onClick={toggleFav}
       >
@@ -51,18 +51,21 @@ const FavBusButton = ({ id, severity, text, title, mode }) => {
 };
 
 // Set props
-FavBusButton.propTypes = {
+FavBtn.propTypes = {
   id: PropTypes.string, // button type, by default it is type="button"
   mode: PropTypes.string, // Mode type
-  severity: PropTypes.string.isRequired, // severity of disruption
+  narrow: PropTypes.bool,
+  severity: PropTypes.string, // severity of disruption
   text: PropTypes.string.isRequired, // text inside button
   title: PropTypes.string,
 };
 
-FavBusButton.defaultProps = {
+FavBtn.defaultProps = {
   id: null,
   mode: 'bus',
+  narrow: false,
+  severity: 'purple',
   title: null,
 };
 
-export default FavBusButton;
+export default FavBtn;

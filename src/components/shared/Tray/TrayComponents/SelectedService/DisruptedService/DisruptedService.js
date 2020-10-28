@@ -6,15 +6,14 @@ import { AutoCompleteContext } from 'globalState';
 import DisruptionIndicatorSmall from 'components/shared/DisruptionIndicator/DisruptionIndicatorSmall';
 // import CloseButton from 'components/shared/CloseButton/CloseButton';
 import DisruptionInfo from 'components/shared/DisruptionInfo/DisruptionInfo';
-
-import s from './DisruptedService.module.scss';
+import useDisruptionAffectedItems from 'customHooks/useDisruptionAffectedItems';
 
 const DisruptedService = ({ disruption }) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const { selectedItem } = autoCompleteState;
   const disruptionRef = useRef(null);
 
-  const iconLeft = disruption.mode === 'tram' ? 'metro' : disruption.mode; // set icon to correct name for tram/metro
+  const { iconLeft, title, affectedItems } = useDisruptionAffectedItems(disruption); // Get the correct modal icon and affectedItems
 
   useEffect(() => {
     // Wrapped in useEffect as it is reliant on functionality from the useEffect in MobileTray.js
@@ -32,7 +31,8 @@ const DisruptedService = ({ disruption }) => {
   }, [selectedItem.id]);
 
   return (
-    <div className={`wmnds-grid wmnds-p-t-lg wmnds-m-t-lg ${s.disruption}`} ref={disruptionRef}>
+    <div className={`wmnds-grid wmnds-m-t-sm `} ref={disruptionRef}>
+      <hr className="wmnds-col-1" />
       {/* Title of disruptions */}
       <div className="wmnds-col-1 wmnds-m-b-lg">
         <div className="wmnds-grid wmnds-grid--align-center">
@@ -42,18 +42,11 @@ const DisruptedService = ({ disruption }) => {
             className="wmnds-col-auto wmnds-m-r-md"
           />
 
-          <div className="wmnds-col-3-4">
-            {disruption.title.charAt(0).toUpperCase() + disruption.title.slice(1)}
-            {disruption.mode !== 'tram' && (
-              <>
-                {' '}
-                at <strong>{disruption.subtitle}</strong>
-              </>
-            )}
-          </div>
+          <div className="wmnds-col-3-4">{title()}</div>
         </div>
       </div>
 
+      {affectedItems()}
       <DisruptionInfo disruption={disruption} />
     </div>
   );
