@@ -29,7 +29,7 @@ const useWindowHeightWidth = () => {
   useEffect(() => {
     // Set app height to window height minus the header height
     if (windowWidth > 410) {
-      setAppHeight(windowHeight - 138);
+      setAppHeight(windowHeight - 140);
     } else {
       setAppHeight(windowHeight - 122);
     }

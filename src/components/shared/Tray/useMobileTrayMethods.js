@@ -1,12 +1,13 @@
 import { useEffect, useState, useContext } from 'react';
 // Import contexts
-import { AutoCompleteContext, FetchDisruptionsContext } from 'globalState';
+import { AutoCompleteContext, FetchDisruptionsContext, ModeContext } from 'globalState';
 // Import customHooks
 import useWindowHeightWidth from 'customHooks/useWindowHeightWidth';
 
 const useMobileTrayMethods = (slideableTray) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
+  const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
 
   const { appHeight } = useWindowHeightWidth(); // Get window height and width
   const initialTrayPosition = 100; // Initial position of tray
@@ -15,11 +16,15 @@ const useMobileTrayMethods = (slideableTray) => {
 
   // Open tray if there is a selectedItem (map icon has been clicked) or a selected service
   useEffect(() => {
-    const { selectedItem } = autoCompleteState;
-    if (selectedItem.id && fetchDisruptionsState.data.length) {
+    const { selectedItem, selectedItemTo } = autoCompleteState;
+    if (
+      ((modeState.mode === 'train' && selectedItem.id && selectedItemTo.id) ||
+        (modeState.mode !== 'train' && selectedItem.id)) &&
+      fetchDisruptionsState.data.length
+    ) {
       setTrayPosition(half || initialTrayPosition); // set tray to open
     }
-  }, [fetchDisruptionsState.data.length, half, autoCompleteState]);
+  }, [fetchDisruptionsState.data.length, half, autoCompleteState, modeState.mode]);
 
   // Changes map height based on the tray height
   useEffect(() => {

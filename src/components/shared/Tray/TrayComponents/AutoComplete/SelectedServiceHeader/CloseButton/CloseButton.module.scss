@@ -1,7 +1,7 @@
 // Vars
-@import '../../../../../../../assets/styles/vars';
+@import '~assets/styles/vars';
 // Mixins
-@import '../../../../../../../assets/styles/mixins';
+@import '~assets/styles/mixins';
 
 .closeButton {
   background: none;
@@ -10,9 +10,9 @@
   position: absolute;
   top: 1rem;
   margin: auto;
-  right: $size-sm;
+  right: $size-xsm;
 
-  @media all and(min-width: 380px) {
+  @media all and(min-width: 400px) {
     top: 0;
     bottom: 0;
   }

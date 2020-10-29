@@ -31,6 +31,11 @@ const DisruptionIndicatorMedium = ({
       iconRightName = 'warning-triangle';
       disruptedClass = 'severe';
       break;
+
+    case 'purple':
+      iconRightName = '';
+      disruptedClass = 'purple';
+      break;
     // Minor disruption (normal)
     default:
       iconRightName = 'success';

@@ -1,0 +1,26 @@
+// Vars
+@import '~assets/styles/vars';
+// Mixins
+@import '~assets/styles/mixins';
+
+.selectedItemBox {
+  padding: $size-xsm $size-xs;
+  border: 1px solid get-color(primary);
+  width: 100%;
+  position: relative;
+
+  .wmnds-disruption-indicator-medium {
+    padding: $size-xs;
+  }
+}
+
+.selectedSummary {
+  margin-top: $size-md;
+  width: 100%;
+
+  @media all and (min-width: 360px) {
+    max-width: calc(100% - (115px));
+    margin-top: 0;
+    margin-right: $size-md;
+  }
+}

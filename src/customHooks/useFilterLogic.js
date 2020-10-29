@@ -66,6 +66,29 @@ const useFilterLogic = () => {
 
           break;
 
+        case 'train': {
+          // Make sure that both selectedItem (above) and selectedItemTo are selected before we filter as we need both to work out correct lines
+          if (autoCompleteState.selectedItemTo.lines) {
+            // Join the lines array of the from/to selected stations
+            const allLines = autoCompleteState.selectedItem.lines.concat(
+              autoCompleteState.selectedItemTo.lines
+            );
+            // Then get any duplicates found and pluck them out. If duplicates are found then this means the user MUST be interested in only them lines as that line was part of their from AND to station search.
+            const getDuplicates = allLines.filter(
+              (item, index) => allLines.indexOf(item) !== index
+            );
+            // If duplicates exist, use them as that's what the user is interested in. Otherwise default to all lines (all will be unique)...this usually means the user has selected two stations that are on separate lines.
+            const linesToCompareWith = getDuplicates.length ? getDuplicates : allLines;
+            // Then filter out any disruptions that don't contain lines the user is interested in
+            filteredData = filteredData.filter((disrItem) =>
+              disrItem.servicesAffected[0].routeDescriptions.some((el) =>
+                linesToCompareWith.includes(el.description)
+              )
+            );
+          }
+          break;
+        }
+
         // The mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
         default: {
           filteredData = filteredData.filter((disrItem) =>
