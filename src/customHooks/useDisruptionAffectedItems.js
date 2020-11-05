@@ -27,7 +27,8 @@ const useDisruptionAffectedItems = (disruption) => {
   // Set the correct title based on mode
   const title = () => (
     <>
-      {disruption.title.charAt(0).toUpperCase() + disruption.title.slice(1)}
+      {disruption.title?.charAt(0).toUpperCase() + disruption.title?.slice(1) ||
+        disruption.subtitle}
       {/* If bus, show 'at' subtitle */}
       {disruption.mode === 'bus' && (
         <>
