@@ -46,7 +46,8 @@ const DisruptionInfo = ({ disruption }) => {
         <div
           className="wmnds-m-b-lg wmnds-col-1"
           dangerouslySetInnerHTML={{
-            __html: sanitize(disruption.description),
+            // Remove 'style' attributes from any descriptions
+            __html: sanitize(disruption.description, { FORBID_ATTR: ['style'] }),
           }}
         />
       ) : (
