@@ -42,8 +42,10 @@ const AutoComplete = () => {
       case 'tram':
         return (
           <>
-            {autoCompleteTitle('Search for a stop')}
+            {autoCompleteTitle('Stops between')}
             <TramAutoComplete />
+            {autoCompleteTitle('and')}
+            <TramAutoComplete to />
           </>
         );
 

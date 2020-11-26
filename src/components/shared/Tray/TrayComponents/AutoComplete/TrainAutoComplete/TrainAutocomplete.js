@@ -55,7 +55,7 @@ const TrainAutoComplete = ({ to }) => {
             </div>
             <DebounceInput
               type="text"
-              name="tramSearch"
+              name="trainSearch"
               placeholder="Search for a stop"
               className="wmnds-fe-input wmnds-autocomplete__input wmnds-col-1"
               value={trainQuery || ''}
