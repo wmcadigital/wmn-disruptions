@@ -1,24 +1,11 @@
 import React, { useContext } from 'react';
 import { AutoCompleteContext } from 'globalState';
 import FavBtn from 'components/shared/FavBtn/FavBtn';
+import numberToWord from '../helpers/numberToWord';
 
 const TranInfoAboutSelectedService = () => {
   const [autoCompleteState] = useContext(AutoCompleteContext);
   const { selectedItem, selectedItemTo } = autoCompleteState;
-
-  const writtenNumbers = [
-    '',
-    'One',
-    'Two',
-    'Three',
-    'Four',
-    'Five',
-    'Six',
-    'Seven',
-    'Eight',
-    'Nine',
-    'Ten',
-  ];
 
   // Placeholder vars for train lines
   let linesToCompareWith;
@@ -54,7 +41,7 @@ const TranInfoAboutSelectedService = () => {
   return (
     <>
       <p>
-        {writtenNumbers[linesToCompareWith.length]} train line
+        {numberToWord(linesToCompareWith.length)} train line
         {linesToCompareWith.length > 1 && 's'} are available between{' '}
         <strong>{selectedItem.stopName}</strong> and <strong>{selectedItemTo.stopName}</strong>{' '}
         train stations.
