@@ -37,7 +37,7 @@ const TramAutoComplete = ({ to }) => {
         <SelectedServiceHeader
           autoCompleteState={autoCompleteState}
           autoCompleteDispatch={() =>
-            autoCompleteDispatch({ type: 'RESET_SELECTED_ITEM', payload: to })
+            autoCompleteDispatch({ type: 'RESET_SELECTED_ITEM', payload: { to, mode: 'tram' } })
           }
           mode="tram"
           to={to}

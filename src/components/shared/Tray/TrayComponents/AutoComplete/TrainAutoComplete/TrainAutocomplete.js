@@ -37,7 +37,7 @@ const TrainAutoComplete = ({ to }) => {
         <SelectedServiceHeader
           autoCompleteState={autoCompleteState}
           autoCompleteDispatch={() =>
-            autoCompleteDispatch({ type: 'RESET_SELECTED_ITEM', payload: to })
+            autoCompleteDispatch({ type: 'RESET_SELECTED_ITEM', payload: { to } })
           }
           mode="train"
           to={to}
