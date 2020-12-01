@@ -54,8 +54,10 @@ const InfoAboutSelectedService = () => {
     });
   }
 
+  // Placeholder vars for favourite message
   let serviceText;
   let service;
+  let serviceMessage;
   // Change copy below based on mode
   switch (modeState.mode) {
     case 'tram':
@@ -63,8 +65,16 @@ const InfoAboutSelectedService = () => {
       service = selectedItem.stopName;
       break;
 
-    // Do nothing for train
     case 'train':
+      // For trains, only set the service message
+      serviceMessage =
+        linesToCompareWith.length > 1 ? (
+          'a train line'
+        ) : (
+          <>
+            the <strong>{linesToCompareWith[0]}</strong> line
+          </>
+        );
       break;
 
     default:
@@ -72,15 +82,22 @@ const InfoAboutSelectedService = () => {
       service = selectedItem.serviceNumber.toUpperCase();
       break;
   }
+  // Set serviceMessage if it hasn't already been set within the switch
+  serviceMessage = serviceMessage || (
+    <>
+      {serviceText} <strong>{service}</strong>
+    </>
+  );
+  // Set the full favourite message
+  const favouriteMessage = <p>Press the star icon to save {serviceMessage} to your favourites.</p>;
 
   return (
     <div className="wmnds-col-1">
       {/* Mode is not train */}
       {modeState.mode !== 'train' ? (
         <>
-          <p>
-            Press star icon to save {serviceText} <strong>{service}</strong> to your favourites
-          </p>
+          {/* Favourite message */}
+          {favouriteMessage}
 
           <FavBtn
             id={selectedItem.id}
@@ -95,10 +112,12 @@ const InfoAboutSelectedService = () => {
         <>
           <p>
             {writtenNumbers[linesToCompareWith.length]} train line
-            {linesToCompareWith.length > 1 && 's'} are available between{' '}
+            {linesToCompareWith.length > 1 ? 's are' : ' is'} available between{' '}
             <strong>{selectedItem.stopName}</strong> and <strong>{selectedItemTo.stopName}</strong>{' '}
             train stations.
           </p>
+          {/* Favourite message */}
+          {favouriteMessage}
           {/* Loop through lines selected and show them */}
           {linesToShow}
         </>
