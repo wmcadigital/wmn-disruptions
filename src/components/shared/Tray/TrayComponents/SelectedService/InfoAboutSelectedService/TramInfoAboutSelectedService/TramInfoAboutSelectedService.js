@@ -105,7 +105,7 @@ const TramInfoAboutSelectedService = () => {
       <p>
         {numberToWord(selectedItem.lines.length)} stop{selectedItem.lines.length > 1 ? 's' : ''} are
         available between <strong>{selectedItem.stopName}</strong> and{' '}
-        <strong>{selectedItemTo.stopName}</strong> stops.
+        <strong>{selectedItemTo.stopName}</strong>.
       </p>
       <p>Press star icon to save a stop to your favourites.</p>
       {/* Loop through lines selected and show them */}
