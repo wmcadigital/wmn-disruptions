@@ -217,7 +217,29 @@ const useMapIconLayer = (mapState, viewState) => {
 
             queryBuilder += ` AND (${trainQuery})`; // Stack the train query all together and add it on to the main sql query
           }
-          // ANYTHING ELSE (BUS, TRAM, ROADS)
+          // TRAM
+          else if (
+            modeState.mode === 'tram' &&
+            autoCompleteState.selectedItem.id &&
+            autoCompleteState.selectedItem.lines &&
+            autoCompleteState.selectedItemTo.id
+          ) {
+            const stops = autoCompleteState.selectedItem.lines;
+            let tramQuery = '';
+
+            stops.forEach((stop, index) => {
+              let or = ''; // placeholder to add "OR" to sql query
+              if (index !== stops.length - 1) {
+                // If the item is not the last in the loop then add " OR " to the query as there will be more items to chain on to the query
+                or = ' OR ';
+              }
+              // Update the train query to check the disruption icon attributes if the servicesAffected contains our line in the loop
+              tramQuery += `(servicesAffected LIKE '%${stop}%')${or}`;
+            });
+
+            queryBuilder += ` AND (${tramQuery})`; // Stack the train query all together and add it on to the main sql query
+          }
+          // ANYTHING ELSE (BUS, ROADS)
           else if (
             autoCompleteState.selectedItem.id &&
             !autoCompleteState.selectedItem.selectedByMap &&
