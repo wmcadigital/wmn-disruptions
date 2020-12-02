@@ -60,9 +60,20 @@ const useFilterLogic = () => {
       switch (modeState.mode) {
         // The mode is tram and the id the user clicked in the autocomplete is within the stopsAffected array
         case 'tram':
-          filteredData = filteredData.filter((disrItem) =>
-            disrItem.stopsAffected.some((el) => el.atcoCode === autoCompleteState.selectedItem.id)
-          );
+          // If the user has selected both tram stops then check if any are affected
+          if (autoCompleteState.selectedItemTo.id && autoCompleteState.selectedItem?.lines) {
+            // Map the array of stop objects to an array of just the atcoCodes
+            const lineCodes = autoCompleteState.selectedItem.lines.map((stop) => stop.atcoCode);
+
+            filteredData = filteredData.filter((disrItem) =>
+              disrItem.stopsAffected.some((el) => lineCodes.includes(el.atcoCode))
+            );
+          } else {
+            // Or just check if the selectedItem is affected
+            filteredData = filteredData.filter((disrItem) =>
+              disrItem.stopsAffected.some((el) => el.atcoCode === autoCompleteState.selectedItem.id)
+            );
+          }
 
           break;
 
