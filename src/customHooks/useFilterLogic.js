@@ -68,11 +68,6 @@ const useFilterLogic = () => {
             filteredData = filteredData.filter((disrItem) =>
               disrItem.stopsAffected.some((el) => lineCodes.includes(el.atcoCode))
             );
-          } else {
-            // Or just check if the selectedItem is affected
-            filteredData = filteredData.filter((disrItem) =>
-              disrItem.stopsAffected.some((el) => el.atcoCode === autoCompleteState.selectedItem.id)
-            );
           }
 
           break;
