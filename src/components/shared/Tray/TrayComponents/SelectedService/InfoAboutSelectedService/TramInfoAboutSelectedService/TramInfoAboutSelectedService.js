@@ -1,89 +1,34 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { AutoCompleteContext } from 'globalState';
-import axios from 'axios';
 // Components
 import FavBtn from 'components/shared/FavBtn/FavBtn';
 import Message from 'components/shared/Message/Message';
 // Local
 import numberToWord from '../helpers/numberToWord';
+import useGetTramStopByStop from './customHooks/useGetTramStopByStop';
 
 const TramInfoAboutSelectedService = () => {
-  const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
+  const [autoCompleteState] = useContext(AutoCompleteContext);
   const { selectedItem, selectedItemTo } = autoCompleteState;
-  const [state, setState] = useState({
-    loading: false,
-    error: false,
-  });
+  const { loading, errorInfo } = useGetTramStopByStop();
 
-  // Placeholder variables
-  let currentItem;
-
-  const bothItemsSelected = selectedItem.id && selectedItemTo.id;
-  // If only one is selected then assign that to the currentItem variable
-  if (!bothItemsSelected) {
-    if (selectedItem.id) currentItem = selectedItem;
-    if (selectedItemTo.id) currentItem = selectedItemTo;
+  // Don't return anything until both items are selected
+  if (!selectedItem.id || !selectedItemTo.id) {
+    return <div />;
   }
 
-  useEffect(() => {
-    // If both items are selected, the get the stops in between
-    if (bothItemsSelected) {
-      const source = axios.CancelToken.source(); // Set source of cancelToken
-      const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
-      setState({ loading: true, error: false });
-      // Fetch the stops between
-      axios
-        .get(
-          `${REACT_APP_API_HOST}/Metro/v2/stopsbetween/${selectedItem.id}/${selectedItemTo.id}`,
-          {
-            headers: {
-              'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
-            },
-            cancelToken: source.token, // Set token with API call, so we can cancel this call on unmount
-          }
-        )
-        .then((response) => {
-          // Update selectedItem.lines with inbetween lines
-          // to match the user's input
-          const lines = response.data?.data;
-          setState({ loading: false, error: false });
-          if (lines) {
-            autoCompleteDispatch({
-              type: 'UDPATE_SELECTED_ITEM_LINES',
-              // API returns the stops in a certain direction so we check the first element to see if it must be reversed
-              payload: lines[0].atcoCode === selectedItem.id ? lines : lines.reverse(),
-            });
-          }
-        })
-        .catch((error) => {
-          if (!axios.isCancel(error)) {
-            // Update error message
-            setState({
-              loading: false,
-              error: {
-                title: 'Please try again',
-                message: 'Apologies, we are having technical difficulties.',
-              },
-            });
-            // eslint-disable-next-line no-console
-            console.log({ error });
-          }
-        });
-    }
-  }, [autoCompleteDispatch, bothItemsSelected, selectedItem.id, selectedItemTo.id]);
-
-  // Info to show for only one item selected
-  if (!bothItemsSelected) {
+  // Show save text for only 1 selected stop
+  if (selectedItem.id === selectedItemTo.id) {
     return (
       <>
         <p>
-          Press star icon to save the <strong>{currentItem.stopName}</strong> stop to your
+          Press star icon to save the <strong>{selectedItem.stopName}</strong> stop to your
           favourites
         </p>
         <FavBtn
-          id={currentItem.id}
-          text={currentItem.stopName}
-          title={currentItem.id}
+          id={selectedItem.id}
+          text={selectedItem.stopName}
+          title={selectedItem.id}
           mode="tram"
           narrow
         />
@@ -91,16 +36,23 @@ const TramInfoAboutSelectedService = () => {
     );
   }
 
-  if (state.error) {
-    const { error } = state;
-    return <Message type="error" title={error.title} message={error.message} />;
+  // Handle any errors
+  if (errorInfo && !loading) {
+    const { title, message } = errorInfo;
+    return <Message type="error" title={title} message={message} />;
   }
 
-  return state.loading || !selectedItem.lines ? (
-    <div className="wmnds-loader" role="alert" aria-live="assertive">
-      <p className="wmnds-loader__content">Content is loading...</p>
-    </div>
-  ) : (
+  // Show loading spinner
+  if (loading || !selectedItem.lines?.length) {
+    return (
+      <div className="wmnds-loader" role="alert" aria-live="assertive">
+        <p className="wmnds-loader__content">Content is loading...</p>
+      </div>
+    );
+  }
+
+  // Finally show in between stops
+  return (
     <>
       <p>
         {numberToWord(selectedItem.lines.length)} stop{selectedItem.lines.length > 1 ? 's' : ''} are
