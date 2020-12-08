@@ -5,7 +5,7 @@ import { AutoCompleteContext } from 'globalState';
 const useGetTramStopByStop = () => {
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
   const { selectedItem, selectedItemTo } = autoCompleteState;
-  // Intitialise state
+  // Initialise state
   const [loading, setLoading] = useState(false);
   const [errorInfo, setErrorInfo] = useState();
 
@@ -62,7 +62,7 @@ const useGetTramStopByStop = () => {
       });
   }, [autoCompleteDispatch, bothStopsEqual, bothStopsSelected, selectedItem.id, selectedItemTo.id]);
 
-  return { loading, errorInfo };
+  return { loading, errorInfo, autoCompleteState };
 };
 
 export default useGetTramStopByStop;

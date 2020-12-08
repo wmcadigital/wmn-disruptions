@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import { AutoCompleteContext } from 'globalState';
+import React from 'react';
 // Components
 import FavBtn from 'components/shared/FavBtn/FavBtn';
 import Message from 'components/shared/Message/Message';
@@ -8,9 +7,8 @@ import numberToWord from '../helpers/numberToWord';
 import useGetTramStopByStop from './customHooks/useGetTramStopByStop';
 
 const TramInfoAboutSelectedService = () => {
-  const [autoCompleteState] = useContext(AutoCompleteContext);
+  const { autoCompleteState, loading, errorInfo } = useGetTramStopByStop();
   const { selectedItem, selectedItemTo } = autoCompleteState;
-  const { loading, errorInfo } = useGetTramStopByStop();
 
   // Don't return anything until both items are selected
   if (!selectedItem.id || !selectedItemTo.id) {
