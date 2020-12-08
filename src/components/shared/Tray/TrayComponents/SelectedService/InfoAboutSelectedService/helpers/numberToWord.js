@@ -33,12 +33,12 @@ const numberToWord = (number) => {
     'Twenty-nine',
     'Thirty',
     'Thirty-one',
-    'Thrity-two',
-    'Thrity-three',
-    'Thrity-four',
-    'Thrity-five',
-    'Thrity-six',
-    'Thrity-seven',
+    'Thirty-two',
+    'Thirty-three',
+    'Thirty-four',
+    'Thirty-five',
+    'Thirty-six',
+    'Thirty-seven',
   ];
 
   return writtenNumbers[number];
