@@ -56,11 +56,11 @@ const TrainAutoComplete = ({ to }) => {
             <DebounceInput
               type="text"
               name="trainSearch"
-              placeholder="Search for a stop"
+              placeholder="Search for a station"
               className="wmnds-fe-input wmnds-autocomplete__input wmnds-col-1"
               value={trainQuery || ''}
               onChange={(e) => updateQuery(e.target.value, to)}
-              aria-label="Search for a stop"
+              aria-label="Search for a station"
               debounceTimeout={600}
               onKeyDown={(e) => handleKeyDown(e)}
               inputRef={debounceInput}
