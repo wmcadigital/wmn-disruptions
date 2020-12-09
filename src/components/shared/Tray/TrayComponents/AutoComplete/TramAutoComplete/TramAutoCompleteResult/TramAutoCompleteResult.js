@@ -6,7 +6,7 @@ import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/Dis
 import s from './TramAutoCompleteResult.module.scss';
 
 const TramAutoCompleteResult = (props) => {
-  const { result, handleKeyDown } = props || {};
+  const { result, handleKeyDown, to } = props || {};
 
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
 
@@ -23,6 +23,7 @@ const TramAutoCompleteResult = (props) => {
         severity: result?.disruptionDetail?.disruptionSeverity || 'success',
         stopName: result.name,
         operator: 'MML1',
+        to,
       },
     });
   };
