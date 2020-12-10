@@ -37,7 +37,7 @@ const TrainAutoComplete = ({ to }) => {
         <SelectedServiceHeader
           autoCompleteState={autoCompleteState}
           autoCompleteDispatch={() =>
-            autoCompleteDispatch({ type: 'RESET_SELECTED_ITEM', payload: to })
+            autoCompleteDispatch({ type: 'RESET_SELECTED_ITEM', payload: { to } })
           }
           mode="train"
           to={to}
@@ -55,12 +55,12 @@ const TrainAutoComplete = ({ to }) => {
             </div>
             <DebounceInput
               type="text"
-              name="tramSearch"
-              placeholder="Search for a stop"
+              name="trainSearch"
+              placeholder="Search for a station"
               className="wmnds-fe-input wmnds-autocomplete__input wmnds-col-1"
               value={trainQuery || ''}
               onChange={(e) => updateQuery(e.target.value, to)}
-              aria-label="Search for a stop"
+              aria-label="Search for a station"
               debounceTimeout={600}
               onKeyDown={(e) => handleKeyDown(e)}
               inputRef={debounceInput}
