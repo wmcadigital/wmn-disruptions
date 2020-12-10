@@ -1,4 +1,4 @@
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext, useState, useRef } from 'react';
 import axios from 'axios';
 // Import contexts
 import { AutoCompleteContext } from 'globalState';
@@ -9,6 +9,9 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
   const [loading, setLoading] = useState(false); // Set loading state for spinner
   const [errorInfo, setErrorInfo] = useState(); // Placeholder to set error messaging
   const selectedService = to ? autoCompleteState.selectedItemTo : autoCompleteState.selectedItem;
+  // Vars used to timeout the axios request
+  const apiTimeout = useRef();
+  const cancelRequest = (token) => token.cancel();
 
   useEffect(() => {
     let mounted = true; // Set mounted to true (used later to make sure we don't do events as component is unmounting)
@@ -17,6 +20,7 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
     if (query) {
       const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
       setLoading(true); // Update loading state to true as we are hitting API
+      apiTimeout.current = setTimeout(() => cancelRequest(source), 1500);
       axios
         .get(REACT_APP_API_HOST + apiPath, {
           headers: {
@@ -26,6 +30,7 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
         })
         .then((response) => {
           setLoading(false); // Set loading state to false after data is received
+          clearTimeout(apiTimeout.current);
           let payload;
           // BUS
           if (mode === 'bus') {
@@ -99,13 +104,15 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
           }
         })
         .catch((error) => {
-          if (!axios.isCancel(error)) {
-            setLoading(false); // Set loading state to false after data is received
+          setLoading(false); // Set loading state to false after data is received
+          setErrorInfo({
             // Update error message
-            setErrorInfo({
-              title: 'Please try again',
-              message: 'Apologies, we are having technical difficulties.',
-            });
+            title: 'Please try again',
+            message: 'Apologies, we are having technical difficulties.',
+            timeoutError: axios.isCancel(error),
+          });
+          setResults([]); // Reset the results so that the dropdown disappears
+          if (!axios.isCancel(error)) {
             // eslint-disable-next-line no-console
             console.log({ error });
           }
@@ -117,6 +124,7 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
     return () => {
       mounted = false; // Set mounted back to false on unmount
       source.cancel(); // cancel the request
+      clearTimeout(apiTimeout.current); // clear timeout
     };
   }, [apiPath, autoCompleteDispatch, selectedService.id, mode, query, to]);
 
