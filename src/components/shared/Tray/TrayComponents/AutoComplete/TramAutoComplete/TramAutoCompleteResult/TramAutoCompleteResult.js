@@ -23,6 +23,7 @@ const TramAutoCompleteResult = (props) => {
         severity: result?.disruptionDetail?.disruptionSeverity || 'success',
         stopName: result.name,
         operator: 'MML1',
+        lines: [],
         to,
       },
     });
