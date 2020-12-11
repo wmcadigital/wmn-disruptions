@@ -15,23 +15,28 @@ const useShowSelectedServiceInfo = () => {
   const anyDisruptionsToShow = disruptedServices.length > 0;
   // Below creates an object that shows the state of the autoComplete inputs per mode.
   const areSelectedItems = (() => {
+    const defaultState = {
+      allEmpty: true,
+      allSelected: false,
+      doneWithSideEffects: true,
+    };
+
     if (!isModeSelected) {
-      return {
-        allEmpty: true,
-        allSelected: false,
-      };
+      return defaultState;
     }
 
     switch (modeState.mode) {
       // Bus only has one autoComplete, so we just check if it's filled or not
       case 'bus':
         return {
+          ...defaultState,
           allEmpty: !selectedItem.id,
           allSelected: !!selectedItem.id,
         };
       // Train has two inputs, so both must be filled or neither
       case 'train':
         return {
+          ...defaultState,
           allEmpty: !selectedItem.id && !selectedItemTo.id,
           allSelected: selectedItem.id && selectedItemTo.id,
         };
@@ -39,6 +44,7 @@ const useShowSelectedServiceInfo = () => {
       // so we have to wait for that to resolve
       case 'tram':
         return {
+          ...defaultState,
           allEmpty: !selectedItem.id && !selectedItemTo.id,
           allSelected: selectedItem.id && selectedItemTo.id,
           doneWithSideEffects:
@@ -47,26 +53,21 @@ const useShowSelectedServiceInfo = () => {
         };
 
       default:
-        return {
-          allEmpty: true,
-          allSelected: false,
-        };
+        return defaultState;
     }
   })();
   const { isMapVisible } = fetchDisruptionsState;
   const { selectedByMap } = selectedItem;
-
   // Variables to toggle the visibility of SelectedService child components
   const showInfoAboutSelectedService =
     !selectedByMap && isModeSelected && areSelectedItems.allSelected;
 
   const showServiceMessage =
     isMapVisible &&
-    isModeSelected &&
-    (areSelectedItems.allEmpty ||
-      (areSelectedItems.doneWithSideEffects === undefined && areSelectedItems.allSelected) ||
-      areSelectedItems.doneWithSideEffects) &&
-    !anyDisruptionsToShow;
+    !anyDisruptionsToShow &&
+    (!isModeSelected ||
+      areSelectedItems.allEmpty ||
+      (areSelectedItems.allSelected && areSelectedItems.doneWithSideEffects));
 
   const showDisruptedServices =
     isMapVisible &&
