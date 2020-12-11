@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 // Import contexts
-import { ModeContext } from 'globalState';
+import { ModeContext, WhenContext } from 'globalState';
 // Import components
 import BusAutoComplete from './BusAutocomplete/BusAutoComplete';
 // import TramAutoComplete from './TramAutoComplete/TramAutoComplete';
@@ -8,6 +8,7 @@ import TrainAutoComplete from './TrainAutoComplete/TrainAutocomplete';
 
 const AutoComplete = () => {
   const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
+  const [whenState] = useContext(WhenContext);
 
   // Do a switch on the mode, then return the component related to that
   const autoCompleteToShow = () => {
@@ -30,13 +31,16 @@ const AutoComplete = () => {
         );
 
       case 'train':
-        return (
+        // Hide train autoCompletes for future dates until api issues have been sorted
+        return whenState.when === 'now' ? (
           <>
             {autoCompleteTitle('Trains between')}
             <TrainAutoComplete />
             {autoCompleteTitle('and')}
             <TrainAutoComplete to />
           </>
+        ) : (
+          <div />
         );
 
       // Hide tram autoCompletes until api issues have been sorted
