@@ -14,7 +14,7 @@ const useShowSelectedServiceInfo = () => {
   const isModeSelected = Object.keys(modeState).length !== 0 && modeState.mode !== null;
   const anyDisruptionsToShow = disruptedServices.length > 0;
   // Below creates an object that shows the state of the autoComplete inputs per mode.
-  const selectedItemsAre = (() => {
+  const areSelectedItems = (() => {
     if (!isModeSelected) {
       return {
         allEmpty: true,
@@ -58,21 +58,21 @@ const useShowSelectedServiceInfo = () => {
 
   // Variables to toggle the visibility of SelectedService child components
   const showInfoAboutSelectedService =
-    !selectedByMap && isModeSelected && selectedItemsAre.allSelected;
+    !selectedByMap && isModeSelected && areSelectedItems.allSelected;
 
   const showServiceMessage =
     isMapVisible &&
     isModeSelected &&
-    (selectedItemsAre.allEmpty ||
-      (selectedItemsAre.doneWithSideEffects === undefined && selectedItemsAre.allSelected) ||
-      selectedItemsAre.doneWithSideEffects) &&
+    (areSelectedItems.allEmpty ||
+      (areSelectedItems.doneWithSideEffects === undefined && areSelectedItems.allSelected) ||
+      areSelectedItems.doneWithSideEffects) &&
     !anyDisruptionsToShow;
 
   const showDisruptedServices =
     isMapVisible &&
     isModeSelected &&
     anyDisruptionsToShow &&
-    (selectedItemsAre.allSelected || selectedByMap);
+    (areSelectedItems.allSelected || selectedByMap);
 
   const showLineBreak = showInfoAboutSelectedService && showServiceMessage;
 
