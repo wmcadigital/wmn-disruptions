@@ -4,7 +4,7 @@ import { FetchDisruptionsContext, AutoCompleteContext, ModeContext } from 'globa
 import useFilterLogic from 'customHooks/useFilterLogic';
 
 const useShowSelectedServiceInfo = () => {
-  const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
+  const [{ isMapVisible }] = useContext(FetchDisruptionsContext);
   const [autoCompleteState] = useContext(AutoCompleteContext);
   const { selectedItem, selectedItemTo } = autoCompleteState;
   const [modeState] = useContext(ModeContext);
@@ -56,11 +56,9 @@ const useShowSelectedServiceInfo = () => {
         return defaultState;
     }
   })();
-  const { isMapVisible } = fetchDisruptionsState;
-  const { selectedByMap } = selectedItem;
   // Variables to toggle the visibility of SelectedService child components
   const showInfoAboutSelectedService =
-    !selectedByMap && isModeSelected && areSelectedItems.allSelected;
+    !selectedItem.selectedByMap && isModeSelected && areSelectedItems.allSelected;
 
   const showServiceMessage =
     isMapVisible &&
@@ -73,7 +71,7 @@ const useShowSelectedServiceInfo = () => {
     isMapVisible &&
     isModeSelected &&
     anyDisruptionsToShow &&
-    (areSelectedItems.allSelected || selectedByMap);
+    (areSelectedItems.allSelected || selectedItem.selectedByMap);
 
   const showLineBreak = showInfoAboutSelectedService && showServiceMessage;
 
