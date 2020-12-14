@@ -8,7 +8,7 @@ const useDisruptionAffectedItems = (disruption) => {
   let iconLeft; // set icon to correct name for tram/metro, train/rail etc.
   let whatIsAffected; // Change copy of what is affected based on mode
 
-  // Setup showing and hiding of over 4 disrupted servces
+  // Setup showing and hiding excess disrupted servces
   const { windowWidth } = useWindowHeightWidth();
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
   const maxShownBeforeHiding = !fetchDisruptionsState.isMapVisible && windowWidth >= 768 ? 7 : 4;
