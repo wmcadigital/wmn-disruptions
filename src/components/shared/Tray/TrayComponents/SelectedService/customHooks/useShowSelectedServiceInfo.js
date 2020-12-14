@@ -30,8 +30,8 @@ const useShowSelectedServiceInfo = () => {
       case 'bus':
         return {
           ...defaultState,
-          allEmpty: !selectedItem.id,
-          allSelected: !!selectedItem.id,
+          allEmpty: !selectedItem.serviceNumber,
+          allSelected: selectedItem.serviceNumber,
         };
       // Train has two inputs, so both must be filled or neither
       case 'train':
