@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import { FetchDisruptionsContext } from 'globalState';
+import useWindowHeightWidth from 'customHooks/useWindowHeightWidth';
+import ToggleMoreAffectedItems from 'components/shared/ToggleMoreAffectedItems/ToggleMoreAffectedItems';
 import FavBtn from 'components/shared/FavBtn/FavBtn';
 
 const useDisruptionAffectedItems = (disruption) => {
   let iconLeft; // set icon to correct name for tram/metro, train/rail etc.
   let whatIsAffected; // Change copy of what is affected based on mode
+
+  // Setup showing and hiding of over 4 disrupted servces
+  const { windowWidth } = useWindowHeightWidth();
+  const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
+  const maxShownBeforeHiding = !fetchDisruptionsState.isMapVisible && windowWidth >= 768 ? 7 : 4;
+  const [isExpanded, setIsExpanded] = useState(false);
+  const toggleExpanded = () => setIsExpanded((prevState) => !prevState);
+  const sliceUpper = isExpanded ? 100 : maxShownBeforeHiding;
 
   // Change placeholder vars above depending on mode
   switch (disruption.mode) {
@@ -47,20 +58,34 @@ const useDisruptionAffectedItems = (disruption) => {
       </div>
       <div className="wmnds-col-1">
         {/* Affected Services / Bus */}
-        {disruption.servicesAffected &&
-          disruption.mode === 'bus' &&
-          disruption.servicesAffected
-            .sort((a, b) => a.serviceNumber.replace(/\D/g, '') - b.serviceNumber.replace(/\D/g, ''))
-            .map((affected) => (
-              <FavBtn
-                id={affected.id}
-                severity={disruption.disruptionSeverity}
-                text={affected.serviceNumber}
-                title={`${affected.routeDescriptions[0].description} (${affected.operatorName})`}
-                mode={disruption.mode}
-                key={affected.id}
+        {disruption.servicesAffected && disruption.mode === 'bus' && (
+          <>
+            {disruption.servicesAffected
+              .sort(
+                (a, b) => a.serviceNumber.replace(/\D/g, '') - b.serviceNumber.replace(/\D/g, '')
+              )
+              .slice(0, sliceUpper)
+              .map((affected) => (
+                <FavBtn
+                  id={affected.id}
+                  severity={disruption.disruptionSeverity}
+                  text={affected.serviceNumber}
+                  title={`${affected.routeDescriptions[0].description} (${affected.operatorName})`}
+                  mode={disruption.mode}
+                  key={affected.id}
+                />
+              ))}
+            {disruption.servicesAffected.length > maxShownBeforeHiding && (
+              <ToggleMoreAffectedItems
+                handleClick={toggleExpanded}
+                id={`toggleMoreAffectedItems_${disruption.id}`}
+                isExpanded={isExpanded}
+                amountHidden={disruption.servicesAffected.length - maxShownBeforeHiding}
+                serviceText={whatIsAffected}
               />
-            ))}
+            )}
+          </>
+        )}
         {/* Affected Stops / Tram */}
         {disruption.servicesAffected &&
           disruption.mode === 'tram' &&
@@ -78,6 +103,7 @@ const useDisruptionAffectedItems = (disruption) => {
               }
               return 0;
             })
+            .slice(0, sliceUpper)
             .map((affected) => (
               <FavBtn
                 id={affected.atcoCode}
@@ -88,7 +114,6 @@ const useDisruptionAffectedItems = (disruption) => {
                 key={affected.atcoCode}
               />
             ))}
-
         {/* Affected Stations / Train */}
         {disruption.servicesAffected[0].routeDescriptions &&
           disruption.mode === 'train' &&
@@ -106,6 +131,7 @@ const useDisruptionAffectedItems = (disruption) => {
               }
               return 0;
             })
+            .slice(0, sliceUpper)
             .map((affected) => (
               <FavBtn
                 id={affected.description}
