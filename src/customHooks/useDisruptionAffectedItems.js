@@ -14,7 +14,7 @@ const useDisruptionAffectedItems = (disruption) => {
   const { selectedItem } = autoCompleteState;
   const { windowWidth } = useWindowHeightWidth();
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
-  const maxShownBeforeHiding = !fetchDisruptionsState.isMapVisible && windowWidth >= 768 ? 7 : 4;
+  const maxShownBeforeHiding = !fetchDisruptionsState.isMapVisible && windowWidth >= 768 ? 5 : 4;
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleExpanded = () => setIsExpanded((prevState) => !prevState);
   const sliceUpper = isExpanded ? 100 : maxShownBeforeHiding;

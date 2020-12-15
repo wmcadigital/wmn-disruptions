@@ -69,7 +69,6 @@ const useShowSelectedServiceInfo = () => {
 
   const showDisruptedServices =
     isMapVisible &&
-    isModeSelected &&
     anyDisruptionsToShow &&
     (areSelectedItems.allSelected || selectedItem.selectedByMap);
 
