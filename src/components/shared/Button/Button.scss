@@ -1,0 +1,46 @@
+// Vars
+@import '~assets/styles/vars';
+@import '~assets/styles/mixins';
+
+.wmnds-btn.wmnds-btn--link {
+  display: flex;
+  align-items: center;
+  color: get-color(cta);
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+
+  &,
+  &:visited,
+  &:hover,
+  &:focus {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+  }
+
+  &:visited {
+    color: get-color(primary);
+
+    .wmnds-btn__icon {
+      fill: get-color(primary);
+    }
+  }
+
+  &:hover {
+    color: get-color(cta, 40, dark);
+
+    .wmnds-btn__icon {
+      fill: get-color(cta, 40, dark);
+    }
+  }
+
+  .wmnds-btn__icon {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    fill: get-color(cta);
+    vertical-align: middle;
+    margin-right: $size-sm;
+  }
+}

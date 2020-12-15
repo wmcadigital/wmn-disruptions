@@ -217,11 +217,39 @@ const useMapIconLayer = (mapState, viewState) => {
 
             queryBuilder += ` AND (${trainQuery})`; // Stack the train query all together and add it on to the main sql query
           }
-          // ANYTHING ELSE (BUS, TRAM, ROADS)
+          // TRAM
+          else if (
+            modeState.mode === 'tram' &&
+            autoCompleteState.selectedItem.id &&
+            autoCompleteState.selectedItemTo.id
+          ) {
+            // Wait until the stop by stop api returns in-between stops
+            if (
+              autoCompleteState.selectedItem?.lines &&
+              autoCompleteState.selectedItem.lines.length
+            ) {
+              const stops = autoCompleteState.selectedItem.lines;
+              let tramQuery = '';
+
+              stops.forEach((stop, index) => {
+                let or = ''; // placeholder to add "OR" to sql query
+                if (index !== stops.length - 1) {
+                  // If the item is not the last in the loop then add " OR " to the query as there will be more items to chain on to the query
+                  or = ' OR ';
+                }
+                // Update the train query to check the disruption icon attributes if the servicesAffected contains our line in the loop
+                tramQuery += `(servicesAffected LIKE '%${stop.atcoCode}%')${or}`;
+              });
+
+              queryBuilder += ` AND (${tramQuery})`; // Stack the train query all together and add it on to the main sql query
+            }
+          }
+          // ANYTHING ELSE (BUS, ROADS)
           else if (
             autoCompleteState.selectedItem.id &&
             !autoCompleteState.selectedItem.selectedByMap &&
-            modeState.mode !== 'train'
+            modeState.mode !== 'train' &&
+            modeState.mode !== 'tram'
           ) {
             // If autocomplete ID
             queryBuilder += ` AND servicesAffected LIKE '%${autoCompleteState.selectedItem.id}%'`; // Add selected id query to queryBuilder
@@ -274,6 +302,7 @@ const useMapIconLayer = (mapState, viewState) => {
       setIsIconLayerCreated(false);
     };
   }, [
+    autoCompleteState.selectedItem,
     autoCompleteState.selectedItem.id,
     autoCompleteState.selectedItem.lines,
     autoCompleteState.selectedItem.selectedByMap,
