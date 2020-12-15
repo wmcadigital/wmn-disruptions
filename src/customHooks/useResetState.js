@@ -46,7 +46,8 @@ const useResetState = () => {
     if (autoCompleteState.selectedItem.selectedByMap) {
       resetQueryAndSelected(); // Reset autocomplete/selectedService if in state
     }
-    autoCompleteDispatch({ type: 'UPDATE_QUERY', query: query.trim(), to }); // Update query to what user has typed & trim
+
+    autoCompleteDispatch({ type: 'UPDATE_QUERY', query, to }); // Update query to what user has typed
   };
 
   // Function which resets all the trays/applications state and sets "when" to equal "now"

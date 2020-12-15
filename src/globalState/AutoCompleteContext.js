@@ -63,51 +63,20 @@ export const AutoCompleteProvider = (props) => {
 
         const item = action.payload.to ? 'selectedItemTo' : 'selectedItem'; // If 'to' exists in payload then make sure we set the correct field
         setSearchParam(item, action.payload.id); // Set URL
-
         return {
           ...state,
           [item]: action.payload,
-        };
-      }
-      // Update the state to show item user has selected
-      case 'UDPATE_SELECTED_ITEM_LINES': {
-        // If object contains selectedByMap
-        if (action.payload.selectedByMap) {
-          setSearchParam('selectedByMap', action.payload.selectedByMap); // Update URL
-        } else {
-          delSearchParam('selectedByMap'); // Delete URL
-        }
-
-        return {
-          ...state,
-          selectedItem: {
-            ...state.selectedItem,
-            lines: action.payload,
-          },
         };
       }
 
       // Used to cancel selected service/station etc. This is mainly used when using from/to stations
       case 'RESET_SELECTED_ITEM': {
         // If action.payload ('to') exists in payload then make sure we set the correct field
-        const item = action.payload.to ? 'selectedItemTo' : 'selectedItem';
-        const query = action.payload.to ? 'queryTo' : 'query';
+        const item = action.payload ? 'selectedItemTo' : 'selectedItem';
+        const query = action.payload ? 'queryTo' : 'query';
         // Delete correct things from URL
         delSearchParam(item);
         delSearchParam(query);
-
-        // Reset the selectedItem.lines if selectedItemTo is reset for trams
-        if (action.payload.mode === 'tram' && action.payload.to) {
-          return {
-            ...state,
-            [query]: '',
-            [item]: {},
-            selectedItem: {
-              ...state.selectedItem,
-              lines: [],
-            },
-          };
-        }
 
         // Update state with deleted/cancelled service/item
         return {
