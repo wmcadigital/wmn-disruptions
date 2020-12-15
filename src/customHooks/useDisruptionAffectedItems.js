@@ -7,6 +7,7 @@ import FavBtn from 'components/shared/FavBtn/FavBtn';
 const useDisruptionAffectedItems = (disruption) => {
   let iconLeft; // set icon to correct name for tram/metro, train/rail etc.
   let whatIsAffected; // Change copy of what is affected based on mode
+  let whatIsAffectedSingular; // Singular form of whatIsAffected
 
   // Setup showing and hiding excess disrupted servces
   const [autoCompleteState] = useContext(AutoCompleteContext);
@@ -34,6 +35,7 @@ const useDisruptionAffectedItems = (disruption) => {
     default:
       iconLeft = disruption.mode;
       whatIsAffected = 'services';
+      whatIsAffectedSingular = 'service';
       break;
   }
 
@@ -88,7 +90,11 @@ const useDisruptionAffectedItems = (disruption) => {
                 id={`toggleMoreAffectedItems_${disruption.id}`}
                 isExpanded={isExpanded}
                 amountHidden={disruption.servicesAffected.length - maxShownBeforeHiding}
-                serviceText={whatIsAffected}
+                serviceText={
+                  disruption.servicesAffected.length - maxShownBeforeHiding > 1
+                    ? whatIsAffected
+                    : whatIsAffectedSingular
+                }
               />
             )}
           </>
