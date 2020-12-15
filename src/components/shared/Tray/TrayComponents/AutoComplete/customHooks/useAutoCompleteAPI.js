@@ -60,6 +60,7 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
                 severity: result?.disruptionDetail?.disruptionSeverity || 'none',
                 stopName: result.name,
                 operator: mode === 'tram' ? 'MML1' : null,
+                lines: [],
                 to,
               };
             }
