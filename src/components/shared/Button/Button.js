@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../Icon/Icon';
+import './Button.scss'; // Temp styling for displaying button as link
 
 const Button = ({
   type,
