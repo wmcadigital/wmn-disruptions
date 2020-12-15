@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { FetchDisruptionsContext } from 'globalState';
+import { FetchDisruptionsContext, AutoCompleteContext } from 'globalState';
 import useWindowHeightWidth from 'customHooks/useWindowHeightWidth';
 import ToggleMoreAffectedItems from 'components/shared/ToggleMoreAffectedItems/ToggleMoreAffectedItems';
 import FavBtn from 'components/shared/FavBtn/FavBtn';
@@ -9,6 +9,8 @@ const useDisruptionAffectedItems = (disruption) => {
   let whatIsAffected; // Change copy of what is affected based on mode
 
   // Setup showing and hiding excess disrupted servces
+  const [autoCompleteState] = useContext(AutoCompleteContext);
+  const { selectedItem } = autoCompleteState;
   const { windowWidth } = useWindowHeightWidth();
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
   const maxShownBeforeHiding = !fetchDisruptionsState.isMapVisible && windowWidth >= 768 ? 7 : 4;
@@ -64,6 +66,11 @@ const useDisruptionAffectedItems = (disruption) => {
               .sort(
                 (a, b) => a.serviceNumber.replace(/\D/g, '') - b.serviceNumber.replace(/\D/g, '')
               )
+              // Sort again to move a user's selected item to the front so it's not "hidden" behind the button
+              .sort((a, b) => {
+                if (a.serviceNumber === selectedItem?.serviceNumber) return -1;
+                return b.serviceNumber === selectedItem?.serviceNumber ? 1 : 0;
+              })
               .slice(0, sliceUpper)
               .map((affected) => (
                 <FavBtn
