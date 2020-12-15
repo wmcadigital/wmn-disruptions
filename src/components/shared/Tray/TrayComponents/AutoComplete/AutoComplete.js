@@ -32,15 +32,15 @@ const AutoComplete = () => {
 
       case 'train':
         // Hide train autoCompletes for future dates until api issues have been sorted
-        return whenState.when === 'now' ? (
-          <>
-            {autoCompleteTitle('Trains between')}
-            <TrainAutoComplete />
-            {autoCompleteTitle('and')}
-            <TrainAutoComplete to />
-          </>
-        ) : (
-          <div />
+        return (
+          whenState.when === 'now' && (
+            <>
+              {autoCompleteTitle('Trains between')}
+              <TrainAutoComplete />
+              {autoCompleteTitle('and')}
+              <TrainAutoComplete to />
+            </>
+          )
         );
 
       // Hide tram autoCompletes until api issues have been sorted
