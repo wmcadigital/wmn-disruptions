@@ -58,8 +58,9 @@
   &:before {
     content: '';
     display: block;
-    height: 1px;
+    height: 3px;
     width: 90px;
+    border-radius: 1.5px; // must be half of the height
     margin: auto;
     position: absolute;
     top: 0;
