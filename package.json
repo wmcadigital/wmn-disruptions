@@ -21,6 +21,7 @@
     "dompurify": "^2.2.2",
     "esri-loader": "^2.15.0",
     "fecha": "^4.2.0",
+    "inobounce": "^0.2.0",
     "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",

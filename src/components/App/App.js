@@ -3,6 +3,7 @@ import React from 'react';
 // Import components
 import ContextProvider from 'globalState/ContextProvider';
 import ViewToShow from '../ViewToShow/ViewToShow';
+import 'inobounce';
 
 const App = () => {
   return (
