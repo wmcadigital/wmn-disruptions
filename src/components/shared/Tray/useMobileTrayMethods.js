@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 // Import contexts
 import { AutoCompleteContext, FetchDisruptionsContext, ModeContext } from 'globalState';
 // Import customHooks
@@ -13,18 +13,21 @@ const useMobileTrayMethods = (slideableTray) => {
   const initialTrayPosition = 100; // Initial position of tray
   const half = appHeight / 2; // Get half of the container height for tray to swipe to
   const [trayPosition, setTrayPosition] = useState(initialTrayPosition); // Set initial position of tray
+  const referencePosition = useRef(); // Reference position from which we calculate where to move the tray
 
   // Open tray if there is a selectedItem (map icon has been clicked) or a selected service
   useEffect(() => {
     const { selectedItem, selectedItemTo } = autoCompleteState;
-    if (
+    if (selectedItem.selectedByMap) {
+      setTrayPosition(appHeight);
+    } else if (
       ((modeState.mode === 'train' && selectedItem.id && selectedItemTo.id) ||
         (modeState.mode !== 'train' && selectedItem.id)) &&
       fetchDisruptionsState.data.length
     ) {
       setTrayPosition(half || initialTrayPosition); // set tray to open
     }
-  }, [fetchDisruptionsState.data.length, half, autoCompleteState, modeState.mode]);
+  }, [fetchDisruptionsState.data.length, half, autoCompleteState, modeState.mode, appHeight]);
 
   // Changes map height based on the tray height
   useEffect(() => {
@@ -40,6 +43,7 @@ const useMobileTrayMethods = (slideableTray) => {
   // SWIPE METHODS USED TO CONTROL SCROLLING OF TRAY
   const { documentElement, body } = document;
   const onSwipeStart = () => {
+    referencePosition.current = trayPosition;
     body.style.overflow = 'hidden'; // Set body overflow to hidden, so we don't snap to body scrollbar
     documentElement.style.overscrollBehaviorY = 'none'; // Stops pull down to refresh in chrome on android
   };
@@ -62,8 +66,22 @@ const useMobileTrayMethods = (slideableTray) => {
     if (trayPosition === half) setTrayPosition(appHeight); // If tray is currently half, then swipe up to full position
   };
 
+  const onSwipeMove = (position) => {
+    return setTrayPosition(() => {
+      let newPosition = referencePosition.current - position.y;
+
+      if (newPosition >= appHeight) {
+        newPosition = appHeight;
+      } else if (newPosition <= initialTrayPosition) {
+        newPosition = initialTrayPosition;
+      }
+
+      return newPosition;
+    });
+  };
+
   // Return methods to be used
-  return { onSwipeStart, onSwipeEnd, onSwipeDown, onSwipeUp, trayPosition, appHeight };
+  return { onSwipeStart, onSwipeEnd, onSwipeDown, onSwipeUp, onSwipeMove, trayPosition, appHeight };
 };
 
 export default useMobileTrayMethods;
