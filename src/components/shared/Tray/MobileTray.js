@@ -13,9 +13,8 @@ const MobileTray = () => {
   const {
     onSwipeStart,
     onSwipeEnd,
-    // onSwipeDown,
-    // onSwipeUp,
-    onSwipeMove,
+    onSwipeDown,
+    onSwipeUp,
     trayPosition,
     appHeight,
   } = useMobileTrayMethods(slideableTray); // Pull in methods etc. to use for mobile swiper
@@ -35,11 +34,10 @@ const MobileTray = () => {
           trayPosition === appHeight ? s.trayIsOpen : ''
         }`}
         allowMouseEvents
-        // onSwipeUp={onSwipeUp}
-        // onSwipeDown={onSwipeDown}
+        onSwipeUp={onSwipeUp}
+        onSwipeDown={onSwipeDown}
         onSwipeStart={onSwipeStart}
         onSwipeEnd={onSwipeEnd}
-        onSwipeMove={onSwipeMove}
         ref={slideableTray}
       >
         <div className={`${s.drawerHandle} wmnds-col-1`}>
