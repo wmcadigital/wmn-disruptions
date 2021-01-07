@@ -8,3 +8,13 @@
     min-height: 500px;
   }
 }
+
+
+@media all and(max-width: 767px) {
+  html,
+  body {
+    position: fixed;
+    overflow: hidden;
+    width: 100%;
+  }
+}
