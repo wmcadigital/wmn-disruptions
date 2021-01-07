@@ -40,17 +40,16 @@ const useMobileTrayMethods = (slideableTray) => {
   }, [appHeight, trayPosition]);
 
   // SWIPE METHODS USED TO CONTROL SCROLLING OF TRAY
-  const { body } = document;
-  // const { documentElement, body } = document;
+  const { documentElement, body } = document;
   const onSwipeStart = () => {
     body.style.overflow = 'hidden'; // Set body overflow to hidden, so we don't snap to body scrollbar
-    body.style.overscrollBehaviorY = 'none'; // Stops pull down to refresh in chrome on android
+    documentElement.style.overscrollBehaviorY = 'none'; // Stops pull down to refresh in chrome on android
   };
 
   const onSwipeEnd = () => {
     // Scrolling finished so return overflow behavior to normal
     body.style.overflow = null;
-    body.style.overscrollBehaviorY = null;
+    documentElement.style.overscrollBehaviorY = null;
   };
 
   const onSwipeDown = () => {
