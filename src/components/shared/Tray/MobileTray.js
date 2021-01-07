@@ -13,8 +13,8 @@ const MobileTray = () => {
   const {
     onSwipeStart,
     onSwipeEnd,
-    onSwipeDown,
-    onSwipeUp,
+    // onSwipeDown,
+    // onSwipeUp,
     onSwipeMove,
     trayPosition,
     appHeight,
