@@ -4,6 +4,7 @@ import Swipe from 'react-easy-swipe';
 // Import Components
 import TrayComponents from './TrayComponents/TrayComponents';
 // Import styles
+import './MobileTray.scss';
 import s from './Tray.module.scss';
 import useMobileTrayMethods from './useMobileTrayMethods';
 
@@ -17,7 +18,7 @@ const MobileTray = () => {
     onSwipeUp,
     trayPosition,
     appHeight,
-  } = useMobileTrayMethods(slideableTray); // Pull in methods etc. to use for mobile swiper
+  } = useMobileTrayMethods(); // Pull in methods etc. to use for mobile swiper
 
   return (
     <div
