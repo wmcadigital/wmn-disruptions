@@ -57,6 +57,9 @@ const useMobileTrayMethods = (slideableTray) => {
     // Scrolling finished so return overflow behavior to normal
     body.style.overflow = null;
     documentElement.style.overscrollBehaviorY = null;
+
+    const { scrollTop } = slideableTray.current.swiper; // Get DOM element, so we can check the scollTop
+    if (trayPosition === appHeight && scrollTop === 0) setTrayPosition(half);
   };
 
   const onSwipeDown = () => {
