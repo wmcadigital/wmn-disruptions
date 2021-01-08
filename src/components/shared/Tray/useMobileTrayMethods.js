@@ -13,6 +13,7 @@ const useMobileTrayMethods = (slideableTray) => {
   const initialTrayPosition = 100; // Initial position of tray
   const half = appHeight / 2; // Get half of the container height for tray to swipe to
   const [trayPosition, setTrayPosition] = useState(initialTrayPosition); // Set initial position of tray
+  const { documentElement, body } = document;
 
   // Open tray if there is a selectedItem (map icon has been clicked) or a selected service
   useEffect(() => {
@@ -37,8 +38,16 @@ const useMobileTrayMethods = (slideableTray) => {
     };
   }, [appHeight, trayPosition]);
 
+  //
+  useEffect(() => {
+    documentElement.classList.add('mobile-tray-visible');
+
+    return () => {
+      documentElement.classList.remove('mobile-tray-visible');
+    };
+  });
+
   // SWIPE METHODS USED TO CONTROL SCROLLING OF TRAY
-  const { documentElement, body } = document;
   const onSwipeStart = () => {
     body.style.overflow = 'hidden'; // Set body overflow to hidden, so we don't snap to body scrollbar
     documentElement.style.overscrollBehaviorY = 'none'; // Stops pull down to refresh in chrome on android
