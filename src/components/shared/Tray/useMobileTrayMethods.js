@@ -1,10 +1,10 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 // Import contexts
 import { AutoCompleteContext, FetchDisruptionsContext, ModeContext } from 'globalState';
 // Import customHooks
 import useWindowHeightWidth from 'customHooks/useWindowHeightWidth';
 
-const useMobileTrayMethods = (slideableTray) => {
+const useMobileTrayMethods = () => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
   const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
@@ -14,6 +14,7 @@ const useMobileTrayMethods = (slideableTray) => {
   const half = appHeight / 2; // Get half of the container height for tray to swipe to
   const [trayPosition, setTrayPosition] = useState(initialTrayPosition); // Set initial position of tray
   const { documentElement, body } = document;
+  const closeRef = useRef();
 
   // Open tray if there is a selectedItem (map icon has been clicked) or a selected service
   useEffect(() => {
@@ -48,24 +49,23 @@ const useMobileTrayMethods = (slideableTray) => {
   });
 
   // SWIPE METHODS USED TO CONTROL SCROLLING OF TRAY
-  const onSwipeStart = () => {
+  const onSwipeStart = (e) => {
     body.style.overflow = 'hidden'; // Set body overflow to hidden, so we don't snap to body scrollbar
     documentElement.style.overscrollBehaviorY = 'none'; // Stops pull down to refresh in chrome on android
+    closeRef.current = e.currentTarget.scrollTop === 0;
   };
 
   const onSwipeEnd = () => {
     // Scrolling finished so return overflow behavior to normal
     body.style.overflow = null;
     documentElement.style.overscrollBehaviorY = null;
-
-    const { scrollTop } = slideableTray.current.swiper; // Get DOM element, so we can check the scollTop
-    if (trayPosition === appHeight && scrollTop === 0) setTrayPosition(half);
   };
 
   const onSwipeDown = () => {
-    const { scrollTop } = slideableTray.current.swiper; // Get DOM element, so we can check the scollTop
+    // const { scrollTop } = slideableTray.current.swiper; // Get DOM element, so we can check the scollTop
 
-    if (trayPosition === appHeight && scrollTop === 0) setTrayPosition(half); // If tray is open(position===appHeight) and the scrollTop is 0 (we're at the top of the tray scroll), then swipe down to half position
+    if (closeRef.current) setTrayPosition(half); // If tray is open(position===appHeight) and the scrollTop is 0 (we're at the top of the tray scroll), then swipe down to half position
+    // if (trayPosition === appHeight && scrollTop === 0) setTrayPosition(half); // If tray is open(position===appHeight) and the scrollTop is 0 (we're at the top of the tray scroll), then swipe down to half position
     if (trayPosition === half) setTrayPosition(initialTrayPosition); // If tray is currently half then swipe down to default position
   };
 
