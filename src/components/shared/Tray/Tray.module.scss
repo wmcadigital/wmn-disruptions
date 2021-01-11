@@ -45,7 +45,7 @@
   height: 100%;
   width: 100%;
   position: relative;
-  transition: top 0.35s ease;
+  transition: top 0.35s ease 0.05; // add slight delay to account for minor state change delay
 
   &.trayIsOpen {
     overflow: auto;
