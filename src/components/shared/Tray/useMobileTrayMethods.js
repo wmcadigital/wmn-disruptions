@@ -28,15 +28,18 @@ const useMobileTrayMethods = (slideableTray) => {
       const offset = swiper.children[childNo]?.offsetTop;
       if (offset) {
         swiper.style.top = `-${offset}px`;
-        swiper.style.overflow = 'initial'; // Fix overflow issue on iOS
+        setTimeout(() => {
+          swiper.style.display = 'none';
+          swiper.style.display = 'block';
+        }, 355);
       }
     }
   }, [autoCompleteState, slideableTray]);
 
   const resetTrayScroll = useCallback(() => {
     const { swiper } = slideableTray.current;
-    swiper.style.overflow = null;
     swiper.style.top = 0;
+    swiper.style.display = null;
   }, [slideableTray]);
 
   // Open tray if there is a selectedItem (map icon has been clicked) or a selected service
