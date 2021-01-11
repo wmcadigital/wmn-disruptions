@@ -24,7 +24,7 @@ const useMobileTrayMethods = (slideableTray) => {
     const { selectedItem } = autoCompleteState;
     const { swiper } = slideableTray.current;
     if (swiper?.children.length) {
-      const childNo = selectedItem.selectedByMap ? swiper.children.length - 1 : 4;
+      const childNo = selectedItem.selectedByMap ? swiper.children.length - 2 : 5;
       const offset = swiper.children[childNo]?.offsetTop;
       if (offset) {
         swiper.style.top = `-${offset}px`;
