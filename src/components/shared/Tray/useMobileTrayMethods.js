@@ -24,7 +24,7 @@ const useMobileTrayMethods = (slideableTray) => {
     const { selectedItem } = autoCompleteState;
     const { swiper } = slideableTray.current;
     if (swiper?.children.length) {
-      const childNo = selectedItem.selectedByMap ? swiper.children.length - 2 : 5;
+      const childNo = selectedItem.selectedByMap ? swiper.children.length - 1 : 4;
       const offset = swiper.children[childNo]?.offsetTop;
       if (offset) {
         swiper.style.top = `-${offset}px`;
@@ -35,8 +35,8 @@ const useMobileTrayMethods = (slideableTray) => {
 
   const resetTrayScroll = useCallback(() => {
     const { swiper } = slideableTray.current;
-    swiper.style.top = 0;
     swiper.style.overflow = null;
+    swiper.style.top = 0;
   }, [slideableTray]);
 
   // Open tray if there is a selectedItem (map icon has been clicked) or a selected service
