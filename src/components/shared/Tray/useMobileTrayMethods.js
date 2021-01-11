@@ -23,16 +23,20 @@ const useMobileTrayMethods = (slideableTray) => {
   const scrollToServiceInfo = useCallback(() => {
     const { selectedItem } = autoCompleteState;
     const { swiper } = slideableTray.current;
-    if (swiper.children.length) {
+    if (swiper?.children.length) {
       const childNo = selectedItem.selectedByMap ? swiper.children.length - 2 : 5;
-      const offset = swiper.children[childNo].offsetTop;
-      swiper.style.top = `-${offset}px`;
+      const offset = swiper.children[childNo]?.offsetTop;
+      if (offset) {
+        swiper.style.top = `-${offset}px`;
+        swiper.style.overflow = 'initial'; // Fix overflow issue on iOS
+      }
     }
   }, [autoCompleteState, slideableTray]);
 
   const resetTrayScroll = useCallback(() => {
     const { swiper } = slideableTray.current;
     swiper.style.top = 0;
+    swiper.style.overflow = null;
   }, [slideableTray]);
 
   // Open tray if there is a selectedItem (map icon has been clicked) or a selected service
