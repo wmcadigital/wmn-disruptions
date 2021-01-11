@@ -35,8 +35,8 @@ const useMobileTrayMethods = (slideableTray) => {
 
   const resetTrayScroll = useCallback(() => {
     const { swiper } = slideableTray.current;
-    swiper.style.overflow = null;
     swiper.style.top = 0;
+    swiper.style.overflow = null;
   }, [slideableTray]);
 
   // Open tray if there is a selectedItem (map icon has been clicked) or a selected service
