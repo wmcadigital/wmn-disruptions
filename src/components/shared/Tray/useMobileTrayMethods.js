@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useRef } from 'react';
+import { useEffect, useState, useContext, useRef, useCallback } from 'react';
 
 // Import contexts
 
@@ -8,7 +8,7 @@ import { AutoCompleteContext, FetchDisruptionsContext, ModeContext } from 'globa
 
 import useWindowHeightWidth from 'customHooks/useWindowHeightWidth';
 
-const useMobileTrayMethods = () => {
+const useMobileTrayMethods = (slideableTray) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state of modeButtons from modeContext
   const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
@@ -20,18 +20,43 @@ const useMobileTrayMethods = () => {
   const { documentElement, body } = document;
   const scrollTopRef = useRef(false); // ref to hold whether the tray is at the top of the page
 
+  const scrollToServiceInfo = useCallback(() => {
+    const { selectedItem } = autoCompleteState;
+    const { swiper } = slideableTray.current;
+    if (swiper.children.length) {
+      const childNo = selectedItem.selectedByMap ? swiper.children.length - 2 : 5;
+      const offset = swiper.children[childNo].offsetTop;
+      swiper.style.top = `-${offset}px`;
+    }
+  }, [autoCompleteState, slideableTray]);
+
+  const resetTrayScroll = useCallback(() => {
+    const { swiper } = slideableTray.current;
+    swiper.style.top = 0;
+  }, [slideableTray]);
+
   // Open tray if there is a selectedItem (map icon has been clicked) or a selected service
   useEffect(() => {
     const { selectedItem, selectedItemTo } = autoCompleteState;
 
     if (
-      ((modeState.mode === 'train' && selectedItem.id && selectedItemTo.id) ||
+      (selectedItem.selectedByMap ||
+        (modeState.mode === 'train' && selectedItem.id && selectedItemTo.id) ||
         (modeState.mode !== 'train' && selectedItem.id)) &&
-      fetchDisruptionsState.data.length
+      fetchDisruptionsState.data.length &&
+      slideableTray.current.swiper
     ) {
       setTrayPosition(half || initialTrayPosition); // set tray to open
+      scrollToServiceInfo();
     }
-  }, [fetchDisruptionsState.data.length, half, autoCompleteState, modeState.mode]);
+  }, [
+    fetchDisruptionsState.data.length,
+    half,
+    autoCompleteState,
+    modeState.mode,
+    slideableTray,
+    scrollToServiceInfo,
+  ]);
 
   // Changes map height based on the tray height
 
@@ -68,13 +93,19 @@ const useMobileTrayMethods = () => {
   };
 
   const onSwipeDown = () => {
-    if (trayPosition === appHeight && scrollTopRef.current) setTrayPosition(half); // If tray is open(position===appHeight) and the scrollTop is 0 (we're at the top of the tray scroll), then swipe down to half position
+    if (trayPosition === appHeight && scrollTopRef.current) {
+      resetTrayScroll();
+      setTrayPosition(half); // If tray is open(position===appHeight) and the scrollTop is 0 (we're at the top of the tray scroll), then swipe down to half position
+    }
     if (trayPosition === half) setTrayPosition(initialTrayPosition); // If tray is currently half then swipe down to default position
   };
 
   const onSwipeUp = () => {
     if (trayPosition === initialTrayPosition) setTrayPosition(half); // If tray is initial position then swipe up to half position
-    if (trayPosition === half) setTrayPosition(appHeight); // If tray is currently half, then swipe up to full position
+    if (trayPosition === half) {
+      resetTrayScroll();
+      setTrayPosition(appHeight); // If tray is currently half, then swipe up to full position
+    }
   };
 
   // Return methods to be used

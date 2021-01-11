@@ -18,7 +18,7 @@ const MobileTray = () => {
     onSwipeUp,
     trayPosition,
     appHeight,
-  } = useMobileTrayMethods(); // Pull in methods etc. to use for mobile swiper
+  } = useMobileTrayMethods(slideableTray); // Pull in methods etc. to use for mobile swiper
 
   return (
     <div
