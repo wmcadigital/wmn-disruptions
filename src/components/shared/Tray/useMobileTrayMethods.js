@@ -14,8 +14,8 @@ const useMobileTrayMethods = (slideableTray) => {
   const half = appHeight / 2; // Get half of the container height for tray to swipe to
   const [trayPosition, setTrayPosition] = useState(initialTrayPosition); // Set initial position of tray
   const { documentElement, body } = document;
-  const scrollTopRef = useRef(false); // ref to hold whether the tray is at the top of the page
-  const timeout = useRef();
+  const scrollTopAtZeroRef = useRef(false); // ref to hold whether the inner tray is at the top of the outer tray
+  const timeoutRef = useRef(); // ref to hold a timeout that can be cleared when unmounting
 
   const scrollToServiceInfo = useCallback(() => {
     const { selectedItem } = autoCompleteState;
@@ -23,15 +23,17 @@ const useMobileTrayMethods = (slideableTray) => {
 
     if (!swiper?.children.length) return;
 
+    // Target the content that we'll slide scroll down to
     const childNo = selectedItem.selectedByMap ? swiper.children.length - 1 : 4;
     const offset = swiper.children[childNo]?.offsetTop;
 
     if (!offset) return;
 
+    // we have to force a repaint of the CSS to fix overflow of inner tray issue iOS and Safari
     if (swiper.parentNode.offsetTop === 0) {
       swiper.style.visibility = 'hidden';
       swiper.style.top = `-${offset}px`;
-      timeout.current = setTimeout(() => {
+      timeoutRef.current = setTimeout(() => {
         swiper.style.visibility = 'visible';
       }, 360);
     } else {
@@ -39,7 +41,7 @@ const useMobileTrayMethods = (slideableTray) => {
     }
   }, [autoCompleteState, slideableTray]);
 
-  const resetTrayScroll = useCallback(() => {
+  const resetTrayScrollTop = useCallback(() => {
     const { swiper } = slideableTray.current;
     swiper.style.top = '0px';
   }, [slideableTray]);
@@ -47,23 +49,23 @@ const useMobileTrayMethods = (slideableTray) => {
   // Open tray if there is a selectedItem (map icon has been clicked) or a selected service
   useEffect(() => {
     const { selectedItem, selectedItemTo } = autoCompleteState;
-    const tray = slideableTray?.current?.swiper;
-    const t = timeout.current;
+    const innerTray = slideableTray?.current?.swiper;
+    const timeout = timeoutRef.current;
 
     if (
       (selectedItem.selectedByMap ||
         (modeState.mode === 'train' && selectedItem.id && selectedItemTo.id) ||
         (modeState.mode !== 'train' && selectedItem.id)) &&
       fetchDisruptionsState.data.length &&
-      tray
+      innerTray
     ) {
       setTrayPosition(half || initialTrayPosition); // set tray to open
-      scrollToServiceInfo();
+      scrollToServiceInfo(); // scroll down to the relevatnt info in the tray
     }
 
     return () => {
-      tray.style.visibility = 'visible';
-      clearTimeout(t);
+      innerTray.style.visibility = 'visible';
+      clearTimeout(timeout);
     };
   }, [
     fetchDisruptionsState.data.length,
@@ -72,14 +74,11 @@ const useMobileTrayMethods = (slideableTray) => {
     modeState.mode,
     slideableTray,
     scrollToServiceInfo,
-    resetTrayScroll,
   ]);
 
   // Changes map height based on the tray height
-
   useEffect(() => {
     const mapStyle = document.getElementById('disruptions-map').style;
-
     mapStyle.height = `${appHeight - trayPosition}px`;
 
     return () => {
@@ -100,7 +99,7 @@ const useMobileTrayMethods = (slideableTray) => {
   const onSwipeStart = (e) => {
     body.style.overflow = 'hidden'; // Set body overflow to hidden, so we don't snap to body scrollbar
     documentElement.style.overscrollBehaviorY = 'none'; // Stops pull down to refresh in chrome on android
-    scrollTopRef.current = e.currentTarget.scrollTop === 0; // e.currentTarget (instead of e.target) makes sure that it's the Swiper component we're targeting
+    scrollTopAtZeroRef.current = e.currentTarget.scrollTop === 0; // e.currentTarget (instead of e.target) makes sure that it's the Swiper component we're targeting
   };
 
   const onSwipeEnd = () => {
@@ -110,8 +109,8 @@ const useMobileTrayMethods = (slideableTray) => {
   };
 
   const onSwipeDown = () => {
-    if (trayPosition === appHeight && scrollTopRef.current) {
-      resetTrayScroll();
+    if (trayPosition === appHeight && scrollTopAtZeroRef.current) {
+      resetTrayScrollTop(); // reset sliding tray's position
       setTrayPosition(half); // If tray is open(position===appHeight) and the scrollTop is 0 (we're at the top of the tray scroll), then swipe down to half position
     }
     if (trayPosition === half) setTrayPosition(initialTrayPosition); // If tray is currently half then swipe down to default position
@@ -121,7 +120,7 @@ const useMobileTrayMethods = (slideableTray) => {
     if (trayPosition === initialTrayPosition) setTrayPosition(half); // If tray is initial position then swipe up to half position
     if (trayPosition === half) {
       setTrayPosition(appHeight); // If tray is currently half, then swipe up to full position
-      resetTrayScroll();
+      resetTrayScrollTop(); // reset sliding tray's position
     }
   };
 
