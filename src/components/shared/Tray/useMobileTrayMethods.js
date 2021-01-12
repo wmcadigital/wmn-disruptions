@@ -23,23 +23,24 @@ const useMobileTrayMethods = (slideableTray) => {
   const scrollToServiceInfo = useCallback(() => {
     const { selectedItem } = autoCompleteState;
     const { swiper } = slideableTray.current;
-    if (swiper?.children.length) {
-      const childNo = selectedItem.selectedByMap ? swiper.children.length - 1 : 4;
-      const offset = swiper.children[childNo]?.offsetTop;
-      if (offset) {
-        swiper.style.top = `-${offset}px`;
-        setTimeout(() => {
-          swiper.style.display = 'none';
-          swiper.style.display = 'block';
-        }, 355);
-      }
-    }
+
+    if (!swiper?.children.length) return;
+
+    const childNo = selectedItem.selectedByMap ? swiper.children.length - 1 : 4;
+    const offset = swiper.children[childNo]?.offsetTop;
+
+    if (!offset) return;
+
+    swiper.style.top = `-${offset}px`;
+    swiper.style.visibility = 'hidden';
+    setTimeout(() => {
+      swiper.style.visibility = 'visible';
+    }, 360);
   }, [autoCompleteState, slideableTray]);
 
   const resetTrayScroll = useCallback(() => {
     const { swiper } = slideableTray.current;
-    swiper.style.top = 0;
-    swiper.style.display = null;
+    swiper.style.top = '0px';
   }, [slideableTray]);
 
   // Open tray if there is a selectedItem (map icon has been clicked) or a selected service
@@ -63,6 +64,7 @@ const useMobileTrayMethods = (slideableTray) => {
     modeState.mode,
     slideableTray,
     scrollToServiceInfo,
+    resetTrayScroll,
   ]);
 
   // Changes map height based on the tray height
@@ -110,8 +112,8 @@ const useMobileTrayMethods = (slideableTray) => {
   const onSwipeUp = () => {
     if (trayPosition === initialTrayPosition) setTrayPosition(half); // If tray is initial position then swipe up to half position
     if (trayPosition === half) {
-      resetTrayScroll();
       setTrayPosition(appHeight); // If tray is currently half, then swipe up to full position
+      resetTrayScroll();
     }
   };
 
