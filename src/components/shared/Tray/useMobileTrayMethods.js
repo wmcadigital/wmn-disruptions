@@ -32,7 +32,7 @@ const useMobileTrayMethods = (slideableTray) => {
 
     if (!offset) return;
 
-    if (scrollTopRef.current) {
+    if (swiper.parentNode.offsetTop === 0) {
       swiper.style.visibility = 'hidden';
       swiper.style.top = `-${offset}px`;
       timeout.current = setTimeout(() => {
@@ -52,6 +52,7 @@ const useMobileTrayMethods = (slideableTray) => {
   useEffect(() => {
     const { selectedItem, selectedItemTo } = autoCompleteState;
     const tray = slideableTray?.current?.swiper;
+    const t = timeout.current;
 
     if (
       (selectedItem.selectedByMap ||
@@ -66,7 +67,7 @@ const useMobileTrayMethods = (slideableTray) => {
 
     return () => {
       tray.style.visibility = 'visible';
-      clearTimeout(timeout.current);
+      clearTimeout(t);
     };
   }, [
     fetchDisruptionsState.data.length,
