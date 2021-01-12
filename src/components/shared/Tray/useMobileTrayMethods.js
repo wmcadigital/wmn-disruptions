@@ -19,6 +19,7 @@ const useMobileTrayMethods = (slideableTray) => {
   const [trayPosition, setTrayPosition] = useState(initialTrayPosition); // Set initial position of tray
   const { documentElement, body } = document;
   const scrollTopRef = useRef(false); // ref to hold whether the tray is at the top of the page
+  const timeout = useRef();
 
   const scrollToServiceInfo = useCallback(() => {
     const { selectedItem } = autoCompleteState;
@@ -31,11 +32,15 @@ const useMobileTrayMethods = (slideableTray) => {
 
     if (!offset) return;
 
-    swiper.style.top = `-${offset}px`;
-    swiper.style.visibility = 'hidden';
-    setTimeout(() => {
-      swiper.style.visibility = 'visible';
-    }, 360);
+    if (scrollTopRef.current) {
+      swiper.style.visibility = 'hidden';
+      swiper.style.top = `-${offset}px`;
+      timeout.current = setTimeout(() => {
+        swiper.style.visibility = 'visible';
+      }, 360);
+    } else {
+      swiper.style.top = `-${offset}px`;
+    }
   }, [autoCompleteState, slideableTray]);
 
   const resetTrayScroll = useCallback(() => {
@@ -46,17 +51,23 @@ const useMobileTrayMethods = (slideableTray) => {
   // Open tray if there is a selectedItem (map icon has been clicked) or a selected service
   useEffect(() => {
     const { selectedItem, selectedItemTo } = autoCompleteState;
+    const tray = slideableTray?.current?.swiper;
 
     if (
       (selectedItem.selectedByMap ||
         (modeState.mode === 'train' && selectedItem.id && selectedItemTo.id) ||
         (modeState.mode !== 'train' && selectedItem.id)) &&
       fetchDisruptionsState.data.length &&
-      slideableTray.current.swiper
+      tray
     ) {
       setTrayPosition(half || initialTrayPosition); // set tray to open
       scrollToServiceInfo();
     }
+
+    return () => {
+      tray.style.visibility = 'visible';
+      clearTimeout(timeout.current);
+    };
   }, [
     fetchDisruptionsState.data.length,
     half,
