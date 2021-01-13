@@ -31,10 +31,10 @@ const useMobileTrayMethods = (slideableTray) => {
 
     // we have to force a repaint of the CSS to fix overflow of inner tray issue iOS and Safari
     if (swiper.parentNode.offsetTop === 0) {
-      swiper.style.visibility = 'hidden';
+      swiper.style.visibility = 'hidden'; // force css repaint on iOS
       swiper.style.top = `-${offset}px`;
       timeoutRef.current = setTimeout(() => {
-        swiper.style.visibility = 'visible';
+        swiper.style.visibility = 'visible'; // force css repaint on iOS
       }, 360);
     } else {
       swiper.style.top = `-${offset}px`;
@@ -43,7 +43,29 @@ const useMobileTrayMethods = (slideableTray) => {
 
   const resetTrayScrollTop = useCallback(() => {
     const { swiper } = slideableTray.current;
-    swiper.style.top = '0px';
+
+    // Only reset the scroll if the user has just selected a service and is swiping up to see it
+    if (parseInt(swiper.style.top, 10) === 0) return;
+
+    const height = swiper.clientHeight;
+    const offset = parseInt(swiper.style.top, 10) * -1;
+    if (swiper.scrollHeight > height + offset) {
+      // Move the tray back into place while keeping the service info in view then
+      swiper.style.transition = 'none';
+      swiper.style.height = `calc(100% + ${offset}px)`;
+      swiper.style.visibility = 'hidden'; // hide scroll snapping from top to bottom on iOS
+      timeoutRef.current = setTimeout(() => {
+        swiper.style.top = 0;
+        swiper.scrollTo(0, offset);
+        swiper.style.transition = null;
+        swiper.style.height = null;
+        swiper.style.visibility = 'visible'; // hide scroll snapping from top to bottom on iOS
+      }, 360);
+    } else {
+      // Scroll to the bottom of the info straight away
+      swiper.style.top = 0;
+      swiper.scrollTo(0, height);
+    }
   }, [slideableTray]);
 
   // Open tray if there is a selectedItem (map icon has been clicked) or a selected service
