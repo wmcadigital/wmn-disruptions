@@ -17,7 +17,7 @@ const TramAutoComplete = () => {
   const resultsList = useRef(null);
   const debounceInput = useRef(null);
 
-  const { loading, errorInfo, results } = useAutoCompleteAPI(
+  const { loading, errorInfo, results, getAutoCompleteResults } = useAutoCompleteAPI(
     `/metro/v1/stop?q=${encodeURI(autoCompleteState.query)}`,
     'tram',
     autoCompleteState.query
@@ -60,7 +60,13 @@ const TramAutoComplete = () => {
           </div>
           {/* If there is no data.length(results) and the user hasn't submitted a query and the state isn't loading then the user should be displayed with no results message, else show results */}
           {!results.length && autoCompleteState.query && !loading && errorInfo ? (
-            <Message type="error" title={errorInfo.title} message={errorInfo.message} />
+            <Message
+              type="error"
+              title={errorInfo.title}
+              message={errorInfo.message}
+              showRetry={errorInfo?.isTimeoutError}
+              retryCallback={getAutoCompleteResults}
+            />
           ) : (
             // Only show autocomplete results if there is a query
             autoCompleteState.query && (
