@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
 import { DebounceInput } from 'react-debounce-input'; // https://www.npmjs.com/package/react-debounce-input
 // CustomHooks
 import useResetState from 'customHooks/useResetState';
@@ -11,36 +12,43 @@ import SelectedServiceHeader from '../SelectedServiceHeader/SelectedServiceHeade
 import useHandleAutoCompleteKeys from '../customHooks/useHandleAutoCompleteKeys';
 import useAutoCompleteAPI from '../customHooks/useAutoCompleteAPI';
 
-const TramAutoComplete = () => {
+const TramAutoComplete = ({ to }) => {
   const { updateQuery, autoCompleteState, autoCompleteDispatch } = useResetState();
 
   const resultsList = useRef(null);
   const debounceInput = useRef(null);
 
+  const tramQuery = to ? autoCompleteState.queryTo : autoCompleteState.query;
+  const selectedService = to ? autoCompleteState.selectedItemTo : autoCompleteState.selectedItem;
+
   const { loading, errorInfo, results, getAutoCompleteResults } = useAutoCompleteAPI(
-    `/metro/v1/stop?q=${encodeURI(autoCompleteState.query)}`,
+    `/metro/v1/stop?q=${encodeURI(tramQuery)}`,
     'tram',
-    autoCompleteState.query
+    tramQuery,
+    to
   );
 
   // Import handleKeyDown function from customHook (used by all modes)
-  const { handleKeyDown } = useHandleAutoCompleteKeys(
-    resultsList,
-    DebounceInput,
-    autoCompleteState
-  );
+  const { handleKeyDown } = useHandleAutoCompleteKeys(resultsList, DebounceInput, results);
 
   return (
     <>
-      {autoCompleteState.selectedItem.id && !autoCompleteState.selectedItem.selectedByMap ? (
+      {selectedService.id && !autoCompleteState.selectedItem.selectedByMap ? (
         <SelectedServiceHeader
           autoCompleteState={autoCompleteState}
-          autoCompleteDispatch={() => autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICES' })}
+          autoCompleteDispatch={() =>
+            autoCompleteDispatch({ type: 'RESET_SELECTED_ITEM', payload: { to, mode: 'tram' } })
+          }
           mode="tram"
+          to={to}
         />
       ) : (
         <>
-          <div className={`wmnds-autocomplete wmnds-grid ${loading ? 'wmnds-is--loading' : ''}`}>
+          <div
+            className={`wmnds-autocomplete wmnds-grid ${loading ? 'wmnds-is--loading' : ''} ${
+              !to && !tramQuery && !loading && 'wmnds-m-b-sm'
+            }`}
+          >
             <Icon iconName="general-search" iconClass="wmnds-autocomplete__icon" />
             <div className="wmnds-loader" role="alert" aria-live="assertive">
               <p className="wmnds-loader__content">Content is loading...</p>
@@ -50,8 +58,8 @@ const TramAutoComplete = () => {
               name="tramSearch"
               placeholder="Search for a stop"
               className="wmnds-fe-input wmnds-autocomplete__input wmnds-col-1"
-              value={autoCompleteState.query || ''}
-              onChange={(e) => updateQuery(e.target.value)}
+              value={tramQuery || ''}
+              onChange={(e) => updateQuery(e.target.value, to)}
               aria-label="Search for a stop"
               debounceTimeout={600}
               onKeyDown={(e) => handleKeyDown(e)}
@@ -69,13 +77,14 @@ const TramAutoComplete = () => {
             />
           ) : (
             // Only show autocomplete results if there is a query
-            autoCompleteState.query && (
+            tramQuery && (
               <ul className="wmnds-autocomplete-suggestions" ref={resultsList}>
                 {results.map((result) => (
                   <TramAutoCompleteResult
-                    key={result.name}
+                    key={result.id}
                     result={result}
                     handleKeyDown={handleKeyDown}
+                    to={to}
                   />
                 ))}
               </ul>
@@ -85,6 +94,16 @@ const TramAutoComplete = () => {
       )}
     </>
   );
+};
+
+// PropTypes
+TramAutoComplete.propTypes = {
+  to: PropTypes.bool,
+};
+
+// Default props
+TramAutoComplete.defaultProps = {
+  to: false,
 };
 
 export default TramAutoComplete;
