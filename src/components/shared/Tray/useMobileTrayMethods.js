@@ -82,7 +82,7 @@ const useMobileTrayMethods = (slideableTray) => {
       innerTray
     ) {
       setTrayPosition(half || initialTrayPosition); // set tray to open
-      scrollToServiceInfo(); // scroll down to the relevatnt info in the tray
+      scrollToServiceInfo(); // scroll down to the relevant info in the tray
     }
 
     return () => {
