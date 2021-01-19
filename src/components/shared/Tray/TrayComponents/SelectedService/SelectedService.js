@@ -1,11 +1,11 @@
 import React from 'react';
 // Import customHooks
-import Message from 'components/shared/Message/Message';
 import useShowSelectedServicesInfo from './customHooks/useShowSelectedServiceInfo';
 // Imported components
 import DisruptedService from './DisruptedService/DisruptedService';
 import InfoAboutSelectedService from './InfoAboutSelectedService/InfoAboutSelectedService';
 import SaveRoutesMessage from './SaveRoutesMessage/SaveRoutesMessage';
+import GoodServiceMessage from './GoodServiceMessage/GoodServiceMessage';
 
 const SelectedService = () => {
   const {
@@ -27,7 +27,7 @@ const SelectedService = () => {
         </>
       )}
       {/* If no selectedData then it must be good service */}
-      {showServiceMessage && <Message />}
+      {showServiceMessage && <GoodServiceMessage />}
       {/* If there are selectedData then there must be disruptions, loop through */}
       {showDisruptedServices &&
         disruptedServices.map((disruption) => (
