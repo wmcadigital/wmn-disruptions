@@ -1,6 +1,7 @@
 // Using https://developers.arcgis.com/labs/browse/?product=javascript&topic=any and ESRI JS API
 import React, { useRef } from 'react';
 // Import custom hooks for map functionality
+import useWindowHeightWidth from 'customHooks/useWindowHeightWidth';
 import useCreateMap from './customHooks/useCreateMap';
 import useMapIconLayer from './customHooks/useMapIconLayer';
 import useMapPolyline from './customHooks/useMapPolyline';
@@ -11,7 +12,7 @@ import useMapGoto from './customHooks/useMapGoto';
 
 const WebMapView = () => {
   const mapRef = useRef(); // This ref is used to reference the dom node the map mounts on
-
+  const { appHeight } = useWindowHeightWidth();
   // Custom hook to define the core mapping settings/placeholders on page/component load
   const { mapState, viewState, currentLocationState } = useCreateMap(mapRef);
   // Custom hook to add the disruption icons to the map
@@ -29,6 +30,8 @@ const WebMapView = () => {
       className="webmap disruptions-esri-map"
       ref={mapRef}
       title="Disruptions map"
+      // Map needs to have a min height (so tray can slide over top) else when squashed, it sets zoom to 1
+      style={{ minHeight: appHeight && appHeight / 2 }}
     />
   );
 };
