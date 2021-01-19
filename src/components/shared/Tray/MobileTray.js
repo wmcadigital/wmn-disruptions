@@ -4,6 +4,7 @@ import Swipe from 'react-easy-swipe';
 // Import Components
 import TrayComponents from './TrayComponents/TrayComponents';
 // Import styles
+import './MobileTray.scss';
 import s from './Tray.module.scss';
 import useMobileTrayMethods from './useMobileTrayMethods';
 
