@@ -21,7 +21,7 @@ const TrainAutoComplete = ({ to }) => {
   const trainQuery = to ? autoCompleteState.queryTo : autoCompleteState.query;
   const selectedService = to ? autoCompleteState.selectedItemTo : autoCompleteState.selectedItem;
 
-  const { loading, errorInfo, results } = useAutoCompleteAPI(
+  const { loading, errorInfo, results, getAutoCompleteResults } = useAutoCompleteAPI(
     `/rail/v2/station?q=${encodeURI(trainQuery)}`,
     'train',
     trainQuery,
@@ -68,7 +68,13 @@ const TrainAutoComplete = ({ to }) => {
           </div>
           {/* If there is no data.length(results) and the user hasn't submitted a query and the state isn't loading then the user should be displayed with no results message, else show results */}
           {!results.length && trainQuery && !loading && errorInfo ? (
-            <Message type="error" title={errorInfo.title} message={errorInfo.message} />
+            <Message
+              type="error"
+              title={errorInfo.title}
+              message={errorInfo.message}
+              showRetry={errorInfo?.isTimeoutError}
+              retryCallback={getAutoCompleteResults}
+            />
           ) : (
             // Only show autocomplete results if there is a query
             trainQuery && (
