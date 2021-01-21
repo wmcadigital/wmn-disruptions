@@ -11,6 +11,7 @@
   position: absolute;
   height: 100%;
   transition: top 0.35s ease;
+  overflow: hidden;
 
   // On desktop/bigger displays
   @media only screen and (min-width: 768px) {
@@ -43,7 +44,8 @@
   display: block;
   height: 100%;
   width: 100%;
-  overflow: hidden;
+  position: relative;
+  transition: top 0.35s ease; // add slight delay to account for minor state change delay
 
   &.trayIsOpen {
     overflow: auto;
@@ -58,8 +60,9 @@
   &:before {
     content: '';
     display: block;
-    height: 1px;
+    height: 3px;
     width: 90px;
+    border-radius: 1.5px; // must be half of the height
     margin: auto;
     position: absolute;
     top: 0;

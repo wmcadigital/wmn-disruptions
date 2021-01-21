@@ -1,0 +1,16 @@
+// Fix for iOS pull-to-refresh when using tray
+@media all and (max-width: 767px) {
+  .mobile-tray-visible {
+    &,
+    body {
+      position: fixed;
+      overflow: hidden;
+      width: 100%;
+  
+      .disruptionsContainer {
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch; /* enables “momentum” (smooth) scrolling */
+      }
+    }
+  }
+}
