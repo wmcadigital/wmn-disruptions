@@ -56,14 +56,14 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
 
         if (selectedService.id && response.data?.data.length) {
           const result = response.data.data.filter(
-            (service) => service.id === selectedService.id
+            (service) => service.atcoCode === selectedService.id
           )[0];
 
           payload = {
-            id: result.id,
-            severity: result?.disruptionDetail?.disruptionSeverity || 'none',
+            id: result.atcoCode,
+            severity: result.disruptionSeverity || 'none',
             stopName: result.name,
-            operator: mode === 'tram' ? 'MML1' : null,
+            operator: result.service,
             to,
           };
         }
