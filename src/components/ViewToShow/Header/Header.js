@@ -13,13 +13,26 @@ const Header = ({ isFetching, hasError }) => {
   const [fetchDisruptionState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
 
   const handleClick = () => {
+    let isMapVisible;
     // Update the state of the isMapVisible to opposite of what it was
-    setFetchDisruptionsState((prevState) => ({
-      ...prevState,
-      isMapVisible: !prevState.isMapVisible,
-    }));
+    setFetchDisruptionsState((prevState) => {
+      isMapVisible = !prevState.isMapVisible;
+      return {
+        ...prevState,
+        isMapVisible,
+      };
+    });
     // Update URL param to opposite of what it was
-    setSearchParam('isMapVisible', !fetchDisruptionState.isMapVisible);
+    setSearchParam('isMapVisible', isMapVisible);
+    // Set the preference in localStorage
+    const preferences = JSON.parse(localStorage.getItem('disruptionsApp'));
+    localStorage.setItem(
+      'disruptionsApp',
+      JSON.stringify({
+        ...preferences,
+        isMapVisible,
+      })
+    );
   };
 
   return (
