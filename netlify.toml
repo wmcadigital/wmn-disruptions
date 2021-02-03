@@ -10,5 +10,5 @@ package = "@sentry/netlify-build-plugin"
 
 # Set env variables for deploy preview on netlify
 [context.deploy-preview.environment]
-  REACT_APP_API_HOST = "https://wmnapi-alpha-01.azure-api.net/"
+  REACT_APP_API_HOST = "https://wmnapi-alpha-01.azure-api.net"
   REACT_APP_API_KEY='fe4085ce404c4653b939d20a4ccbd581'
