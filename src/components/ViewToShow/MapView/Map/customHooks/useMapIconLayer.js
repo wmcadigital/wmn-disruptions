@@ -85,7 +85,7 @@ const useMapIconLayer = (mapState, viewState) => {
               });
             }
             // Else, must be a tram
-            else {
+            else if (stopsAffected && mode === 'tram') {
               stopsAffected.forEach((stop) => {
                 affectedIds += `${stop.atcoCode}, `;
               });
