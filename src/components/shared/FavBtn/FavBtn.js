@@ -56,7 +56,7 @@ FavBtn.propTypes = {
   mode: PropTypes.string, // Mode type
   narrow: PropTypes.bool,
   severity: PropTypes.string, // severity of disruption
-  text: PropTypes.string.isRequired, // text inside button
+  text: PropTypes.string, // text inside button
   title: PropTypes.string,
 };
 
@@ -65,6 +65,7 @@ FavBtn.defaultProps = {
   mode: 'bus',
   narrow: false,
   severity: 'purple',
+  text: null,
   title: null,
 };
 

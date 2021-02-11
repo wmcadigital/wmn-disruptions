@@ -4,10 +4,58 @@ import useWindowHeightWidth from 'customHooks/useWindowHeightWidth';
 import ToggleMoreAffectedItems from 'components/shared/ToggleMoreAffectedItems/ToggleMoreAffectedItems';
 import FavBtn from 'components/shared/FavBtn/FavBtn';
 
-const useDisruptionAffectedItems = (disruption) => {
+export enum Direction {
+  Empty = '',
+  Inbound = 'inbound',
+  Outbound = 'outbound',
+}
+export interface TionTimeWindow {
+  start: Date;
+  end: Date;
+}
+
+export enum Mode {
+  Bus = 'bus',
+  Tram = 'tram',
+  Train = 'train',
+}
+
+export interface RouteDescription {
+  description: string;
+  direction: Direction;
+  id: string;
+}
+
+export interface ServicesAffected {
+  id: string;
+  operatorCode: string;
+  operatorName: string;
+  routeDescriptions: RouteDescription[];
+  serviceNumber: string | null;
+}
+
+export interface stopsAffected {
+  atcoCode: string;
+  name: string;
+}
+
+const useDisruptionAffectedItems = (disruption: {
+  id: string;
+  mode: Mode;
+  disruptionTimeWindow: TionTimeWindow;
+  publicationTimeWindow: TionTimeWindow;
+  title: string;
+  description: string;
+  subtitle: string;
+  disruptionSeverity: string;
+  lat: number;
+  lon: number;
+  servicesAffected: ServicesAffected[];
+  stopsAffected: stopsAffected[];
+}) => {
   let iconLeft; // set icon to correct name for tram/metro, train/rail etc.
-  let whatIsAffected; // Change copy of what is affected based on mode
-  let whatIsAffectedSingular; // Singular form of whatIsAffected
+  let whatIsAffected: string | null | undefined; // Change copy of what is affected based on mode
+  let whatIsAffectedSingular: string | null | undefined; // Singular form of whatIsAffected
 
   // Setup showing and hiding excess disrupted servces
   const [autoCompleteState] = useContext(AutoCompleteContext);
@@ -66,7 +114,9 @@ const useDisruptionAffectedItems = (disruption) => {
           <>
             {disruption.servicesAffected
               .sort(
-                (a, b) => a.serviceNumber.replace(/\D/g, '') - b.serviceNumber.replace(/\D/g, '')
+                (a: ServicesAffected, b: ServicesAffected) =>
+                  parseInt((a.serviceNumber || '0').replace(/\D/g, ''), 10) -
+                  parseInt((b.serviceNumber || '0').replace(/\D/g, ''), 10)
               )
               // Sort again to move a user's selected item to the front so it's not "hidden" behind the button
               .sort((a, b) => {
@@ -74,16 +124,23 @@ const useDisruptionAffectedItems = (disruption) => {
                 return b.serviceNumber === selectedItem?.serviceNumber ? 1 : 0;
               })
               .slice(0, sliceUpper)
-              .map((affected) => (
-                <FavBtn
-                  id={affected.id}
-                  severity={disruption.disruptionSeverity}
-                  text={affected.serviceNumber}
-                  title={`${affected.routeDescriptions[0].description} (${affected.operatorName})`}
-                  mode={disruption.mode}
-                  key={affected.id}
-                />
-              ))}
+              .map(
+                (affected: {
+                  id: string | null | undefined;
+                  serviceNumber: string | null | undefined;
+                  routeDescriptions: { description: any }[];
+                  operatorName: any;
+                }) => (
+                  <FavBtn
+                    id={affected.id}
+                    severity={disruption.disruptionSeverity}
+                    text={affected.serviceNumber}
+                    title={`${affected.routeDescriptions[0].description} (${affected.operatorName})`}
+                    mode={disruption.mode}
+                    key={affected.id}
+                  />
+                )
+              )}
             {disruption.servicesAffected.length > maxShownBeforeHiding && (
               <ToggleMoreAffectedItems
                 handleClick={toggleExpanded}
@@ -104,7 +161,7 @@ const useDisruptionAffectedItems = (disruption) => {
           disruption.mode === 'tram' &&
           disruption.stopsAffected &&
           disruption.stopsAffected
-            .sort((a, b) => {
+            .sort((a: { name: string }, b: { name: string }) => {
               // Convert stop name text to lowercase
               const x = a.name.toLowerCase();
               const y = b.name.toLowerCase();
@@ -118,7 +175,7 @@ const useDisruptionAffectedItems = (disruption) => {
               return 0;
             })
             .slice(0, sliceUpper)
-            .map((affected) => (
+            .map((affected: { atcoCode: string; name: string }) => (
               <FavBtn
                 id={affected.atcoCode}
                 severity={disruption.disruptionSeverity}
@@ -132,7 +189,7 @@ const useDisruptionAffectedItems = (disruption) => {
         {disruption.servicesAffected[0].routeDescriptions &&
           disruption.mode === 'train' &&
           disruption.servicesAffected[0].routeDescriptions
-            .sort((a, b) => {
+            .sort((a: { description: string }, b: { description: string }) => {
               // Convert line name text to lowercase
               const x = a.description.toLowerCase();
               const y = b.description.toLowerCase();
@@ -146,16 +203,21 @@ const useDisruptionAffectedItems = (disruption) => {
               return 0;
             })
             .slice(0, sliceUpper)
-            .map((affected) => (
-              <FavBtn
-                id={affected.description}
-                severity={disruption.disruptionSeverity}
-                text={affected.description}
-                title={affected.description}
-                mode={disruption.mode}
-                key={affected.id}
-              />
-            ))}
+            .map(
+              (affected: {
+                description: string | null;
+                id: string | number | null | undefined;
+              }) => (
+                <FavBtn
+                  id={affected.description}
+                  severity={disruption.disruptionSeverity}
+                  text={affected.description}
+                  title={affected.description}
+                  mode={disruption.mode}
+                  key={affected.id}
+                />
+              )
+            )}
       </div>
     </>
   );
