@@ -97,9 +97,15 @@ const useFilterLogic = () => {
 
         // The mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
         default: {
-          filteredData = filteredData.filter((disrItem) =>
-            disrItem?.servicesAffected.some((el) => el.id === autoCompleteState.selectedItem.id)
-          );
+          filteredData = filteredData.filter((disrItem) => {
+            if (disrItem?.servicesAffected) {
+              return disrItem.servicesAffected.some(
+                (el) => el.id === autoCompleteState.selectedItem.id
+              );
+            }
+
+            return false;
+          });
         }
       }
     }

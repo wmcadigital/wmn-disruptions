@@ -123,7 +123,7 @@ const useDisruptionAffectedItems = (disruption) => {
                 id={affected.atcoCode}
                 severity={disruption.disruptionSeverity}
                 text={affected.name}
-                title={`${disruption.servicesAffected[0].routeDescriptions[0].description} (${disruption.servicesAffected[0].operatorName})`}
+                title={`${disruption?.servicesAffected[0]?.routeDescriptions[0]?.description} (${disruption?.servicesAffected[0]?.operatorName})`}
                 mode={disruption.mode}
                 key={affected.atcoCode}
               />

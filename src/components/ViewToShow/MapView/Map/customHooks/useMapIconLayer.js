@@ -73,19 +73,24 @@ const useMapIconLayer = (mapState, viewState) => {
 
             let affectedIds = '';
             // If servicedsAffected on disruption add them to the affectedIds var so we can query them
-            if (servicesAffected && mode === 'bus') {
+            if (mode === 'bus' && servicesAffected && servicesAffected.length) {
               servicesAffected.forEach((service) => {
                 affectedIds += `${service.id}, `;
               });
             }
             // If train, we need to add lines to affectedIds
-            else if (servicesAffected && mode === 'train') {
+            else if (
+              mode === 'train' &&
+              servicesAffected &&
+              servicesAffected.length &&
+              servicesAffected[0]?.routeDescriptions
+            ) {
               servicesAffected[0].routeDescriptions.forEach((line) => {
                 affectedIds += `${line.description}`;
               });
             }
             // Else, must be a tram
-            else if (stopsAffected && mode === 'tram') {
+            else if (mode === 'tram' && stopsAffected && stopsAffected.length) {
               stopsAffected.forEach((stop) => {
                 affectedIds += `${stop.atcoCode}, `;
               });
