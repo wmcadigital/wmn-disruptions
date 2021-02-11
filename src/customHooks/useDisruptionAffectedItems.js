@@ -102,6 +102,7 @@ const useDisruptionAffectedItems = (disruption) => {
         {/* Affected Stops / Tram */}
         {disruption.servicesAffected &&
           disruption.mode === 'tram' &&
+          disruption.stopsAffected &&
           disruption.stopsAffected
             .sort((a, b) => {
               // Convert stop name text to lowercase
