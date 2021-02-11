@@ -62,7 +62,7 @@ const useDisruptionAffectedItems = (disruption) => {
       </div>
       <div className="wmnds-col-1">
         {/* Affected Services / Bus */}
-        {disruption.servicesAffected && disruption.mode === 'bus' && (
+        {disruption.mode === 'bus' && disruption?.servicesAffected && (
           <>
             {disruption.servicesAffected
               .sort(
@@ -100,9 +100,9 @@ const useDisruptionAffectedItems = (disruption) => {
           </>
         )}
         {/* Affected Stops / Tram */}
-        {disruption.servicesAffected &&
-          disruption.mode === 'tram' &&
-          disruption.stopsAffected &&
+        {disruption.mode === 'tram' &&
+          disruption?.servicesAffected &&
+          disruption?.stopAffected &&
           disruption.stopsAffected
             .sort((a, b) => {
               // Convert stop name text to lowercase
@@ -129,8 +129,8 @@ const useDisruptionAffectedItems = (disruption) => {
               />
             ))}
         {/* Affected Stations / Train */}
-        {disruption.servicesAffected[0].routeDescriptions &&
-          disruption.mode === 'train' &&
+        {disruption.mode === 'train' &&
+          disruption?.servicesAffected[0]?.routeDescriptions &&
           disruption.servicesAffected[0].routeDescriptions
             .sort((a, b) => {
               // Convert line name text to lowercase
