@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 // State
 import { ModeContext, WhenContext, AutoCompleteContext } from 'globalState';
+import { getSearchParam } from 'globalState/helpers/URLSearchParams';
 // Components
 import Icon from 'components/shared/Icon/Icon';
 
@@ -45,11 +46,40 @@ const GoodServiceMessage = () => {
         return 'across all tram stops';
 
       default:
-        return '';
+        return 'across all modes of travel';
     }
   };
 
-  const message = `Good service ${timeText()} ${modeText()}.`;
+  const hasCachedDisruption = () => {
+    const autoCompletesAreEmpty = !selectedItem.id && !selectedItemTo.id;
+    if (selectedItem.isSelectedByMap || autoCompletesAreEmpty) {
+      return false;
+    }
+
+    switch (modeState.mode) {
+      case 'bus':
+        return selectedItem.severity !== 'none';
+      // Tram & train
+      default:
+        return selectedItem.severity !== 'none' || selectedItemTo.severity !== 'none';
+    }
+  };
+
+  const message = (() => {
+    if (getSearchParam('selectedByMap') && getSearchParam('selectedItem')) {
+      // Update the message for a user coming from an email link
+      // if the code reaches here it means there is good service and that disruption no longer exists i.e. has been cleared
+      return 'This disruption has cleared.';
+    }
+
+    if (hasCachedDisruption()) {
+      // If a disuruption is cached then a selectedItem will have disruption info from the AutoCompleteAPI
+      // however the disruption won't exist on the DisruptionsAPI so it will have been cleared recently.
+      return `A disruption has recently cleared ${modeText()}.`;
+    }
+
+    return `Good service ${timeText()} ${modeText()}.`;
+  })();
 
   return (
     <div className="wmnds-msg-summary wmnds-msg-summary--success wmnds-col-1 wmnds-m-t-lg">
