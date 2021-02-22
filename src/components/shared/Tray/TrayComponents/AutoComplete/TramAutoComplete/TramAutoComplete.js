@@ -81,7 +81,7 @@ const TramAutoComplete = ({ to }) => {
               <ul className="wmnds-autocomplete-suggestions" ref={resultsList}>
                 {results.map((result) => (
                   <TramAutoCompleteResult
-                    key={result.id}
+                    key={result.atcoCode}
                     result={result}
                     handleKeyDown={handleKeyDown}
                     to={to}
