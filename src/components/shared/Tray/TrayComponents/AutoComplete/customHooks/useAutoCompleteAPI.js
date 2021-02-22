@@ -52,10 +52,10 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
       }
       // TRAM
       else if (mode === 'tram') {
-        setResults(response.data.data || []);
+        setResults(response.data.metroStopSearch || []);
 
-        if (selectedService.id && response.data?.data.length) {
-          const result = response.data.data.filter(
+        if (selectedService.id && response.data?.metroStopSearch.length) {
+          const result = response.data.metroStopSearch.filter(
             (service) => service.atcoCode === selectedService.id
           )[0];
 
@@ -141,7 +141,10 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
   useEffect(() => {
     if (query) {
       getAutoCompleteResults();
+    } else {
+      setErrorInfo(null);
     }
+
     // Unmount / cleanup
     return () => {
       mounted.current = false; // Set mounted back to false on unmount
