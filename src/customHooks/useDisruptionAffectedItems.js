@@ -23,7 +23,8 @@ const useDisruptionAffectedItems = (disruption) => {
   switch (disruption.mode) {
     case 'tram':
       iconLeft = 'metro';
-      whatIsAffected = 'stops';
+      whatIsAffected =
+        disruption.stopsAffected && disruption.stopsAffected.length ? 'stops' : 'services';
       break;
 
     case 'train':
@@ -99,10 +100,10 @@ const useDisruptionAffectedItems = (disruption) => {
             )}
           </>
         )}
-        {/* Affected Stops / Tram */}
+        {/* Affected stops / Tram */}
         {disruption.mode === 'tram' &&
           disruption?.servicesAffected &&
-          disruption?.stopAffected &&
+          disruption?.stopsAffected &&
           disruption.stopsAffected
             .sort((a, b) => {
               // Convert stop name text to lowercase
@@ -122,10 +123,26 @@ const useDisruptionAffectedItems = (disruption) => {
               <FavBtn
                 id={affected.atcoCode}
                 severity={disruption.disruptionSeverity}
-                text={affected.name}
-                title={`${disruption?.servicesAffected[0]?.routeDescriptions[0]?.description} (${disruption?.servicesAffected[0]?.operatorName})`}
+                text={affected.name.replace(' (Midland Metro Stop)', '')}
+                title={disruption?.servicesAffected[0]?.routeDescriptions[0]?.description}
                 mode={disruption.mode}
                 key={affected.atcoCode}
+              />
+            ))}
+        {/* Affected services / Tram */}
+        {disruption.mode === 'tram' &&
+          !disruption?.stopsAffected &&
+          disruption?.servicesAffected &&
+          disruption.servicesAffected
+            .slice(0, sliceUpper)
+            .map((affected) => (
+              <FavBtn
+                id={affected.id}
+                severity={disruption.disruptionSeverity}
+                text={`${affected.operatorName} - ${affected?.routeDescriptions[0]?.description}`}
+                title={disruption?.servicesAffected[0]?.routeDescriptions[0]?.description}
+                mode={disruption.mode}
+                key={affected.id}
               />
             ))}
         {/* Affected Stations / Train */}
