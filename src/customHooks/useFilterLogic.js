@@ -61,13 +61,32 @@ const useFilterLogic = () => {
         // The mode is tram and the id the user clicked in the autocomplete is within the stopsAffected array
         case 'tram':
           // If the user has selected both tram stops then check if any are affected
-          if (autoCompleteState.selectedItemTo.id && autoCompleteState.selectedItem?.lines) {
+          if (autoCompleteState.selectedItemTo.id) {
             // Map the array of stop objects to an array of just the atcoCodes
-            const lineCodes = autoCompleteState.selectedItem.lines.map((stop) => stop.atcoCode);
+            filteredData = filteredData.filter((disrItem) => {
+              const { stopsAffected, servicesAffected } = disrItem;
+              // Check if servicesAffected or stopsAffected are present and have items in the array
+              if (
+                (!stopsAffected || !stopsAffected.length) &&
+                (!servicesAffected || !servicesAffected.length)
+              ) {
+                return false;
+              }
+              // Filter via stopsAffected if present
+              const { selectedItem, selectedItemTo } = autoCompleteState;
+              if (stopsAffected && stopsAffected.length > 0) {
+                const lineCodes =
+                  selectedItem.lines && selectedItem.lines.length > 0
+                    ? selectedItem.lines.map((stop) => stop.atcoCode)
+                    : [selectedItem.id, selectedItemTo.id];
 
-            filteredData = filteredData.filter((disrItem) =>
-              disrItem.stopsAffected.some((el) => lineCodes.includes(el.atcoCode))
-            );
+                return disrItem.stopsAffected.some((el) =>
+                  lineCodes.includes(el.atcoCode.replace('940G', '9400'))
+                );
+              }
+              // Filter via the servicesAffected i.e.
+              return disrItem.servicesAffected.some((service) => `${service.id}` === '4546');
+            });
           }
 
           break;
