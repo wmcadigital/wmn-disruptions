@@ -90,10 +90,17 @@ const useMapIconLayer = (mapState, viewState) => {
               });
             }
             // Else, must be a tram
-            else if (mode === 'tram' && stopsAffected && stopsAffected.length) {
-              stopsAffected.forEach((stop) => {
-                affectedIds += `${stop.atcoCode}, `;
-              });
+            else if (mode === 'tram') {
+              if (stopsAffected && stopsAffected.length) {
+                stopsAffected.forEach((stop) => {
+                  affectedIds += `${stop.atcoCode.replace('940G', '9400')}, `; // fix alpha api error
+                });
+              }
+              if (servicesAffected && servicesAffected.length) {
+                servicesAffected.forEach((service) => {
+                  affectedIds += `${service.id}, `;
+                });
+              }
             }
 
             // Return graphic element with attributes we want to query, and geomotry/location of disruption
@@ -228,13 +235,14 @@ const useMapIconLayer = (mapState, viewState) => {
             autoCompleteState.selectedItem.id &&
             autoCompleteState.selectedItemTo.id
           ) {
+            let tramQuery = "(servicesAffected LIKE '%4546%')";
             // Wait until the stop by stop api returns in-between stops
             if (
               autoCompleteState.selectedItem?.lines &&
               autoCompleteState.selectedItem.lines.length
             ) {
               const stops = autoCompleteState.selectedItem.lines;
-              let tramQuery = '';
+              tramQuery = stops.length ? `${tramQuery} OR ` : tramQuery;
 
               stops.forEach((stop, index) => {
                 let or = ''; // placeholder to add "OR" to sql query
@@ -245,9 +253,13 @@ const useMapIconLayer = (mapState, viewState) => {
                 // Update the train query to check the disruption icon attributes if the servicesAffected contains our line in the loop
                 tramQuery += `(servicesAffected LIKE '%${stop.atcoCode}%')${or}`;
               });
-
-              queryBuilder += ` AND (${tramQuery})`; // Stack the train query all together and add it on to the main sql query
+            } else {
+              tramQuery += ` OR (servicesAffected LIKE '%${autoCompleteState.selectedItem.id}%')`;
+              tramQuery += ` OR (servicesAffected LIKE '%${autoCompleteState.selectedItemTo.id}%')`;
             }
+
+            queryBuilder += ` AND (${tramQuery})`; // Stack the train query all together and add it on to the main sql query
+            // Check for any disruptions to the full line
           }
           // ANYTHING ELSE (BUS, ROADS)
           else if (
