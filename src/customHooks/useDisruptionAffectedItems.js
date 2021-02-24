@@ -101,34 +101,44 @@ const useDisruptionAffectedItems = (disruption) => {
           </>
         )}
         {/* Affected stops / Tram */}
-        {disruption.mode === 'tram' &&
-          disruption?.servicesAffected &&
-          disruption?.stopsAffected &&
-          disruption.stopsAffected
-            .sort((a, b) => {
-              // Convert stop name text to lowercase
-              const x = a.name.toLowerCase();
-              const y = b.name.toLowerCase();
-              // Return minus or plus values when comparing prev/next string. This ensures alphabetical sorting.
-              if (x < y) {
-                return -1;
-              }
-              if (x > y) {
-                return 1;
-              }
-              return 0;
-            })
-            .slice(0, sliceUpper)
-            .map((affected) => (
-              <FavBtn
-                id={affected.atcoCode}
-                severity={disruption.disruptionSeverity}
-                text={affected.name.replace(' (Midland Metro Stop)', '')}
-                title={disruption?.servicesAffected[0]?.routeDescriptions[0]?.description}
-                mode={disruption.mode}
-                key={affected.atcoCode}
+        {disruption.mode === 'tram' && disruption?.servicesAffected && disruption?.stopsAffected && (
+          <>
+            {disruption.stopsAffected
+              .sort((a, b) => {
+                // Convert stop name text to lowercase
+                const x = a.name.toLowerCase();
+                const y = b.name.toLowerCase();
+                // Return minus or plus values when comparing prev/next string. This ensures alphabetical sorting.
+                if (x < y) return -1;
+                if (x > y) return 1;
+                return 0;
+              })
+              .slice(0, sliceUpper)
+              .map((affected) => (
+                <FavBtn
+                  id={affected.atcoCode}
+                  severity={disruption.disruptionSeverity}
+                  text={affected.name.replace(' (Midland Metro Stop)', '')}
+                  title={disruption?.servicesAffected[0]?.routeDescriptions[0]?.description}
+                  mode={disruption.mode}
+                  key={affected.atcoCode}
+                />
+              ))}
+            {disruption.stopsAffected.length > maxShownBeforeHiding && (
+              <ToggleMoreAffectedItems
+                handleClick={toggleExpanded}
+                id={`toggleMoreAffectedItems_${disruption.id}`}
+                isExpanded={isExpanded}
+                amountHidden={disruption.stopsAffected.length - maxShownBeforeHiding}
+                serviceText={
+                  disruption.stopsAffected.length - maxShownBeforeHiding > 1
+                    ? whatIsAffected
+                    : whatIsAffectedSingular
+                }
               />
-            ))}
+            )}
+          </>
+        )}
         {/* Affected services / Tram */}
         {disruption.mode === 'tram' &&
           !disruption?.stopsAffected &&
@@ -154,12 +164,8 @@ const useDisruptionAffectedItems = (disruption) => {
               const x = a.description.toLowerCase();
               const y = b.description.toLowerCase();
               // Return minus or plus values when comparing prev/next string. This ensures alphabetical sorting.
-              if (x < y) {
-                return -1;
-              }
-              if (x > y) {
-                return 1;
-              }
+              if (x < y) return -1;
+              if (x > y) return 1;
               return 0;
             })
             .slice(0, sliceUpper)
