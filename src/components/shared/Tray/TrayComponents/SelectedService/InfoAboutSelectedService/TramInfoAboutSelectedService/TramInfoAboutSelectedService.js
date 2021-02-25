@@ -67,17 +67,16 @@ const TramInfoAboutSelectedService = () => {
       </p>
       <p>Press star icon to save a stop to your favourites.</p>
       {/* Loop through lines selected and show them */}
-      {selectedItem.lines &&
-        selectedItem.lines.map(({ atcoCode, name }) => (
-          <FavBtn
-            key={atcoCode}
-            id={atcoCode}
-            text={name}
-            title={`${name} stop`}
-            mode="tram"
-            narrow
-          />
-        ))}
+      {[selectedItem, selectedItemTo].map(({ id, stopName }) => (
+        <FavBtn
+          key={id}
+          id={id}
+          text={stopName || ''}
+          title={`${stopName} tram stop`}
+          mode="tram"
+          narrow
+        />
+      ))}
     </>
   );
 };
