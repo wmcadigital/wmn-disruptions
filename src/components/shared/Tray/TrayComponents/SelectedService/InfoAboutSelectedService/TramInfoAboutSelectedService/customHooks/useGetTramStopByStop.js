@@ -15,6 +15,11 @@ const useGetTramStopByStop = () => {
   // Helper booleans
   const bothStopsSelected = selectedItem.id && selectedItemTo.id;
   const bothStopsEqual = selectedItem.id === selectedItemTo.id;
+  const stopsAlreadyFetched = (() => {
+    if (!bothStopsSelected || !selectedItem.lines.length) return false;
+    const comparisonIds = selectedItem.lines.map((line) => line.atcoCode);
+    return comparisonIds.includes(selectedItem.id) && comparisonIds.includes(selectedItemTo.id);
+  })();
   // Helper functions
   const cancelRequest = () => {
     if (source.current) source.current.cancel('Api request timeout');
@@ -81,17 +86,17 @@ const useGetTramStopByStop = () => {
   }, [handleAutoCompleteApiResponse, selectedItem.id, selectedItemTo.id, startApiTimeout]);
 
   useEffect(() => {
-    if (!bothStopsSelected || bothStopsEqual) {
-      return setErrorInfo(null);
+    setErrorInfo(null);
+    if (bothStopsSelected && !bothStopsEqual && !stopsAlreadyFetched) {
+      getInBetweenTramStops();
     }
-    getInBetweenTramStops();
 
     return () => {
       mounted.current = false; // Set mounted back to false on unmount
       cancelRequest(); // cancel the request
       clearApiTimeout(); // clear timeout
     };
-  }, [bothStopsEqual, bothStopsSelected, getInBetweenTramStops]);
+  }, [bothStopsEqual, bothStopsSelected, getInBetweenTramStops, stopsAlreadyFetched]);
 
   return { loading, errorInfo, autoCompleteState, getInBetweenTramStops };
 };
