@@ -93,7 +93,7 @@ const useMapIconLayer = (mapState, viewState) => {
             else if (mode === 'tram') {
               if (stopsAffected && stopsAffected.length) {
                 stopsAffected.forEach((stop) => {
-                  affectedIds += `${stop.atcoCode.replace('940G', '9400')}, `; // fix alpha api error
+                  affectedIds += `${stop.atcoCode}, `; // fix alpha api error
                 });
               }
               if (servicesAffected && servicesAffected.length) {

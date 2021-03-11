@@ -117,15 +117,15 @@ const useDisruptionAffectedItems = (disruption) => {
                 })
                 // Sort again to move a user's selected items to the front so it's not "hidden" behind the button
                 .sort((a, b) => {
-                  const atcoCodeA = a.atcoCode.replace('940G', '9400');
-                  const atcoCodeB = b.atcoCode.replace('940G', '9400');
+                  const atcoCodeA = a.atcoCode;
+                  const atcoCodeB = b.atcoCode;
                   if (atcoCodeA === selectedItem?.id || atcoCodeA === selectedItemTo?.id) return -1;
                   return atcoCodeB === selectedItem?.id || atcoCodeB === selectedItemTo?.id ? 1 : 0;
                 })
                 .slice(0, sliceUpper)
                 .map((affected) => (
                   <FavBtn
-                    id={affected.atcoCode.replace('940G', '9400')}
+                    id={affected.atcoCode}
                     severity={disruption.disruptionSeverity}
                     text={affected.name.replace(' (Midland Metro Stop)', '')}
                     title={disruption?.servicesAffected[0]?.routeDescriptions[0]?.description}

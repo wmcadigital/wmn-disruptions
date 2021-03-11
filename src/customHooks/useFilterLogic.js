@@ -80,9 +80,7 @@ const useFilterLogic = () => {
                     ? selectedItem.lines.map((stop) => stop.atcoCode)
                     : [selectedItem.id, selectedItemTo.id];
 
-                return disrItem.stopsAffected.some((el) =>
-                  lineCodes.includes(el.atcoCode.replace('940G', '9400'))
-                );
+                return disrItem.stopsAffected.some((el) => lineCodes.includes(el.atcoCode));
               }
               // Filter via the servicesAffected i.e.
               return disrItem.servicesAffected.some((service) => `${service.id}` === '4546');
