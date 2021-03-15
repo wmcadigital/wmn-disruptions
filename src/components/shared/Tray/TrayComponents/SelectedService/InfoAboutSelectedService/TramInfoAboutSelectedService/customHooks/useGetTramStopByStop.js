@@ -18,7 +18,9 @@ const useGetTramStopByStop = () => {
   const stopsAlreadyFetched = (() => {
     if (!bothStopsSelected || !selectedItem.lines.length) return false;
     const comparisonIds = selectedItem.lines.map((line) => line.atcoCode);
-    return comparisonIds.includes(selectedItem.id) && comparisonIds.includes(selectedItemTo.id);
+    return (
+      comparisonIds.indexOf(selectedItem.id) > -1 && comparisonIds.indexOf(selectedItemTo.id) > -1
+    );
   })();
   // Helper functions
   const cancelRequest = () => {

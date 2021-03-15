@@ -80,7 +80,7 @@ const useFilterLogic = () => {
                     ? selectedItem.lines.map((stop) => stop.atcoCode)
                     : [selectedItem.id, selectedItemTo.id];
 
-                return disrItem.stopsAffected.some((el) => lineCodes.includes(el.atcoCode));
+                return disrItem.stopsAffected.some((el) => lineCodes.indexOf(el.atcoCode) > -1);
               }
               // Filter via the servicesAffected i.e.
               return disrItem.servicesAffected.some((service) => `${service.id}` === '4546');
@@ -104,8 +104,8 @@ const useFilterLogic = () => {
             const linesToCompareWith = getDuplicates.length ? getDuplicates : allLines;
             // Then filter out any disruptions that don't contain lines the user is interested in
             filteredData = filteredData.filter((disrItem) =>
-              disrItem?.servicesAffected[0]?.routeDescriptions.some((el) =>
-                linesToCompareWith.includes(el.description)
+              disrItem?.servicesAffected[0]?.routeDescriptions.some(
+                (el) => linesToCompareWith.indexOf(el.description) > -1
               )
             );
           }
