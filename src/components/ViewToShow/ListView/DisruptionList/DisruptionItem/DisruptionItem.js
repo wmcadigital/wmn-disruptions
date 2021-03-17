@@ -55,7 +55,7 @@ const DisruptionItem = ({ disruption }) => {
           </svg>
         </button>
 
-        <div className="wmnds-p-l-md">{affectedItems()}</div>
+        {affectedItems()}
 
         <div className="wmnds-accordion__content" id="accordion-custom-01">
           <DisruptionInfo disruption={disruption} listView />

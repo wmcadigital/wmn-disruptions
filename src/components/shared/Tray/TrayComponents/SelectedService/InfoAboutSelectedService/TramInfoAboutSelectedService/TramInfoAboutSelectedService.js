@@ -7,7 +7,7 @@ import numberToWord from '../helpers/numberToWord';
 import useGetTramStopByStop from './customHooks/useGetTramStopByStop';
 
 const TramInfoAboutSelectedService = () => {
-  const { autoCompleteState, loading, errorInfo } = useGetTramStopByStop();
+  const { autoCompleteState, loading, errorInfo, getInBetweenTramStops } = useGetTramStopByStop();
   const { selectedItem, selectedItemTo } = autoCompleteState;
 
   // Don't return anything until both items are selected
@@ -37,11 +37,19 @@ const TramInfoAboutSelectedService = () => {
   // Handle any errors
   if (errorInfo && !loading) {
     const { title, message } = errorInfo;
-    return <Message type="error" title={title} message={message} />;
+    return (
+      <Message
+        type="error"
+        title={title}
+        message={message}
+        showRetry
+        retryCallback={getInBetweenTramStops}
+      />
+    );
   }
 
   // Show loading spinner
-  if (loading || !selectedItem.lines?.length) {
+  if (loading || !selectedItem.lines || (selectedItem.lines && selectedItem.lines.length === 0)) {
     return (
       <div className="wmnds-loader" role="alert" aria-live="assertive">
         <p className="wmnds-loader__content">Content is loading...</p>
@@ -59,17 +67,16 @@ const TramInfoAboutSelectedService = () => {
       </p>
       <p>Press star icon to save a stop to your favourites.</p>
       {/* Loop through lines selected and show them */}
-      {selectedItem.lines &&
-        selectedItem.lines.map(({ atcoCode, name }) => (
-          <FavBtn
-            key={atcoCode}
-            id={atcoCode}
-            text={name}
-            title={`${name} stop`}
-            mode="tram"
-            narrow
-          />
-        ))}
+      {[selectedItem, selectedItemTo].map(({ id, stopName }) => (
+        <FavBtn
+          key={id}
+          id={id}
+          text={stopName || ''}
+          title={`${stopName} tram stop`}
+          mode="tram"
+          narrow
+        />
+      ))}
     </>
   );
 };

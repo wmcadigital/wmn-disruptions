@@ -22,7 +22,7 @@ const TramAutoComplete = ({ to }) => {
   const selectedService = to ? autoCompleteState.selectedItemTo : autoCompleteState.selectedItem;
 
   const { loading, errorInfo, results, getAutoCompleteResults } = useAutoCompleteAPI(
-    `/metro/v1/stop?q=${encodeURI(tramQuery)}`,
+    `/Metro/v2/stop?q=${encodeURI(tramQuery)}`,
     'tram',
     tramQuery,
     to
@@ -81,7 +81,7 @@ const TramAutoComplete = ({ to }) => {
               <ul className="wmnds-autocomplete-suggestions" ref={resultsList}>
                 {results.map((result) => (
                   <TramAutoCompleteResult
-                    key={result.id}
+                    key={result.atcoCode}
                     result={result}
                     handleKeyDown={handleKeyDown}
                     to={to}
