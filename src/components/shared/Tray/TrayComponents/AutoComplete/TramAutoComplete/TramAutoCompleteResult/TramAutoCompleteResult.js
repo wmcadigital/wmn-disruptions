@@ -19,8 +19,8 @@ const TramAutoCompleteResult = (props) => {
     autoCompleteDispatch({
       type: 'UDPATE_SELECTED_ITEM',
       payload: {
-        id: result.id,
-        severity: result?.disruptionDetail?.disruptionSeverity || 'success',
+        id: result?.atcoCode,
+        severity: result?.disruptionSeverity || 'success',
         stopName: result.name,
         operator: 'MML1',
         lines: [],
@@ -32,9 +32,9 @@ const TramAutoCompleteResult = (props) => {
   // Set placeholder vars for switch below
   let text;
   // If the current service has disruption
-  if (result.disrupted) {
+  if (result.hasDisruptions) {
     // Do a switch on the disruption severity, then map the type and iconName to the correct vars
-    switch (result.disruptionDetail.disruptionSeverity) {
+    switch (result?.disruptionSeverity) {
       // Minor disruption (normal)
       case 'normal':
         text = 'Minor disruption';
@@ -61,7 +61,7 @@ const TramAutoCompleteResult = (props) => {
   return (
     <li
       className="wmnds-autocomplete-suggestions__li wmnds-grid"
-      title={`${text} on ${result.serviceNumber}`}
+      title={`${text} on ${result.name} stop`}
       tabIndex="0"
       // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
       role="button"
@@ -71,7 +71,7 @@ const TramAutoCompleteResult = (props) => {
     >
       <DisruptionIndicatorMedium
         className="wmnds-col-auto"
-        severity={result?.disruptionDetail?.disruptionSeverity || 'success'}
+        severity={result?.disruptionSeverity || 'success'}
         noMarginOnIcon
       />
       {/* Right section */}
