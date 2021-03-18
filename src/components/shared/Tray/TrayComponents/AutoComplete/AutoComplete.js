@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { ModeContext, WhenContext } from 'globalState';
 // Import components
 import BusAutoComplete from './BusAutocomplete/BusAutoComplete';
-// import TramAutoComplete from './TramAutoComplete/TramAutoComplete';
+import TramAutoComplete from './TramAutoComplete/TramAutoComplete';
 import TrainAutoComplete from './TrainAutoComplete/TrainAutocomplete';
 
 const AutoComplete = () => {
@@ -46,15 +46,15 @@ const AutoComplete = () => {
 
       // Hide tram autoCompletes until api issues have been sorted
       //
-      // case 'tram':
-      //   return (
-      //     <>
-      //       {autoCompleteTitle('Stops between')}
-      //       <TramAutoComplete />
-      //       {autoCompleteTitle('and')}
-      //       <TramAutoComplete to />
-      //     </>
-      //   );
+      case 'tram':
+        return (
+          <>
+            {autoCompleteTitle('Stops between')}
+            <TramAutoComplete />
+            {autoCompleteTitle('and')}
+            <TramAutoComplete to />
+          </>
+        );
 
       default:
         return null;

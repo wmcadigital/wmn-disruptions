@@ -42,29 +42,13 @@ const DisruptionInfo = ({ disruption }) => {
     <>
       {/* Disruption description */}
 
-      {disruption.mode !== 'tram' ? (
-        <div
-          className="wmnds-m-b-lg wmnds-col-1"
-          dangerouslySetInnerHTML={{
-            // Remove 'style' attributes from any descriptions
-            __html: sanitize(disruption.description, { FORBID_ATTR: ['style'] }),
-          }}
-        />
-      ) : (
-        <div className="wmnds-m-b-lg wmnds-col-1">
-          {disruption.subtitle}
-          <br />
-          <br />
-          <a
-            href={disruption.description}
-            className="wmnds-link wmnds-col-1"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read more about this disruption on twitter
-          </a>
-        </div>
-      )}
+      <div
+        className="wmnds-m-b-lg wmnds-col-1"
+        dangerouslySetInnerHTML={{
+          // Remove 'style' attributes from any descriptions
+          __html: sanitize(disruption.description, { FORBID_ATTR: ['style'] }),
+        }}
+      />
 
       {/* Replan button */}
       <span className={`wmnds-col-1 ${isMapVisible ? s.mapBtn : `${s.listBtn} wmnds-col-sm-1-2`}`}>

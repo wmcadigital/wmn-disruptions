@@ -11,7 +11,7 @@ export const FetchDisruptionsProvider = (props) => {
     isMapVisible:
       JSON.parse(localStorage.getItem('disruptionsApp')).isMapVisible !== undefined
         ? JSON.parse(localStorage.getItem('disruptionsApp')).isMapVisible // get the user's preference from localStorage
-        : getSearchParam('isMapVisible') !== 'false', // store map visible. If the URL doesn't contain param 'isMapVisible' then it must be true (bool) else it's false (bool). Written like this as the url is a string and we need a bool here. This is set in Header component.
+        : getSearchParam('isMapVisible') === 'true', // store map visible. If the URL doesn't contain param 'isMapVisible' then it must be false (bool) else it's true (bool). Written like this as the url is a string and we need a bool here. This is set in Header component.
     data: [], // used to store data
   });
 

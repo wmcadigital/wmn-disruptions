@@ -66,7 +66,10 @@ export const AutoCompleteProvider = (props) => {
 
         return {
           ...state,
-          [item]: action.payload,
+          [item]: {
+            ...state[item],
+            ...action.payload,
+          },
         };
       }
       // Update the state to show item user has selected
