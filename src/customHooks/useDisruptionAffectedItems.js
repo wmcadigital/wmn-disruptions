@@ -46,12 +46,13 @@ const useDisruptionAffectedItems = (disruption) => {
       {disruption.title?.charAt(0).toUpperCase() + disruption.title?.slice(1) ||
         disruption.subtitle}
       {/* If bus, show 'at' subtitle */}
-      {disruption.mode === 'bus' && (
-        <>
-          {' '}
-          at <strong>{disruption.subtitle}</strong>
-        </>
-      )}
+      {disruption.mode === 'bus' ||
+        (disruption.mode === 'tram' && (
+          <>
+            {' '}
+            at <strong>{disruption.subtitle}</strong>
+          </>
+        ))}
     </>
   );
 
