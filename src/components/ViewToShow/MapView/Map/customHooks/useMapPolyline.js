@@ -1,12 +1,23 @@
 import { useContext, useEffect, useState } from 'react';
 import { loadModules } from 'esri-loader';
 import axios from 'axios';
-import { AutoCompleteContext } from 'globalState';
+import { AutoCompleteContext, ModeContext } from 'globalState';
 
 const useMapPolyline = (mapState, viewState) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
-  const [isPolylineCreated, setIsPolylineCreated] = useState(false); // Set this to true when polyline has been created
   const { id, operator } = autoCompleteState.selectedItem;
+  const { toId } = autoCompleteState.selectedItemTo;
+  const [modeState] = useContext(ModeContext);
+  const { mode } = modeState;
+  const [isPolylineCreated, setIsPolylineCreated] = useState(false); // Set this to true when polyline has been created
+
+  // Set up which api to call
+  const shouldGetBusGeoJSON = mode === 'bus' && id && operator;
+  const shouldGetTramGeoJSON = mode === 'tram' && (id || toId);
+
+  let apiPath;
+  if (shouldGetBusGeoJSON) apiPath = `/bus/v1/RouteGeoJSON/${id}/${operator}`;
+  if (shouldGetTramGeoJSON) apiPath = '/Metro/v1/RouteGeoJSON';
 
   // This useEffect is to plot the line on the map
   useEffect(() => {
@@ -17,11 +28,11 @@ const useMapPolyline = (mapState, viewState) => {
     let graphicsLayer; // Set here, so we can cleanup in the return
 
     // If there is an ID and query in state, then lets hit the API and get the geoJSON
-    if (id && operator && map && view) {
+    if (view && (shouldGetBusGeoJSON || shouldGetTramGeoJSON)) {
       const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
 
       axios
-        .get(`${REACT_APP_API_HOST}/bus/v1/RouteGeoJSON/${id}/${operator}`, {
+        .get(`${REACT_APP_API_HOST}${apiPath}`, {
           headers: {
             'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
           },
@@ -69,7 +80,7 @@ const useMapPolyline = (mapState, viewState) => {
       if (graphicsLayer) map.remove(graphicsLayer); // remove the graphicsLayer on the map
       setIsPolylineCreated(false);
     };
-  }, [id, operator, mapState, viewState]);
+  }, [id, operator, mapState, viewState, shouldGetBusGeoJSON, shouldGetTramGeoJSON, apiPath]);
 
   return { isPolylineCreated };
 };
