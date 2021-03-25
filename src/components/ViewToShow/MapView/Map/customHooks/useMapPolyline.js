@@ -6,14 +6,14 @@ import { AutoCompleteContext, ModeContext } from 'globalState';
 const useMapPolyline = (mapState, viewState) => {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const { id, operator } = autoCompleteState.selectedItem;
-  const { toId } = autoCompleteState.selectedItemTo;
+  const { id: toId } = autoCompleteState.selectedItemTo;
   const [modeState] = useContext(ModeContext);
   const { mode } = modeState;
   const [isPolylineCreated, setIsPolylineCreated] = useState(false); // Set this to true when polyline has been created
 
   // Set up which api to call
   const shouldGetBusGeoJSON = mode === 'bus' && id && operator;
-  const shouldGetTramGeoJSON = mode === 'tram' && (id || toId);
+  const shouldGetTramGeoJSON = mode === 'tram' && id && toId;
 
   let apiPath;
   if (shouldGetBusGeoJSON) apiPath = `/bus/v1/RouteGeoJSON/${id}/${operator}`;
