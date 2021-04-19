@@ -124,11 +124,13 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
   const getAutoCompleteResults = useCallback(() => {
     source.current = axios.CancelToken.source();
     mounted.current = true; // Set mounted to true (used later to make sure we don't do events as component is unmounting)
-    const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
-    setLoading(true); // Update loading state to true as we are hitting API
+    setLoading(true);
     startApiTimeout();
+    // Set up correct api path and key
+    const { REACT_APP_BUS_API_HOST, REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env;
+    const apiHost = mode === 'bus' ? REACT_APP_BUS_API_HOST : REACT_APP_API_HOST;
     axios
-      .get(REACT_APP_API_HOST + apiPath, {
+      .get(apiHost + apiPath, {
         headers: {
           'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
         },
@@ -136,7 +138,7 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
       })
       .then(handleAutoCompleteApiResponse)
       .catch(handleAutoCompleteApiError);
-  }, [apiPath, handleAutoCompleteApiResponse, startApiTimeout]);
+  }, [apiPath, handleAutoCompleteApiResponse, mode, startApiTimeout]);
 
   useEffect(() => {
     if (query) {
