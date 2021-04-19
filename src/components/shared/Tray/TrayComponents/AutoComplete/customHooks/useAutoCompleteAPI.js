@@ -127,8 +127,8 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
     setLoading(true);
     startApiTimeout();
     // Set up correct api path and key
-    const { REACT_APP_BUS_API_HOST, REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env;
-    const apiHost = mode === 'bus' ? REACT_APP_BUS_API_HOST : REACT_APP_API_HOST;
+    const { REACT_APP_BUS_AUTOCOMPLETE_API, REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env;
+    const apiHost = mode === 'bus' ? REACT_APP_BUS_AUTOCOMPLETE_API : REACT_APP_API_HOST;
     axios
       .get(apiHost + apiPath, {
         headers: {
