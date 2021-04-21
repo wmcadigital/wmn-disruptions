@@ -30,6 +30,27 @@ const BusAutoComplete = () => {
     autoCompleteState
   );
 
+  function compare(a, b) {
+    // Use toUpperCase() to ignore character casing
+    const serviceNumberA = a.serviceNumber.toUpperCase();
+    const serviceNumberB = b.serviceNumber.toUpperCase();
+    const routeNameA = a.routes[0].routeName.toUpperCase();
+    const routeNameB = b.routes[0].routeName.toUpperCase();
+    let comparison = 0;
+    if (serviceNumberA > serviceNumberB) {
+      comparison = 1;
+    } else if (serviceNumberA < serviceNumberB) {
+      comparison = -1;
+    } else if (routeNameA > routeNameB) {
+      // if service number is equal compare route name
+      comparison = 1;
+    } else if (routeNameA < routeNameB) {
+      // if service number is equal compare route name
+      comparison = -1;
+    }
+    return comparison;
+  }
+
   return (
     <>
       {autoCompleteState.selectedItem.id && !autoCompleteState.selectedItem.selectedByMap ? (
@@ -71,7 +92,7 @@ const BusAutoComplete = () => {
             // Only show autocomplete results if there is a query
             autoCompleteState.query && (
               <ul className="wmnds-autocomplete-suggestions" ref={resultsList}>
-                {results.map((result) => (
+                {results.sort(compare).map((result) => (
                   <BusAutoCompleteResult
                     key={result.id}
                     result={result}
