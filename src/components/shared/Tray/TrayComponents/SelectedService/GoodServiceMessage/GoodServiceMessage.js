@@ -58,7 +58,7 @@ const GoodServiceMessage = () => {
 
     switch (modeState.mode) {
       case 'bus':
-        return selectedItem.severity !== 'none';
+        return selectedItem.severity !== undefined && selectedItem.severity !== 'none';
       // Tram & train
       default:
         return selectedItem.severity !== 'none' || selectedItemTo.severity !== 'none';
