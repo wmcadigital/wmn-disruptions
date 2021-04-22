@@ -43,7 +43,7 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch, mode, 
         >
           <DisruptionIndicatorMedium
             className="wmnds-p-t-xs wmnds-p-b-xs wmnds-p-l-xsm wmnds-p-r-xsm wmnds-col-auto wmnds-m-r-sm"
-            severity={selectedService.severity}
+            severity={mode === 'bus' ? 'purple' : selectedService.severity}
             text={selectedService.serviceNumber || null}
             noMarginOnIcon={mode !== 'bus'}
           />
