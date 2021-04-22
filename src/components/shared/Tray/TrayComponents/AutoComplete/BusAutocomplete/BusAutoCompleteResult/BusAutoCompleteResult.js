@@ -70,7 +70,7 @@ const BusAutoCompleteResult = (props) => {
     >
       <DisruptionIndicatorMedium
         className="wmnds-col-auto"
-        severity={result.disruptionSeverity}
+        severity="purple"
         text={result.serviceNumber}
       />
       {/* Right section */}
