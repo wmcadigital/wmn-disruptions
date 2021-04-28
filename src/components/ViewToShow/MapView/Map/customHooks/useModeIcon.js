@@ -15,7 +15,7 @@
 // import roadsMajor from 'assets/map-icons/roads-major.jpg';
 // import roadsSevere from 'assets/map-icons/roads-severe.jpg';
 
-const modeIcon = (mode, _severity, selected) => {
+const modeIcon = (_mode, _severity, selected) => {
   let severity;
   switch (_severity) {
     // Major disruption (high)
@@ -30,6 +30,21 @@ const modeIcon = (mode, _severity, selected) => {
     // Minor disruption (normal)
     default:
       severity = 'minor';
+      break;
+  }
+
+  let mode;
+  switch (_mode) {
+    case 'roadUnplanned':
+      mode = 'roads';
+      break;
+
+    case 'roadPlanned':
+      mode = 'roads';
+      break;
+
+    default:
+      mode = _mode;
       break;
   }
 

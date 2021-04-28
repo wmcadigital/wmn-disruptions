@@ -44,7 +44,13 @@ const useFilterLogic = () => {
 
     // Mode filtering
     if (modeState.mode) {
-      filteredData = filteredData.filter((disrItem) => disrItem.mode === modeState.mode);
+      filteredData = filteredData.filter((disrItem) => {
+        if (modeState.mode !== 'roads') {
+          return disrItem.mode === modeState.mode;
+        }
+
+        return disrItem.mode === 'roadPlanned' || disrItem.mode === 'roadUnplanned';
+      });
     }
 
     // SelectedMapDisruption filtering

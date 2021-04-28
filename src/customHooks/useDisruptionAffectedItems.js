@@ -32,6 +32,18 @@ const useDisruptionAffectedItems = (disruption) => {
       whatIsAffected = 'lines';
       break;
 
+    case 'roadPlanned':
+      iconLeft = 'roads';
+      whatIsAffected = 'roads';
+      whatIsAffectedSingular = 'road';
+      break;
+
+    case 'roadUnplanned':
+      iconLeft = 'roads';
+      whatIsAffected = 'roads';
+      whatIsAffectedSingular = 'road';
+      break;
+
     // Bus
     default:
       iconLeft = disruption.mode;
