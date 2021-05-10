@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { format, parse } from 'fecha';
+import haversineDistance from 'haversine-distance';
 // Import contexts
 import {
   AutoCompleteContext,
@@ -114,6 +115,23 @@ const useFilterLogic = () => {
                 (el) => linesToCompareWith.indexOf(el.description) > -1
               )
             );
+          }
+          break;
+        }
+
+        case 'roads': {
+          const { location, radius } = autoCompleteState.selectedItem;
+          if (location?.x && location?.y && radius) {
+            const getDistanceInMiles = (lat, lon) => {
+              const startCoords = { lat: location.y, lon: location.x }; // Location selected by user
+              const endCoords = { lat, lon };
+              const distanceInMiles = haversineDistance(startCoords, endCoords) * 0.000621371; // GeoCoord distance using haversine formula converted to miles
+              return distanceInMiles;
+            };
+
+            filteredData = filteredData.filter((disrItem) => {
+              return getDistanceInMiles(disrItem.lat, disrItem.lon) <= radius;
+            });
           }
           break;
         }
