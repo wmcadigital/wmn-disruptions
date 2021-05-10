@@ -89,6 +89,16 @@ export const AutoCompleteProvider = (props) => {
           },
         };
       }
+      // Update the map radius
+      case 'UPDATE_SELECTED_ITEM_RADIUS': {
+        return {
+          ...state,
+          selectedItem: {
+            ...state.selectedItem,
+            radius: action.payload,
+          },
+        };
+      }
 
       // Used to cancel selected service/station etc. This is mainly used when using from/to stations
       case 'RESET_SELECTED_ITEM': {
