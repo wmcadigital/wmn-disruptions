@@ -41,14 +41,20 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch, mode, 
           className={`wmnds-grid wmnds-grid--align-center wmnds-m-t-xs wmnds-m-b-md ${s.selectedItemBox}`}
           ref={selectedServiceRef}
         >
-          <DisruptionIndicatorMedium
-            className="wmnds-p-t-xs wmnds-p-b-xs wmnds-p-l-xsm wmnds-p-r-xsm wmnds-col-auto wmnds-m-r-sm"
-            severity={mode === 'bus' ? 'purple' : selectedService.severity}
-            text={selectedService.serviceNumber || null}
-            noMarginOnIcon={mode !== 'bus'}
-          />
-          <strong className={`wmnds-col-auto ${s.selectedSummary}`}>
-            {selectedService.routeName || selectedService.stopName}
+          {mode !== 'roads' && (
+            <DisruptionIndicatorMedium
+              className="wmnds-p-t-xs wmnds-p-b-xs wmnds-p-l-xsm wmnds-p-r-xsm wmnds-col-auto wmnds-m-r-sm"
+              severity={mode === 'bus' ? 'purple' : selectedService.severity}
+              text={selectedService.serviceNumber || null}
+              noMarginOnIcon={mode !== 'bus'}
+            />
+          )}
+          <strong
+            className={`wmnds-col-auto ${s.selectedSummary} ${
+              mode === 'roads' ? 'wmnds-m-l-sm' : null
+            }`}
+          >
+            {selectedService.routeName || selectedService.stopName || selectedService.address}
           </strong>
 
           <CloseButton onClick={autoCompleteDispatch} />
