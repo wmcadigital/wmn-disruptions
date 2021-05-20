@@ -3,22 +3,17 @@ import { AutoCompleteContext } from 'globalState';
 // Import components
 
 const RoadsAutocompleteResult = (props) => {
-  const { result, handleKeyDown } = props || {};
-
-  const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
+  const { result, radius, handleKeyDown } = props || {};
+  const [, autoCompleteDispatch] = useContext(AutoCompleteContext);
 
   const updateSelectedService = () => {
-    // Reset selected disruption ID from map (if any)
-    if (autoCompleteState.selectedItem.selectedByMap) {
-      autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICES' });
-    }
-
     autoCompleteDispatch({
-      type: 'UDPATE_SELECTED_ITEM',
+      type: 'UPDATE_SELECTED_LOCATION',
       payload: {
-        id: result.address,
-        location: result.location,
         address: result.address,
+        lat: result.location.y,
+        lon: result.location.x,
+        radius,
       },
     });
   };
