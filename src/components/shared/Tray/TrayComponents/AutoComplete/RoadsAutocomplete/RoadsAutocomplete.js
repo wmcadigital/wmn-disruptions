@@ -23,10 +23,12 @@ const RoadsAutoComplete = () => {
 
   // Reset the radius on load if it's outside the bounds
   useEffect(() => {
-    autoCompleteDispatch({
-      type: 'UPDATE_SELECTED_LOCATION_RADIUS',
-      payload: clampRadius(radius),
-    });
+    if (autoCompleteState.selectedLocation.address) {
+      autoCompleteDispatch({
+        type: 'UPDATE_SELECTED_LOCATION_RADIUS',
+        payload: clampRadius(radius),
+      });
+    }
     return () => {};
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
