@@ -9,18 +9,18 @@ const useGETDisruptions = () => {
   const [hasError, setHasError] = useState(false); // Placeholder to set error messaging
 
   useEffect(() => {
-    const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
+    const { REACT_APP_DISRUPTIONS_API, REACT_APP_DISRUPTIONS_KEY } = process.env; // Destructure env vars
 
     axios
-      .get(`${REACT_APP_API_HOST}/Disruption/v2`, {
+      .get(`${REACT_APP_DISRUPTIONS_API}/Disruption/v2`, {
         headers: {
-          'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
+          'Ocp-Apim-Subscription-Key': REACT_APP_DISRUPTIONS_KEY,
         },
       })
       .then((response) => {
         setFetchDisruptionsState((prevState) => ({
           ...prevState,
-          data: response.data.disruptions,
+          data: response.data.data.disruptions.disruptions,
         }));
       })
       .catch((error) => {
