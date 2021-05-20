@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import dompurify from 'dompurify';
 // Import contexts
-import { AutoCompleteContext, FetchDisruptionsContext } from 'globalState';
+import { AutoCompleteContext, FetchDisruptionsContext, ModeContext } from 'globalState';
 // Import Helper functions
 import { setSearchParam } from 'globalState/helpers/URLSearchParams'; // (used to sync state with URL)
 // Imported components
@@ -16,6 +16,7 @@ const { sanitize } = dompurify;
 
 const DisruptionInfo = ({ disruption }) => {
   const [, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the dispatch of autocomplete
+  const [modeState] = useContext(ModeContext); // Get the dispatch of autocomplete
   const [fetchDisruptionsState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state and dispatch of disruptions (contains isMapVisible)
   const { isMapVisible } = fetchDisruptionsState;
 
@@ -38,6 +39,18 @@ const DisruptionInfo = ({ disruption }) => {
     setSearchParam('isMapVisible', true);
   };
 
+  const dateOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+
+  const createDateString = (rawDate) => {
+    const date = new Date(rawDate);
+    return `${date.toLocaleDateString(undefined, dateOptions)}`;
+  };
+
   return (
     <>
       {/* Disruption description */}
@@ -49,6 +62,18 @@ const DisruptionInfo = ({ disruption }) => {
           __html: sanitize(disruption.description, { FORBID_ATTR: ['style'] }),
         }}
       />
+
+      {/* When (only for roads) */}
+      {modeState.mode === 'roads' && disruption.disruptionTimeWindow && (
+        <div className="wmnds-col-1">
+          <p>
+            <strong>When?</strong>
+            <br />
+            {createDateString(disruption.disruptionTimeWindow.start)} to{' '}
+            {createDateString(disruption.disruptionTimeWindow.end)}
+          </p>
+        </div>
+      )}
 
       {/* Replan button */}
       <span className={`wmnds-col-1 ${isMapVisible ? s.mapBtn : `${s.listBtn} wmnds-col-sm-1-2`}`}>
