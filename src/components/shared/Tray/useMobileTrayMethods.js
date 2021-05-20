@@ -24,7 +24,8 @@ const useMobileTrayMethods = (slideableTray) => {
     if (!swiper?.children.length) return;
 
     // Target the content that we'll slide scroll down to
-    const childNo = selectedItem.selectedByMap ? swiper.children.length - 1 : 4;
+    const childNo =
+      selectedItem.selectedByMap && !modeState.mode === 'roads' ? swiper.children.length - 1 : 4;
     const offset = swiper.children[childNo]?.offsetTop;
 
     if (!offset) return;
@@ -39,7 +40,7 @@ const useMobileTrayMethods = (slideableTray) => {
     } else {
       swiper.style.top = `-${offset}px`;
     }
-  }, [autoCompleteState, slideableTray]);
+  }, [autoCompleteState, modeState.mode, slideableTray]);
 
   const resetTrayScrollTop = useCallback(() => {
     const { swiper } = slideableTray.current;
@@ -70,14 +71,16 @@ const useMobileTrayMethods = (slideableTray) => {
 
   // Open tray if there is a selectedItem (map icon has been clicked) or a selected service
   useEffect(() => {
-    const { selectedItem, selectedItemTo } = autoCompleteState;
+    const { selectedItem, selectedItemTo, selectedLocation } = autoCompleteState;
     const innerTray = slideableTray?.current?.swiper;
     const timeout = timeoutRef.current;
 
     if (
       (selectedItem.selectedByMap ||
         (modeState.mode === 'train' && selectedItem.id && selectedItemTo.id) ||
-        (modeState.mode !== 'train' && selectedItem.id)) &&
+        (modeState.mode === 'roads' && selectedLocation.address) ||
+        (modeState.mode === 'tram' && selectedItem.id) ||
+        (modeState.mode === 'bus' && selectedItem.id)) &&
       fetchDisruptionsState.data.length &&
       innerTray
     ) {
