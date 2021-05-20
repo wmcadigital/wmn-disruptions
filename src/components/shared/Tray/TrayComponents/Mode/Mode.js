@@ -40,7 +40,6 @@ const Mode = () => {
       {/* Roads mode button */}
       <Button
         btnClass="wmnds-btn--mode wmnds-col-auto wmnds-m-b-sm wmnds-p-xsm"
-        title="Roads mode coming soon"
         isActive={modeState.mode === 'roads'}
         onClick={() => updateMode('roads')}
         iconLeft="modes-isolated-roads"

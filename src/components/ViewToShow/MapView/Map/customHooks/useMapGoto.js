@@ -1,24 +1,54 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 
 const useMapGoto = (
   mapState,
   viewState,
   isIconLayerCreated,
   isPolylineCreated,
+  roadsLocation,
   currentLocationState
 ) => {
-  // Set locations to goto (if there is users currentLocation  available then we want to show them in the view as well as the location of the graphic items, else just show graphic items)
+  const goToTarget = useCallback(
+    async (target) => {
+      viewState.goTo({ target }).catch((error) => {
+        if (error === 'AbortError') return;
+        // eslint-disable-next-line no-console
+        console.log(error);
+      });
+    },
+    [viewState]
+  );
+
   useEffect(() => {
-    // Function for zooming map to area (notice async as we to await for when map is ready)
-    const goToArea = async () => {
-      if (mapState && viewState && (isPolylineCreated || isIconLayerCreated)) {
-        const locations = await mapState.layers.items.map((layer) => layer.graphics.items);
-        if (currentLocationState) locations.push(currentLocationState);
-        viewState.goTo({ target: locations.flat() }); // Go to locations set above (flatten array so goto can understand better)
-      }
-    };
-    goToArea();
-  }, [currentLocationState, isIconLayerCreated, isPolylineCreated, mapState, viewState]);
+    if (!mapState || !viewState) return;
+
+    const shouldGoToTarget = isPolylineCreated || isIconLayerCreated || roadsLocation;
+    if (!shouldGoToTarget) return;
+
+    // CENTRE MAP BASED ON PRIORITY
+
+    // User's selected location on 'roads' mode
+    if (roadsLocation) {
+      goToTarget(roadsLocation);
+      return;
+    }
+    // User's current location selected from 'Find my location' button
+    if (currentLocationState) {
+      goToTarget(currentLocationState);
+      return;
+    }
+    // Disruption icons
+    const disruptionLocations = mapState.layers.items.map((layer) => layer.graphics.items);
+    goToTarget(disruptionLocations);
+  }, [
+    currentLocationState,
+    goToTarget,
+    isIconLayerCreated,
+    isPolylineCreated,
+    mapState,
+    roadsLocation,
+    viewState,
+  ]);
 };
 
 export default useMapGoto;

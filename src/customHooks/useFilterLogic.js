@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { format, parse } from 'fecha';
+import haversineDistance from 'haversine-distance';
 // Import contexts
 import {
   AutoCompleteContext,
@@ -44,7 +45,13 @@ const useFilterLogic = () => {
 
     // Mode filtering
     if (modeState.mode) {
-      filteredData = filteredData.filter((disrItem) => disrItem.mode === modeState.mode);
+      filteredData = filteredData.filter((disrItem) => {
+        if (modeState.mode !== 'roads') {
+          return disrItem.mode === modeState.mode;
+        }
+
+        return disrItem.mode === 'road';
+      });
     }
 
     // SelectedMapDisruption filtering
@@ -55,7 +62,7 @@ const useFilterLogic = () => {
     }
 
     // // ID filtering
-    else if (autoCompleteState.selectedItem.id) {
+    else if (autoCompleteState.selectedItem.id || autoCompleteState.selectedLocation.address) {
       // The below will check all disruptions and will return any disruption where:
       switch (modeState.mode) {
         // The mode is tram and the id the user clicked in the autocomplete is within the stopsAffected array
@@ -108,6 +115,23 @@ const useFilterLogic = () => {
                 (el) => linesToCompareWith.indexOf(el.description) > -1
               )
             );
+          }
+          break;
+        }
+
+        case 'roads': {
+          const { lat, lon, radius } = autoCompleteState.selectedLocation;
+          if (lat && lon && radius) {
+            const getDistanceInMiles = (disrLat, disrLon) => {
+              const startCoords = { lat, lon }; // Location selected by user
+              const endCoords = { lat: disrLat, lon: disrLon };
+              const distanceInMiles = haversineDistance(startCoords, endCoords) * 0.000621371; // GeoCoord distance using haversine formula converted to miles
+              return distanceInMiles;
+            };
+
+            filteredData = filteredData.filter((disrItem) => {
+              return getDistanceInMiles(disrItem.lat, disrItem.lon) <= radius;
+            });
           }
           break;
         }

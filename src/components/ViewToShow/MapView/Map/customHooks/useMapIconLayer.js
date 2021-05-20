@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { loadModules } from 'esri-loader';
 import { format, parse } from 'fecha';
+import haversineDistance from 'haversine-distance';
 import useDateFilter from 'customHooks/useDateFilter';
 import {
   FetchDisruptionsContext,
@@ -89,11 +90,11 @@ const useMapIconLayer = (mapState, viewState) => {
                 affectedIds += `${line.description}`;
               });
             }
-            // Else, must be a tram
+            // Or a tram
             else if (mode === 'tram') {
               if (stopsAffected && stopsAffected.length) {
                 stopsAffected.forEach((stop) => {
-                  affectedIds += `${stop.atcoCode}, `; // fix alpha api error
+                  affectedIds += `${stop.atcoCode}, `;
                 });
               }
               if (servicesAffected && servicesAffected.length) {
@@ -101,6 +102,16 @@ const useMapIconLayer = (mapState, viewState) => {
                   affectedIds += `${service.id}, `;
                 });
               }
+            }
+            // Roads
+            else if (mode === 'road' && autoCompleteState.selectedLocation) {
+              const startCoords = {
+                lat: autoCompleteState.selectedLocation.lat,
+                lon: autoCompleteState.selectedLocation.lon,
+              }; // Location selected by user
+              const endCoords = { lat, lon };
+              const distanceInMiles = haversineDistance(startCoords, endCoords) * 0.000621371;
+              affectedIds += `${distanceInMiles}`;
             }
 
             // Return graphic element with attributes we want to query, and geomotry/location of disruption
@@ -194,7 +205,11 @@ const useMapIconLayer = (mapState, viewState) => {
 
           // If mode is selected
           if (modeState.mode) {
-            queryBuilder += ` AND mode = '${modeState.mode}'`; // add mode query to queryBuilder
+            if (modeState.mode === 'roads') {
+              queryBuilder += ` AND (mode = 'road')`;
+            } else {
+              queryBuilder += ` AND mode = '${modeState.mode}'`; // add mode query to queryBuilder
+            }
           }
 
           // TRAIN
@@ -261,7 +276,12 @@ const useMapIconLayer = (mapState, viewState) => {
             queryBuilder += ` AND (${tramQuery})`; // Stack the train query all together and add it on to the main sql query
             // Check for any disruptions to the full line
           }
-          // ANYTHING ELSE (BUS, ROADS)
+          // Roads
+          else if (modeState.mode === 'roads' && autoCompleteState.selectedLocation.radius) {
+            const { radius } = autoCompleteState.selectedLocation;
+            queryBuilder += ` AND servicesAffected <= ${radius}`;
+          }
+          // ANYTHING ELSE (BUS)
           else if (
             autoCompleteState.selectedItem.id &&
             !autoCompleteState.selectedItem.selectedByMap &&
@@ -303,8 +323,9 @@ const useMapIconLayer = (mapState, viewState) => {
               });
 
               graphicsLayer.add(graphic); // Add graphic to iconLayer on map
-              setIsIconLayerCreated(true); // IconLayer created, set to true
             });
+
+            setIsIconLayerCreated(true);
           }
 
           flayer.queryFeatures(query).then((result) => {
@@ -325,6 +346,7 @@ const useMapIconLayer = (mapState, viewState) => {
     autoCompleteState.selectedItem.selectedByMap,
     autoCompleteState.selectedItemTo.id,
     autoCompleteState.selectedItemTo.lines,
+    autoCompleteState.selectedLocation,
     fetchDisruptionsState.data,
     fromDate,
     mapState,
