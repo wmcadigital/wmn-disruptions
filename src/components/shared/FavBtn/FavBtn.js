@@ -8,7 +8,7 @@ import Icon from 'components/shared/Icon/Icon';
 // Styles
 import s from './FavBtn.module.scss';
 
-const FavBtn = ({ id, severity, text, title, mode, narrow }) => {
+const FavBtn = ({ id, severity, text, title, mode, narrow, inline }) => {
   const [favState, favDispatch] = useContext(FavsContext); // Get fav state from globalState
   const [isFav, setIsFav] = useState(favState.favs[mode].indexOf(id) > -1); // Check favs on load to see if ours is included
 
@@ -28,14 +28,20 @@ const FavBtn = ({ id, severity, text, title, mode, narrow }) => {
   };
 
   return (
-    <div className={`${s.favButton} ${narrow ? s.favButtonNarrow : ''} wmnds-m-b-md`}>
+    <div
+      className={`${s.favButton} ${narrow ? s.favButtonNarrow : ''} ${
+        inline ? s.favButtonInline : ''
+      } wmnds-m-b-md`}
+    >
       {/* Services Affected */}
-      <DisruptionIndicatorMedium
-        text={text}
-        severity={severity}
-        className={`wmnds-p-t-xs wmnds-p-b-xs wmnds-p-l-xsm wmnds-p-r-xsm wmnds-disruption-indicator-medium--${mode}`}
-        title={title}
-      />
+      {mode !== 'roads' && (
+        <DisruptionIndicatorMedium
+          text={text}
+          severity={severity}
+          className={`wmnds-p-t-xs wmnds-p-b-xs wmnds-p-l-xsm wmnds-p-r-xsm wmnds-disruption-indicator-medium--${mode}`}
+          title={title}
+        />
+      )}
 
       {/* Faved Routed to be saved to local storage */}
       <button
@@ -55,6 +61,7 @@ FavBtn.propTypes = {
   id: PropTypes.string, // button type, by default it is type="button"
   mode: PropTypes.string, // Mode type
   narrow: PropTypes.bool,
+  inline: PropTypes.bool,
   severity: PropTypes.string, // severity of disruption
   text: PropTypes.string.isRequired, // text inside button
   title: PropTypes.string,
@@ -64,6 +71,7 @@ FavBtn.defaultProps = {
   id: null,
   mode: 'bus',
   narrow: false,
+  inline: false,
   severity: 'purple',
   title: null,
 };
