@@ -9,7 +9,7 @@ import useMapPolyline from './customHooks/useMapPolyline';
 import './Map.scss';
 import useMapPointerEvents from './customHooks/useMapPointerEvents';
 import useMapGoto from './customHooks/useMapGoto';
-import useMapPinLayer from './customHooks/useMapPinLayer';
+import useMapRoadsLocationLayer from './customHooks/useMapRoadsLocationLayer';
 
 const WebMapView = () => {
   const mapRef = useRef(); // This ref is used to reference the dom node the map mounts on
@@ -20,8 +20,8 @@ const WebMapView = () => {
   const { isIconLayerCreated } = useMapIconLayer(mapState, viewState);
   // Custom hook to plot a route line on the map
   const { isPolylineCreated } = useMapPolyline(mapState, viewState);
-  //
-  const { pauseMapGoTo } = useMapPinLayer(mapState, viewState);
+  // Roads
+  const { roadsLocation } = useMapRoadsLocationLayer(mapState, viewState);
   // Custom hook to set click event of icons on map
   useMapPointerEvents(mapState, viewState);
   // Custom hook that will pan/zoom map to selected dataset
@@ -30,8 +30,8 @@ const WebMapView = () => {
     viewState,
     isIconLayerCreated,
     isPolylineCreated,
-    currentLocationState,
-    pauseMapGoTo
+    roadsLocation,
+    currentLocationState
   );
 
   return (
