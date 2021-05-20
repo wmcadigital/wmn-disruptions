@@ -5,6 +5,7 @@ import { ModeContext, WhenContext } from 'globalState';
 import BusAutoComplete from './BusAutocomplete/BusAutoComplete';
 import TramAutoComplete from './TramAutoComplete/TramAutoComplete';
 import TrainAutoComplete from './TrainAutoComplete/TrainAutocomplete';
+import RoadsAutoComplete from './RoadsAutocomplete/RoadsAutocomplete';
 
 const AutoComplete = () => {
   const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
@@ -32,7 +33,6 @@ const AutoComplete = () => {
         );
 
       case 'train':
-        // Hide train autoCompletes for future dates until api issues have been sorted
         return (
           whenState.when === 'now' && (
             <>
@@ -44,8 +44,6 @@ const AutoComplete = () => {
           )
         );
 
-      // Hide tram autoCompletes until api issues have been sorted
-      //
       case 'tram':
         return (
           <>
@@ -53,6 +51,14 @@ const AutoComplete = () => {
             <TramAutoComplete />
             {autoCompleteTitle('and')}
             <TramAutoComplete to />
+          </>
+        );
+
+      case 'roads':
+        return (
+          <>
+            {autoCompleteTitle('Enter a location', 'A postcode, road name or place of interest')}
+            <RoadsAutoComplete />
           </>
         );
 

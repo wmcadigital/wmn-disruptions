@@ -1,8 +1,9 @@
 import { useContext, useEffect } from 'react';
-import { AutoCompleteContext } from 'globalState';
+import { AutoCompleteContext, ModeContext } from 'globalState';
 
 const useMapPointerEvents = (_mapRef, viewState) => {
   const [, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
+  const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
   const mapRef = _mapRef;
 
   useEffect(() => {
@@ -23,9 +24,11 @@ const useMapPointerEvents = (_mapRef, viewState) => {
           // If the clicked graphic is not undefined and it is not the current selected item
           if (selectedMapDisruption !== undefined) {
             // Reset stored autocomplete data
-            autoCompleteDispatch({
-              type: 'RESET_SELECTED_SERVICES',
-            });
+            if (modeState.mode !== 'roads') {
+              autoCompleteDispatch({
+                type: 'RESET_SELECTED_SERVICES',
+              });
+            }
             // Update state to make it selected map disruption
             autoCompleteDispatch({
               type: 'UDPATE_SELECTED_ITEM',
@@ -48,7 +51,7 @@ const useMapPointerEvents = (_mapRef, viewState) => {
         mapClick.remove(); // remove click event
       }
     };
-  }, [autoCompleteDispatch, mapRef, viewState]);
+  }, [autoCompleteDispatch, mapRef, modeState.mode, viewState]);
 };
 
 export default useMapPointerEvents;

@@ -32,6 +32,12 @@ const useDisruptionAffectedItems = (disruption) => {
       whatIsAffected = 'lines';
       break;
 
+    case 'road':
+      iconLeft = 'roads';
+      whatIsAffected = 'roads';
+      whatIsAffectedSingular = 'road';
+      break;
+
     // Bus
     default:
       iconLeft = disruption.mode;
@@ -41,19 +47,32 @@ const useDisruptionAffectedItems = (disruption) => {
   }
 
   // Set the correct title based on mode
-  const title = () => (
-    <>
-      {disruption.title?.charAt(0).toUpperCase() + disruption.title?.slice(1) ||
-        disruption.subtitle}
-      {/* If bus, show 'at' subtitle */}
-      {(disruption.mode === 'bus' || disruption.mode === 'tram') && (
-        <>
-          {' '}
-          at <strong>{disruption.subtitle}</strong>
-        </>
-      )}
-    </>
-  );
+  const title = () => {
+    const { mode, subtitle } = disruption;
+    const disTitle = disruption.title;
+    const showSubtitle = mode !== 'train';
+    // Fix all caps in roads subtitle (capitalise first letter of each word)
+    const disSubtitle =
+      mode !== 'road'
+        ? subtitle
+        : subtitle
+            .split(' ')
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ');
+
+    return (
+      <>
+        {disTitle?.charAt(0).toUpperCase() + disTitle?.slice(1) || subtitle}
+        {/* If bus, show 'at' subtitle */}
+        {showSubtitle && (
+          <>
+            {' '}
+            at <strong>{disSubtitle}</strong>
+          </>
+        )}
+      </>
+    );
+  };
 
   const affectedItems = () =>
     (disruption?.servicesAffected && disruption.servicesAffected.length) ||
