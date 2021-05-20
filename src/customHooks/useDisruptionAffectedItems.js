@@ -32,13 +32,7 @@ const useDisruptionAffectedItems = (disruption) => {
       whatIsAffected = 'lines';
       break;
 
-    case 'roadPlanned':
-      iconLeft = 'roads';
-      whatIsAffected = 'roads';
-      whatIsAffectedSingular = 'road';
-      break;
-
-    case 'roadUnplanned':
+    case 'road':
       iconLeft = 'roads';
       whatIsAffected = 'roads';
       whatIsAffectedSingular = 'road';
@@ -59,7 +53,7 @@ const useDisruptionAffectedItems = (disruption) => {
     const showSubtitle = mode !== 'train';
     // Fix all caps in roads subtitle (capitalise first letter of each word)
     const disSubtitle =
-      mode !== 'roadPlanned' && mode !== 'roadUnplanned'
+      mode !== 'road'
         ? subtitle
         : subtitle
             .split(' ')
