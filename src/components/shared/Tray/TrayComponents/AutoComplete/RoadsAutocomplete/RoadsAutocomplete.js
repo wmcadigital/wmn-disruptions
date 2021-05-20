@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { DebounceInput } from 'react-debounce-input';
 // CustomHooks
 import useResetState from 'customHooks/useResetState';
@@ -13,13 +13,23 @@ import useHandleAutoCompleteKeys from '../customHooks/useHandleAutoCompleteKeys'
 
 import s from './RoadsAutocomplete.module.scss';
 
-const minRadius = 3;
+const minRadius = 1;
 const maxRadius = 10;
 const clampRadius = (value) => Math.min(Math.max(value, minRadius), maxRadius);
 
 const RoadsAutoComplete = () => {
   const { updateQuery, autoCompleteState, autoCompleteDispatch } = useResetState();
-  const radius = autoCompleteState.selectedLocation.radius || minRadius;
+  const radius = autoCompleteState.selectedLocation.radius || 3;
+
+  // Reset the radius on load if it's outside the bounds
+  useEffect(() => {
+    autoCompleteDispatch({
+      type: 'UPDATE_SELECTED_LOCATION_RADIUS',
+      payload: clampRadius(radius),
+    });
+    return () => {};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Create refs
   const resultsList = useRef(null);
