@@ -106,7 +106,12 @@ const RoadsAutoComplete = () => {
         <div className="wmnds-col-1 wmnds-m-t-sm">
           <h4>Enter search radius (miles)</h4>
           <div className={` ${s.numberInput}`}>
-            <button type="button" className={`${s.numberInputButton}`} onClick={decrementRadius}>
+            <button
+              type="button"
+              className={`${s.numberInputButton}`}
+              onClick={decrementRadius}
+              aria-label="Decrease radius by 1"
+            >
               <Icon iconName="general-minimise" iconClass="wmnds-autocomplete__icon" />
             </button>
             <input
@@ -119,7 +124,12 @@ const RoadsAutoComplete = () => {
               className={`wmnds-fe-input wmnds-autocomplete__input wmnds-p-l-sm wmnds-text-align-center ${s.numberInputInput}`}
               aria-label="Enter search radius in miles"
             />
-            <button type="button" className={`${s.numberInputButton}`} onClick={incrementRadius}>
+            <button
+              type="button"
+              className={`${s.numberInputButton}`}
+              onClick={incrementRadius}
+              aria-label="Increase radius by 1"
+            >
               <Icon iconName="general-expand" iconClass="wmnds-autocomplete__icon" />
             </button>
           </div>
