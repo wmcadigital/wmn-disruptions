@@ -11,8 +11,14 @@ import useMobileTrayMethods from './useMobileTrayMethods';
 const MobileTray = () => {
   const draggableTray = useRef(); // Ref used to keep track of Draggable dom element
   const slideableTray = useRef(); // Ref to track swipe dom element
-  const { onSwipeStart, onSwipeEnd, onSwipeDown, onSwipeUp, trayPosition, appHeight } =
-    useMobileTrayMethods(slideableTray); // Pull in methods etc. to use for mobile swiper
+  const {
+    onSwipeStart,
+    onSwipeEnd,
+    onSwipeDown,
+    onSwipeUp,
+    trayPosition,
+    appHeight,
+  } = useMobileTrayMethods(slideableTray); // Pull in methods etc. to use for mobile swiper
 
   return (
     <div
