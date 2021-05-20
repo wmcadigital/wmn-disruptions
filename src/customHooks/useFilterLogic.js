@@ -50,7 +50,7 @@ const useFilterLogic = () => {
           return disrItem.mode === modeState.mode;
         }
 
-        return disrItem.mode === 'roadPlanned' || disrItem.mode === 'roadUnplanned';
+        return disrItem.mode === 'road';
       });
     }
 
@@ -62,7 +62,7 @@ const useFilterLogic = () => {
     }
 
     // // ID filtering
-    else if (autoCompleteState.selectedItem.id) {
+    else if (autoCompleteState.selectedItem.id || autoCompleteState.selectedLocation.address) {
       // The below will check all disruptions and will return any disruption where:
       switch (modeState.mode) {
         // The mode is tram and the id the user clicked in the autocomplete is within the stopsAffected array
@@ -120,11 +120,11 @@ const useFilterLogic = () => {
         }
 
         case 'roads': {
-          const { location, radius } = autoCompleteState.selectedItem;
-          if (location?.x && location?.y && radius) {
-            const getDistanceInMiles = (lat, lon) => {
-              const startCoords = { lat: location.y, lon: location.x }; // Location selected by user
-              const endCoords = { lat, lon };
+          const { lat, lon, radius } = autoCompleteState.selectedLocation;
+          if (lat && lon && radius) {
+            const getDistanceInMiles = (disrLat, disrLon) => {
+              const startCoords = { lat, lon }; // Location selected by user
+              const endCoords = { lat: disrLat, lon: disrLon };
               const distanceInMiles = haversineDistance(startCoords, endCoords) * 0.000621371; // GeoCoord distance using haversine formula converted to miles
               return distanceInMiles;
             };

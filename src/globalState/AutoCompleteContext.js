@@ -15,7 +15,7 @@ export const AutoCompleteProvider = (props) => {
   const initialState = {
     query: getSearchParam('query') || '',
     queryTo: getSearchParam('queryTo') || '',
-    // // The selected service is used to store details when a user has clicked an autocomplete
+    // The selected service is used to store details when a user has clicked an autocomplete
     selectedItem: {
       id: getSearchParam('selectedItem') || null,
       selectedByMap: getSearchParam('selectedByMap') || null,
@@ -36,6 +36,13 @@ export const AutoCompleteProvider = (props) => {
       routeName: null,
       lines: [],
       to: null,
+    },
+    // The selected location is used to store selected roads address
+    selectedLocation: {
+      address: getSearchParam('address') || '',
+      radius: parseInt(getSearchParam('radius'), 10) || null,
+      lat: getSearchParam('lat') || null,
+      lon: getSearchParam('lon') || null,
     },
   };
 
@@ -89,16 +96,6 @@ export const AutoCompleteProvider = (props) => {
           },
         };
       }
-      // Update the map radius
-      case 'UPDATE_SELECTED_ITEM_RADIUS': {
-        return {
-          ...state,
-          selectedItem: {
-            ...state.selectedItem,
-            radius: action.payload,
-          },
-        };
-      }
 
       // Used to cancel selected service/station etc. This is mainly used when using from/to stations
       case 'RESET_SELECTED_ITEM': {
@@ -130,6 +127,42 @@ export const AutoCompleteProvider = (props) => {
         };
       }
 
+      case 'UPDATE_SELECTED_LOCATION': {
+        setSearchParam('address', action.payload.address);
+        setSearchParam('lat', action.payload.lat);
+        setSearchParam('lon', action.payload.lon);
+        setSearchParam('radius', action.payload.radius);
+
+        return {
+          ...state,
+          selectedLocation: action.payload,
+        };
+      }
+
+      case 'UPDATE_SELECTED_LOCATION_RADIUS': {
+        setSearchParam('radius', action.payload);
+
+        return {
+          ...state,
+          selectedLocation: {
+            ...state.selectedLocation,
+            radius: action.payload,
+          },
+        };
+      }
+
+      case 'RESET_SELECTED_LOCATION': {
+        delSearchParam('radius');
+        delSearchParam('address');
+        delSearchParam('lat');
+        delSearchParam('lon');
+
+        return {
+          ...state,
+          selectedLocation: {},
+        };
+      }
+
       // Used to reset everything
       case 'RESET_SELECTED_SERVICES':
         delSearchParam('selectedItem');
@@ -137,11 +170,17 @@ export const AutoCompleteProvider = (props) => {
         delSearchParam('selectedByMap');
         delSearchParam('query');
         delSearchParam('queryTo');
+        // Location
+        delSearchParam('radius');
+        delSearchParam('address');
+        delSearchParam('lat');
+        delSearchParam('lon');
         return {
           query: '',
           queryTo: '',
           selectedItem: {},
           selectedItemTo: {},
+          selectedLocation: {},
         };
       // Default should return intial state if error
       default:

@@ -10,7 +10,7 @@ const GoodServiceMessage = () => {
   const [whenState] = useContext(WhenContext);
   const [autoCompleteState] = useContext(AutoCompleteContext);
 
-  const { selectedItem, selectedItemTo } = autoCompleteState;
+  const { selectedItem, selectedItemTo, selectedLocation } = autoCompleteState;
 
   const timeText = () => {
     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -45,6 +45,11 @@ const GoodServiceMessage = () => {
       case 'tram':
         return 'across all tram stops';
 
+      case 'roads':
+        return selectedLocation.address
+          ? `within ${selectedLocation.radius} miles of ${selectedLocation.address}`
+          : 'on all roads';
+
       default:
         return 'across all modes of travel';
     }
@@ -59,7 +64,7 @@ const GoodServiceMessage = () => {
     switch (modeState.mode) {
       case 'bus':
         return selectedItem.severity !== undefined && selectedItem.severity !== 'none';
-      // Tram & train
+
       default:
         return selectedItem.severity !== 'none' || selectedItemTo.severity !== 'none';
     }

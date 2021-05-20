@@ -6,8 +6,10 @@ import useFilterLogic from 'customHooks/useFilterLogic';
 const useShowSelectedServiceInfo = () => {
   const [{ isMapVisible }] = useContext(FetchDisruptionsContext);
   const [autoCompleteState] = useContext(AutoCompleteContext);
-  const { selectedItem, selectedItemTo } = autoCompleteState;
+  const { selectedItem, selectedItemTo, selectedLocation } = autoCompleteState;
   const [modeState] = useContext(ModeContext);
+  const { mode } = modeState;
+  const isRoadsMode = mode === 'roads';
   // The below will check all disruptions and will return any disruption where the mode is bus and the id the user clicked in the autocomplete is within the servicesAffected array
   const disruptedServices = useFilterLogic();
   // Create boolean variables to use in comparisons
@@ -25,7 +27,7 @@ const useShowSelectedServiceInfo = () => {
       return defaultState;
     }
 
-    switch (modeState.mode) {
+    switch (mode) {
       // Bus only has one autoComplete, so we just check if it's filled or not
       case 'bus':
         return {
@@ -52,13 +54,20 @@ const useShowSelectedServiceInfo = () => {
             (selectedItem.lines !== undefined && selectedItem.lines.length > 0),
         };
 
+      case 'roads':
+        return {
+          ...defaultState,
+          allEmpty: !selectedLocation.address,
+          allSelected: selectedLocation.address,
+        };
+
       default:
         return defaultState;
     }
   })();
   // Variables to toggle the visibility of SelectedService child components
   const showInfoAboutSelectedService =
-    !selectedItem.selectedByMap && isModeSelected && areSelectedItems.allSelected;
+    (selectedItem.selectedByMap || isRoadsMode) && isModeSelected && areSelectedItems.allSelected;
 
   const showServiceMessage =
     isMapVisible &&
@@ -70,7 +79,7 @@ const useShowSelectedServiceInfo = () => {
   const showDisruptedServices =
     isMapVisible &&
     anyDisruptionsToShow &&
-    (areSelectedItems.allSelected || selectedItem.selectedByMap);
+    ((areSelectedItems.allSelected && !isRoadsMode) || selectedItem.selectedByMap);
 
   const showLineBreak = showInfoAboutSelectedService && showServiceMessage;
 
