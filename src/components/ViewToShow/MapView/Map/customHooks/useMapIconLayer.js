@@ -104,13 +104,10 @@ const useMapIconLayer = (mapState, viewState) => {
               }
             }
             // Roads
-            else if (
-              (mode === 'roadPlanned' || mode === 'roadUnplanned') &&
-              autoCompleteState.selectedItem.location
-            ) {
+            else if (mode === 'road' && autoCompleteState.selectedLocation) {
               const startCoords = {
-                lat: autoCompleteState.selectedItem.location.y,
-                lon: autoCompleteState.selectedItem.location.x,
+                lat: autoCompleteState.selectedLocation.lat,
+                lon: autoCompleteState.selectedLocation.lon,
               }; // Location selected by user
               const endCoords = { lat, lon };
               const distanceInMiles = haversineDistance(startCoords, endCoords) * 0.000621371;
@@ -209,7 +206,7 @@ const useMapIconLayer = (mapState, viewState) => {
           // If mode is selected
           if (modeState.mode) {
             if (modeState.mode === 'roads') {
-              queryBuilder += ` AND (mode = 'roadUnplanned' OR mode = 'roadPlanned')`;
+              queryBuilder += ` AND (mode = 'road')`;
             } else {
               queryBuilder += ` AND mode = '${modeState.mode}'`; // add mode query to queryBuilder
             }
@@ -280,8 +277,8 @@ const useMapIconLayer = (mapState, viewState) => {
             // Check for any disruptions to the full line
           }
           // Roads
-          else if (modeState.mode === 'roads' && autoCompleteState.selectedItem.radius) {
-            const { radius } = autoCompleteState.selectedItem;
+          else if (modeState.mode === 'roads' && autoCompleteState.selectedLocation.radius) {
+            const { radius } = autoCompleteState.selectedLocation;
             queryBuilder += ` AND servicesAffected <= ${radius}`;
           }
           // ANYTHING ELSE (BUS)
@@ -326,8 +323,9 @@ const useMapIconLayer = (mapState, viewState) => {
               });
 
               graphicsLayer.add(graphic); // Add graphic to iconLayer on map
-              setIsIconLayerCreated(true); // IconLayer created, set to true
             });
+
+            setIsIconLayerCreated(true);
           }
 
           flayer.queryFeatures(query).then((result) => {
@@ -348,6 +346,7 @@ const useMapIconLayer = (mapState, viewState) => {
     autoCompleteState.selectedItem.selectedByMap,
     autoCompleteState.selectedItemTo.id,
     autoCompleteState.selectedItemTo.lines,
+    autoCompleteState.selectedLocation,
     fetchDisruptionsState.data,
     fromDate,
     mapState,
