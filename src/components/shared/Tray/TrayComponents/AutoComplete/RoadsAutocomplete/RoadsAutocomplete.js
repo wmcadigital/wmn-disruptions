@@ -103,7 +103,7 @@ const RoadsAutoComplete = () => {
         </>
       )}
       {autoCompleteState.selectedLocation.address && (
-        <div className="wmnds-col-1 wmnds-m-t-sm">
+        <div className="wmnds-col-1 wmnds-m-b-md">
           <h4>Enter search radius (miles)</h4>
           <div className={` ${s.numberInput}`}>
             <button

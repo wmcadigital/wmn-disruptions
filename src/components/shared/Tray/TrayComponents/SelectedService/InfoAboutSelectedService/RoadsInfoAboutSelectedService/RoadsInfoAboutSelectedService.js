@@ -10,7 +10,7 @@ const RoadsInfoAboutSelectedService = () => {
 
   return (
     <>
-      <div className="wmnds-m-t-md">
+      <div>
         <span>
           Press star icon to save selected road area to your favourites{' '}
           <strong>{`${address} + ${radius} miles`}</strong>
