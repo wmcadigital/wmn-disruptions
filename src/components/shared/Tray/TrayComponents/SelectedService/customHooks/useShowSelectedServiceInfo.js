@@ -81,7 +81,7 @@ const useShowSelectedServiceInfo = () => {
     anyDisruptionsToShow &&
     ((areSelectedItems.allSelected && !isRoadsMode) || selectedItem.selectedByMap);
 
-  const showLineBreak = showInfoAboutSelectedService && showServiceMessage;
+  const showLineBreak = showInfoAboutSelectedService && showServiceMessage && !isRoadsMode;
 
   return {
     showInfoAboutSelectedService,

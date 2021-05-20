@@ -47,7 +47,9 @@ const GoodServiceMessage = () => {
 
       case 'roads':
         return selectedLocation.address
-          ? `within ${selectedLocation.radius} miles of ${selectedLocation.address}`
+          ? `within ${selectedLocation.radius} mile${selectedLocation.radius > 1 ? 's' : ''} of ${
+              selectedLocation.address
+            }`
           : 'on all roads';
 
       default:
