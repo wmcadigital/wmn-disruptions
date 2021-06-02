@@ -44,7 +44,6 @@ const Mode = () => {
         onClick={() => updateMode('roads')}
         iconLeft="modes-isolated-roads"
         text="Roads"
-        disabled
       />
     </div>
   );
