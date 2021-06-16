@@ -1,36 +1,39 @@
-import React, { useContext } from 'react';
-import Icon from 'components/shared/Icon/Icon';
-
+/* eslint-disable react/prop-types */
+import React, { useState, useEffect } from 'react';
 // Import contexts
-import { ModeContext } from 'globalState';
 import useFilterLogic from 'customHooks/useFilterLogic';
+import GoodServiceMessage from 'components/shared/Tray/TrayComponents/SelectedService/GoodServiceMessage/GoodServiceMessage';
 import DisruptionItem from './DisruptionItem/DisruptionItem';
 
 const DisruptionList = () => {
-  const [modeState] = useContext(ModeContext); // Get the state of whenButtons from WhenContext
   const filteredData = useFilterLogic(); // Use filter logic based on tray selections
+  const disruptionsTotal = filteredData.length;
 
-  return (
+  const increment = 50;
+  const [disruptionsShowing, setDisruptionsShowing] = useState(increment);
+  const amountLeftToShow = Math.min(increment, disruptionsTotal - increment);
+
+  const showMoreDisruptions = () => {
+    setDisruptionsShowing((prevAmount) => Math.min(prevAmount + increment));
+  };
+
+  useEffect(() => {
+    setDisruptionsShowing(increment);
+  }, [disruptionsTotal]);
+
+  return disruptionsTotal > 1 ? (
     <>
-      {filteredData.length ? (
-        filteredData.map((disruption) => (
-          <DisruptionItem disruption={disruption} key={disruption.id} />
-        ))
-      ) : (
-        <div className="wmnds-msg-summary wmnds-msg-summary--success wmnds-col-1">
-          <div className="wmnds-msg-summary__header">
-            <Icon iconName="general-success" iconClass="wmnds-msg-summary__icon" />
-            <h3 className="wmnds-msg-summary__title">Good service</h3>
-          </div>
-
-          <div className="wmnds-msg-summary__info">
-            {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
-            No incidents reported on {modeState.mode ? modeState.mode : 'bus, train, tram or roads'}
-            .
-          </div>
-        </div>
+      {filteredData.slice(0, disruptionsShowing).map((disruption) => (
+        <DisruptionItem disruption={disruption} key={disruption.id} />
+      ))}
+      {disruptionsTotal > disruptionsShowing && (
+        <button className="wmnds-btn" type="button" onClick={showMoreDisruptions}>
+          Show more {amountLeftToShow} more disruptions
+        </button>
       )}
     </>
+  ) : (
+    <GoodServiceMessage isListView />
   );
 };
 
