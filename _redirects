@@ -1,0 +1,3 @@
+# domain redirects
+https://wmn-disruptions.netlify.app/* https://disruptions.tfwm.org.uk/:splat 301!
+https://disruptions.wmnetwork.co.uk/* https://disruptions.tfwm.org.uk/:splat 301!
