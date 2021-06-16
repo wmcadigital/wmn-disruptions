@@ -67,6 +67,7 @@ const useSelectedLocation = (view) => {
 
     const locationGraphicsLayer = view.map.findLayerById('location');
     if (!locationGraphicsLayer) return;
+    locationGraphicsLayer.removeAll();
     locationGraphicsLayer.visible = true;
     locationGraphicsLayer.addMany([radiusCircleGraphic, pinpointGraphic]);
     setIsLocationSelected(true);

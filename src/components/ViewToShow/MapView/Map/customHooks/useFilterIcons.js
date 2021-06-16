@@ -102,7 +102,7 @@ const useFilterIcons = (view, isIconLayerCreated) => {
 
     // ROADS FILTER
     const { lat, lon, radius } = selectedLocation;
-    if (mode === 'roads' && !selectedByMap && lat && lon && radius) {
+    if (mode === 'roads' && lat && lon && radius) {
       distance = selectedLocation.radius;
       point = new Point({ y: lat, x: lon });
     }
