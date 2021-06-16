@@ -66,8 +66,7 @@ const useShowSelectedServiceInfo = () => {
     }
   })();
   // Variables to toggle the visibility of SelectedService child components
-  const showInfoAboutSelectedService =
-    (selectedItem.selectedByMap || isRoadsMode) && isModeSelected && areSelectedItems.allSelected;
+  const showInfoAboutSelectedService = isModeSelected && areSelectedItems.allSelected;
 
   const showServiceMessage =
     isMapVisible &&
