@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useContext } from 'react';
 // State
 import { ModeContext, WhenContext, AutoCompleteContext } from 'globalState';
@@ -5,10 +6,10 @@ import { getSearchParam } from 'globalState/helpers/URLSearchParams';
 // Components
 import Icon from 'components/shared/Icon/Icon';
 
-const GoodServiceMessage = () => {
+const GoodServiceMessage = ({ isListView = false }) => {
   const [modeState] = useContext(ModeContext);
   const [whenState] = useContext(WhenContext);
-  const [autoCompleteState] = useContext(AutoCompleteContext);
+  const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
 
   const { selectedItem, selectedItemTo, selectedLocation } = autoCompleteState;
 
@@ -59,7 +60,7 @@ const GoodServiceMessage = () => {
 
   const hasCachedDisruption = () => {
     const autoCompletesAreEmpty = !selectedItem.id && !selectedItemTo.id;
-    if (selectedItem.isSelectedByMap || autoCompletesAreEmpty) {
+    if (selectedItem.selectedByMap || autoCompletesAreEmpty) {
       return false;
     }
 
@@ -88,13 +89,30 @@ const GoodServiceMessage = () => {
     return `Good service ${timeText()} ${modeText()}.`;
   })();
 
+  const clearDisruptions = () => autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICES' });
+  const showOtherDisruptions =
+    isListView && autoCompleteState.selectedItem.selectedByMap ? (
+      <button className="wmnds-btn wmnds-btn--link" type="button" onClick={clearDisruptions}>
+        Show remaining disruptions.
+      </button>
+    ) : (
+      ''
+    );
+
   return (
-    <div className="wmnds-msg-summary wmnds-msg-summary--success wmnds-col-1 wmnds-m-t-lg">
+    <div
+      className={`wmnds-msg-summary wmnds-msg-summary--success wmnds-col-1 ${
+        isListView ? '' : 'wmnds-m-t-lg'
+      }`}
+    >
       <div className="wmnds-msg-summary__header">
         <Icon iconName="general-success" iconClass="wmnds-msg-summary__icon" />
         <h3 className="wmnds-msg-summary__title">Good service</h3>
         <div className="wmnds-msg-summary__info">
-          <p className="wmnds-m-b-none">{message}</p>
+          <p className="wmnds-m-b-none">
+            {message}
+            {showOtherDisruptions}
+          </p>
           {whenState.when !== 'now' && (
             <p className="wmnds-m-t-sm wmnds-m-b-none">
               Service is subject to change, so please check before you travel.

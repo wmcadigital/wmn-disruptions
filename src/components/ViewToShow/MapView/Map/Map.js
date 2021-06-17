@@ -1,44 +1,42 @@
-// Using https://developers.arcgis.com/labs/browse/?product=javascript&topic=any and ESRI JS API
+// Using https://developers.arcgis.com/javascript/latest/api-reference/ and ESRI JS API
 import React, { useRef } from 'react';
+
 // Import custom hooks for map functionality
 import useWindowHeightWidth from 'customHooks/useWindowHeightWidth';
-import useCreateMap from './customHooks/useCreateMap';
-import useMapIconLayer from './customHooks/useMapIconLayer';
-import useMapPolyline from './customHooks/useMapPolyline';
-// Import custom styling
+import useCreateMapView from './customHooks/useCreateMapView';
+import useCreateIconLayer from './customHooks/useCreateIconLayer';
+import usePointerEvents from './customHooks/usePointerEvents';
+import useHoverIcon from './customHooks/useHoverIcon';
+import useFilterIcons from './customHooks/useFilterIcons';
+import useGoTo from './customHooks/useGoTo';
+import useDrawPolyline from './customHooks/useDrawPolyline';
+import useSelectedLocation from './customHooks/useSelectedLocation';
+import useIconClustering from './customHooks/useIconClustering';
 import './Map.scss';
-import useMapPointerEvents from './customHooks/useMapPointerEvents';
-import useMapGoto from './customHooks/useMapGoto';
-import useMapRoadsLocationLayer from './customHooks/useMapRoadsLocationLayer';
 
 const WebMapView = () => {
-  const mapRef = useRef(); // This ref is used to reference the dom node the map mounts on
+  // MAP SETUP
+  const mapContainerRef = useRef();
   const { appHeight } = useWindowHeightWidth();
-  // Custom hook to define the core mapping settings/placeholders on page/component load
-  const { mapState, viewState, currentLocationState } = useCreateMap(mapRef);
-  // Custom hook to add the disruption icons to the map
-  const { isIconLayerCreated } = useMapIconLayer(mapState, viewState);
-  // Custom hook to plot a route line on the map
-  const { isPolylineCreated } = useMapPolyline(mapState, viewState);
-  // Roads
-  const { roadsLocation } = useMapRoadsLocationLayer(mapState, viewState);
-  // Custom hook to set click event of icons on map
-  useMapPointerEvents(mapState, viewState);
-  // Custom hook that will pan/zoom map to selected dataset
-  useMapGoto(
-    mapState,
-    viewState,
-    isIconLayerCreated,
-    isPolylineCreated,
-    roadsLocation,
-    currentLocationState
-  );
+  const view = useCreateMapView(mapContainerRef);
+  const isIconLayerCreated = useCreateIconLayer(view);
+  useIconClustering(view, isIconLayerCreated);
+
+  // MAP INTERACTION
+  useHoverIcon(view, isIconLayerCreated);
+  usePointerEvents(view, isIconLayerCreated);
+
+  // MAP DRAWING / FILTERING
+  const { isFilteringDone } = useFilterIcons(view, isIconLayerCreated);
+  const { isPolylineDrawn } = useDrawPolyline(view);
+  const { isLocationSelected } = useSelectedLocation(view);
+  useGoTo(view, isIconLayerCreated, isFilteringDone, isPolylineDrawn, isLocationSelected);
 
   return (
     <div
       id="disruptions-map"
       className="webmap disruptions-esri-map"
-      ref={mapRef}
+      ref={mapContainerRef}
       title="Disruptions map"
       // Map needs to have a min height (so tray can slide over top) else when squashed, it sets zoom to 1
       style={{ minHeight: appHeight && appHeight / 2 }}

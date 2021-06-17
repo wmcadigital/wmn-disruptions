@@ -6,7 +6,8 @@ const RoadsInfoAboutSelectedService = () => {
   const [autoCompleteState] = useContext(AutoCompleteContext);
   const { selectedLocation, selectedItem } = autoCompleteState;
   const { address, radius, lat, lon } = selectedLocation;
-  const encodedId = encodeURI(`${address};${lat};${lon};${radius}`); // use semi-colons to sepearate as 'address' field may contain commas
+  // address/lat/lon/radius (may be saved as a cookie so can't be separated using ; or =)
+  const encodedId = `${encodeURI(address)}/${lat}/${lon}/${radius}`;
   const milesText = `mile${radius > 1 ? 's' : ''}`;
   const title = `${address} + ${radius} ${milesText}`;
 
