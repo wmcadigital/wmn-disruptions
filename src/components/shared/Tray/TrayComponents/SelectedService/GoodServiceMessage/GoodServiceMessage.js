@@ -92,17 +92,9 @@ const GoodServiceMessage = ({ isListView = false }) => {
   const clearDisruptions = () => autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICES' });
   const showOtherDisruptions =
     isListView && autoCompleteState.selectedItem.selectedByMap ? (
-      <>
-        {' '}
-        <button
-          style={{ display: 'inline-block' }}
-          className="wmnds-btn wmnds-btn--link"
-          type="button"
-          onClick={clearDisruptions}
-        >
-          Show remaining disruptions.
-        </button>
-      </>
+      <button className="wmnds-btn wmnds-btn--link" type="button" onClick={clearDisruptions}>
+        Show remaining disruptions.
+      </button>
     ) : (
       ''
     );
