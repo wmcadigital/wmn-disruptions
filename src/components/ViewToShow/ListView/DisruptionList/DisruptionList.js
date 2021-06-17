@@ -27,8 +27,12 @@ const DisruptionList = () => {
         <DisruptionItem disruption={disruption} key={disruption.id} />
       ))}
       {disruptionsTotal > disruptionsShowing && (
-        <button className="wmnds-btn" type="button" onClick={showMoreDisruptions}>
-          Show more {amountLeftToShow} more disruptions
+        <button
+          className="wmnds-btn wmnds-btn--primary"
+          type="button"
+          onClick={showMoreDisruptions}
+        >
+          Show {amountLeftToShow} more disruptions
         </button>
       )}
     </>
