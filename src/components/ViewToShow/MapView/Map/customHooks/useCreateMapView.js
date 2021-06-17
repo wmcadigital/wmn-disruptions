@@ -9,16 +9,23 @@ const useCreateMapView = (mapContainerRef) => {
   const createMapView = useCallback(async () => {
     try {
       setDefaultOptions({ css: true }); // Load esri css by default
-      const [Map, MapView, Basemap, VectorTileLayer, GraphicsLayer, Graphic, Locate] =
-        await loadModules([
-          'esri/Map',
-          'esri/views/MapView',
-          'esri/Basemap',
-          'esri/layers/VectorTileLayer',
-          'esri/layers/GraphicsLayer',
-          'esri/Graphic',
-          'esri/widgets/Locate',
-        ]);
+      const [
+        Map,
+        MapView,
+        Basemap,
+        VectorTileLayer,
+        GraphicsLayer,
+        Graphic,
+        Locate,
+      ] = await loadModules([
+        'esri/Map',
+        'esri/views/MapView',
+        'esri/Basemap',
+        'esri/layers/VectorTileLayer',
+        'esri/layers/GraphicsLayer',
+        'esri/Graphic',
+        'esri/widgets/Locate',
+      ]);
 
       const basemap = new Basemap({
         baseLayers: [
