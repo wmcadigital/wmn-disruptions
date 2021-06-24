@@ -1,4 +1,4 @@
-import React, { useReducer, createContext } from 'react';
+import React, { useEffect, useReducer, createContext } from 'react';
 
 export const FavsContext = createContext(); // Create when context
 
@@ -17,11 +17,12 @@ export const FavsProvider = (props) => {
   };
 
   const setCookie = (cname, cvalue, exdays) => {
+    const env = process.env.NODE_ENV || 'developement';
     const cookieDomain = 'tfwm.org.uk';
     const d = new Date();
     d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
     const expires = `expires=${d.toUTCString()}`;
-    const domain = `domain=.${cookieDomain}`;
+    const domain = env === 'development' ? 'domain=localhost' : `domain=.${cookieDomain}`;
     document.cookie = `${cname}=${cvalue};${expires};${domain};path=/`;
   };
 
@@ -51,7 +52,7 @@ export const FavsProvider = (props) => {
     const cookieFavs = JSON.parse(getCookie('disruptionsApp'));
     if (!localStorageFavs && !cookieFavs) return fallback;
 
-    const favsToSet = localStorageFavs || cookieFavs;
+    const favsToSet = cookieFavs || localStorageFavs;
 
     return {
       ...favsToSet,
@@ -78,7 +79,14 @@ export const FavsProvider = (props) => {
           ...state,
           favs: {
             ...state.favs,
-            [action.mode]: state.favs[action.mode].filter((item) => item !== action.id),
+            [action.mode]: state.favs[action.mode].filter((item) => {
+              if (action.mode !== 'train') return item !== action.id;
+              return (
+                item.to !== action.id.to ||
+                item.from !== action.id.from ||
+                item.line !== action.id.line
+              );
+            }),
           },
         };
       // Hide help message
@@ -95,10 +103,12 @@ export const FavsProvider = (props) => {
   // Set up reducer using reducer logic and initialState by default
   const [favState, favDispatch] = useReducer(reducer, initialState);
 
-  const favStateString = JSON.stringify(favState);
-  localStorage.setItem('disruptionsApp', favStateString);
-  // Sync the cookie with localStorage
-  if (favCookieAllowed) setCookie('disruptionsApp', favStateString, 181);
+  useEffect(() => {
+    const favStateString = JSON.stringify(favState);
+    localStorage.setItem('disruptionsApp', favStateString);
+    // Sync the cookie with localStorage
+    if (favCookieAllowed) setCookie('disruptionsApp', favStateString, 181);
+  }, [favCookieAllowed, favState]);
 
   // Pass state and dispatch in context and make accessible to children it wraps
   return <FavsContext.Provider value={[favState, favDispatch]}>{children}</FavsContext.Provider>;
