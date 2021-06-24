@@ -34,7 +34,16 @@ const TranInfoAboutSelectedService = () => {
             return line;
         }
       };
-      return <FavBtn key={line} id={line} text={lineName()} title={line} mode="train" narrow />;
+
+      const infoToSave = {
+        from: selectedItem.id,
+        to: selectedItemTo.id,
+        line,
+      };
+
+      return (
+        <FavBtn key={line} id={infoToSave} text={lineName()} title={line} mode="train" narrow />
+      );
     });
   }
 
