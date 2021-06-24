@@ -55,13 +55,15 @@ const DisruptionInfo = ({ disruption }) => {
     <>
       {/* Disruption description */}
 
-      <div
-        className="wmnds-m-b-lg wmnds-col-1"
-        dangerouslySetInnerHTML={{
-          // Remove 'style' attributes from any descriptions
-          __html: sanitize(disruption.description, { FORBID_ATTR: ['style'] }),
-        }}
-      />
+      {disruption.description && (
+        <div
+          className="wmnds-m-b-lg wmnds-col-1"
+          dangerouslySetInnerHTML={{
+            // Remove 'style' attributes from any descriptions
+            __html: sanitize(disruption.description, { FORBID_ATTR: ['style'] }),
+          }}
+        />
+      )}
 
       {/* When (only for roads) */}
       {modeState.mode === 'roads' && disruption.disruptionTimeWindow && (
