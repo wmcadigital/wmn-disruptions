@@ -39,7 +39,6 @@ export const FavsProvider = (props) => {
     const fallback = {
       favCookieAllowed,
       hideFavsHelpMsg: false,
-      isMapVisible: false,
       favs: {
         bus: [],
         train: [],
@@ -105,7 +104,6 @@ export const FavsProvider = (props) => {
 
   useEffect(() => {
     const favStateString = JSON.stringify(favState);
-    localStorage.setItem('disruptionsApp', favStateString);
     // Sync the cookie with localStorage
     if (favCookieAllowed) setCookie('disruptionsApp', favStateString, 181);
   }, [favCookieAllowed, favState]);
