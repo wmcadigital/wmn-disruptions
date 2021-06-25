@@ -34,7 +34,11 @@ const useFilterIcons = (view, isIconLayerCreated) => {
     try {
       disruptionsFeatureLayerView = await view.whenLayerView(disruptionsFeatureLayer);
     } catch (error) {
-      console.log(error);
+      const { name } = error;
+      // MapView is destroyed on onUnmount which throws 'cancelled:layerview-create' when creating a layer view, so only log other errors
+      if (name !== 'cancelled:layerview-create') {
+        console.log(error);
+      }
     }
 
     let FeatureFilter;
@@ -107,6 +111,8 @@ const useFilterIcons = (view, isIconLayerCreated) => {
       point = new Point({ y: lat, x: lon });
     }
 
+    // Check if map is still mounted before filtering
+    if (!disruptionsFeatureLayerView) return;
     disruptionsFeatureLayerView.filter = new FeatureFilter({
       where: whereClause,
       distance,
