@@ -104,7 +104,6 @@ export const FavsProvider = (props) => {
 
   useEffect(() => {
     const favStateString = JSON.stringify(favState);
-    // localStorage.setItem('disruptionsApp', favStateString);
     // Sync the cookie with localStorage
     if (favCookieAllowed) setCookie('disruptionsApp', favStateString, 181);
   }, [favCookieAllowed, favState]);
