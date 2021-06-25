@@ -29,7 +29,11 @@ const useHoverIcon = (view, isIconLayerCreated) => {
       try {
         queryResult = await disruptionsFeatureLayer.queryFeatures(query);
       } catch (error) {
-        console.log(error);
+        const { name } = error;
+        // MapView is destroyed on onUnmount which throws 'load:instance-destroyed', so only log other errors
+        if (name !== 'load:instance-destroyed') {
+          console.log(error);
+        }
       }
 
       if (!queryResult?.features.length) return [];
