@@ -14,16 +14,20 @@ const FavBtn = ({ id, severity, text, title, mode, narrow, inline }) => {
   const isIdFavourited = useCallback(
     (favId) => {
       if (mode !== 'train') return favState.favs[mode].indexOf(favId) > -1;
-      if (typeof favId === 'string') {
-        favDispatch({ type: 'REMOVE_FAV', favId, mode });
-        return false;
-      }
+      // TODO: TEMP FIX (Commented out)
+      // Gil to have a look at this section...
+      // Causing re-render issues for train
+
+      // if (typeof favId === 'string') {
+      //   favDispatch({ type: 'REMOVE_FAV', favId, mode });
+      //   return false;
+      // }
       return favState.favs[mode].some(
         (trainFav) =>
           trainFav.to === favId.to && trainFav.from === favId.from && trainFav.line === favId.line
       );
     },
-    [favDispatch, favState.favs, mode]
+    [favState.favs, mode]
   );
 
   const [isFav, setIsFav] = useState(isIdFavourited(id)); // Check favs on load to see if ours is included
@@ -31,7 +35,7 @@ const FavBtn = ({ id, severity, text, title, mode, narrow, inline }) => {
   // UseEffect to watch for changes of favState, then we can reload component with new favourites
   useEffect(() => {
     setIsFav(isIdFavourited(id)); // Check reloaded favs to see if our id is included in there
-  }, [favState.favs, id, isIdFavourited, mode]);
+  }, [id, isIdFavourited]);
 
   const toggleFav = () => {
     setIsFav(!isFav); // Toggle the fav state
