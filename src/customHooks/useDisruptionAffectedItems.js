@@ -3,6 +3,7 @@ import { FetchDisruptionsContext, AutoCompleteContext } from 'globalState';
 import useWindowHeightWidth from 'customHooks/useWindowHeightWidth';
 import ToggleMoreAffectedItems from 'components/shared/ToggleMoreAffectedItems/ToggleMoreAffectedItems';
 import FavBtn from 'components/shared/FavBtn/FavBtn';
+import DisruptionIndicationMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
 
 const useDisruptionAffectedItems = (disruption) => {
   let iconLeft; // set icon to correct name for tram/metro, train/rail etc.
@@ -202,16 +203,33 @@ const useDisruptionAffectedItems = (disruption) => {
                 return 0;
               })
               .slice(0, sliceUpper)
-              .map((affected) => (
-                <FavBtn
-                  id={affected.description}
-                  severity={disruption.disruptionSeverity}
-                  text={affected.description}
-                  title={affected.description}
-                  mode={disruption.mode}
-                  key={affected.id}
-                />
-              ))}
+              .map((affected) =>
+                // Only allow uses to favourite when they have searched a to and from station
+                autoCompleteState.selectedItem.id && autoCompleteState.selectedItemTo.id ? (
+                  <FavBtn
+                    id={{
+                      from: autoCompleteState.selectedItem.id,
+                      to: autoCompleteState.selectedItemTo.id,
+                      line: affected.description,
+                    }}
+                    severity={disruption.disruptionSeverity}
+                    text={affected.description}
+                    title={affected.description}
+                    mode={disruption.mode}
+                    key={affected.id}
+                  />
+                ) : (
+                  <div className="wmnds-m-b-md wmnds-m-r-sm">
+                    <DisruptionIndicationMedium
+                      key={affected.id}
+                      severity={disruption.disruptionSeverity}
+                      text={affected.description}
+                      title={affected.description}
+                      className="wmnds-p-t-xs wmnds-p-b-xs wmnds-p-l-xsm wmnds-p-r-xsm wmnds-disruption-indicator-medium--train"
+                    />
+                  </div>
+                )
+              )}
         </div>
       </div>
     ) : (

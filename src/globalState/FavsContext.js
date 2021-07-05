@@ -47,14 +47,16 @@ export const FavsProvider = (props) => {
       },
     };
 
-    const localStorageFavs = JSON.parse(localStorage.getItem('disruptionsApp'));
-    const cookieFavs = JSON.parse(getCookie('disruptionsApp'));
-    if (!localStorageFavs && !cookieFavs) return fallback;
+    const cookieFavs = JSON.parse(getCookie('disruptionsApp')) || {};
 
-    const favsToSet = cookieFavs || localStorageFavs;
+    // Remove any train favourites stores in the old format (as a string)
+    if (cookieFavs.favs) {
+      cookieFavs.favs.train = cookieFavs.favs.train.filter((fav) => typeof fav !== 'string');
+    }
 
     return {
-      ...favsToSet,
+      ...fallback,
+      ...cookieFavs,
       favCookieAllowed, // Always get latest cookie preference
     };
   })();
@@ -79,7 +81,8 @@ export const FavsProvider = (props) => {
           favs: {
             ...state.favs,
             [action.mode]: state.favs[action.mode].filter((item) => {
-              if (action.mode !== 'train') return item !== action.id;
+              if (action.mode !== 'train' || typeof action.id === 'string')
+                return item !== action.id;
               return (
                 item.to !== action.id.to ||
                 item.from !== action.id.from ||
