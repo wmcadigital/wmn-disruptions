@@ -13,15 +13,9 @@ const FavBtn = ({ id, severity, text, title, mode, narrow, inline }) => {
 
   const isIdFavourited = useCallback(
     (favId) => {
+      if (!favState.favs[mode].length) return false;
       if (mode !== 'train') return favState.favs[mode].indexOf(favId) > -1;
-      // TODO: TEMP FIX (Commented out)
-      // Gil to have a look at this section...
-      // Causing re-render issues for train
 
-      // if (typeof favId === 'string') {
-      //   favDispatch({ type: 'REMOVE_FAV', favId, mode });
-      //   return false;
-      // }
       return favState.favs[mode].some(
         (trainFav) =>
           trainFav.to === favId.to && trainFav.from === favId.from && trainFav.line === favId.line
@@ -38,7 +32,7 @@ const FavBtn = ({ id, severity, text, title, mode, narrow, inline }) => {
   }, [id, isIdFavourited]);
 
   const toggleFav = () => {
-    setIsFav(!isFav); // Toggle the fav state
+    setIsFav((prevState) => !prevState); // Toggle the fav state
 
     if (isFav) {
       favDispatch({ type: 'REMOVE_FAV', id, mode }); // Remove favourite from globalState/localStorage
@@ -81,8 +75,8 @@ FavBtn.propTypes = {
   id: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.shape({
-      to: PropTypes.string.isRequired,
-      from: PropTypes.string.isRequired,
+      to: PropTypes.string,
+      from: PropTypes.string,
       line: PropTypes.string.isRequired,
     }),
   ]), // button type, by default it is type="button"
