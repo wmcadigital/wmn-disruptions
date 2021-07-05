@@ -21,7 +21,7 @@ const DisruptionList = () => {
     setDisruptionsShowing(increment);
   }, [disruptionsTotal]);
 
-  return disruptionsTotal > 1 ? (
+  return disruptionsTotal >= 1 ? (
     <>
       {filteredData.slice(0, disruptionsShowing).map((disruption) => (
         <DisruptionItem disruption={disruption} key={disruption.id} />
