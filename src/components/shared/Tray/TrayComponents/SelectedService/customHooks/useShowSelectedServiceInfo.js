@@ -15,6 +15,7 @@ const useShowSelectedServiceInfo = () => {
   // Create boolean variables to use in comparisons
   const isModeSelected = Object.keys(modeState).length !== 0 && modeState.mode !== null;
   const anyDisruptionsToShow = disruptedServices.length > 0;
+  const isSelectedItemSelectedByMap = selectedItem.id && selectedItem.selectedByMap;
   // Below creates an object that shows the state of the autoComplete inputs per mode.
   const areSelectedItems = (() => {
     const defaultState = {
@@ -73,12 +74,13 @@ const useShowSelectedServiceInfo = () => {
     !anyDisruptionsToShow &&
     (!isModeSelected ||
       areSelectedItems.allEmpty ||
+      isSelectedItemSelectedByMap ||
       (areSelectedItems.allSelected && areSelectedItems.doneWithSideEffects));
 
   const showDisruptedServices =
     isMapVisible &&
     anyDisruptionsToShow &&
-    ((areSelectedItems.allSelected && !isRoadsMode) || selectedItem.selectedByMap);
+    ((areSelectedItems.allSelected && !isRoadsMode) || isSelectedItemSelectedByMap);
 
   const showLineBreak = showInfoAboutSelectedService && showServiceMessage && !isRoadsMode;
 
