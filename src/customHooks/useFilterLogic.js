@@ -55,7 +55,7 @@ const useFilterLogic = () => {
     }
 
     // SelectedMapDisruption filtering
-    if (autoCompleteState.selectedItem.selectedByMap) {
+    if (autoCompleteState.selectedItem.selectedByMap && autoCompleteState.selectedItem.id) {
       filteredData = filteredData.filter(
         (disrItem) => disrItem.id === autoCompleteState.selectedItem.id
       );
