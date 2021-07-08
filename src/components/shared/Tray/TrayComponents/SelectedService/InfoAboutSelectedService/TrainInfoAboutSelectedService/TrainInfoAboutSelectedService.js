@@ -51,10 +51,11 @@ const TranInfoAboutSelectedService = () => {
     <>
       <p>
         {numberToWord(linesToCompareWith.length)} train line
-        {linesToCompareWith.length > 1 && 's'} are available between{' '}
+        {linesToCompareWith.length > 1 ? 's are' : ' is'} available between{' '}
         <strong>{selectedItem.stopName}</strong> and <strong>{selectedItemTo.stopName}</strong>{' '}
         train stations.
       </p>
+      <p>Select the star icon to add a line to the homepage.</p>
       {/* Loop through lines selected and show them */}
       {linesToShow}
     </>

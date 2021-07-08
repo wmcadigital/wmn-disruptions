@@ -89,10 +89,17 @@ const GoodServiceMessage = ({ isListView = false }) => {
     return `Good service ${timeText()} ${modeText()}.`;
   })();
 
-  const clearDisruptions = () => autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICES' });
+  const clearSelectedServices = () => {
+    if (modeState.mode === 'roads') {
+      autoCompleteDispatch({ type: 'RESET_SELECTED_ITEM', payload: { to: false } });
+      return;
+    }
+    autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICES' });
+  };
+
   const showOtherDisruptions =
     isListView && autoCompleteState.selectedItem.selectedByMap ? (
-      <button className="wmnds-btn wmnds-btn--link" type="button" onClick={clearDisruptions}>
+      <button className="wmnds-btn wmnds-btn--link" type="button" onClick={clearSelectedServices}>
         Show remaining disruptions.
       </button>
     ) : (

@@ -12,7 +12,7 @@ const BusInfoAboutSelectedService = () => {
   return (
     <>
       <p>
-        Press star icon to save service <strong>{service}</strong> to your favourites
+        Select the star icon to add service <strong>{service}</strong> to the homepage
       </p>
 
       <FavBtn

@@ -15,7 +15,7 @@ const RoadsInfoAboutSelectedService = () => {
     <>
       <div>
         <span>
-          Press star icon to save selected road area to your favourites <strong>{title}</strong>
+          Select the star icon to add your chosen road area to the homepage <strong>{title}</strong>
         </span>
         <FavBtn id={encodedId} text="" title={title} mode="roads" inline />
       </div>
