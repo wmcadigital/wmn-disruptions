@@ -20,8 +20,8 @@ const TramInfoAboutSelectedService = () => {
     return (
       <>
         <p>
-          Press star icon to save the <strong>{selectedItem.stopName}</strong> stop to your
-          favourites
+          Select the star icon to add the <strong>{selectedItem.stopName}</strong> stop to the
+          homepage
         </p>
         <FavBtn
           id={selectedItem.id}
@@ -61,11 +61,12 @@ const TramInfoAboutSelectedService = () => {
   return (
     <>
       <p>
-        {numberToWord(selectedItem.lines.length)} stop{selectedItem.lines.length > 1 ? 's' : ''} are
+        {numberToWord(selectedItem.lines.length)} stop
+        {selectedItem.lines.length > 1 ? 's are' : ' is'}
         available between <strong>{selectedItem.stopName}</strong> and{' '}
         <strong>{selectedItemTo.stopName}</strong>.
       </p>
-      <p>Press star icon to save a stop to your favourites.</p>
+      <p>Select the star icon to add a stop to the homepage.</p>
       {/* Loop through lines selected and show them */}
       {[selectedItem, selectedItemTo].map(({ id, stopName }) => (
         <FavBtn
