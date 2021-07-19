@@ -14,14 +14,24 @@ const FavBtn = ({ id, severity, text, title, mode, narrow, inline }) => {
   const isIdFavourited = useCallback(
     (favId) => {
       if (!favState.favs[mode].length) return false;
-      if (mode !== 'train') return favState.favs[mode].indexOf(favId) > -1;
+      if (mode === 'bus' || mode === 'tram') return favState.favs[mode].indexOf(favId) > -1;
+
+      if (mode === 'roads') {
+        return favState.favs[mode].some((roadsFave) => {
+          const addressMatch = roadsFave.address === id.address;
+          const latMatch = roadsFave.lat === id.lat;
+          const lonMatch = roadsFave.lon === id.lon;
+          const radiusMatch = roadsFave.radius === id.radius;
+          return addressMatch && latMatch && lonMatch && radiusMatch;
+        });
+      }
 
       return favState.favs[mode].some(
         (trainFav) =>
           trainFav.to === favId.to && trainFav.from === favId.from && trainFav.line === favId.line
       );
     },
-    [favState.favs, mode]
+    [favState.favs, id.address, id.lat, id.lon, id.radius, mode]
   );
 
   const [isFav, setIsFav] = useState(isIdFavourited(id)); // Check favs on load to see if ours is included
