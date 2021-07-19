@@ -63,6 +63,26 @@ export const FavsProvider = (props) => {
 
   // Set up a reducer so we can change state based on centralised logic here
   const reducer = (state, action) => {
+    const filterOutFavourite = (faveItem) => {
+      if (action.mode === 'bus' || action.mode === 'tram' || typeof action.id === 'string') {
+        return faveItem !== action.id;
+      }
+
+      if (action.mode === 'roads') {
+        const addressMatch = action.id.address === faveItem.address;
+        const latMatch = action.id.lat === faveItem.lat;
+        const lonMatch = action.id.lon === faveItem.lon;
+        const radiusMatch = action.id.radius === faveItem.radius;
+        return !addressMatch || !latMatch || !lonMatch || !radiusMatch;
+      }
+
+      return (
+        faveItem.to !== action.id.to ||
+        faveItem.from !== action.id.from ||
+        faveItem.line !== action.id.line
+      );
+    };
+
     // Update the favState depening on action type
     switch (action.type) {
       // Add favourite
@@ -80,15 +100,7 @@ export const FavsProvider = (props) => {
           ...state,
           favs: {
             ...state.favs,
-            [action.mode]: state.favs[action.mode].filter((item) => {
-              if (action.mode !== 'train' || typeof action.id === 'string')
-                return item !== action.id;
-              return (
-                item.to !== action.id.to ||
-                item.from !== action.id.from ||
-                item.line !== action.id.line
-              );
-            }),
+            [action.mode]: state.favs[action.mode].filter(filterOutFavourite),
           },
         };
       // Hide help message
