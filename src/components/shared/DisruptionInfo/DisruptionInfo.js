@@ -55,7 +55,7 @@ const DisruptionInfo = ({ disruption }) => {
     <>
       {/* Disruption description */}
 
-      {disruption.description && (
+      {disruption.description && modeState.mode !== 'roads' && (
         <div
           className="wmnds-m-b-lg wmnds-col-1"
           dangerouslySetInnerHTML={{
