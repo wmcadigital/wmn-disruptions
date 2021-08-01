@@ -24,7 +24,7 @@
     "haversine-distance": "^1.2.1",
     "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
-    "react": "^16.13.1",
+    "react": "^17.0.2",
     "react-app-polyfill": "^1.0.6",
     "react-datepicker": "^3.3.0",
     "react-debounce-input": "^3.2.2",
