@@ -34,7 +34,7 @@
     "react-share": "^4.3.1"
   },
   "devDependencies": {
-    "eslint": "^6.8.0",
+    "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.13.0",
     "eslint-config-react-app": "^5.2.1",
