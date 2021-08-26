@@ -51,11 +51,17 @@ const DisruptionInfo = ({ disruption }) => {
     return `${date.toLocaleDateString(undefined, dateOptions)}`;
   };
 
+  // Promoter organisation
+  const showPromoterOrganisation =
+    disruption.description &&
+    modeState.mode === 'roads' &&
+    disruption.id.charAt(0).toLowerCase() === 'p';
+
   return (
     <>
       {/* Disruption description */}
 
-      {disruption.description && (
+      {disruption.description && !showPromoterOrganisation && (
         <div
           className="wmnds-m-b-lg wmnds-col-1"
           dangerouslySetInnerHTML={{
@@ -63,6 +69,16 @@ const DisruptionInfo = ({ disruption }) => {
             __html: sanitize(disruption.description, { FORBID_ATTR: ['style'] }),
           }}
         />
+      )}
+
+      {/* Carried out by (only for roads) */}
+      {showPromoterOrganisation && (
+        <div className="wmnds-m-b-lg wmnds-col-1">
+          <strong>Carried out by</strong>
+          <p className={`${s.promoterOrganisation} wmnds-m-b-none`}>
+            {disruption.description.toLowerCase()}
+          </p>
+        </div>
       )}
 
       {/* When (only for roads) */}
