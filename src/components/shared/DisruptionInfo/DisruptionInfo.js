@@ -51,11 +51,25 @@ const DisruptionInfo = ({ disruption }) => {
     return `${date.toLocaleDateString(undefined, dateOptions)}`;
   };
 
+  const capitaliseAllWords = (sentence) => {
+    const words = sentence.toLowerCase().split(' ');
+    const newWords = words.map((word) => {
+      // Search for the index of the first letter inside "word"
+      // This way you can treat information inside parenthesis for example
+      let i = 0;
+      while (!word.charAt(i).match(/[a-z]/i)) {
+        i += 1;
+      }
+      return word.substring(0, i) + word.charAt(i).toUpperCase() + word.substring(i + 1);
+    });
+    return newWords.join(' ');
+  };
+
   return (
     <>
       {/* Disruption description */}
 
-      {disruption.description && (
+      {disruption.description && modeState.mode !== 'roads' && (
         <div
           className="wmnds-m-b-lg wmnds-col-1"
           dangerouslySetInnerHTML={{
@@ -63,6 +77,17 @@ const DisruptionInfo = ({ disruption }) => {
             __html: sanitize(disruption.description, { FORBID_ATTR: ['style'] }),
           }}
         />
+      )}
+
+      {/* Promoter organizion (only for roads) */}
+      {modeState.mode === 'roads' && disruption.description && (
+        <div className="wmnds-col-1">
+          <p>
+            <strong>Carried out by:</strong>
+            <br />
+            {capitaliseAllWords(disruption.description)}
+          </p>
+        </div>
       )}
 
       {/* When (only for roads) */}
