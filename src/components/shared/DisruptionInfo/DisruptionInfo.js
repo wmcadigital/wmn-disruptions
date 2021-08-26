@@ -51,25 +51,17 @@ const DisruptionInfo = ({ disruption }) => {
     return `${date.toLocaleDateString(undefined, dateOptions)}`;
   };
 
-  const capitaliseAllWords = (sentence) => {
-    const words = sentence.toLowerCase().split(' ');
-    const newWords = words.map((word) => {
-      // Search for the index of the first letter inside "word"
-      // This way you can treat information inside parenthesis for example
-      let i = 0;
-      while (!word.charAt(i).match(/[a-z]/i)) {
-        i += 1;
-      }
-      return word.substring(0, i) + word.charAt(i).toUpperCase() + word.substring(i + 1);
-    });
-    return newWords.join(' ');
-  };
+  // Promoter organisation
+  const showPromoterOrganisation =
+    disruption.description &&
+    modeState.mode === 'roads' &&
+    disruption.id.charAt(0).toLowerCase() === 'p';
 
   return (
     <>
       {/* Disruption description */}
 
-      {disruption.description && modeState.mode !== 'roads' && (
+      {disruption.description && !showPromoterOrganisation && (
         <div
           className="wmnds-m-b-lg wmnds-col-1"
           dangerouslySetInnerHTML={{
@@ -79,13 +71,12 @@ const DisruptionInfo = ({ disruption }) => {
         />
       )}
 
-      {/* Promoter organizion (only for roads) */}
-      {modeState.mode === 'roads' && disruption.description && (
-        <div className="wmnds-col-1">
-          <p>
-            <strong>Carried out by:</strong>
-            <br />
-            {capitaliseAllWords(disruption.description)}
+      {/* Carried out by (only for roads) */}
+      {showPromoterOrganisation && (
+        <div className="wmnds-m-b-lg wmnds-col-1">
+          <strong>Carried out by</strong>
+          <p className={`${s.promoterOrganisation} wmnds-m-b-none`}>
+            {disruption.description.toLowerCase()}
           </p>
         </div>
       )}
