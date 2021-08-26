@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-console */
 import { useState, useCallback, useContext, useEffect } from 'react';
 import { AutoCompleteContext } from 'globalState';
@@ -58,33 +59,35 @@ const useHoverIcon = (view, isIconLayerCreated) => {
 
       if (!features.length) return;
 
-      const featureToHover = features.filter(
-        (feature) => feature.attributes.id === disruptionId
-      )[0];
+      const featuresToHover = features.filter((feature) => feature.attributes.id === disruptionId);
 
-      const featureToUnhover = features.filter((feature) =>
+      const featuresToUnhover = features.filter((feature) =>
         feature.attributes.mapIcon.includes('hover')
-      )[0];
+      );
+      const hoveredFeatureIds = featuresToUnhover.map((hovered) => hovered?.attributes?.id);
 
-      const isAlreadyHovered = featureToHover?.attributes?.id === featureToUnhover?.attributes?.id;
-      if (isAlreadyHovered) return;
+      const isIdAlreadyHovered = featuresToHover.some((feature) => {
+        return hoveredFeatureIds.includes(feature?.attributes?.id);
+      });
+      if (isIdAlreadyHovered) return;
 
       const updateFeatures = [];
-      if (featureToUnhover) {
-        featureToUnhover.attributes.mapIcon = featureToUnhover.attributes.mapIcon.replace(
-          '-hover',
-          ''
-        );
-        updateFeatures.push(featureToUnhover);
+      if (featuresToUnhover) {
+        featuresToUnhover.forEach((feature) => {
+          feature.attributes.mapIcon = feature.attributes.mapIcon.replace('-hover', '');
+        });
+        updateFeatures.push(featuresToUnhover);
       }
 
-      if (featureToHover) {
-        featureToHover.attributes.mapIcon = `${featureToHover.attributes.mapIcon}-hover`;
-        updateFeatures.push(featureToHover);
+      if (featuresToHover.length) {
+        featuresToHover.forEach((feature) => {
+          feature.attributes.mapIcon = `${feature.attributes.mapIcon}-hover`;
+        });
+        updateFeatures.push(featuresToHover);
       }
 
       try {
-        await disruptionsFeatureLayer.applyEdits({ updateFeatures });
+        await disruptionsFeatureLayer.applyEdits({ updateFeatures: updateFeatures.flat() });
       } catch (error) {
         console.log('Error applying disruption feature layer edits:', error);
       }
