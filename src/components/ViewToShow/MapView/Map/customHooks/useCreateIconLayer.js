@@ -73,6 +73,33 @@ const useCreateIconLayer = (view) => {
           return '';
         })();
 
+        if (mode === 'tram' && stopsAffected?.length > 0) {
+          return stopsAffected.map(
+            (stop) =>
+              new Graphic({
+                attributes: {
+                  id,
+                  title,
+                  mode,
+                  disruptionSeverity,
+                  mapIcon: `${mode}-${disruptionSeverity}`,
+                  servicesAffected: affectedIds,
+                  startDate,
+                  endDate,
+                },
+                geometry: {
+                  type: 'point',
+                  // If no lat/long then default to Birmingham city centre
+                  longitude: stop.lon || -1.8960335,
+                  latitude: stop.lat || 52.481755,
+                  spatialreference: {
+                    wkid: 4326,
+                  },
+                },
+              })
+          );
+        }
+
         return new Graphic({
           attributes: {
             id,
@@ -98,7 +125,7 @@ const useCreateIconLayer = (view) => {
 
       const iconLayer = new FeatureLayer({
         id: 'disruptions',
-        source: disruptionGraphics,
+        source: disruptionGraphics.flat(Infinity),
         objectIdField: 'oid', // This must be defined when creating a layer from `Graphic` objects
         fields: [
           {
