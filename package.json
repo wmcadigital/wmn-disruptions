@@ -19,7 +19,7 @@
     "axios": "^0.20.0",
     "date-fns": "^2.16.1",
     "dompurify": "^2.2.2",
-    "esri-loader": "^2.15.0",
+    "esri-loader": "^3.4.0",
     "fecha": "^4.2.0",
     "haversine-distance": "^1.2.1",
     "node-sass": "^4.14.1",
