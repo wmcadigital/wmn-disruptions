@@ -115,7 +115,6 @@ const GoodServiceMessage = ({ isListView = false }) => {
       return `A disruption has recently cleared ${modeText()}.`;
     }
 
-
     if (strike) {
       // If a disuruption is cached then a selectedItem will have disruption info from the AutoCompleteAPI
       // however the disruption won't exist on the DisruptionsAPI so it will have been cleared recently.
