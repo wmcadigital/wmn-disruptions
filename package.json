@@ -22,7 +22,7 @@
     "esri-loader": "^2.15.0",
     "fecha": "^4.2.0",
     "haversine-distance": "^1.2.1",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
@@ -43,6 +43,7 @@
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.2",
+    "gulp-sass": "^5.1.0",
     "prettier": "^2.1.2"
   },
   "scripts": {
