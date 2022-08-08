@@ -1,7 +1,7 @@
 {
-  "short_name": "WMN Disruptions",
+  "short_name": "TfWM Disruptions",
   "name": "Disruptions - Transport for West Midlands ",
-  "description": "Disruptions section of the West Midlands Network website",
+  "description": "Disruptions section of the Transport for West Midlands website",
   "icons": [
     {
       "src": "favicon.ico",
