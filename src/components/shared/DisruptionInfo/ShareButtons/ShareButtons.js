@@ -46,7 +46,7 @@ const ShareButtons = ({ isMapVisible, disruption }) => {
             resetButtonStyle={false}
             className="wmnds-m-r-md wmnds-m-b-sm"
             url={window.location.href}
-            hashtag="#WMNDisruption"
+            hashtag="#TfWMDisruption"
           >
             <FacebookIcon size={45} />
           </FacebookShareButton>
@@ -63,10 +63,10 @@ const ShareButtons = ({ isMapVisible, disruption }) => {
             resetButtonStyle={false}
             className="wmnds-m-r-md wmnds-m-b-sm"
             url={`\n${window.location.href}\n\n`}
-            title={`WMNetwork - Disruption: ${disruption.title} at ${disruption.subtitle} \n`}
+            title={`TransportForWM - Disruption: ${disruption.title} at ${disruption.subtitle} \n`}
             hashtags={['WMNDisruption ']}
-            via="WMNetwork"
-            related={['WMNetwork']}
+            via="TransportForWM"
+            related={['TransportForWM']}
           >
             <TwitterIcon size={45} />
           </TwitterShareButton>
