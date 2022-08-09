@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
 
     <!-- CHANGE ME -->
-    <title>%REACT_APP_TITLE% - West Midlands Network</title>
+    <title>%REACT_APP_TITLE% - Transport for West Midlands</title>
     <meta name="description" content="%REACT_APP_DESCRIPTION%" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -92,6 +92,13 @@
     <!-- End Google Tag Manager -->
   </head>
   <body>
+    <!-- Style for template -->
+    <style>
+      .wmnds-header--mega-menu {
+        display: none;
+      }
+    </style>
+
     <!-- Google Tag Manager (noscript) -->
     <noscript
       ><iframe
@@ -113,8 +120,27 @@
       class="wmnds-link wmnds-header__skip-link"
       >Skip to main content</a
     >
-    <!-- Main header section -->
+    <!-- Header -->
+    <header class="wmnds-header">
+      <div class="wmnds-container wmnds-grid wmnds-grid--align-center wmnds-grid--justify-between">
+        <div class="wmnds-header__vertical-align wmnds-col-auto">
+          <!-- Logo -->
+          <a
+            class="wmnds-header__logo-link"
+            href="//tfwm.org.uk"
+            title="Transport for West Midlands Home"
+          >
+            <img
+              class="wmnds-header__logo"
+              alt="Transport for West Midlands logo"
+              src="//wmnetwork.netlify.com/img/logo.svg"
+            />
+          </a>
+        </div>
 
+        <h1 class="wmnds-header__title wmnds-col-1 wmnds-col-sm-auto">%REACT_APP_HEADER_TITLE%</h1>
+      </div>
+    </header>
     <!-- End header -->
 
     <!-- Start app here -->
