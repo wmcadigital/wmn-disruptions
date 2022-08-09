@@ -114,104 +114,14 @@
       >Skip to main content</a
     >
     <!-- Main header section -->
-    <header class="wmnds-header wmnds-header--mobile-app">
-      <div class="wmnds-container wmnds-grid wmnds-grid--align-center wmnds-grid--justify-between">
-        <div class="wmnds-header__vertical-align wmnds-col-auto">
-          <!-- Logo -->
-          <a
-            class="wmnds-header__logo-link"
-            href="//wmnetwork.co.uk"
-            title="West Midlands Network Home"
-          >
-            <img
-              class="wmnds-header__logo"
-              alt="West Midlands Network logo"
-              src="//wmnetwork.netlify.com/img/logo.svg"
-            />
-          </a>
-        </div>
-        <!-- Nav items -->
-        <nav class="wmnds-header__vertical-align wmnds-col-auto">
-          <ul class="wmnds-header__links wmnds-header__main-links">
-            <li class="wmnds-header__link">
-              <a
-                href="//wmnetwork.co.uk/plan-your-journey/"
-                title="Plan your journey page"
-                target="_self"
-                class="wmnds-link"
-              >
-                Plan your journey
-              </a>
-            </li>
-            <li class="wmnds-header__link">
-              <a
-                href="//wmnetwork.co.uk/ways-to-travel/"
-                title="Ways to travel page"
-                target="_self"
-                class="wmnds-link"
-              >
-                Ways to travel
-              </a>
-            </li>
-            <li class="wmnds-header__link">
-              <a
-                href="//www.networkwestmidlands.com/tickets-and-passes/"
-                title="Tickets and passes page"
-                target="_self"
-                class="wmnds-link"
-              >
-                Tickets and passes
-              </a>
-            </li>
-          </ul>
 
-          <!-- Back button -->
-          <ul class="wmnds-header__links wmnds-header__back-btn">
-            <li class="wmnds-header__link">
-              <a
-                href="#"
-                title="Go back to previous page"
-                target="_self"
-                class="wmnds-link"
-                onClick="goBack(event);"
-              >
-                Back
-              </a>
-            </li>
-          </ul>
-          <script>
-            // Function that sends user to previous page they were on,
-            // This can be included in your local javascript file
-            function goBack(e) {
-              e.preventDefault();
-              window.history.back();
-            }
-          </script>
-          <!-- End back button -->
-        </nav>
-      </div>
-    </header>
     <!-- End header -->
 
     <!-- Start app here -->
     <div id="disruptionsApp"></div>
 
     <!-- Footer -->
-    <footer class="wmnds-footer wmnds-footer--mobile-app">
-      <div class="wmnds-container wmnds-grid">
-        <div class="wmnds-col-1 wmnds-col-md-1-2">Copyright West Midlands Network &copy; 2021</div>
-        <div class="wmnds-col-1 wmnds-col-md-1-2">
-          <a
-            href="https://www.wmnetwork.co.uk/privacy-cookies-policy/"
-            title="Privacy and cookies policy"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="wmnds-footer__link wmnds-link"
-            >Privacy &amp; Cookies Policy</a
-          >
-        </div>
-      </div>
-    </footer>
+    <script src="https://cloudcdn.wmca.org.uk/tfwmassets/js/header-footer.min.js"></script>
     <!-- End footer -->
 
     <!-- Ajax SVG in, SVGS are referenced in app (Icon component) -->
