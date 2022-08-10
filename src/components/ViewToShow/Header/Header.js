@@ -42,7 +42,7 @@ const Header = ({ isFetching, hasError }) => {
             <p className="wmnds-banner-container__text">
               This is a new service - your{' '}
               <a
-                href={`${REACT_APP_FEEDBACK_LINK_URL}?id=${REACT_APP_FEEDBACK_LINK_ID}`}
+                href="https://surveys.hotjar.com/s?siteId=264586&surveyId=157894"
                 title="Service feedback survey"
                 rel="noopener noreferrer"
                 target="_blank"
