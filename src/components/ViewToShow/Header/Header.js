@@ -11,7 +11,6 @@ import s from './Header.module.scss';
 
 const Header = ({ isFetching, hasError }) => {
   const [fetchDisruptionState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
-  const { REACT_APP_FEEDBACK_LINK_URL, REACT_APP_FEEDBACK_LINK_ID } = process.env; // Destructure env vars
 
   const handleClick = () => {
     let isMapVisible;
