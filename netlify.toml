@@ -14,3 +14,5 @@ package = "@sentry/netlify-build-plugin"
   REACT_APP_API_KEY='0d4cca4a2c5d40c3bfbbfe45d1bbf294'
   REACT_APP_BUS_AUTOCOMPLETE_API='https://rtccdisruptions6zqwajo6s.azurewebsites.net'
   REACT_APP_ROADS_AUTOCOMPLETE_KEY='e0c1216f818a41be8d528ac1d4f7ebfd'
+  REACT_APP_FEEDBACK_LINK_URL='https://forms.office.com/Pages/ResponsePage.aspx'
+  REACT_APP_FEEDBACK_LINK_ID='RetZCK7xCk6e-ubWa7tnL1voVKMeFXVKvUhU3Uh8aqFUNUNVNFlKOVpLMThNV0g0T1VZWDYyT1FLNCQlQCN0PWcu'
