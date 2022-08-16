@@ -11,6 +11,7 @@ import s from './Header.module.scss';
 
 const Header = ({ isFetching, hasError }) => {
   const [fetchDisruptionState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
+  const { REACT_APP_FEEDBACK_LINK_URL, REACT_APP_FEEDBACK_LINK_ID } = process.env; // Destructure env vars
 
   const handleClick = () => {
     let isMapVisible;
@@ -41,7 +42,7 @@ const Header = ({ isFetching, hasError }) => {
             <p className="wmnds-banner-container__text">
               This is a new service - your{' '}
               <a
-                href="https://surveys.hotjar.com/s?siteId=264586&surveyId=157894"
+                href={`${REACT_APP_FEEDBACK_LINK_URL}?id=${encodeURI(REACT_APP_FEEDBACK_LINK_ID)}`}
                 title="Service feedback survey"
                 rel="noopener noreferrer"
                 target="_blank"
