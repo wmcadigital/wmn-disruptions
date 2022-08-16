@@ -36,7 +36,7 @@ const ShareButtons = ({ isMapVisible, disruption }) => {
           <EmailShareButton
             resetButtonStyle={false}
             className="wmnds-m-r-md wmnds-m-b-md"
-            subject="Shared from wmnetwork.co.uk"
+            subject="Shared from tfwm.org.uk"
             url={window.location.href}
           >
             <EmailIcon size={45} />
@@ -64,7 +64,7 @@ const ShareButtons = ({ isMapVisible, disruption }) => {
             className="wmnds-m-r-md wmnds-m-b-sm"
             url={`\n${window.location.href}\n\n`}
             title={`TransportForWM - Disruption: ${disruption.title} at ${disruption.subtitle} \n`}
-            hashtags={['WMNDisruption ']}
+            hashtags={['TfWMDisruption ']}
             via="TransportForWM"
             related={['TransportForWM']}
           >
