@@ -88,7 +88,9 @@ const Header = ({ isFetching, hasError }) => {
             <Button
               btnClass={`wmnds-btn--secondary wmnds-float--right ${s.listMapBtn}`}
               onClick={handleClick}
-              iconRight="general-chevron-right"
+              iconRight={
+                fetchDisruptionState.isMapVisible ? 'general-list' : 'general-location-pin'
+              }
               text={fetchDisruptionState.isMapVisible ? 'List View' : 'Map View'}
               id="wmnds-skip-link"
             />
