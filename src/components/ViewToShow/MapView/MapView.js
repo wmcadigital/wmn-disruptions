@@ -12,7 +12,7 @@ const MapView = () => {
 
   // Show correct height based on screen size
   const mapHeight = windowWidth < 768 ? appHeight : 'calc(100vh - 88px - 72px)'; // Minus 298px as this is the height footer
-  const leftPadding = windowWidth / 2 - 487;
+  const leftPadding = windowWidth / 2 - 504;
 
   return (
     <div className={s.disruptionsContainer} style={{ height: mapHeight, paddingLeft: leftPadding }}>
