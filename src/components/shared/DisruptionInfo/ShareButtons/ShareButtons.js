@@ -81,7 +81,7 @@ const ShareButtons = ({ isMapVisible, disruption }) => {
 };
 
 ShareButtons.propTypes = {
-  disruption: PropTypes.objectOf(PropTypes.any).isRequired,
+  disruption: PropTypes.oneOfType([PropTypes.object]).isRequired,
   isMapVisible: PropTypes.bool.isRequired,
 };
 
