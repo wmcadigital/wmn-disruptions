@@ -10,7 +10,9 @@ jobs:
     name: runner / eslint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout code       
+        uses: actions/checkout@v2
+
       - name: Run eslint with reviewdog
         uses: reviewdog/action-eslint@v1
         with:
