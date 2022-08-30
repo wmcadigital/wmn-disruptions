@@ -97,6 +97,13 @@
       .wmnds-header--mega-menu {
         display: none;
       }
+      /* For mobile phones: */
+      @media screen and (max-width: 600px) {
+        .wmnds-header__title {
+          margin: 10px auto auto auto;
+          font-size: 1.25rem;
+        }
+      }
     </style>
 
     <!-- Google Tag Manager (noscript) -->
@@ -137,7 +144,7 @@
             />
           </a>
         </div>
-
+        <!-- Header title -->
         <h1 class="wmnds-header__title wmnds-col-1 wmnds-col-sm-auto">%REACT_APP_HEADER_TITLE%</h1>
       </div>
     </header>
