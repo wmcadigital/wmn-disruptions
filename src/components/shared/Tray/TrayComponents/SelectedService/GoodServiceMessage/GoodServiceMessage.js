@@ -13,6 +13,35 @@ const GoodServiceMessage = ({ isListView = false }) => {
 
   const { selectedItem, selectedItemTo, selectedLocation } = autoCompleteState;
 
+  let strike = false;
+
+  // get date information
+  let today = new Date();
+  let dd = today.getDate();
+
+  let mm = today.getMonth() + 1;
+  const yyyy = today.getFullYear();
+  if (dd < 10) {
+    dd = `0${dd}`;
+  }
+
+  if (mm < 10) {
+    mm = `0${mm}`;
+  }
+  today = `${yyyy}-${mm}-${dd}`;
+
+  // const testDate = '2022-1-1';
+
+  const date = new Date(today);
+  const start = new Date('2022-6-21');
+  const end = new Date('2022-6-25');
+
+  if (date > start && date < end) {
+    strike = true;
+  } else {
+    strike = false;
+  }
+
   const timeText = () => {
     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
@@ -86,6 +115,12 @@ const GoodServiceMessage = ({ isListView = false }) => {
       return `A disruption has recently cleared ${modeText()}.`;
     }
 
+    if (strike) {
+      // If a disuruption is cached then a selectedItem will have disruption info from the AutoCompleteAPI
+      // however the disruption won't exist on the DisruptionsAPI so it will have been cleared recently.
+      return ``;
+    }
+
     return `Good service ${timeText()} ${modeText()}.`;
   })();
 
@@ -107,14 +142,17 @@ const GoodServiceMessage = ({ isListView = false }) => {
     );
 
   return (
-    <div
-      className={`wmnds-msg-summary wmnds-msg-summary--success wmnds-col-1 ${
-        isListView ? '' : 'wmnds-m-t-lg'
-      }`}
-    >
+    <div className={`wmnds-msg-summary wmnds-col-1 ${isListView ? '' : 'wmnds-m-t-lg'}`}>
       <div className="wmnds-msg-summary__header">
-        <Icon iconName="general-success" iconClass="wmnds-msg-summary__icon" />
-        <h3 className="wmnds-msg-summary__title">Good service</h3>
+        <Icon
+          iconName={`${strike ? 'general-warning-triangle' : 'general-success'}`}
+          iconClass="wmnds-msg-summary__icon"
+        />
+        <h3 className="wmnds-msg-summary__title">
+          {strike
+            ? 'Major Disruption - Industrial Action will affect rail journeys this week.'
+            : 'Good service'}
+        </h3>
         <div className="wmnds-msg-summary__info">
           <p className="wmnds-m-b-none">
             {message}
