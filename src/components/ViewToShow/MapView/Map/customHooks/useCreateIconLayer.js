@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useCallback } from 'react';
+import { useEffect, useState, useContext, useCallback, useMemo } from 'react';
 import { loadModules } from 'esri-loader';
 import { format, parse } from 'fecha';
 import { FetchDisruptionsContext } from 'globalState';
@@ -8,7 +8,10 @@ const useCreateIconLayer = (view) => {
   const map = view !== null && view?.map;
 
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
-  const disruptionsData = fetchDisruptionsState?.data || [];
+
+  const disruptionsData = useMemo(() => {
+    return fetchDisruptionsState?.data || [];
+  }, [fetchDisruptionsState]);
 
   const createIconLayer = useCallback(async () => {
     try {

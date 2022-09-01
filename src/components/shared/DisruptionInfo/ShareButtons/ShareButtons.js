@@ -36,7 +36,7 @@ const ShareButtons = ({ isMapVisible, disruption }) => {
           <EmailShareButton
             resetButtonStyle={false}
             className="wmnds-m-r-md wmnds-m-b-md"
-            subject="Shared from wmnetwork.co.uk"
+            subject="Shared from tfwm.org.uk"
             url={window.location.href}
           >
             <EmailIcon size={45} />
@@ -46,7 +46,7 @@ const ShareButtons = ({ isMapVisible, disruption }) => {
             resetButtonStyle={false}
             className="wmnds-m-r-md wmnds-m-b-sm"
             url={window.location.href}
-            hashtag="#WMNDisruption"
+            hashtag="#TfWMDisruption"
           >
             <FacebookIcon size={45} />
           </FacebookShareButton>
@@ -63,10 +63,10 @@ const ShareButtons = ({ isMapVisible, disruption }) => {
             resetButtonStyle={false}
             className="wmnds-m-r-md wmnds-m-b-sm"
             url={`\n${window.location.href}\n\n`}
-            title={`WMNetwork - Disruption: ${disruption.title} at ${disruption.subtitle} \n`}
-            hashtags={['WMNDisruption ']}
-            via="WMNetwork"
-            related={['WMNetwork']}
+            title={`TransportForWM - Disruption: ${disruption.title} at ${disruption.subtitle} \n`}
+            hashtags={['TfWMDisruption ']}
+            via="TransportForWM"
+            related={['TransportForWM']}
           >
             <TwitterIcon size={45} />
           </TwitterShareButton>
@@ -81,7 +81,7 @@ const ShareButtons = ({ isMapVisible, disruption }) => {
 };
 
 ShareButtons.propTypes = {
-  disruption: PropTypes.objectOf(PropTypes.any).isRequired,
+  disruption: PropTypes.oneOfType([PropTypes.object]).isRequired,
   isMapVisible: PropTypes.bool.isRequired,
 };
 

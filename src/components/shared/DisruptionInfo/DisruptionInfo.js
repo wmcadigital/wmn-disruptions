@@ -97,7 +97,7 @@ const DisruptionInfo = ({ disruption }) => {
       <span className={`wmnds-col-1 ${isMapVisible ? s.mapBtn : `${s.listBtn} wmnds-col-sm-1-2`}`}>
         <a
           className="wmnds-btn wmnds-btn--start wmnds-col-1"
-          href="https://journeyplanner.networkwestmidlands.com/"
+          href="https://journeyplanner.tfwm.org.uk"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -126,7 +126,7 @@ const DisruptionInfo = ({ disruption }) => {
 
 // PropTypes
 DisruptionInfo.propTypes = {
-  disruption: PropTypes.objectOf(PropTypes.any).isRequired,
+  disruption: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
 
 export default DisruptionInfo;

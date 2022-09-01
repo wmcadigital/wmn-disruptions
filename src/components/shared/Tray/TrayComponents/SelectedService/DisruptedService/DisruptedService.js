@@ -56,7 +56,7 @@ const DisruptedService = ({ disruption }) => {
 
 // PropTypes
 DisruptedService.propTypes = {
-  disruption: PropTypes.objectOf(PropTypes.any).isRequired,
+  disruption: PropTypes.objectOf([PropTypes.object]).isRequired,
 };
 
 export default DisruptedService;
