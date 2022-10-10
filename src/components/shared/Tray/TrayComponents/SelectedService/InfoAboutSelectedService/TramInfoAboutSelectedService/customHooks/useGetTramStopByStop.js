@@ -39,7 +39,7 @@ const useGetTramStopByStop = () => {
     (response) => {
       setLoading(false);
       // Update selectedItem.lines with inbetween lines to match the user's input
-      const lines = response.data?.metroStopsBetween || [];
+      const lines = response.data || [];
 
       if (lines.length) {
         autoCompleteDispatch({
@@ -77,15 +77,18 @@ const useGetTramStopByStop = () => {
     setLoading(true); // Update loading state to true as we are hitting API
     startApiTimeout();
     axios
-      .get(`${REACT_APP_API_HOST}/Metro/v2/stopsbetween/${selectedItem.id}/${selectedItemTo.id}`, {
-        headers: {
-          'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
-        },
-        cancelToken: source.current.token, // Set token with API call, so we can cancel this call on unmount
-      })
+      .get(
+        `${REACT_APP_API_HOST}/Metro/v2/stopsbetween/${selectedItem.naPTAN}/${selectedItemTo.naPTAN}`,
+        {
+          headers: {
+            'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
+          },
+          cancelToken: source.current.token, // Set token with API call, so we can cancel this call on unmount
+        }
+      )
       .then(handleAutoCompleteApiResponse)
       .catch(handleAutoCompleteApiError);
-  }, [handleAutoCompleteApiResponse, selectedItem.id, selectedItemTo.id, startApiTimeout]);
+  }, [handleAutoCompleteApiResponse, selectedItem.naPTAN, selectedItemTo.naPTAN, startApiTimeout]);
 
   useEffect(() => {
     setErrorInfo(null);

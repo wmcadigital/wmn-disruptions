@@ -25,6 +25,7 @@ export const AutoCompleteProvider = (props) => {
       routeName: null,
       stopName: null,
       lines: [],
+      naPTAN: null,
       to: null,
     },
     selectedItemTo: {
@@ -35,6 +36,7 @@ export const AutoCompleteProvider = (props) => {
       stopName: null,
       routeName: null,
       lines: [],
+      naPTAN: null,
       to: null,
     },
     // The selected location is used to store selected roads address
@@ -43,6 +45,7 @@ export const AutoCompleteProvider = (props) => {
       radius: parseInt(getSearchParam('radius'), 10) || null,
       lat: getSearchParam('lat') || null,
       lon: getSearchParam('lon') || null,
+      naPTAN: getSearchParam('naPTAN') || '',
     },
   };
 
@@ -68,6 +71,7 @@ export const AutoCompleteProvider = (props) => {
           delSearchParam('selectedByMap'); // Delete URL
         }
 
+        console.log('action.payload12', action.payload);
         const item = action.payload.to ? 'selectedItemTo' : 'selectedItem'; // If 'to' exists in payload then make sure we set the correct field
         setSearchParam(item, action.payload.id); // Set URL
 
@@ -132,6 +136,7 @@ export const AutoCompleteProvider = (props) => {
         setSearchParam('lat', action.payload.lat);
         setSearchParam('lon', action.payload.lon);
         setSearchParam('radius', action.payload.radius);
+        setSearchParam('naPTAN', action.payload.naPTAN);
 
         return {
           ...state,
