@@ -84,7 +84,7 @@ const useFilterLogic = () => {
               if (stopsAffected && stopsAffected.length > 0) {
                 const lineCodes =
                   selectedItem.lines && selectedItem.lines.length > 0
-                    ? selectedItem.lines.map((stop) => stop.atcoCode)
+                    ? selectedItem.lines.map((stop) => stop.naPTAN)
                     : [selectedItem.id, selectedItemTo.id];
 
                 return disrItem.stopsAffected.some((el) => lineCodes.indexOf(el.atcoCode) > -1);
@@ -151,6 +151,7 @@ const useFilterLogic = () => {
       }
     }
   }
+  console.log('filteredData3', filteredData);
 
   return filteredData;
 };
