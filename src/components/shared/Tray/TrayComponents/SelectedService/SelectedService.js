@@ -5,7 +5,7 @@ import useShowSelectedServicesInfo from './customHooks/useShowSelectedServiceInf
 import DisruptedService from './DisruptedService/DisruptedService';
 import InfoAboutSelectedService from './InfoAboutSelectedService/InfoAboutSelectedService';
 import SaveRoutesMessage from './SaveRoutesMessage/SaveRoutesMessage';
-import GoodServiceMessage from './GoodServiceMessage/GoodServiceMessage';
+import NoKnownDisruptionMessage from './NoKnownDisruptionMessage/NoKnownDisruptionMessage';
 
 const SelectedService = () => {
   const {
@@ -27,7 +27,7 @@ const SelectedService = () => {
         </>
       )}
       {/* If no selectedData then it must be good service */}
-      {showServiceMessage && <GoodServiceMessage />}
+      {showServiceMessage && <NoKnownDisruptionMessage />}
       {/* If there are selectedData then there must be disruptions, loop through */}
       {showDisruptedServices &&
         disruptedServices.map((disruption) => (
