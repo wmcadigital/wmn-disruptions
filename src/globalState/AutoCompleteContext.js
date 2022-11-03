@@ -71,7 +71,6 @@ export const AutoCompleteProvider = (props) => {
           delSearchParam('selectedByMap'); // Delete URL
         }
 
-        console.log('action.payload12', action.payload);
         const item = action.payload.to ? 'selectedItemTo' : 'selectedItem'; // If 'to' exists in payload then make sure we set the correct field
         setSearchParam(item, action.payload.id); // Set URL
 

@@ -151,8 +151,6 @@ const useFilterLogic = () => {
       }
     }
   }
-  console.log('filteredData3', filteredData);
-
   return filteredData;
 };
 
