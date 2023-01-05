@@ -22,7 +22,7 @@
     "esri-loader": "^3.6.0",
     "fecha": "^4.2.3",
     "haversine-distance": "^1.2.1",
-    "node-sass": "^7.0.1",
+    "node-sass": "^8.0.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-app-polyfill": "^3.0.0",
