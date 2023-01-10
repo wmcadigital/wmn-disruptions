@@ -22,7 +22,7 @@ const TrainAutoComplete = ({ to }) => {
   const selectedService = to ? autoCompleteState.selectedItemTo : autoCompleteState.selectedItem;
 
   const { loading, errorInfo, results, getAutoCompleteResults } = useAutoCompleteAPI(
-    `/rail/v2/stations?q=${encodeURI(trainQuery)}`,
+    `/rail/v2/station?q=${encodeURI(trainQuery)}`,
     'train',
     trainQuery,
     to
