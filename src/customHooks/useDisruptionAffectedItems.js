@@ -191,65 +191,80 @@ const useDisruptionAffectedItems = (disruption) => {
               </div>
             )}
           {/* Affected Stations / Train */}
-          {disruption.mode === 'train' && disruption?.servicesAffected[0]?.routeDescriptions && (
+          {disruption.mode === 'train' && disruption?.servicesAffected && (
             <>
-              {disruption.servicesAffected[0].routeDescriptions
-                .sort((a, b) => {
-                  // Convert line name text to lowercase
-                  const x = a.description.toLowerCase();
-                  const y = b.description.toLowerCase();
-                  // Return minus or plus values when comparing prev/next string. This ensures alphabetical sorting.
-                  if (x < y) return -1;
-                  if (x > y) return 1;
-                  return 0;
-                })
-                .slice(0, sliceUpper)
-                .map((affected) =>
+              {disruption.servicesAffected.map((affected) =>
+                // Only allow uses to favourite when they have searched a to and from station
+                autoCompleteState.selectedItem.id && autoCompleteState.selectedItemTo.id
+                  ? affected.routeDescriptions
+                      .sort((a, b) => {
+                        // Convert line name text to lowercase
+                        const x = a.description.toLowerCase();
+                        const y = b.description.toLowerCase();
+                        // Return minus or plus values when comparing prev/next string. This ensures alphabetical sorting.
+                        if (x < y) return -1;
+                        if (x > y) return 1;
+                        return 0;
+                      })
+                      .slice(0, sliceUpper)
+                      .map((affectedrouteDescriptions) => (
+                        <FavBtn
+                          id={{
+                            from: autoCompleteState.selectedItem.id,
+                            to: autoCompleteState.selectedItemTo.id,
+                            line: affectedrouteDescriptions.description,
+                          }}
+                          severity={disruption.disruptionSeverity}
+                          text={affectedrouteDescriptions.description}
+                          title={`${affectedrouteDescriptions.description} (${affectedrouteDescriptions.operatorName})`}
+                          mode={disruption.mode}
+                          key={affectedrouteDescriptions.id}
+                        />
+                      ))
+                  : [
+                      ...new Set(
+                        affected.routeDescriptions
+                          .sort((a, b) => {
+                            // Convert line name text to lowercase
+                            const x = a.description.toLowerCase();
+                            const y = b.description.toLowerCase();
+                            // Return minus or plus values when comparing prev/next string. This ensures alphabetical sorting.
+                            if (x < y) return -1;
+                            if (x > y) return 1;
+                            return 0;
+                          })
+                          .slice(0, sliceUpper)
+                          .map((affectedrouteDescriptions) => (
+                            <div className="wmnds-m-b-md wmnds-m-r-sm">
+                              <DisruptionIndicationMedium
+                                key={affectedrouteDescriptions.id}
+                                severity={disruption.disruptionSeverity}
+                                text={`${affectedrouteDescriptions.description} (${affected.operatorName})`}
+                                title={`${affectedrouteDescriptions.description} (${affected.operatorName})`}
+                                className="wmnds-p-t-xs wmnds-p-b-xs wmnds-p-l-xsm wmnds-p-r-xsm wmnds-disruption-indicator-medium--train"
+                              />
+                            </div>
+                          ))
+                      ),
+                    ]
+              )}
+              {disruption.servicesAffected.map(
+                (affected) =>
                   // Only allow uses to favourite when they have searched a to and from station
-                  autoCompleteState.selectedItem.id && autoCompleteState.selectedItemTo.id ? (
-                    <FavBtn
-                      id={{
-                        from: autoCompleteState.selectedItem.id,
-                        to: autoCompleteState.selectedItemTo.id,
-                        line: affected.description,
-                      }}
-                      severity={disruption.disruptionSeverity}
-                      text={affected.description}
-                      title={affected.description}
-                      mode={disruption.mode}
-                      key={affected.id}
+                  affected.routeDescriptions.length > maxShownBeforeHiding && (
+                    <ToggleMoreAffectedItems
+                      handleClick={toggleExpanded}
+                      id={`toggleMoreAffectedItems_${affected.routeDescriptions.id}`}
+                      isExpanded={isExpanded}
+                      amountHidden={affected.routeDescriptions.length - maxShownBeforeHiding}
+                      serviceText={
+                        affected.routeDescriptions.length - maxShownBeforeHiding > 1
+                          ? whatIsAffected
+                          : whatIsAffectedSingular
+                      }
                     />
-                  ) : (
-                    <div className="wmnds-m-b-md wmnds-m-r-sm">
-                      <DisruptionIndicationMedium
-                        key={affected.id}
-                        severity={disruption.disruptionSeverity}
-                        text={affected.description}
-                        title={affected.description}
-                        className="wmnds-p-t-xs wmnds-p-b-xs wmnds-p-l-xsm wmnds-p-r-xsm wmnds-disruption-indicator-medium--train"
-                      />
-                    </div>
                   )
-                )}
-              <div className="wmnds-m-t-md">
-                {disruption.servicesAffected[0].routeDescriptions.length > maxShownBeforeHiding && (
-                  <ToggleMoreAffectedItems
-                    handleClick={toggleExpanded}
-                    id={`toggleMoreAffectedItems_${disruption.id}`}
-                    isExpanded={isExpanded}
-                    amountHidden={
-                      disruption.servicesAffected[0].routeDescriptions.length - maxShownBeforeHiding
-                    }
-                    serviceText={
-                      disruption.servicesAffected[0].routeDescriptions.length -
-                        maxShownBeforeHiding >
-                      1
-                        ? whatIsAffected
-                        : whatIsAffectedSingular
-                    }
-                  />
-                )}
-              </div>
+              )}
             </>
           )}
         </div>
