@@ -257,7 +257,6 @@ const useDisruptionAffectedItems = (disruption) => {
     ) : (
       <div />
     );
-
   return { iconLeft, title, affectedItems };
 };
 
