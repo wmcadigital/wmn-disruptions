@@ -232,16 +232,18 @@ const useDisruptionAffectedItems = (disruption) => {
                   )
                 )}
               <div className="wmnds-m-t-md">
-                {disruption.stopsAffected.length > maxShownBeforeHiding && (
+                {disruption.servicesAffected[0].routeDescriptions.length > maxShownBeforeHiding && (
                   <ToggleMoreAffectedItems
                     handleClick={toggleExpanded}
                     id={`toggleMoreAffectedItems_${disruption.id}`}
                     isExpanded={isExpanded}
-                    amountHidden={Math.abs(
-                      disruption.servicesAffected.length - maxShownBeforeHiding
-                    )}
+                    amountHidden={
+                      disruption.servicesAffected[0].routeDescriptions.length - maxShownBeforeHiding
+                    }
                     serviceText={
-                      Math.abs(disruption.servicesAffected.length - maxShownBeforeHiding) > 1
+                      disruption.servicesAffected[0].routeDescriptions.length -
+                        maxShownBeforeHiding >
+                      1
                         ? whatIsAffected
                         : whatIsAffectedSingular
                     }
@@ -255,7 +257,6 @@ const useDisruptionAffectedItems = (disruption) => {
     ) : (
       <div />
     );
-
   return { iconLeft, title, affectedItems };
 };
 
