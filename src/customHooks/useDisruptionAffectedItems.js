@@ -3,7 +3,7 @@ import { FetchDisruptionsContext, AutoCompleteContext } from 'globalState';
 import useWindowHeightWidth from 'customHooks/useWindowHeightWidth';
 import ToggleMoreAffectedItems from 'components/shared/ToggleMoreAffectedItems/ToggleMoreAffectedItems';
 import FavBtn from 'components/shared/FavBtn/FavBtn';
-import DisruptionIndicationMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
+import DisruptionLinesGrouping from 'components/ViewToShow/ListView/DisruptionList/DisruptionLines/DisruptionLinesGrouping';
 
 const useDisruptionAffectedItems = (disruption) => {
   let iconLeft; // set icon to correct name for tram/metro, train/rail etc.
@@ -195,58 +195,37 @@ const useDisruptionAffectedItems = (disruption) => {
             <>
               {disruption.servicesAffected.map((affected) =>
                 // Only allow uses to favourite when they have searched a to and from station
-                autoCompleteState.selectedItem.id && autoCompleteState.selectedItemTo.id
-                  ? affected.routeDescriptions
-                      .sort((a, b) => {
-                        // Convert line name text to lowercase
-                        const x = a.description.toLowerCase();
-                        const y = b.description.toLowerCase();
-                        // Return minus or plus values when comparing prev/next string. This ensures alphabetical sorting.
-                        if (x < y) return -1;
-                        if (x > y) return 1;
-                        return 0;
-                      })
-                      .slice(0, sliceUpper)
-                      .map((affectedrouteDescriptions) => (
-                        <FavBtn
-                          id={{
-                            from: autoCompleteState.selectedItem.id,
-                            to: autoCompleteState.selectedItemTo.id,
-                            line: affectedrouteDescriptions.description,
-                          }}
-                          severity={disruption.disruptionSeverity}
-                          text={affectedrouteDescriptions.description}
-                          title={`${affectedrouteDescriptions.description} (${affectedrouteDescriptions.operatorName})`}
-                          mode={disruption.mode}
-                          key={affectedrouteDescriptions.id}
-                        />
-                      ))
-                  : [
-                      ...new Set(
-                        affected.routeDescriptions
-                          .sort((a, b) => {
-                            // Convert line name text to lowercase
-                            const x = a.description.toLowerCase();
-                            const y = b.description.toLowerCase();
-                            // Return minus or plus values when comparing prev/next string. This ensures alphabetical sorting.
-                            if (x < y) return -1;
-                            if (x > y) return 1;
-                            return 0;
-                          })
-                          .slice(0, sliceUpper)
-                          .map((affectedrouteDescriptions) => (
-                            <div className="wmnds-m-b-md wmnds-m-r-sm">
-                              <DisruptionIndicationMedium
-                                key={affectedrouteDescriptions.id}
-                                severity={disruption.disruptionSeverity}
-                                text={`${affectedrouteDescriptions.description} (${affected.operatorName})`}
-                                title={`${affectedrouteDescriptions.description} (${affected.operatorName})`}
-                                className="wmnds-p-t-xs wmnds-p-b-xs wmnds-p-l-xsm wmnds-p-r-xsm wmnds-disruption-indicator-medium--train"
-                              />
-                            </div>
-                          ))
-                      ),
-                    ]
+                autoCompleteState.selectedItem.id && autoCompleteState.selectedItemTo.id ? (
+                  affected.routeDescriptions
+                    .sort((a, b) => {
+                      // Convert line name text to lowercase
+                      const x = a.description.toLowerCase();
+                      const y = b.description.toLowerCase();
+                      // Return minus or plus values when comparing prev/next string. This ensures alphabetical sorting.
+                      if (x < y) return -1;
+                      if (x > y) return 1;
+                      return 0;
+                    })
+                    .slice(0, sliceUpper)
+                    .map((affectedrouteDescriptions) => (
+                      <FavBtn
+                        id={{
+                          from: autoCompleteState.selectedItem.id,
+                          to: autoCompleteState.selectedItemTo.id,
+                          line: affectedrouteDescriptions.description,
+                        }}
+                        severity={disruption.disruptionSeverity}
+                        text={affectedrouteDescriptions.description}
+                        title={`${affectedrouteDescriptions.description} (${affectedrouteDescriptions.operatorName})`}
+                        mode={disruption.mode}
+                        key={affectedrouteDescriptions.id}
+                      />
+                    ))
+                ) : (
+                  <div className="wmnds-m-b-md wmnds-m-r-sm">
+                    <DisruptionLinesGrouping servicesAffected={affected} key={affected.id} />
+                  </div>
+                )
               )}
               {disruption.servicesAffected.map(
                 (affected) =>
