@@ -25,6 +25,8 @@ const useGETDisruptions = () => {
           ...prevState,
           data: response.data.disruptions,
         }));
+        // eslint-disable-next-line no-console
+        console.log(`${new Date().toISOString()} - randomString: ${randomString}`);
       })
       .catch((error) => {
         // eslint-disable-next-line no-console
