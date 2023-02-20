@@ -10,7 +10,6 @@ const useGETDisruptions = () => {
 
   useEffect(() => {
     const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env; // Destructure env vars
-
     axios
       .get(`${REACT_APP_API_HOST}/Disruption/v2`, {
         headers: {
