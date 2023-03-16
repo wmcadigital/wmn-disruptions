@@ -14,4 +14,21 @@
   text-transform: capitalize;
   padding: 4px 2px 5px 2px;
   margin: 5px 0px;
+  list-style-type: none;
+}
+.affectedOperators {
+  background-color: #d4351c;
+  border-radius: 5px;
+  color: white;
+  text-transform: capitalize;
+  padding: 4px 2px 5px 2px;
+  margin: 5px 0px;
+  list-style-type: none;
+}
+.affectedOperators ul:not([class*='wmnds-']) > li:not(li[class]) {
+  color: white;
+  font-family: 'Noto Sans Display', sans-serif;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  list-style-type: none;
 }
