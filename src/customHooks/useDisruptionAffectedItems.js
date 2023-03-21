@@ -75,7 +75,6 @@ const useDisruptionAffectedItems = (disruption) => {
       </>
     );
   };
-
   const affectedItems = () =>
     (disruption?.servicesAffected && disruption.servicesAffected.length) ||
     (disruption?.stopsAffected && disruption.stopsAffected.length) ? (
@@ -193,40 +192,13 @@ const useDisruptionAffectedItems = (disruption) => {
           {/* Affected Stations / Train */}
           {disruption.mode === 'train' && disruption?.servicesAffected && (
             <>
-              {disruption.servicesAffected.map((affected) =>
-                // Only allow uses to favourite when they have searched a to and from station
-                autoCompleteState.selectedItem.id && autoCompleteState.selectedItemTo.id ? (
-                  affected.routeDescriptions
-                    .sort((a, b) => {
-                      // Convert line name text to lowercase
-                      const x = a.description.toLowerCase();
-                      const y = b.description.toLowerCase();
-                      // Return minus or plus values when comparing prev/next string. This ensures alphabetical sorting.
-                      if (x < y) return -1;
-                      if (x > y) return 1;
-                      return 0;
-                    })
-                    .slice(0, sliceUpper)
-                    .map((affectedrouteDescriptions) => (
-                      <FavBtn
-                        id={{
-                          from: autoCompleteState.selectedItem.id,
-                          to: autoCompleteState.selectedItemTo.id,
-                          line: affectedrouteDescriptions.description,
-                        }}
-                        severity={disruption.disruptionSeverity}
-                        text={affectedrouteDescriptions.description}
-                        title={`${affectedrouteDescriptions.description} (${affectedrouteDescriptions.operatorName})`}
-                        mode={disruption.mode}
-                        key={affectedrouteDescriptions.id}
-                      />
-                    ))
-                ) : (
-                  <div className="wmnds-m-b-md wmnds-m-r-sm">
-                    <DisruptionLinesGrouping servicesAffected={affected} key={affected.id} />
-                  </div>
-                )
-              )}
+              <div className="wmnds-m-b-md wmnds-m-r-sm">
+                <DisruptionLinesGrouping
+                  disruptionServicesAffected={disruption.servicesAffected}
+                  key={disruption.mode}
+                />
+              </div>
+
               {disruption.servicesAffected.map(
                 (affected) =>
                   // Only allow uses to favourite when they have searched a to and from station
