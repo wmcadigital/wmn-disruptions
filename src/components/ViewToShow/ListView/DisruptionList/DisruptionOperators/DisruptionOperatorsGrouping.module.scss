@@ -1,0 +1,15 @@
+.operator {
+  color: black;
+  background: white;
+  text-transform: capitalize;
+  width: fit-content;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 0;
+  margin: 2px 2px;
+  list-style-type: disc;
+}
+
+.operator li {
+  margin-bottom: 0;
+}

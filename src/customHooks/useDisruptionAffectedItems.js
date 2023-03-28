@@ -195,27 +195,11 @@ const useDisruptionAffectedItems = (disruption) => {
               <div className="wmnds-m-b-md wmnds-m-r-sm">
                 <DisruptionLinesGrouping
                   disruptionServicesAffected={disruption.servicesAffected}
-                  key={disruption.mode}
+                  key={disruption.servicesAffected.id}
+                  severity="veryHigh"
+                  mode={disruption.mode}
                 />
               </div>
-
-              {disruption.servicesAffected.map(
-                (affected) =>
-                  // Only allow uses to favourite when they have searched a to and from station
-                  affected.routeDescriptions.length > maxShownBeforeHiding && (
-                    <ToggleMoreAffectedItems
-                      handleClick={toggleExpanded}
-                      id={`toggleMoreAffectedItems_${affected.routeDescriptions.id}`}
-                      isExpanded={isExpanded}
-                      amountHidden={affected.routeDescriptions.length - maxShownBeforeHiding}
-                      serviceText={
-                        affected.routeDescriptions.length - maxShownBeforeHiding > 1
-                          ? whatIsAffected
-                          : whatIsAffectedSingular
-                      }
-                    />
-                  )
-              )}
             </>
           )}
         </div>

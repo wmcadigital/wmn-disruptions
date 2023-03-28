@@ -1,34 +1,19 @@
-.operator {
-  display: inline;
-  padding: 0px 2px 1px 2px;
-  margin: 0px 4px 2px 0px;
-  background: white;
-  color: black;
-  border-radius: 2px;
-}
+@import '~assets/styles/vars';
+@import '~assets/styles/mixins';
 
 .affectedRoute {
   background-color: #d4351c;
   border-radius: 5px;
   color: white;
   text-transform: capitalize;
-  padding: 4px 2px 5px 2px;
+  font-weight: bold;
+  padding: 4px 6px 5px 6px;
   margin: 5px 0px;
   list-style-type: none;
-}
-.affectedOperators {
-  background-color: #d4351c;
-  border-radius: 5px;
-  color: white;
-  text-transform: capitalize;
-  padding: 4px 2px 5px 2px;
-  margin: 5px 0px;
-  list-style-type: none;
-}
-.affectedOperators ul:not([class*='wmnds-']) > li:not(li[class]) {
-  color: white;
-  font-family: 'Noto Sans Display', sans-serif;
-  font-size: 1rem;
-  line-height: 1.5rem;
-  list-style-type: none;
+  width: fit-content;
+  margin-right: $size-sm;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
