@@ -11,6 +11,7 @@ import Icon from 'components/shared/Icon/Icon';
 import ShareButtons from './ShareButtons/ShareButtons';
 // Import styles
 import s from './DisruptionInfo.module.scss';
+import DisruptionOperatorsGrouping from '../../ViewToShow/ListView/DisruptionList/DisruptionOperators/DisruptionOperatorsGrouping';
 
 const { sanitize } = dompurify;
 
@@ -59,9 +60,8 @@ const DisruptionInfo = ({ disruption }) => {
 
   return (
     <>
-      {/* Disruption description */}
-
-      {disruption.description && !showPromoterOrganisation && (
+      {/* Disruption description (don't show for trains) */}
+      {modeState.mode !== 'train' && disruption.description && !showPromoterOrganisation && (
         <div
           className="wmnds-m-b-lg wmnds-col-1"
           dangerouslySetInnerHTML={{
@@ -91,6 +91,27 @@ const DisruptionInfo = ({ disruption }) => {
             {createDateString(disruption.disruptionTimeWindow.end)}
           </p>
         </div>
+      )}
+      {/* When (only for trains) */}
+      {modeState.mode === 'train' && disruption.disruptionTimeWindow && (
+        <>
+          <div className="wmnds-col-1">
+            <strong>Affected {modeState.mode} companies:</strong>
+            <br />
+            <DisruptionOperatorsGrouping
+              disruptionServicesAffected={disruption.servicesAffected}
+              key={disruption.id}
+            />
+          </div>
+          <div className="wmnds-col-1">
+            <p>
+              <strong>When?</strong>
+              <br />
+              {createDateString(disruption.disruptionTimeWindow.start)} to{' '}
+              {createDateString(disruption.disruptionTimeWindow.end)}
+            </p>
+          </div>
+        </>
       )}
 
       {/* Replan button */}
