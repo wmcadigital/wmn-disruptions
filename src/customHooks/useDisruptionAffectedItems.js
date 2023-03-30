@@ -32,6 +32,7 @@ const useDisruptionAffectedItems = (disruption) => {
       iconLeft = 'rail';
       whatIsAffected = 'lines';
       whatIsAffectedSingular = 'line';
+      whatIsAffectedSingular = 'line';
       break;
 
     case 'road':
