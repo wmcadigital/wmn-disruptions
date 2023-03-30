@@ -197,7 +197,7 @@ const useDisruptionAffectedItems = (disruption) => {
                 <DisruptionLinesGrouping
                   disruptionServicesAffected={disruption.servicesAffected}
                   key={disruption.servicesAffected.id}
-                  severity="veryHigh"
+                  severity={disruption.disruptionSeverity}
                   mode={disruption.mode}
                 />
               </div>
