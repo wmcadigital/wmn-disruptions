@@ -110,6 +110,11 @@ const DisruptionInfo = ({ disruption }) => {
               {createDateString(disruption.disruptionTimeWindow.start)} to{' '}
               {createDateString(disruption.disruptionTimeWindow.end)}
             </p>
+            <p>
+              Due to industrial action by members of ASLEF union, there will be no train services on
+              Friday 12 May. Due to industrial action by members of the RMT Union, there will be a
+              severely reduced in operation on Saturday 13 May.
+            </p>
           </div>
         </>
       )}
