@@ -110,7 +110,15 @@ const DisruptionInfo = ({ disruption }) => {
               {createDateString(disruption.disruptionTimeWindow.start)} to{' '}
               {createDateString(disruption.disruptionTimeWindow.end)}
             </p>
-            <p>{disruption.description}</p>
+            <div
+              className="wmnds-m-b-lg wmnds-col-1"
+              dangerouslySetInnerHTML={{
+                // Remove 'style' attributes from any descriptions
+                __html: sanitize(disruption.description.replace(/\n/g, '<br>'), {
+                  FORBID_ATTR: ['style'],
+                }),
+              }}
+            />{' '}
           </div>
         </>
       )}
