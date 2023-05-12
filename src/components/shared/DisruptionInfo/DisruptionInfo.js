@@ -110,6 +110,11 @@ const DisruptionInfo = ({ disruption }) => {
               {createDateString(disruption.disruptionTimeWindow.start)} to{' '}
               {createDateString(disruption.disruptionTimeWindow.end)}
             </p>
+            <div className="wmnds-m-b-lg wmnds-col-1">
+              <p className={`${s.promoterOrganisation} wmnds-m-b-none`}>
+                {disruption.description.toLowerCase()}
+              </p>
+            </div>
           </div>
         </>
       )}
