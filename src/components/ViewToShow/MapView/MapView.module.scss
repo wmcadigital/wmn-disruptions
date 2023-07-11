@@ -3,6 +3,7 @@
 .disruptionsContainer {
   position: relative;
   overflow: hidden;
+  background-color: white;
 
   @media all and (min-width: 768px) {
     min-height: 500px;

@@ -15,15 +15,15 @@ const TramAutoCompleteResult = (props) => {
     if (autoCompleteState.selectedItem.selectedByMap) {
       autoCompleteDispatch({ type: 'RESET_SELECTED_SERVICES' });
     }
-
     autoCompleteDispatch({
       type: 'UDPATE_SELECTED_ITEM',
       payload: {
-        id: result?.atcoCode,
+        id: result?.naPTAN,
         severity: result?.disruptionSeverity || 'success',
         stopName: result.name,
         operator: 'MML1',
         lines: [],
+        naPTAN: result.naPTAN,
         to,
       },
     });

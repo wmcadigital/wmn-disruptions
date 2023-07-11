@@ -11,6 +11,7 @@ import Icon from 'components/shared/Icon/Icon';
 import ShareButtons from './ShareButtons/ShareButtons';
 // Import styles
 import s from './DisruptionInfo.module.scss';
+import DisruptionOperatorsGrouping from '../../ViewToShow/ListView/DisruptionList/DisruptionOperators/DisruptionOperatorsGrouping';
 
 const { sanitize } = dompurify;
 
@@ -59,9 +60,8 @@ const DisruptionInfo = ({ disruption }) => {
 
   return (
     <>
-      {/* Disruption description */}
-
-      {disruption.description && !showPromoterOrganisation && (
+      {/* Disruption description (don't show for trains) */}
+      {modeState.mode !== 'train' && disruption.description && !showPromoterOrganisation && (
         <div
           className="wmnds-m-b-lg wmnds-col-1"
           dangerouslySetInnerHTML={{
@@ -92,12 +92,42 @@ const DisruptionInfo = ({ disruption }) => {
           </p>
         </div>
       )}
+      {/* When (only for trains) */}
+      {modeState.mode === 'train' && disruption.disruptionTimeWindow && (
+        <>
+          <div className="wmnds-col-1">
+            <strong>Affected {modeState.mode} companies:</strong>
+            <br />
+            <DisruptionOperatorsGrouping
+              disruptionServicesAffected={disruption.servicesAffected}
+              key={disruption.id}
+            />
+          </div>
+          <div className="wmnds-col-1">
+            <p>
+              <strong>When?</strong>
+              <br />
+              {createDateString(disruption.disruptionTimeWindow.start)} to{' '}
+              {createDateString(disruption.disruptionTimeWindow.end)}
+            </p>
+            <div
+              className="wmnds-m-b-lg wmnds-col-1"
+              dangerouslySetInnerHTML={{
+                // Remove 'style' attributes from any descriptions
+                __html: sanitize(disruption.description.replace(/\n/g, '<br>'), {
+                  FORBID_ATTR: ['style'],
+                }),
+              }}
+            />{' '}
+          </div>
+        </>
+      )}
 
       {/* Replan button */}
       <span className={`wmnds-col-1 ${isMapVisible ? s.mapBtn : `${s.listBtn} wmnds-col-sm-1-2`}`}>
         <a
           className="wmnds-btn wmnds-btn--start wmnds-col-1"
-          href="https://journeyplanner.networkwestmidlands.com/"
+          href="https://journeyplanner.tfwm.org.uk"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -126,7 +156,7 @@ const DisruptionInfo = ({ disruption }) => {
 
 // PropTypes
 DisruptionInfo.propTypes = {
-  disruption: PropTypes.objectOf(PropTypes.any).isRequired,
+  disruption: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
 
 export default DisruptionInfo;

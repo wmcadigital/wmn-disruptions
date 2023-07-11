@@ -60,7 +60,7 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
           )[0];
 
           payload = {
-            id: result.atcoCode,
+            id: result.naPTAN,
             severity: result.disruptionSeverity || 'none',
             stopName: result.name,
             operator: result.service,

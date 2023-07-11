@@ -66,7 +66,7 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch, mode, 
 
 // PropTypes
 SelectedServiceHeader.propTypes = {
-  autoCompleteState: PropTypes.objectOf(PropTypes.any).isRequired,
+  autoCompleteState: PropTypes.objectOf([PropTypes.object]).isRequired,
   autoCompleteDispatch: PropTypes.func.isRequired,
   mode: PropTypes.string,
   to: PropTypes.bool,
