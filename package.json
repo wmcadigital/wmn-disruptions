@@ -34,22 +34,24 @@
     "sass": "^1.32.8"
   },
   "devDependencies": {
-    "eslint": "^8.44.0",
-    "eslint-config-airbnb": "^18.2.0",
+    "eslint": "^7.2.0 || ^8.44.0",
+    "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jam3": "^0.2.3",
     "eslint-plugin-jsx-a11y": "^6.6.1",
-    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-prettier": "^5.0.0-alpha.2",
     "eslint-plugin-react": "^7.30.1",
-    "prettier": "^2.7.1"
+    "prettier": "^3.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src --ext .js",
+    "lint:fix": "npm run lint -- --fix"
   },
   "browserslist": {
     "production": [
