@@ -5,7 +5,7 @@ import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/Dis
 // Import styles
 import s from './TrainAutoCompleteResult.module.scss';
 
-const TrainAutoCompleteResult = (props) => {
+function TrainAutoCompleteResult(props) {
   const { result, handleKeyDown, to } = props || {};
 
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
@@ -81,6 +81,6 @@ const TrainAutoCompleteResult = (props) => {
       <strong className={`wmnds-col-auto ${s.routeName}`}>{result.name}</strong>
     </li>
   );
-};
+}
 
 export default TrainAutoCompleteResult;

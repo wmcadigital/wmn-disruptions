@@ -9,7 +9,7 @@ import { setSearchParam } from 'globalState/helpers/URLSearchParams'; // (used t
 // Import styles
 import s from './Header.module.scss';
 
-const Header = ({ isFetching, hasError }) => {
+function Header({ isFetching, hasError }) {
   const [fetchDisruptionState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
   const { REACT_APP_FEEDBACK_LINK_URL, REACT_APP_FEEDBACK_LINK_ID } = process.env; // Destructure env variables
 
@@ -99,7 +99,7 @@ const Header = ({ isFetching, hasError }) => {
       </div>
     </div>
   );
-};
+}
 
 Header.propTypes = {
   hasError: PropTypes.bool,

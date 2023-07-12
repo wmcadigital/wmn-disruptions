@@ -3,7 +3,7 @@ import { AutoCompleteContext } from 'globalState';
 import FavBtn from 'components/shared/FavBtn/FavBtn';
 import numberToWord from '../helpers/numberToWord';
 
-const TranInfoAboutSelectedService = () => {
+function TranInfoAboutSelectedService() {
   const [autoCompleteState] = useContext(AutoCompleteContext);
   const { selectedItem, selectedItemTo } = autoCompleteState;
 
@@ -60,6 +60,6 @@ const TranInfoAboutSelectedService = () => {
       {linesToShow}
     </>
   );
-};
+}
 
 export default TranInfoAboutSelectedService;

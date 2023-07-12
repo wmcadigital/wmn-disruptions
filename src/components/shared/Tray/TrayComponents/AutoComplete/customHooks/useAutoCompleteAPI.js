@@ -37,7 +37,7 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
 
         if (selectedService.id && response.data?.services.length) {
           const result = response.data.services.filter(
-            (service) => service.id === selectedService.id
+            (service) => service.id === selectedService.id,
           )[0];
 
           payload = {
@@ -56,7 +56,7 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
 
         if (selectedService.id && response.data?.metroStopSearch.length) {
           const result = response.data.metroStopSearch.filter(
-            (service) => service.atcoCode === selectedService.id
+            (service) => service.atcoCode === selectedService.id,
           )[0];
 
           payload = {
@@ -72,7 +72,7 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
 
         if (selectedService.id && response.data?.data.length) {
           const result = response.data.data.filter(
-            (service) => service.id === selectedService.id
+            (service) => service.id === selectedService.id,
           )[0];
 
           payload = {
@@ -102,7 +102,7 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
         });
       }
     },
-    [autoCompleteDispatch, mode, selectedService.id, to]
+    [autoCompleteDispatch, mode, selectedService.id, to],
   );
 
   const handleAutoCompleteApiError = (error) => {

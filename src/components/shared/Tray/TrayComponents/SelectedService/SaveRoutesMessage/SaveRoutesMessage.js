@@ -3,7 +3,7 @@ import { FavsContext } from 'globalState/FavsContext';
 // Components
 import Icon from 'components/shared/Icon/Icon';
 
-const SaveRoutesMessage = () => {
+function SaveRoutesMessage() {
   const [favsState, favsDispatch] = useContext(FavsContext);
   const { hideFavsHelpMsg, favCookieAllowed } = favsState;
 
@@ -37,6 +37,6 @@ const SaveRoutesMessage = () => {
       )}
     </>
   );
-};
+}
 
 export default SaveRoutesMessage;

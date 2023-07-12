@@ -4,7 +4,7 @@ import useResetState from 'customHooks/useResetState';
 // Import components
 import Button from 'components/shared/Button/Button';
 
-const Mode = () => {
+function Mode() {
   const { modeState, updateMode } = useResetState();
 
   return (
@@ -47,6 +47,6 @@ const Mode = () => {
       />
     </div>
   );
-};
+}
 
 export default Mode;

@@ -7,7 +7,7 @@ import TramAutoComplete from './TramAutoComplete/TramAutoComplete';
 import TrainAutoComplete from './TrainAutoComplete/TrainAutocomplete';
 import RoadsAutoComplete from './RoadsAutocomplete/RoadsAutocomplete';
 
-const AutoComplete = () => {
+function AutoComplete() {
   const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
   const [whenState] = useContext(WhenContext);
 
@@ -69,6 +69,6 @@ const AutoComplete = () => {
 
   // Render the correct component based on logic in switch statement above
   return <div className="wmnds-grid">{autoCompleteToShow()} </div>;
-};
+}
 
 export default AutoComplete;

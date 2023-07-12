@@ -12,7 +12,7 @@ import SelectedServiceHeader from '../SelectedServiceHeader/SelectedServiceHeade
 import useHandleAutoCompleteKeys from '../customHooks/useHandleAutoCompleteKeys';
 import useAutoCompleteAPI from '../customHooks/useAutoCompleteAPI';
 
-const TramAutoComplete = ({ to }) => {
+function TramAutoComplete({ to }) {
   const { updateQuery, autoCompleteState, autoCompleteDispatch } = useResetState();
 
   const resultsList = useRef(null);
@@ -25,14 +25,14 @@ const TramAutoComplete = ({ to }) => {
     `/Metro/v2/stop?q=${encodeURI(tramQuery)}`,
     'tram',
     tramQuery,
-    to
+    to,
   );
 
   // Import handleKeyDown function from customHook (used by all modes)
   const { handleKeyDown } = useHandleAutoCompleteKeys(resultsList, DebounceInput, results);
 
   return (
-    <>
+    <div>
       {selectedService.id && !autoCompleteState.selectedItem.selectedByMap ? (
         <SelectedServiceHeader
           autoCompleteState={autoCompleteState}
@@ -92,9 +92,9 @@ const TramAutoComplete = ({ to }) => {
           )}
         </>
       )}
-    </>
+    </div>
   );
-};
+}
 
 // PropTypes
 TramAutoComplete.propTypes = {

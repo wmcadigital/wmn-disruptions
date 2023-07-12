@@ -17,7 +17,7 @@ const minRadius = 1;
 const maxRadius = 10;
 const clampRadius = (value) => Math.min(Math.max(value, minRadius), maxRadius);
 
-const RoadsAutoComplete = () => {
+function RoadsAutoComplete() {
   const { updateQuery, autoCompleteState, autoCompleteDispatch } = useResetState();
   const radius = autoCompleteState.selectedLocation.radius || 3;
 
@@ -41,7 +41,7 @@ const RoadsAutoComplete = () => {
   const { handleKeyDown } = useHandleAutoCompleteKeys(
     resultsList,
     DebounceInput,
-    autoCompleteState
+    autoCompleteState,
   );
 
   const updateRadius = (value) => {
@@ -55,7 +55,7 @@ const RoadsAutoComplete = () => {
 
   const { loading, errorInfo, results, getAutoCompleteResults } = useRoadsAutoCompleteAPI(
     autoCompleteState.query,
-    radius
+    radius,
   );
 
   return (
@@ -149,6 +149,6 @@ const RoadsAutoComplete = () => {
       )}
     </>
   );
-};
+}
 
 export default RoadsAutoComplete;

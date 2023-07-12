@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Icon from 'components/shared/Icon/Icon';
 import './DisruptionIndicatorMedium.scss';
 
-const DisruptionIndicatorMedium = ({
+function DisruptionIndicatorMedium({
   className,
   iconLeft,
   narrow,
@@ -11,7 +11,7 @@ const DisruptionIndicatorMedium = ({
   severity,
   text,
   title,
-}) => {
+}) {
   let iconRightName;
   let disruptedClass;
   // Removed the if statement - Icon now showing.
@@ -69,7 +69,7 @@ const DisruptionIndicatorMedium = ({
       />
     </div>
   );
-};
+}
 
 // Set props
 DisruptionIndicatorMedium.propTypes = {

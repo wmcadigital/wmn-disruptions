@@ -7,7 +7,7 @@ import Tray from '../../shared/Tray/Tray';
 // Import styles
 import s from './MapView.module.scss';
 
-const MapView = () => {
+function MapView() {
   const { appHeight, windowWidth } = useWindowHeightWidth(); // Get window height and width
 
   // Show correct height based on screen size
@@ -20,6 +20,6 @@ const MapView = () => {
       <Tray />
     </div>
   );
-};
+}
 
 export default MapView;

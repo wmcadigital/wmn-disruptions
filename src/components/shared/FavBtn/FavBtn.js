@@ -8,7 +8,7 @@ import Icon from 'components/shared/Icon/Icon';
 // Styles
 import s from './FavBtn.module.scss';
 
-const FavBtn = ({ id, severity, text, title, mode, narrow, inline }) => {
+function FavBtn({ id, severity, text, title, mode, narrow, inline }) {
   const [favState, favDispatch] = useContext(FavsContext); // Get fav state from globalState
 
   const isIdFavourited = useCallback(
@@ -28,10 +28,10 @@ const FavBtn = ({ id, severity, text, title, mode, narrow, inline }) => {
 
       return favState.favs[mode].some(
         (trainFav) =>
-          trainFav.to === favId.to && trainFav.from === favId.from && trainFav.line === favId.line
+          trainFav.to === favId.to && trainFav.from === favId.from && trainFav.line === favId.line,
       );
     },
-    [favState.favs, id.address, id.lat, id.lon, id.radius, mode]
+    [favState.favs, id.address, id.lat, id.lon, id.radius, mode],
   );
 
   const [isFav, setIsFav] = useState(isIdFavourited(id)); // Check favs on load to see if ours is included
@@ -78,7 +78,7 @@ const FavBtn = ({ id, severity, text, title, mode, narrow, inline }) => {
       </button>
     </div>
   );
-};
+}
 
 // Set props
 FavBtn.propTypes = {

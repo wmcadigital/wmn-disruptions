@@ -11,7 +11,7 @@ import ListView from 'components/ViewToShow/ListView/ListView';
 // Import custom hooks
 import useGETDisruptions from './useGETDisruptions';
 
-const ViewToShow = () => {
+function ViewToShow() {
   const [fetchDisruptionState] = useContext(FetchDisruptionsContext);
   const { isFetching, hasError } = useGETDisruptions();
 
@@ -37,6 +37,6 @@ const ViewToShow = () => {
       {viewToRender}
     </>
   );
-};
+}
 
 export default ViewToShow;

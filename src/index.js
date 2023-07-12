@@ -16,7 +16,7 @@ ReactDOM.render(
   <Sentry.ErrorBoundary>
     <App />
   </Sentry.ErrorBoundary>,
-  document.getElementById('disruptionsApp')
+  document.getElementById('disruptionsApp'),
 );
 
 // If you want your app to work offline and load faster, you can change

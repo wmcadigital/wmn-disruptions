@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { AutoCompleteContext } from 'globalState';
 // Import components
 
-const RoadsAutocompleteResult = (props) => {
+function RoadsAutocompleteResult(props) {
   const { result, radius, handleKeyDown } = props || {};
   const [, autoCompleteDispatch] = useContext(AutoCompleteContext);
 
@@ -34,6 +34,6 @@ const RoadsAutocompleteResult = (props) => {
       <strong className="wmnds-col-auto">{result.address}</strong>
     </li>
   );
-};
+}
 
 export default RoadsAutocompleteResult;

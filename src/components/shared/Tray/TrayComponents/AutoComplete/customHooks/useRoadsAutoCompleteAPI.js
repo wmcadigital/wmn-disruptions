@@ -30,7 +30,7 @@ const useRoadsAutoCompleteAPI = (query, radius) => {
   const removeDuplicateCandidates = useCallback((apiCandidates) => {
     const uniqueAddresses = [...new Set(apiCandidates.map((candidate) => candidate.address))];
     const uniqueCandidates = uniqueAddresses.map((address) =>
-      apiCandidates.find((candidate) => candidate.address === address)
+      apiCandidates.find((candidate) => candidate.address === address),
     );
     return uniqueCandidates;
   }, []);
@@ -46,7 +46,7 @@ const useRoadsAutoCompleteAPI = (query, radius) => {
 
       if (selectedLocation.address && apiResults.length) {
         const { address, location } = apiResults.filter(
-          (result) => result.address === selectedLocation.address
+          (result) => result.address === selectedLocation.address,
         )[0];
 
         payload = {
@@ -74,7 +74,7 @@ const useRoadsAutoCompleteAPI = (query, radius) => {
         });
       }
     },
-    [autoCompleteDispatch, radius, removeDuplicateCandidates, selectedLocation.address]
+    [autoCompleteDispatch, radius, removeDuplicateCandidates, selectedLocation.address],
   );
 
   const handleAutoCompleteApiError = (error) => {
@@ -108,7 +108,7 @@ const useRoadsAutoCompleteAPI = (query, radius) => {
             'Ocp-Apim-Subscription-Key': REACT_APP_ROADS_AUTOCOMPLETE_KEY,
           },
           cancelToken: source.current.token, // Set token with API call, so we can cancel this call on unmount
-        }
+        },
       )
       .then(handleAutoCompleteApiResponse)
       .catch(handleAutoCompleteApiError);
