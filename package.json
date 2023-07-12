@@ -22,7 +22,6 @@
     "esri-loader": "^3.6.0",
     "fecha": "^4.2.3",
     "haversine-distance": "^1.2.1",
-    "node-sass": "^7.0.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-app-polyfill": "^3.0.0",
@@ -31,7 +30,8 @@
     "react-dom": "^18.2.0",
     "react-easy-swipe": "0.0.22",
     "react-scripts": "5.0.1",
-    "react-share": "^4.4.0"
+    "react-share": "^4.4.0",
+    "sass": "^1.32.8"
   },
   "devDependencies": {
     "eslint": "^8.22.0",
