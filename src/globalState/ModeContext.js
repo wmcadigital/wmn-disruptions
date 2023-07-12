@@ -41,5 +41,6 @@ export function ModeProvider(props) {
   const [modeState, modeDispatch] = useReducer(reducer, initialState);
 
   // Pass state and dispatch in context and make accessible to children it wraps
+  // eslint-disable-next-line react/jsx-no-constructed-context-values
   return <ModeContext.Provider value={[modeState, modeDispatch]}>{children}</ModeContext.Provider>;
 }

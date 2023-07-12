@@ -32,7 +32,7 @@ function TramAutoComplete({ to }) {
   const { handleKeyDown } = useHandleAutoCompleteKeys(resultsList, DebounceInput, results);
 
   return (
-    <>
+    <div>
       {selectedService.id && !autoCompleteState.selectedItem.selectedByMap ? (
         <SelectedServiceHeader
           autoCompleteState={autoCompleteState}
@@ -92,7 +92,7 @@ function TramAutoComplete({ to }) {
           )}
         </>
       )}
-    </>
+    </div>
   );
 }
 

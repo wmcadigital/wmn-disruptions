@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 import React, { useState, useContext } from 'react';
 import { FetchDisruptionsContext, AutoCompleteContext } from 'globalState';
 import useWindowHeightWidth from 'customHooks/useWindowHeightWidth';

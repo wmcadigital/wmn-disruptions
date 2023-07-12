@@ -52,7 +52,7 @@ function BusAutoComplete() {
   }
 
   return (
-    <>
+    <div>
       {autoCompleteState.selectedItem.id && !autoCompleteState.selectedItem.selectedByMap ? (
         <SelectedServiceHeader
           autoCompleteState={autoCompleteState}
@@ -104,7 +104,7 @@ function BusAutoComplete() {
           )}
         </>
       )}
-    </>
+    </div>
   );
 }
 

@@ -17,6 +17,7 @@ export function FetchDisruptionsProvider(props) {
 
   // Pass state and dispatch in context and make accessible to children it wraps
   return (
+    // eslint-disable-next-line react/jsx-no-constructed-context-values
     <FetchDisruptionsContext.Provider value={[fetchDisruptionsState, setFetchDisruptionsState]}>
       {children}
     </FetchDisruptionsContext.Provider>

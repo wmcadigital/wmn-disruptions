@@ -67,5 +67,6 @@ export function WhenProvider(props) {
   const [whenState, whenDispatch] = useReducer(reducer, initialState);
 
   // Pass state and dispatch in context and make accessible to children it wraps
+  // eslint-disable-next-line react/jsx-no-constructed-context-values
   return <WhenContext.Provider value={[whenState, whenDispatch]}>{children}</WhenContext.Provider>;
 }

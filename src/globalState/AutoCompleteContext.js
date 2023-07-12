@@ -197,6 +197,7 @@ export function AutoCompleteProvider(props) {
 
   // Pass state and dispatch in context and make accessible to children it wraps
   return (
+    // eslint-disable-next-line react/jsx-no-constructed-context-values
     <AutoCompleteContext.Provider value={[autoCompleteState, autoCompleteDispatch]}>
       {children}
     </AutoCompleteContext.Provider>

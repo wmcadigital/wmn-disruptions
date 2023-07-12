@@ -30,7 +30,7 @@ function Tray() {
   );
 
   // If the device is less than x show mobileTray otherwise show desktop tray
-  return <>{windowWidth < 768 ? mobileTray : DesktopTray}</>;
+  return <div>{windowWidth < 768 ? mobileTray : DesktopTray}</div>;
 }
 
 export default Tray;
