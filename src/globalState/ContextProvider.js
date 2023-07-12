@@ -16,11 +16,11 @@ function ProviderComposer({ contexts, children }) {
       React.cloneElement(parent, {
         children: kids,
       }),
-    children
+    children,
   );
 }
 
-const ContextProvider = (props) => {
+function ContextProvider(props) {
   const { children } = props || {};
   return (
     <ProviderComposer
@@ -35,6 +35,6 @@ const ContextProvider = (props) => {
       {children}
     </ProviderComposer>
   );
-};
+}
 
 export default ContextProvider;

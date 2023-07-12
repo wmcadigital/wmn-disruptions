@@ -28,7 +28,7 @@ const usePointerEvents = (view, isIconLayerCreated) => {
 
       return clickedFeature;
     },
-    [view]
+    [view],
   );
 
   const selectDisruption = useCallback(
@@ -44,7 +44,7 @@ const usePointerEvents = (view, isIconLayerCreated) => {
         payload: { id: disruptionId, selectedByMap: true },
       });
     },
-    [autoCompleteDispatch, modeState.mode]
+    [autoCompleteDispatch, modeState.mode],
   );
 
   const setSelectedItem = useCallback(
@@ -57,7 +57,7 @@ const usePointerEvents = (view, isIconLayerCreated) => {
         console.log('setSelectedItem error:', error);
       }
     },
-    [view, getClickedFeature, selectDisruption]
+    [view, getClickedFeature, selectDisruption],
   );
 
   const usePointerCursor = useCallback(
@@ -76,7 +76,7 @@ const usePointerEvents = (view, isIconLayerCreated) => {
         console.log('usePointerCursor error:', error);
       }
     },
-    [view]
+    [view],
   );
 
   const addPointerEvents = useCallback(() => {

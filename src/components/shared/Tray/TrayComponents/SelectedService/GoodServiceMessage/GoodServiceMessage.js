@@ -6,7 +6,7 @@ import { getSearchParam } from 'globalState/helpers/URLSearchParams';
 // Components
 import Icon from 'components/shared/Icon/Icon';
 
-const GoodServiceMessage = ({ isListView = false }) => {
+function GoodServiceMessage({ isListView = false }) {
   const [modeState] = useContext(ModeContext);
   const [whenState] = useContext(WhenContext);
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
@@ -52,7 +52,7 @@ const GoodServiceMessage = ({ isListView = false }) => {
       case 'customDate':
         return `expected on ${new Date(whenState.whenCustomDate).toLocaleDateString(
           'en-GB',
-          dateOptions
+          dateOptions,
         )}`;
 
       default:
@@ -167,7 +167,7 @@ const GoodServiceMessage = ({ isListView = false }) => {
       </div>
     </div>
   );
-};
+}
 
 export default GoodServiceMessage;
 

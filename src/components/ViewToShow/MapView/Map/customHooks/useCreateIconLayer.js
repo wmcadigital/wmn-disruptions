@@ -99,7 +99,7 @@ const useCreateIconLayer = (view) => {
                     wkid: 4326,
                   },
                 },
-              })
+              }),
           );
         }
 

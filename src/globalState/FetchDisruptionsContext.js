@@ -4,7 +4,7 @@ import { getSearchParam } from 'globalState/helpers/URLSearchParams'; // (used t
 
 export const FetchDisruptionsContext = createContext(); // Create when context
 
-export const FetchDisruptionsProvider = (props) => {
+export function FetchDisruptionsProvider(props) {
   const { children } = props || {};
 
   const [fetchDisruptionsState, setFetchDisruptionsState] = useState({
@@ -21,4 +21,4 @@ export const FetchDisruptionsProvider = (props) => {
       {children}
     </FetchDisruptionsContext.Provider>
   );
-};
+}

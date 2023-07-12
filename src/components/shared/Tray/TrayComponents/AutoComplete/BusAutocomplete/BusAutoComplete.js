@@ -11,7 +11,7 @@ import SelectedServiceHeader from '../SelectedServiceHeader/SelectedServiceHeade
 import useHandleAutoCompleteKeys from '../customHooks/useHandleAutoCompleteKeys';
 import useAutoCompleteAPI from '../customHooks/useAutoCompleteAPI';
 
-const BusAutoComplete = () => {
+function BusAutoComplete() {
   const { updateQuery, autoCompleteState, autoCompleteDispatch } = useResetState();
 
   const resultsList = useRef(null);
@@ -20,14 +20,14 @@ const BusAutoComplete = () => {
   const { loading, errorInfo, results, getAutoCompleteResults } = useAutoCompleteAPI(
     `/api/lineinfo?q=${encodeURI(autoCompleteState.query)}`,
     'bus',
-    autoCompleteState.query
+    autoCompleteState.query,
   );
 
   // Import handleKeyDown function from customHook (used by all modes)
   const { handleKeyDown } = useHandleAutoCompleteKeys(
     resultsList,
     DebounceInput,
-    autoCompleteState
+    autoCompleteState,
   );
 
   function compare(a, b) {
@@ -106,6 +106,6 @@ const BusAutoComplete = () => {
       )}
     </>
   );
-};
+}
 
 export default BusAutoComplete;

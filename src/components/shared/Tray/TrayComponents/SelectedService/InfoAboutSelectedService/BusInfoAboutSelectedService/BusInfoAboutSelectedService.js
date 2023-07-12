@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { AutoCompleteContext } from 'globalState';
 import FavBtn from 'components/shared/FavBtn/FavBtn';
 
-const BusInfoAboutSelectedService = () => {
+function BusInfoAboutSelectedService() {
   const [autoCompleteState] = useContext(AutoCompleteContext);
   const { selectedItem } = autoCompleteState;
 
@@ -24,6 +24,6 @@ const BusInfoAboutSelectedService = () => {
       />
     </>
   );
-};
+}
 
 export default BusInfoAboutSelectedService;

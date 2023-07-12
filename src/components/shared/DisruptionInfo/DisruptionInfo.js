@@ -15,7 +15,7 @@ import DisruptionOperatorsGrouping from '../../ViewToShow/ListView/DisruptionLis
 
 const { sanitize } = dompurify;
 
-const DisruptionInfo = ({ disruption }) => {
+function DisruptionInfo({ disruption }) {
   const [, autoCompleteDispatch] = useContext(AutoCompleteContext); // Get the dispatch of autocomplete
   const [modeState] = useContext(ModeContext); // Get the dispatch of autocomplete
   const [fetchDisruptionsState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext); // Get the state and dispatch of disruptions (contains isMapVisible)
@@ -152,7 +152,7 @@ const DisruptionInfo = ({ disruption }) => {
       )}
     </>
   );
-};
+}
 
 // PropTypes
 DisruptionInfo.propTypes = {

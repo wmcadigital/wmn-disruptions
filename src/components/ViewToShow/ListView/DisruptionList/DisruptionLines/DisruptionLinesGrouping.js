@@ -5,7 +5,7 @@ import styles from './DisruptionLinesGrouping.module.scss';
 
 const DisruptionLinesGrouping = (disruptionServicesAffected) => {
   const servicesAffected = disruptionServicesAffected.disruptionServicesAffected.map(
-    (affected) => affected
+    (affected) => affected,
   );
   let iconRightName;
   let disruptedClass;

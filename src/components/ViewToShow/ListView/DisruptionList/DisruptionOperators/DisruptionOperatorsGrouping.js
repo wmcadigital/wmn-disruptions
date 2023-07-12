@@ -4,7 +4,7 @@ import styles from './DisruptionOperatorsGrouping.module.scss';
 
 const DisruptionOperatorsGrouping = (disruptionServicesAffected) => {
   const servicesAffected = disruptionServicesAffected.disruptionServicesAffected.map(
-    (affected) => affected
+    (affected) => affected,
   );
 
   const servicesAff = Object.values(servicesAffected);

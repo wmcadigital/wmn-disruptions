@@ -68,7 +68,7 @@ const useDrawPolyline = (view) => {
       polylineLayer.add(polyline);
       setIsPolylineDrawn(true);
     },
-    [view]
+    [view],
   );
 
   const drawBusPolyline = useCallback(() => {

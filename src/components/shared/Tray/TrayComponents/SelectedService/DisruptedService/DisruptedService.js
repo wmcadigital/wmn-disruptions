@@ -8,7 +8,7 @@ import DisruptionIndicatorSmall from 'components/shared/DisruptionIndicator/Disr
 import DisruptionInfo from 'components/shared/DisruptionInfo/DisruptionInfo';
 import useDisruptionAffectedItems from 'customHooks/useDisruptionAffectedItems';
 
-const DisruptedService = ({ disruption }) => {
+function DisruptedService({ disruption }) {
   const [autoCompleteState] = useContext(AutoCompleteContext); // Get the state of modeButtons from modeContext
   const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
   const { selectedItem, selectedItemTo } = autoCompleteState;
@@ -51,7 +51,7 @@ const DisruptedService = ({ disruption }) => {
       <DisruptionInfo disruption={disruption} />
     </div>
   );
-};
+}
 
 // PropTypes
 DisruptedService.propTypes = {

@@ -10,7 +10,7 @@ import SelectedService from './SelectedService/SelectedService';
 // Styles
 import s from './TrayComponents.module.scss';
 
-const TrayComponents = () => {
+function TrayComponents() {
   const { resetTray } = useResetState(); // Get reset methods and state from custom hook
 
   return (
@@ -35,6 +35,6 @@ const TrayComponents = () => {
       <SelectedService />
     </>
   );
-};
+}
 
 export default TrayComponents;

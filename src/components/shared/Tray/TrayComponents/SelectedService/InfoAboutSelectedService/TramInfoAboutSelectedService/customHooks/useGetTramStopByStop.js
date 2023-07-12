@@ -54,7 +54,7 @@ const useGetTramStopByStop = () => {
         });
       }
     },
-    [autoCompleteDispatch, selectedItem.id]
+    [autoCompleteDispatch, selectedItem.id],
   );
 
   const handleAutoCompleteApiError = (error) => {
@@ -84,7 +84,7 @@ const useGetTramStopByStop = () => {
             'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY,
           },
           cancelToken: source.current.token, // Set token with API call, so we can cancel this call on unmount
-        }
+        },
       )
       .then(handleAutoCompleteApiResponse)
       .catch(handleAutoCompleteApiError);

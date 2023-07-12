@@ -5,7 +5,7 @@ import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/Dis
 // Import styles
 import s from './BusAutoCompleteResult.module.scss';
 
-const BusAutoCompleteResult = (props) => {
+function BusAutoCompleteResult(props) {
   const { result, handleKeyDown } = props || {};
 
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
@@ -77,6 +77,6 @@ const BusAutoCompleteResult = (props) => {
       <strong className={`wmnds-col-auto ${s.routeName}`}>{result.routes[0].routeName}</strong>
     </li>
   );
-};
+}
 
 export default BusAutoCompleteResult;

@@ -8,7 +8,7 @@ import {
 
 export const AutoCompleteContext = createContext(); // Create when context
 
-export const AutoCompleteProvider = (props) => {
+export function AutoCompleteProvider(props) {
   const { children } = props || {};
 
   // Set intial state of when
@@ -201,4 +201,4 @@ export const AutoCompleteProvider = (props) => {
       {children}
     </AutoCompleteContext.Provider>
   );
-};
+}

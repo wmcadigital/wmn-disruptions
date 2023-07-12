@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { AutoCompleteContext } from 'globalState';
 import FavBtn from 'components/shared/FavBtn/FavBtn';
 
-const RoadsInfoAboutSelectedService = () => {
+function RoadsInfoAboutSelectedService() {
   const [autoCompleteState] = useContext(AutoCompleteContext);
   const { selectedLocation, selectedItem } = autoCompleteState;
   const { address, radius } = selectedLocation;
@@ -24,6 +24,6 @@ const RoadsInfoAboutSelectedService = () => {
       )}
     </>
   );
-};
+}
 
 export default RoadsInfoAboutSelectedService;
