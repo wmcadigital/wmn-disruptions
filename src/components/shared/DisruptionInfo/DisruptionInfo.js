@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import dompurify from 'dompurify';
+// Import Moment
+import Moment from 'react-moment';
 // Import contexts
 import { AutoCompleteContext, FetchDisruptionsContext, ModeContext } from 'globalState';
 // Import Helper functions
@@ -49,7 +51,7 @@ function DisruptionInfo({ disruption }) {
 
   const createDateString = (rawDate) => {
     const date = new Date(rawDate);
-    return `${date.toLocaleDateString(undefined, dateOptions)}`;
+    return `${date.toLocaleDateString('en-GB', dateOptions)}`;
   };
 
   // Promoter organisation
@@ -106,6 +108,16 @@ function DisruptionInfo({ disruption }) {
           <div className="wmnds-col-1">
             <p>
               <strong>When?</strong>
+              <br />
+              {disruption.disruptionTimeWindow.start}
+              <br />
+              <Moment locale="en-GB" format="MMMM Do YYYY">
+                {disruption.disruptionTimeWindow.start}
+              </Moment>
+              <br />
+              <Moment local>{disruption.disruptionTimeWindow.start}</Moment>
+              <br />
+              <Moment add={{ hours: 1 }}>{disruption.disruptionTimeWindow.start}</Moment>
               <br />
               {createDateString(disruption.disruptionTimeWindow.start)} to{' '}
               {createDateString(disruption.disruptionTimeWindow.end)}
