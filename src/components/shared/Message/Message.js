@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from 'components/shared/Icon/Icon';
 import dompurify from 'dompurify';
+import Icon from 'components/shared/Icon/Icon';
 
 const { sanitize } = dompurify;
 
