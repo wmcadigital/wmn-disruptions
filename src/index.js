@@ -12,11 +12,11 @@ if (process.env.NODE_ENV === 'production') {
   Sentry.init({ dsn: 'https://eec42d9779ba42eb84fa9623942bd149@o378798.ingest.sentry.io/5272889' });
 }
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById('disruptionsApp'));
+root.render(
   <Sentry.ErrorBoundary>
     <App />
   </Sentry.ErrorBoundary>,
-  document.getElementById('disruptionsApp'),
 );
 
 // If you want your app to work offline and load faster, you can change
