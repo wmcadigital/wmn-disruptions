@@ -10,8 +10,8 @@ package = "@sentry/netlify-build-plugin"
 
 # Set env variables for deploy preview on netlify
 [context.deploy-preview.environment]
-  REACT_APP_API_HOST='https://wmca-api-portal-staging.azure-api.net'
-  REACT_APP_API_KEY='0d4cca4a2c5d40c3bfbbfe45d1bbf294'
+  REACT_APP_API_HOST='https://api.wmnetwork.co.uk'
+  REACT_APP_API_KEY='514b8bafa009424289cb2d7a12c54f6e'
   REACT_APP_BUS_AUTOCOMPLETE_API='https://rtccdisruptions6zqwajo6s.azurewebsites.net'
   REACT_APP_ROADS_AUTOCOMPLETE_KEY='e0c1216f818a41be8d528ac1d4f7ebfd'
   REACT_APP_FEEDBACK_LINK_URL='https://forms.office.com/Pages/ResponsePage.aspx'
