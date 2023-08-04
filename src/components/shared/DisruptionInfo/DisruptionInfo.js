@@ -109,18 +109,15 @@ function DisruptionInfo({ disruption }) {
             <p>
               <strong>When?</strong>
               <br />
-              {disruption.disruptionTimeWindow.start}
-              <br />
-              <Moment locale="en-GB" format="MMMM Do YYYY">
+              {/* Temporary fix for textual errors of rail disruption timings during British Summer Time */}
+              <Moment locale="en-GB" format="dddd, Do MMMM YYYY" add={{ hours: 1 }}>
                 {disruption.disruptionTimeWindow.start}
               </Moment>
-              <br />
-              <Moment local>{disruption.disruptionTimeWindow.start}</Moment>
-              <br />
-              <Moment add={{ hours: 1 }}>{disruption.disruptionTimeWindow.start}</Moment>
-              <br />
-              {createDateString(disruption.disruptionTimeWindow.start)} to{' '}
-              {createDateString(disruption.disruptionTimeWindow.end)}
+              {' to '}
+
+              <Moment locale="en-GB" format="dddd, Do MMMM YYYY" add={{ hours: 1 }}>
+                {disruption.disruptionTimeWindow.end}
+              </Moment>
             </p>
             <div
               className="wmnds-m-b-lg wmnds-col-1"
