@@ -14,7 +14,7 @@ const DisruptedService = ({ disruption }) => {
   const { selectedItem, selectedItemTo } = autoCompleteState;
   const disruptionRef = useRef(null);
 
-  const { iconLeft, title, affectedItems } = useDisruptionAffectedItems(disruption); // Get the correct modal icon and affectedItems
+  const { iconLeft, title } = useDisruptionAffectedItems(disruption); // Get the correct modal icon and affectedItems
 
   useEffect(() => {
     // Wrapped in useEffect as it is reliant on functionality from the useEffect in MobileTray.js
@@ -48,7 +48,6 @@ const DisruptedService = ({ disruption }) => {
         </div>
       </div>
 
-      {affectedItems()}
       <DisruptionInfo disruption={disruption} />
     </div>
   );
@@ -56,7 +55,7 @@ const DisruptedService = ({ disruption }) => {
 
 // PropTypes
 DisruptedService.propTypes = {
-  disruption: PropTypes.objectOf(PropTypes.any).isRequired,
+  disruption: PropTypes.objectOf([PropTypes.object]).isRequired,
 };
 
 export default DisruptedService;

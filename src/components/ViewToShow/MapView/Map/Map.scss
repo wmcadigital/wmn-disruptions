@@ -46,6 +46,7 @@ $offset-top: $size-lg;
     }
 
     // zoom buttons
+    .esri-locate,
     .esri-zoom .esri-widget--button {
       background-color: get-color(information);
       color: white;
@@ -56,28 +57,28 @@ $offset-top: $size-lg;
 
       // make icons a bit bigger
       .esri-icon {
-        font-size: 18px;
+        font-size: 24px;
         font-weight: bold;
       }
     }
 
     // locate button
     .esri-locate {
-      background: none;
-      color: get-color(primary);
-      border: 1px solid get-color(primary);
+      background-color: get-color(information);
+      color: white;
 
       &:hover {
-        background-color: get-color(secondary, 70);
+        background-color: get-color(information, 30, dark);
       }
 
       // custom locate icon
       .esri-icon-locate:before {
         content: '';
         display: block;
-        height: 18px;
-        width: 18px;
-        background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m223.13 1.766-208.7 96.324c-24.079 11.238-16.053 46.555 9.632 46.555h88.3v88.298c0 25.684 35.317 33.716 46.556 9.632l96.325-208.7c8.026-19.27-12.845-40.14-32.11-32.109z' fill='%233c1053'/%3E%3C/svg%3E%0A");
+        height: 24px;
+        width: 24px;
+        color: white;
+        background-image: url('data:image/svg+xml,%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20viewBox%3D%220%200%20130.88%20130.88%22%20style%3D%22enable-background%3Anew%200%200%20122.88%20122.88%22%20xml%3Aspace%3D%22preserve%22%3E%3Cg%3E%3Cpath%20fill%3D%22%23fff%22%20d%3D%22M68.23%2C13.49c10.44%2C1.49%2C19.79%2C6.36%2C26.91%2C13.48c7.29%2C7.29%2C12.23%2C16.93%2C13.58%2C27.68h14.17v13.58h-14.39%20c-1.62%2C10.13-6.42%2C19.2-13.36%2C26.13c-7.11%2C7.11-16.47%2C11.99-26.91%2C13.48v15.04H54.65v-15.04c-10.44-1.49-19.79-6.36-26.9-13.48%20c-6.94-6.94-11.74-16-13.36-26.13H0V54.65h14.16c1.35-10.75%2C6.29-20.39%2C13.58-27.68c7.11-7.11%2C16.46-11.99%2C26.9-13.48V0h13.58%20V13.49L68.23%2C13.49z%20M61.44%2C35.41c13.95%2C0%2C25.25%2C11.31%2C25.25%2C25.25c0%2C13.95-11.31%2C25.25-25.25%2C25.25%20c-13.95%2C0-25.25-11.31-25.25-25.25C36.19%2C46.72%2C47.49%2C35.41%2C61.44%2C35.41L61.44%2C35.41z%20M89%2C33.11c-7.05-7.05-16.8-11.42-27.56-11.42%20c-10.76%2C0-20.51%2C4.36-27.56%2C11.42c-7.05%2C7.05-11.42%2C16.8-11.42%2C27.56c0%2C10.76%2C4.36%2C20.51%2C11.42%2C27.56%20c7.05%2C7.05%2C16.8%2C11.42%2C27.56%2C11.42c10.76%2C0%2C20.51-4.36%2C27.56-11.42c7.05-7.05%2C11.42-16.8%2C11.42-27.56%20C100.41%2C49.9%2C96.05%2C40.16%2C89%2C33.11L89%2C33.11z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E');
       }
     }
   }

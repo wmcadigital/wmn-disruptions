@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 // Import contexts
 import useFilterLogic from 'customHooks/useFilterLogic';
-import GoodServiceMessage from 'components/shared/Tray/TrayComponents/SelectedService/GoodServiceMessage/GoodServiceMessage';
+import NoKnownDisruptionMessage from 'components/shared/Tray/TrayComponents/SelectedService/NoKnownDisruptionMessage/NoKnownDisruptionMessage';
 import DisruptionItem from './DisruptionItem/DisruptionItem';
 
 const DisruptionList = () => {
@@ -37,7 +37,7 @@ const DisruptionList = () => {
       )}
     </>
   ) : (
-    <GoodServiceMessage isListView />
+    <NoKnownDisruptionMessage isListView />
   );
 };
 

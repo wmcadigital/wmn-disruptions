@@ -68,7 +68,7 @@ const DisruptionItem = ({ disruption }) => {
 
 // PropTypes
 DisruptionItem.propTypes = {
-  disruption: PropTypes.objectOf(PropTypes.any).isRequired,
+  disruption: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
 
 export default DisruptionItem;
