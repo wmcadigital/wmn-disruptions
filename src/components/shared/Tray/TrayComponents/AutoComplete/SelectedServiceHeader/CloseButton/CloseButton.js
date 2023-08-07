@@ -1,6 +1,6 @@
 import React from 'react';
-import Icon from 'components/shared/Icon/Icon';
 import PropTypes from 'prop-types';
+import Icon from 'components/shared/Icon/Icon';
 
 import s from './CloseButton.module.scss';
 
