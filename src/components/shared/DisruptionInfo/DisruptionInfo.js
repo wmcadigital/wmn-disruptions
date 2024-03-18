@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import dompurify from 'dompurify';
 // Import Moment
 import Moment from 'react-moment';
+import 'moment-timezone';
+
 // Import contexts
 import { AutoCompleteContext, FetchDisruptionsContext, ModeContext } from 'globalState';
 // Import Helper functions
@@ -109,13 +111,12 @@ function DisruptionInfo({ disruption }) {
             <p>
               <strong>When?</strong>
               <br />
-              {/* Temporary fix for textual errors of rail disruption timings during British Summer Time:  <Moment locale="en-GB" format="dddd, Do MMMM YYYY HH:mm" add={{ hours: 1 }}>*/}
-              <Moment locale="en-GB" format="dddd, Do MMMM YYYY HH:mm">
+              <Moment local format="dddd, Do MMMM YYYY HH:mm">
                 {disruption.disruptionTimeWindow.start}
               </Moment>
               {' to '}
 
-              <Moment locale="en-GB" format="dddd, Do MMMM YYYY HH:mm">
+              <Moment local format="dddd, Do MMMM YYYY HH:mm">
                 {disruption.disruptionTimeWindow.end}
               </Moment>
             </p>
