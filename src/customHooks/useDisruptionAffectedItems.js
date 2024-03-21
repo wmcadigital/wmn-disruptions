@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 import React, { useState, useContext } from 'react';
 import { FetchDisruptionsContext, AutoCompleteContext } from 'globalState';
 import useWindowHeightWidth from 'customHooks/useWindowHeightWidth';
@@ -90,7 +91,7 @@ const useDisruptionAffectedItems = (disruption) => {
             <>
               {disruption.servicesAffected
                 .sort(
-                  (a, b) => a.serviceNumber.replace(/\D/g, '') - b.serviceNumber.replace(/\D/g, '')
+                  (a, b) => a.serviceNumber.replace(/\D/g, '') - b.serviceNumber.replace(/\D/g, ''),
                 )
                 // Sort again to move a user's selected item to the front so it's not "hidden" behind the button
                 .sort((a, b) => {
@@ -197,16 +198,14 @@ const useDisruptionAffectedItems = (disruption) => {
             )}
           {/* Affected Stations / Train */}
           {disruption.mode === 'train' && disruption?.servicesAffected && (
-            <>
-              <div className="wmnds-m-b-md wmnds-m-r-sm">
-                <DisruptionLinesGrouping
-                  disruptionServicesAffected={disruption.servicesAffected}
-                  key={disruption.servicesAffected.id}
-                  severity={disruption.disruptionSeverity}
-                  mode={disruption.mode}
-                />
-              </div>
-            </>
+            <div className="wmnds-m-b-md wmnds-m-r-sm">
+              <DisruptionLinesGrouping
+                disruptionServicesAffected={disruption.servicesAffected}
+                key={disruption.servicesAffected.id}
+                severity={disruption.disruptionSeverity}
+                mode={disruption.mode}
+              />
+            </div>
           )}
         </div>
       </div>

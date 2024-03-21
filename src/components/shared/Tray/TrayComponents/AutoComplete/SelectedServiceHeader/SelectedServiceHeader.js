@@ -5,7 +5,7 @@ import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/Dis
 import CloseButton from './CloseButton/CloseButton';
 import s from './SelectedServiceHeader.module.scss';
 
-const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch, mode, to }) => {
+function SelectedServiceHeader({ autoCompleteState, autoCompleteDispatch, mode, to }) {
   const { selectedItem, selectedItemTo, selectedLocation } = autoCompleteState;
   const selectedServiceRef = useRef(null);
 
@@ -62,7 +62,7 @@ const SelectedServiceHeader = ({ autoCompleteState, autoCompleteDispatch, mode, 
       )}
     </>
   );
-};
+}
 
 // PropTypes
 SelectedServiceHeader.propTypes = {

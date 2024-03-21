@@ -2,7 +2,7 @@ import React, { useEffect, useReducer, createContext } from 'react';
 
 export const FavsContext = createContext(); // Create when context
 
-export const FavsProvider = (props) => {
+export function FavsProvider(props) {
   const { children } = props || {};
 
   const getCookie = (cookieName) => {
@@ -124,5 +124,6 @@ export const FavsProvider = (props) => {
   }, [favCookieAllowed, favState]);
 
   // Pass state and dispatch in context and make accessible to children it wraps
+  // eslint-disable-next-line react/jsx-no-constructed-context-values
   return <FavsContext.Provider value={[favState, favDispatch]}>{children}</FavsContext.Provider>;
-};
+}

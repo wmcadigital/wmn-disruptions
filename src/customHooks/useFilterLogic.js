@@ -57,7 +57,7 @@ const useFilterLogic = () => {
     // SelectedMapDisruption filtering
     if (autoCompleteState.selectedItem.selectedByMap && autoCompleteState.selectedItem.id) {
       filteredData = filteredData.filter(
-        (disrItem) => disrItem.id === autoCompleteState.selectedItem.id
+        (disrItem) => disrItem.id === autoCompleteState.selectedItem.id,
       );
     }
 
@@ -101,19 +101,19 @@ const useFilterLogic = () => {
           if (autoCompleteState.selectedItemTo.lines) {
             // Join the lines array of the from/to selected stations
             const allLines = autoCompleteState.selectedItem.lines.concat(
-              autoCompleteState.selectedItemTo.lines
+              autoCompleteState.selectedItemTo.lines,
             );
             // Then get any duplicates found and pluck them out. If duplicates are found then this means the user MUST be interested in only them lines as that line was part of their from AND to station search.
             const getDuplicates = allLines.filter(
-              (item, index) => allLines.indexOf(item) !== index
+              (item, index) => allLines.indexOf(item) !== index,
             );
             // If duplicates exist, use them as that's what the user is interested in. Otherwise default to all lines (all will be unique)...this usually means the user has selected two stations that are on separate lines.
             const linesToCompareWith = getDuplicates.length ? getDuplicates : allLines;
             // Then filter out any disruptions that don't contain lines the user is interested in
             filteredData = filteredData.filter((disrItem) =>
               disrItem?.servicesAffected[0]?.routeDescriptions.some(
-                (el) => linesToCompareWith.indexOf(el.description) > -1
-              )
+                (el) => linesToCompareWith.indexOf(el.description) > -1,
+              ),
             );
           }
           break;
@@ -141,7 +141,7 @@ const useFilterLogic = () => {
           filteredData = filteredData.filter((disrItem) => {
             if (disrItem?.servicesAffected) {
               return disrItem.servicesAffected.some(
-                (el) => el.id === autoCompleteState.selectedItem.id
+                (el) => el.id === autoCompleteState.selectedItem.id,
               );
             }
 

@@ -12,7 +12,7 @@ export const ModeContext = createContext(); // Create when context
 const initialState = {
   mode: getSearchParam('mode') || 'bus', // Can be any of the modes (bus, train, tram, roads)
 };
-export const ModeProvider = (props) => {
+export function ModeProvider(props) {
   const { children } = props || {};
 
   // Set up a reducer so we can change state based on centralised logic here
@@ -41,5 +41,6 @@ export const ModeProvider = (props) => {
   const [modeState, modeDispatch] = useReducer(reducer, initialState);
 
   // Pass state and dispatch in context and make accessible to children it wraps
+  // eslint-disable-next-line react/jsx-no-constructed-context-values
   return <ModeContext.Provider value={[modeState, modeDispatch]}>{children}</ModeContext.Provider>;
-};
+}

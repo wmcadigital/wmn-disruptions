@@ -9,7 +9,7 @@ import MobileTray from './MobileTray';
 // Import styles
 import s from './Tray.module.scss';
 
-const Tray = () => {
+function Tray() {
   const [fetchDisruptionState] = useContext(FetchDisruptionsContext);
   const { windowWidth } = useWindowHeightWidth(); // Get window height and width
 
@@ -30,7 +30,7 @@ const Tray = () => {
   );
 
   // If the device is less than x show mobileTray otherwise show desktop tray
-  return <>{windowWidth < 768 ? mobileTray : DesktopTray}</>;
-};
+  return <div>{windowWidth < 768 ? mobileTray : DesktopTray}</div>;
+}
 
 export default Tray;

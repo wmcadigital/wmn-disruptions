@@ -6,7 +6,7 @@ import TrainInfoAboutSelectedService from './TrainInfoAboutSelectedService/Train
 import BusInfoAboutSelectedService from './BusInfoAboutSelectedService/BusInfoAboutSelectedService';
 import RoadsInfoAboutSelectedService from './RoadsInfoAboutSelectedService/RoadsInfoAboutSelectedService';
 
-const InfoAboutSelectedService = () => {
+function InfoAboutSelectedService() {
   const [modeState] = useContext(ModeContext);
 
   // Check which mode to show
@@ -30,6 +30,6 @@ const InfoAboutSelectedService = () => {
   };
 
   return <div className="wmnds-col-1">{infoAboutSelectedServiceToShow()}</div>;
-};
+}
 
 export default InfoAboutSelectedService;

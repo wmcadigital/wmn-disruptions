@@ -7,7 +7,7 @@ import InfoAboutSelectedService from './InfoAboutSelectedService/InfoAboutSelect
 import SaveRoutesMessage from './SaveRoutesMessage/SaveRoutesMessage';
 import NoKnownDisruptionMessage from './NoKnownDisruptionMessage/NoKnownDisruptionMessage';
 
-const SelectedService = () => {
+function SelectedService() {
   const {
     showInfoAboutSelectedService,
     showServiceMessage,
@@ -35,6 +35,6 @@ const SelectedService = () => {
         ))}
     </>
   );
-};
+}
 
 export default SelectedService;

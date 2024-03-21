@@ -8,7 +8,7 @@ import './MobileTray.scss';
 import s from './Tray.module.scss';
 import useMobileTrayMethods from './useMobileTrayMethods';
 
-const MobileTray = () => {
+function MobileTray() {
   const draggableTray = useRef(); // Ref used to keep track of Draggable dom element
   const slideableTray = useRef(); // Ref to track swipe dom element
   const { onSwipeStart, onSwipeEnd, onSwipeDown, onSwipeUp, trayPosition, appHeight } =
@@ -42,6 +42,6 @@ const MobileTray = () => {
       </Swipe>
     </div>
   );
-};
+}
 
 export default MobileTray;

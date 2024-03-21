@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Icon from '../Icon/Icon';
 import './Button.scss'; // Temp styling for displaying button as link
 
-const Button = ({
+function Button({
   type,
   title,
   isActive,
@@ -15,7 +15,7 @@ const Button = ({
   iconRight,
   disabled,
   id,
-}) => {
+}) {
   return (
     <button
       // eslint-disable-next-line react/button-has-type
@@ -40,7 +40,7 @@ const Button = ({
       ) : null}
     </button>
   );
-};
+}
 
 // Set props
 Button.propTypes = {

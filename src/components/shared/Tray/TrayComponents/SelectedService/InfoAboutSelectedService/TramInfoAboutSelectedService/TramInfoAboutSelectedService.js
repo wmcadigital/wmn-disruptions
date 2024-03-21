@@ -6,7 +6,7 @@ import Message from 'components/shared/Message/Message';
 import numberToWord from '../helpers/numberToWord';
 import useGetTramStopByStop from './customHooks/useGetTramStopByStop';
 
-const TramInfoAboutSelectedService = () => {
+function TramInfoAboutSelectedService() {
   const { autoCompleteState, loading, errorInfo, getInBetweenTramStops } = useGetTramStopByStop();
   const { selectedItem, selectedItemTo } = autoCompleteState;
 
@@ -80,6 +80,6 @@ const TramInfoAboutSelectedService = () => {
       ))}
     </>
   );
-};
+}
 
 export default TramInfoAboutSelectedService;

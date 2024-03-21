@@ -16,7 +16,7 @@ const root = ReactDOM.createRoot(document.getElementById('disruptionsApp'));
 root.render(
   <Sentry.ErrorBoundary>
     <App />
-  </Sentry.ErrorBoundary>
+  </Sentry.ErrorBoundary>,
 );
 
 // If you want your app to work offline and load faster, you can change

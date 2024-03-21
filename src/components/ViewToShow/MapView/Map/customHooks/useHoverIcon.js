@@ -40,7 +40,7 @@ const useHoverIcon = (view, isIconLayerCreated) => {
       if (!queryResult?.features.length) return [];
       return queryResult.features;
     },
-    [getDisruptionsFeatureLayer]
+    [getDisruptionsFeatureLayer],
   );
 
   const updateIcons = useCallback(
@@ -62,7 +62,7 @@ const useHoverIcon = (view, isIconLayerCreated) => {
       const featuresToHover = features.filter((feature) => feature.attributes.id === disruptionId);
 
       const featuresToUnhover = features.filter((feature) =>
-        feature.attributes.mapIcon.includes('hover')
+        feature.attributes.mapIcon.includes('hover'),
       );
       const hoveredFeatureIds = featuresToUnhover.map((hovered) => hovered?.attributes?.id);
 
@@ -94,7 +94,7 @@ const useHoverIcon = (view, isIconLayerCreated) => {
 
       setShouldUpdateIcons(false);
     },
-    [getDisruptionsFeatureLayer, queryDisruptionsFeatureLayer]
+    [getDisruptionsFeatureLayer, queryDisruptionsFeatureLayer],
   );
 
   useEffect(() => {

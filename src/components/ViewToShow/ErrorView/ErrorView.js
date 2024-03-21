@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const ErrorPage = () => {
+function ErrorPage() {
   const [timeLeft, setTimeLeft] = useState(60); // set timeleft state
   useEffect(() => {
     // Set an interval to run every one second
@@ -36,6 +36,6 @@ const ErrorPage = () => {
       </div>
     </div>
   );
-};
+}
 
 export default ErrorPage;

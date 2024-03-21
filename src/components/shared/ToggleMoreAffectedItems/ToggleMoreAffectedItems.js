@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'components/shared/Button/Button';
 
-const ToggleMoreAffectedItems = ({ amountHidden, handleClick, id, isExpanded, serviceText }) => {
+function ToggleMoreAffectedItems({ amountHidden, handleClick, id, isExpanded, serviceText }) {
   // Create button text
   let buttonText = `${isExpanded ? 'Hide' : 'Show'} `;
   buttonText += `${amountHidden} `;
@@ -22,7 +22,7 @@ const ToggleMoreAffectedItems = ({ amountHidden, handleClick, id, isExpanded, se
       />
     </div>
   );
-};
+}
 
 // Set props
 ToggleMoreAffectedItems.propTypes = {
