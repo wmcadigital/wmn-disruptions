@@ -2,7 +2,7 @@
 import 'react-app-polyfill/stable';
 // React
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 import App from './components/App/App';
 // Sentry logging

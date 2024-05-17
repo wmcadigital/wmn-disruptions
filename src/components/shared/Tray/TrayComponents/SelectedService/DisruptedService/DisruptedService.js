@@ -55,7 +55,8 @@ function DisruptedService({ disruption }) {
 
 // PropTypes
 DisruptedService.propTypes = {
-  disruption: PropTypes.objectOf([PropTypes.object]).isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  disruption: PropTypes.any.isRequired,
 };
 
 export default DisruptedService;

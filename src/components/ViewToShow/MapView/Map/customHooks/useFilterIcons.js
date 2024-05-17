@@ -1,8 +1,10 @@
 /* eslint-disable no-console */
 import { useState, useEffect, useCallback, useContext } from 'react';
-import { loadModules } from 'esri-loader';
 import { AutoCompleteContext, ModeContext, WhenContext } from 'globalState';
 import useDateFilter from 'customHooks/useDateFilter';
+
+import FeatureFilter from '@arcgis/core/layers/support/FeatureFilter';
+import Point from '@arcgis/core/geometry/Point';
 
 const useFilterIcons = (view, isIconLayerCreated) => {
   const [isFilteringDone, setIsFilteringDone] = useState(false);
@@ -41,16 +43,16 @@ const useFilterIcons = (view, isIconLayerCreated) => {
       }
     }
 
-    let FeatureFilter;
-    let Point;
-    try {
-      [FeatureFilter, Point] = await loadModules([
-        'esri/views/layers/support/FeatureFilter',
-        'esri/geometry/Point',
-      ]);
-    } catch (error) {
-      console.log(error);
-    }
+    // let FeatureFilter;
+    // let Point;
+    // try {
+    //   [FeatureFilter, Point] = await loadModules([
+    //     'esri/views/layers/support/FeatureFilter',
+    //     'esri/geometry/Point',
+    //   ]);
+    // } catch (error) {
+    //   console.log(error);
+    // }
 
     let whereClause;
     let distance;
@@ -115,9 +117,9 @@ const useFilterIcons = (view, isIconLayerCreated) => {
     if (!disruptionsFeatureLayerView) return;
     disruptionsFeatureLayerView.filter = new FeatureFilter({
       where: whereClause,
-      distance,
       geometry: point,
       spatialRelationship: 'contains',
+      distance,
       units: 'miles',
     });
     setIsFilteringDone(true);
