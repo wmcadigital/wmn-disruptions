@@ -29,6 +29,11 @@ $offset-top: $size-lg;
       border: 0;
     }
 
+    .esri-widget--button {
+      background-color: get-color(information);
+      color: inherit;
+    }
+
     // locate and zoom buttons
     .esri-locate,
     .esri-zoom .esri-widget--button {
@@ -64,11 +69,11 @@ $offset-top: $size-lg;
 
     // locate button
     .esri-locate {
-      background-color: get-color(information);
-      color: white;
+      background-color: get-color(information)!important;
+      color: white!important;
 
       &:hover {
-        background-color: get-color(information, 30, dark);
+        background-color: get-color(information, 30, dark)!important;
       }
 
       // custom locate icon
