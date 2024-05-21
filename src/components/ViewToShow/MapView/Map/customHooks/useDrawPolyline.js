@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { useState, useEffect, useCallback, useContext, useRef } from 'react';
-import { loadModules } from 'esri-loader';
 import axios from 'axios';
+import Graphic from '@arcgis/core/Graphic';
 
 import { AutoCompleteContext, ModeContext } from 'globalState';
 
@@ -44,12 +44,12 @@ const useDrawPolyline = (view) => {
       if (!response?.data?.geoJson?.features[0]?.geometry?.coordinates) return;
       const paths = response?.data?.geoJson?.features[0]?.geometry?.coordinates;
 
-      let Graphic;
-      try {
-        [Graphic] = await loadModules(['esri/Graphic']);
-      } catch (error) {
-        console.log(error);
-      }
+      // let Graphic;
+      // try {
+      //   [Graphic] = await loadModules(['esri/Graphic']);
+      // } catch (error) {
+      //   console.log(error);
+      // }
 
       const polyline = new Graphic({
         geometry: {

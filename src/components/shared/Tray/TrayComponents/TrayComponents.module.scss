@@ -1,11 +1,11 @@
 .resetBtn {
-  background: none;
-  border: 0;
-  border-radius: 0;
+  background: none!important;
+  border: 0!important;
+  border-radius: 0!important;
 
   &:hover,
   &:active,
   &:focus {
-    background: none;
+    background: none!important;
   }
 }

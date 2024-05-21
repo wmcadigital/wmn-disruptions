@@ -12,6 +12,7 @@
   },
   "copyright": "WMCA",
   "dependencies": {
+    "@arcgis/core": "^4.29.10",
     "@sentry/react": "^7.11.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
@@ -19,7 +20,6 @@
     "axios": "^0.27.2",
     "date-fns": "^2.29.2",
     "dompurify": "^2.3.11",
-    "esri-loader": "^3.6.0",
     "fecha": "^4.2.3",
     "haversine-distance": "^1.2.1",
     "moment": "^2.29.4",

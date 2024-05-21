@@ -1,7 +1,8 @@
 import { useEffect, useState, useContext, useCallback, useMemo } from 'react';
-import { loadModules } from 'esri-loader';
 import { format, parse } from 'fecha';
 import { FetchDisruptionsContext } from 'globalState';
+import Graphic from '@arcgis/core/Graphic';
+import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 
 const useCreateIconLayer = (view) => {
   const [isCreated, setIsCreated] = useState(false);
@@ -16,10 +17,6 @@ const useCreateIconLayer = (view) => {
   const createIconLayer = useCallback(async () => {
     try {
       if (!disruptionsData.length) return;
-      const [Graphic, FeatureLayer] = await loadModules([
-        'esri/Graphic',
-        'esri/layers/FeatureLayer',
-      ]);
 
       const fallbackDate = format(new Date(), 'YYYY-MM-DD');
       const getValidDate = (date) => {

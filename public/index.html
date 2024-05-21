@@ -70,11 +70,10 @@
       content="//unpkg.com/wmn-design-system@%REACT_APP_WMNDS_VERSION%/build/config/wmn-share.png"
     />
 
+    <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css" />
+
     <!-- WMN design system CSS -->
-    <link
-      rel="stylesheet"
-      href="//unpkg.com/wmn-design-system@%REACT_APP_WMNDS_VERSION%/build/css/wmnds.min.css"
-    />
+    <link rel="stylesheet" href="assets/css/wmnds.min.css" />
 
     <!-- Google Tag Manager -->
     <script>
@@ -95,7 +94,7 @@
     <!-- Style for template -->
     <style>
       .wmnds-header--mega-menu {
-        display: none;
+        display: none!important;
       }
       .wmnds-header__title {
         text-align: right;
@@ -147,7 +146,7 @@
             <img
               class="wmnds-header__logo"
               alt="Transport for West Midlands logo"
-              src="//wmnetwork.netlify.com/img/logo.svg"
+              src="https://unpkg.com/wmn-design-system@2.2.0/build/img/logo.svg"
             />
           </a>
         </div>
@@ -167,7 +166,7 @@
     <!-- Ajax SVG in, SVGS are referenced in app (Icon component) -->
     <script>
       const ajax = new XMLHttpRequest();
-      ajax.open('GET', 'https://designsystem.wmnetwork.co.uk/img/wmnds-sprite.min.svg', true);
+      ajax.open('GET', 'assets/img/wmnds-icons.min.svg', true);
       ajax.send();
       ajax.onload = function () {
         const div = document.createElement('div');
