@@ -32,8 +32,10 @@ function DisruptedService({ disruption }) {
     }
   }, [modeState.mode, selectedItem.id, selectedItemTo]);
 
+  const styles = { overflowY: 'auto' };
+
   return (
-    <div className={`wmnds-grid wmnds-m-t-sm `} ref={disruptionRef}>
+    <div className="wmnds-grid wmnds-m-t-sm wmnds-disruption" ref={disruptionRef} style={styles}>
       <hr className="wmnds-col-1" />
       {/* Title of disruptions */}
       <div className="wmnds-col-1 wmnds-m-b-lg">
