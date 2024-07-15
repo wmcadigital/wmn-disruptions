@@ -5,6 +5,7 @@ const useWindowHeightWidth = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth); // Store windows innerWidth so we can check on it for the render/return of this component
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   const [bannerHeight, setBannerHeight] = useState(0);
+  // const [footerHeight, setFooterHeight] = useState(0);
   const [disruptionHeight, setDisruptionHeight] = useState(0);
   const [appHeight, setAppHeight] = useState();
   const [filterHeight, setFilterHeight] = useLocalStorage('filterHeight', null); // add filter height to local storage
@@ -19,6 +20,15 @@ const useWindowHeightWidth = () => {
     if (banner.length > 0) {
       setBannerHeight(divElement.offsetHeight);
     }
+
+    // work out height of the footer to include in the app height
+    // const footer = document.getElementsByClassName('wmnds-footer');
+    // const footerElement = document.querySelector('.wmnds-footer');
+    // if (footer.length > 0) {
+    //   console.log('set footer');
+    //   setFooterHeight(footerElement.offsetHeight);
+    //   console.log(footerHeight);
+    // }
 
     // work out height of the filter including the disruption info
     const filter = document.getElementsByClassName('Tray_tray__hrAu8');
@@ -48,6 +58,7 @@ const useWindowHeightWidth = () => {
 
     // Add event listener to window resize, if resized then update width with new window.width and window.height
     window.addEventListener('resize', updateWidthHeight);
+    window.addEventListener('load', updateWidthHeight);
 
     filterElements.onresize = updateAppWidthHeight();
 
@@ -61,10 +72,10 @@ const useWindowHeightWidth = () => {
   useEffect(() => {
     // console.log(filterHeight);
     // Set app height to window height minus the header height
-    if (windowWidth > 410) {
+    if (windowWidth > 768) {
       setAppHeight(filterHeight + 300);
     } else {
-      setAppHeight(filterHeight + 600);
+      setAppHeight(windowHeight); // bannerHeight - footerHeight
     }
   }, [bannerHeight, disruptionHeight, filterHeight, windowHeight, windowWidth]);
 
