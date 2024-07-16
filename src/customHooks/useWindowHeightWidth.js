@@ -5,7 +5,7 @@ const useWindowHeightWidth = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth); // Store windows innerWidth so we can check on it for the render/return of this component
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   const [bannerHeight, setBannerHeight] = useState(0);
-  // const [footerHeight, setFooterHeight] = useState(0);
+  const [footerHeight, setFooterHeight] = useState(0);
   const [disruptionHeight, setDisruptionHeight] = useState(0);
   const [appHeight, setAppHeight] = useState();
   const [filterHeight, setFilterHeight] = useLocalStorage('filterHeight', null); // add filter height to local storage
@@ -22,13 +22,11 @@ const useWindowHeightWidth = () => {
     }
 
     // work out height of the footer to include in the app height
-    // const footer = document.getElementsByClassName('wmnds-footer');
-    // const footerElement = document.querySelector('.wmnds-footer');
-    // if (footer.length > 0) {
-    //   console.log('set footer');
-    //   setFooterHeight(footerElement.offsetHeight);
-    //   console.log(footerHeight);
-    // }
+    const footer = document.getElementsByClassName('wmnds-footer');
+    const footerElement = document.querySelector('.wmnds-footer');
+    if (footer.length > 0) {
+      setFooterHeight(footerElement.offsetHeight);
+    }
 
     // work out height of the filter including the disruption info
     const filter = document.getElementsByClassName('Tray_tray__hrAu8');
@@ -75,11 +73,11 @@ const useWindowHeightWidth = () => {
     if (windowWidth > 768) {
       setAppHeight(filterHeight + 300);
     } else {
-      setAppHeight(windowHeight); // bannerHeight - footerHeight
+      setAppHeight(filterHeight - bannerHeight); // bannerHeight - footerHeight
     }
   }, [bannerHeight, disruptionHeight, filterHeight, windowHeight, windowWidth]);
 
-  return { windowWidth, windowHeight, appHeight };
+  return { windowWidth, windowHeight, appHeight, bannerHeight, footerHeight };
 };
 
 export default useWindowHeightWidth;
