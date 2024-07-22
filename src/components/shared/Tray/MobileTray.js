@@ -16,7 +16,7 @@ function MobileTray() {
 
   return (
     <div
-      className={`${s.tray} wmnds-grid `}
+      className={`${s.tray} wmnds-grid mobile-tray`}
       //  set top position of tray based on logic in useMobileTrayMethods
       style={{
         top: typeof appHeight !== 'number' ? '100%' : appHeight - trayPosition,
