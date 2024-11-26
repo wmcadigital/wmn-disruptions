@@ -12,7 +12,7 @@ import SelectedServiceHeader from '../SelectedServiceHeader/SelectedServiceHeade
 import useHandleAutoCompleteKeys from '../customHooks/useHandleAutoCompleteKeys';
 import useAutoCompleteAPI from '../customHooks/useAutoCompleteAPI';
 
-function TrainAutoComplete({ to }) {
+const TrainAutoComplete = ({ to }) => {
   const { updateQuery, autoCompleteState, autoCompleteDispatch } = useResetState();
 
   const resultsList = useRef(null);
@@ -25,14 +25,13 @@ function TrainAutoComplete({ to }) {
     `/rail/v2/station?q=${encodeURI(trainQuery)}`,
     'train',
     trainQuery,
-    to,
+    to
   );
 
   // Import handleKeyDown function from customHook (used by all modes)
   const { handleKeyDown } = useHandleAutoCompleteKeys(resultsList, DebounceInput, results);
 
   return (
-    // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
       {selectedService.id && !autoCompleteState.selectedItem.selectedByMap ? (
         <SelectedServiceHeader
@@ -62,7 +61,7 @@ function TrainAutoComplete({ to }) {
               value={trainQuery || ''}
               onChange={(e) => updateQuery(e.target.value, to)}
               aria-label="Search for a station"
-              debounceTimeout={1200}
+              debounceTimeout={600}
               onKeyDown={(e) => handleKeyDown(e)}
               inputRef={debounceInput}
             />
@@ -95,7 +94,7 @@ function TrainAutoComplete({ to }) {
       )}
     </>
   );
-}
+};
 
 // PropTypes
 TrainAutoComplete.propTypes = {
