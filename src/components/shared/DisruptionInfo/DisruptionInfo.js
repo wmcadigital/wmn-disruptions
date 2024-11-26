@@ -109,13 +109,13 @@ const DisruptionInfo = ({ disruption }) => {
             <p>
               <strong>When?</strong>
               <br />
-              {/* Temporary fix for textual errors of rail disruption timings during British Summer Time:<Moment locale="en-GB" format="dddd, Do MMMM YYYY HH:mm" add={{ hours: 1 }}> */}
-              <Moment locale="en-GB" format="dddd, Do MMMM YYYY HH:mm">
+              {/* Temporary fix for textual errors of rail disruption timings during British Summer Time */}
+              <Moment locale="en-GB" format="dddd, Do MMMM YYYY HH:mm" add={{ hours: 1 }}>
                 {disruption.disruptionTimeWindow.start}
               </Moment>
               {' to '}
 
-              <Moment locale="en-GB" format="dddd, Do MMMM YYYY HH:mm">
+              <Moment locale="en-GB" format="dddd, Do MMMM YYYY HH:mm" add={{ hours: 1 }}>
                 {disruption.disruptionTimeWindow.end}
               </Moment>
             </p>
