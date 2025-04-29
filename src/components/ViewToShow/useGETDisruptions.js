@@ -20,6 +20,7 @@ const useGETDisruptions = () => {
           random: randomString,
         },
       })
+      // .get(`assets/demo-api.json`)
       .then((response) => {
         setFetchDisruptionsState((prevState) => ({
           ...prevState,

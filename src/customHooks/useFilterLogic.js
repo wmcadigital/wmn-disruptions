@@ -20,6 +20,8 @@ const useFilterLogic = () => {
 
   let filteredData = fetchDisruptionsState.data; // All disruptions
 
+  // console.log(filteredData);
+
   // When filtering
   if (whenState.when) {
     // Filter results on date range
