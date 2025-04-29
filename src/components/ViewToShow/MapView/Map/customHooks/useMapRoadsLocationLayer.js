@@ -1,7 +1,10 @@
 import { useState, useContext, useEffect, useRef } from 'react';
-import { loadModules } from 'esri-loader';
 import { AutoCompleteContext, ModeContext } from 'globalState';
 import mapMarker from 'assets/svgs/map/map-marker.svg';
+
+import Graphic from '@arcgis/core/Graphic';
+import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
+import Circle from '@arcgis/core/geometry/Circle';
 
 const useMapRoadsLocationLayer = (map, view) => {
   const [autoCompleteState] = useContext(AutoCompleteContext);
@@ -17,11 +20,11 @@ const useMapRoadsLocationLayer = (map, view) => {
     const isLocationSelected = lat && lon && radius;
 
     const drawRoadsLocationLayer = async () => {
-      const [Graphic, GraphicsLayer, Circle] = await loadModules([
-        'esri/Graphic',
-        'esri/layers/GraphicsLayer',
-        'esri/geometry/Circle',
-      ]);
+      // const [Graphic, GraphicsLayer, Circle] = await loadModules([
+      //   'esri/Graphic',
+      //   'esri/layers/GraphicsLayer',
+      //   'esri/geometry/Circle',
+      // ]);
 
       if (!graphicsLayer.current) {
         graphicsLayer.current = new GraphicsLayer({ id: 'roadsLocation' });

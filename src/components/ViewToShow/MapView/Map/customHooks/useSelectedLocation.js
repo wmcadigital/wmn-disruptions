@@ -1,7 +1,8 @@
 import { useState, useContext, useCallback, useEffect } from 'react';
-import { loadModules } from 'esri-loader';
 import { AutoCompleteContext, ModeContext } from 'globalState';
 import mapMarker from 'assets/svgs/map/map-marker.svg';
+import Graphic from '@arcgis/core/Graphic';
+import Circle from '@arcgis/core/geometry/Circle';
 
 const useSelectedLocation = (view) => {
   const [autoCompleteState] = useContext(AutoCompleteContext);
@@ -15,15 +16,15 @@ const useSelectedLocation = (view) => {
   const [isLocationSelected, setIsLocationSelected] = useState(false);
 
   const drawSelectedLocation = useCallback(async () => {
-    let Graphic;
-    let Circle;
+    // let Graphic;
+    // let Circle;
 
-    try {
-      [Graphic, Circle] = await loadModules(['esri/Graphic', 'esri/geometry/Circle']);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-    }
+    // try {
+    //   [Graphic, Circle] = await loadModules(['esri/Graphic', 'esri/geometry/Circle']);
+    // } catch (error) {
+    //   // eslint-disable-next-line no-console
+    //   console.log(error);
+    // }
 
     // Create radius circle
     const circle = new Circle({

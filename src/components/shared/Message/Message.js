@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from 'components/shared/Icon/Icon';
 import dompurify from 'dompurify';
+import Icon from 'components/shared/Icon/Icon';
 
 const { sanitize } = dompurify;
 
-const Message = ({ type, title, message, showRetry, retryCallback }) => {
+function Message({ type, title, message, showRetry, retryCallback }) {
   let iconName;
   switch (type) {
     case 'error':
@@ -50,7 +50,7 @@ const Message = ({ type, title, message, showRetry, retryCallback }) => {
       </div>
     </div>
   );
-};
+}
 
 Message.propTypes = {
   type: PropTypes.string,

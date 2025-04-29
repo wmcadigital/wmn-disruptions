@@ -28,10 +28,10 @@
   }
 
   &:hover {
-    color: get-color(cta, 40, dark);
+    color: get-color(cta, 40%, dark);
 
     .wmnds-btn__icon {
-      fill: get-color(cta, 40, dark);
+      fill: get-color(cta, 40%, dark);
     }
   }
 

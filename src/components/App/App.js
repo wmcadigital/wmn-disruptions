@@ -4,7 +4,7 @@ import React from 'react';
 import ContextProvider from 'globalState/ContextProvider';
 import ViewToShow from '../ViewToShow/ViewToShow';
 
-const App = () => {
+function App() {
   return (
     <React.StrictMode>
       <ContextProvider>
@@ -12,6 +12,6 @@ const App = () => {
       </ContextProvider>
     </React.StrictMode>
   );
-};
+}
 
 export default App;

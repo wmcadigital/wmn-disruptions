@@ -7,7 +7,7 @@ import DisruptionIndicatorSmall from 'components/shared/DisruptionIndicator/Disr
 import DisruptionInfo from 'components/shared/DisruptionInfo/DisruptionInfo';
 import useDisruptionAffectedItems from 'customHooks/useDisruptionAffectedItems';
 
-const DisruptionItem = ({ disruption }) => {
+function DisruptionItem({ disruption }) {
   const [openAccordions, setopenAccordions] = useState({}); // Used to track state of open and closed accordions
   const { iconLeft, title, affectedItems } = useDisruptionAffectedItems(disruption); // Get the correct modal icon and affectedItems
 
@@ -64,7 +64,7 @@ const DisruptionItem = ({ disruption }) => {
       {/* Accordion End */}
     </>
   );
-};
+}
 
 // PropTypes
 DisruptionItem.propTypes = {

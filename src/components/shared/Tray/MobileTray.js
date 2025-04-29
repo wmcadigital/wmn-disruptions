@@ -8,7 +8,7 @@ import './MobileTray.scss';
 import s from './Tray.module.scss';
 import useMobileTrayMethods from './useMobileTrayMethods';
 
-const MobileTray = () => {
+function MobileTray() {
   const draggableTray = useRef(); // Ref used to keep track of Draggable dom element
   const slideableTray = useRef(); // Ref to track swipe dom element
   const { onSwipeStart, onSwipeEnd, onSwipeDown, onSwipeUp, trayPosition, appHeight } =
@@ -16,7 +16,7 @@ const MobileTray = () => {
 
   return (
     <div
-      className={`${s.tray} wmnds-grid `}
+      className={`${s.tray} wmnds-grid mobile-tray`}
       //  set top position of tray based on logic in useMobileTrayMethods
       style={{
         top: typeof appHeight !== 'number' ? '100%' : appHeight - trayPosition,
@@ -42,6 +42,6 @@ const MobileTray = () => {
       </Swipe>
     </div>
   );
-};
+}
 
 export default MobileTray;

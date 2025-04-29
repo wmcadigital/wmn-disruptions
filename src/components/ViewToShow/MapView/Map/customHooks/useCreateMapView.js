@@ -1,6 +1,16 @@
 import { useEffect, useState, useCallback } from 'react';
-import { loadModules, setDefaultOptions } from 'esri-loader';
 import locateCircle from 'assets/svgs/map/locate-circle.svg';
+
+import Map from '@arcgis/core/Map';
+import MapView from '@arcgis/core/views/MapView';
+import Basemap from '@arcgis/core/Basemap';
+import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer';
+import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
+import Graphic from '@arcgis/core/Graphic';
+import Locate from '@arcgis/core/widgets/Locate';
+
+// import MapView from "@arcgis/core/views/MapView";
+// import Map from "@arcgis/core/Map";
 
 const useCreateMapView = (mapContainerRef) => {
   const [viewState, setViewState] = useState(null);
@@ -8,17 +18,17 @@ const useCreateMapView = (mapContainerRef) => {
 
   const createMapView = useCallback(async () => {
     try {
-      setDefaultOptions({ css: true }); // Load esri css by default
-      const [Map, MapView, Basemap, VectorTileLayer, GraphicsLayer, Graphic, Locate] =
-        await loadModules([
-          'esri/Map',
-          'esri/views/MapView',
-          'esri/Basemap',
-          'esri/layers/VectorTileLayer',
-          'esri/layers/GraphicsLayer',
-          'esri/Graphic',
-          'esri/widgets/Locate',
-        ]);
+      // setDefaultOptions({ css: true }); // Load esri css by default
+      // const [Map, MapView, Basemap, VectorTileLayer, GraphicsLayer, Graphic, Locate] =
+      //   await loadModules([
+      //     'esri/Map',
+      //     'esri/views/MapView',
+      //     'esri/Basemap',
+      //     'esri/layers/VectorTileLayer',
+      //     'esri/layers/GraphicsLayer',
+      //     'esri/Graphic',
+      //     'esri/widgets/Locate',
+      //   ]);
 
       const basemap = new Basemap({
         baseLayers: [

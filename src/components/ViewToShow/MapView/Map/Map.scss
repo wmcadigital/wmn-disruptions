@@ -13,7 +13,7 @@ $offset-top: $size-lg;
   z-index: 1;
   transition: height 0.35s ease;
 
-  @media all and(min-width: 768px) {
+  @media all and (min-width: 768px) {
     position: static;
     width: calc(100% - 414px); // 414px is the width of the tray
     float: right;
@@ -27,6 +27,11 @@ $offset-top: $size-lg;
       background: 0;
       box-shadow: none;
       border: 0;
+    }
+
+    .esri-widget--button {
+      background-color: get-color(information);
+      color: inherit;
     }
 
     // locate and zoom buttons
@@ -64,11 +69,11 @@ $offset-top: $size-lg;
 
     // locate button
     .esri-locate {
-      background-color: get-color(information);
-      color: white;
+      background-color: get-color(information)!important;
+      color: white!important;
 
       &:hover {
-        background-color: get-color(information, 30, dark);
+        background-color: get-color(information, 30, dark)!important;
       }
 
       // custom locate icon

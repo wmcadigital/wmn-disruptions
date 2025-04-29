@@ -7,11 +7,12 @@ import Tray from '../../shared/Tray/Tray';
 // Import styles
 import s from './MapView.module.scss';
 
-const MapView = () => {
-  const { appHeight, windowWidth } = useWindowHeightWidth(); // Get window height and width
+function MapView() {
+  const { appHeight, windowWidth, bannerHeight } = useWindowHeightWidth(); // Get window height and width
+  const mobileSize = `calc(100vh - ${bannerHeight}px - 200px)`;
 
   // Show correct height based on screen size
-  const mapHeight = windowWidth < 768 ? appHeight : 'calc(100vh - 88px - 72px)'; // Minus 298px as this is the height footer
+  const mapHeight = windowWidth < 768 ? mobileSize : appHeight; // Minus 298px as this is the height footer 'calc(100vh - 88px - 72px)'
   const leftPadding = windowWidth / 2 - 504;
 
   return (
@@ -20,6 +21,6 @@ const MapView = () => {
       <Tray />
     </div>
   );
-};
+}
 
 export default MapView;

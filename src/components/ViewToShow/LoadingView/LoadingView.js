@@ -2,7 +2,7 @@ import React from 'react';
 // Import styling
 import s from './LoadingView.module.scss';
 
-const LoadingView = () => {
+function LoadingView() {
   const loadingText = 'Getting the latest disruptions';
 
   return (
@@ -15,6 +15,6 @@ const LoadingView = () => {
       <h3>{loadingText}</h3>
     </div>
   );
-};
+}
 
 export default LoadingView;

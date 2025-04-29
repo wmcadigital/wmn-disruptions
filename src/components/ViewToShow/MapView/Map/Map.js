@@ -14,7 +14,7 @@ import useSelectedLocation from './customHooks/useSelectedLocation';
 import useIconClustering from './customHooks/useIconClustering';
 import './Map.scss';
 
-const WebMapView = () => {
+function WebMapView() {
   // MAP SETUP
   const mapContainerRef = useRef();
   const { appHeight } = useWindowHeightWidth();
@@ -42,6 +42,6 @@ const WebMapView = () => {
       style={{ minHeight: appHeight && appHeight / 2 }}
     />
   );
-};
+}
 
 export default WebMapView;

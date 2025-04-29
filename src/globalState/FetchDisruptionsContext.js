@@ -4,7 +4,7 @@ import { getSearchParam } from 'globalState/helpers/URLSearchParams'; // (used t
 
 export const FetchDisruptionsContext = createContext(); // Create when context
 
-export const FetchDisruptionsProvider = (props) => {
+export function FetchDisruptionsProvider(props) {
   const { children } = props || {};
 
   const [fetchDisruptionsState, setFetchDisruptionsState] = useState({
@@ -17,8 +17,9 @@ export const FetchDisruptionsProvider = (props) => {
 
   // Pass state and dispatch in context and make accessible to children it wraps
   return (
+    // eslint-disable-next-line react/jsx-no-constructed-context-values
     <FetchDisruptionsContext.Provider value={[fetchDisruptionsState, setFetchDisruptionsState]}>
       {children}
     </FetchDisruptionsContext.Provider>
   );
-};
+}

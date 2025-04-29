@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'components/shared/Icon/Icon';
 
-const DisruptionIndicatorSmall = ({ className, iconLeft, severity }) => {
+function DisruptionIndicatorSmall({ className, iconLeft, severity }) {
   let iconRightName;
   let disruptedClass;
   // Removed the if statement - Icon now showing.
@@ -43,7 +43,7 @@ const DisruptionIndicatorSmall = ({ className, iconLeft, severity }) => {
       />
     </span>
   );
-};
+}
 
 // Set props
 DisruptionIndicatorSmall.propTypes = {

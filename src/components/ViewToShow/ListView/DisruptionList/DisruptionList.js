@@ -5,7 +5,7 @@ import useFilterLogic from 'customHooks/useFilterLogic';
 import NoKnownDisruptionMessage from 'components/shared/Tray/TrayComponents/SelectedService/NoKnownDisruptionMessage/NoKnownDisruptionMessage';
 import DisruptionItem from './DisruptionItem/DisruptionItem';
 
-const DisruptionList = () => {
+function DisruptionList() {
   const filteredData = useFilterLogic(); // Use filter logic based on tray selections
   const disruptionsTotal = filteredData.length;
 
@@ -39,6 +39,6 @@ const DisruptionList = () => {
   ) : (
     <NoKnownDisruptionMessage isListView />
   );
-};
+}
 
 export default DisruptionList;

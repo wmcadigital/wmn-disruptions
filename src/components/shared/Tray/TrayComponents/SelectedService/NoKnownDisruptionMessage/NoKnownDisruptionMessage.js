@@ -6,7 +6,7 @@ import { getSearchParam } from 'globalState/helpers/URLSearchParams';
 // Components
 import Icon from 'components/shared/Icon/Icon';
 
-const NoKnownDisruptionMessage = ({ isListView = false }) => {
+function NoKnownDisruptionMessage({ isListView = false }) {
   const [modeState] = useContext(ModeContext);
   const [whenState] = useContext(WhenContext);
   const [autoCompleteState, autoCompleteDispatch] = useContext(AutoCompleteContext);
@@ -23,7 +23,7 @@ const NoKnownDisruptionMessage = ({ isListView = false }) => {
       case 'customDate':
         return `expected on ${new Date(whenState.whenCustomDate).toLocaleDateString(
           'en-GB',
-          dateOptions
+          dateOptions,
         )}`;
 
       default:
@@ -125,7 +125,7 @@ const NoKnownDisruptionMessage = ({ isListView = false }) => {
       </div>
     </div>
   );
-};
+}
 
 export default NoKnownDisruptionMessage;
 

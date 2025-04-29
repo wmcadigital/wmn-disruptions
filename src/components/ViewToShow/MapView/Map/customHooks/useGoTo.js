@@ -6,7 +6,7 @@ const useGoTo = (
   isIconLayerCreated,
   isFilteringDone,
   isPolylineDrawn,
-  isLocationSelected
+  isLocationSelected,
 ) => {
   const [autoCompleteState] = useContext(AutoCompleteContext);
   const { selectedItem } = autoCompleteState;
