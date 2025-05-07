@@ -43,9 +43,6 @@ const useFilterLogic = () => {
       // console.log('disrStartDate', disrStartDate);
       // console.log('disrEndDate', disrEndDate);
 
-      // console.log('disrStartDate', disrStartDate);
-      // console.log('disrEndDate', disrEndDate);
-
       // If disruption dates are within selected time range then return that disruption
       if (
         (disrStartDate >= fromDate && disrStartDate <= toDate) ||
