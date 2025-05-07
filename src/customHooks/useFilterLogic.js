@@ -31,8 +31,14 @@ const useFilterLogic = () => {
       const getValidDate = (date) => (date ? parse(date, 'isoDateTime') : new Date()); // Parse the date to make sure a correct date is available, if not return todays date
 
       // 2020-02-05T15:30:00Z
-      const disrStartDate = format(getValidDate(disrItem.disruptionTimeWindow.start), 'YYYY-MM-DD');
-      const disrEndDate = format(getValidDate(disrItem.disruptionTimeWindow.end), 'YYYY-MM-DD');
+      const disrStartDate = format(
+        getValidDate(disrItem.disruptionTimeWindow.start),
+        'YYYY-MM-DDTHH:mm:ss.sssZ',
+      );
+      const disrEndDate = format(
+        getValidDate(disrItem.disruptionTimeWindow.end),
+        'YYYY-MM-DDTHH:mm:ss.sssZ',
+      );
 
       // console.log('disrStartDate', disrStartDate);
       // console.log('disrEndDate', disrEndDate);
