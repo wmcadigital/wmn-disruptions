@@ -62,6 +62,10 @@ function DisruptionInfo({ disruption }) {
     modeState.mode === 'roads' &&
     disruption.id.charAt(0).toLowerCase() === 'p';
 
+  // add z to train start and end times to make utc
+  const trainStart = `${disruption.disruptionTimeWindow.start}Z`;
+  const trainEnd = `${disruption.disruptionTimeWindow.end}Z`;
+
   return (
     <>
       {/* Disruption description (don't show for trains) */}
@@ -112,12 +116,12 @@ function DisruptionInfo({ disruption }) {
               <strong>When?</strong>
               <br />
               <Moment local format="dddd, Do MMMM YYYY HH:mm">
-                {disruption.disruptionTimeWindow.start}
+                {trainStart}
               </Moment>
               {' to '}
 
               <Moment local format="dddd, Do MMMM YYYY HH:mm">
-                {disruption.disruptionTimeWindow.end}
+                {trainEnd}
               </Moment>
             </p>
             <div
