@@ -16,11 +16,12 @@ const useFilterLogic = () => {
   const [autoCompleteState] = useContext(AutoCompleteContext);
   const [modeState] = useContext(ModeContext); // Get the state of whenButtons from WhenContext
   const [whenState] = useContext(WhenContext); // Get the state of whenButtons from WhenContext
-  const { fromDate, toDate } = useDateFilter(); // Logic to determine what the correct from/to dates should be depending on selected when
+  const { fromDate, toDate, fromDateFull, toDateFull } = useDateFilter(); // Logic to determine what the correct from/to dates should be depending on selected when
 
   let filteredData = fetchDisruptionsState.data; // All disruptions
 
-  // console.log(filteredData);
+  // console.log(whenState);
+  // console.log(fromDate, toDate, fromDateFull, toDateFull);
 
   // When filtering
   if (whenState.when) {
@@ -31,22 +32,66 @@ const useFilterLogic = () => {
       const getValidDate = (date) => (date ? parse(date, 'isoDateTime') : new Date()); // Parse the date to make sure a correct date is available, if not return todays date
 
       // 2020-02-05T15:30:00Z
-      const disrStartDate = format(
-        getValidDate(disrItem.disruptionTimeWindow.start),
-        'YYYY-MM-DDTHH:mm:ss.sssZ',
-      );
-      const disrEndDate = format(
-        getValidDate(disrItem.disruptionTimeWindow.end),
-        'YYYY-MM-DDTHH:mm:ss.sssZ',
-      );
+      let disrStartDate;
+      let disrEndDate;
+      if (whenState.when === 'customDate') {
+        // Format disruption dates as 'YYYY-MM-DD'
+        disrStartDate = format(getValidDate(disrItem.disruptionTimeWindow.start), 'YYYY-MM-DD');
+        disrEndDate = format(getValidDate(disrItem.disruptionTimeWindow.end), 'YYYY-MM-DD');
 
+        // const disrStartDateTest = format(
+        //   getValidDate(disrItem.disruptionTimeWindow.start),
+        //   'YYYY-MM-DDTHH:mm:ss.sssZ',
+        // );
+        // const disrEndDateTest = format(
+        //   getValidDate(disrItem.disruptionTimeWindow.end),
+        //   'YYYY-MM-DDTHH:mm:ss.sssZ',
+        // );
+
+        // Check if disruption start or end date is within the selected date range
+        const isStartWithinRange = disrStartDate >= fromDate && disrStartDate <= toDate;
+        const isEndWithinRange = disrEndDate >= fromDate && disrEndDate <= toDate;
+        const isRangeWithinDisruption = disrStartDate <= fromDate && disrEndDate >= toDate;
+
+        // console.log('-----------');
+        // console.log('subtitle', disrItem.subtitle);
+        // console.log('fromDateFull', fromDate);
+        // console.log('disrItem.disruptionTimeWindow.start', disrItem.disruptionTimeWindow.start);
+        // console.log('disrItem.disruptionTimeWindow.end', disrItem.disruptionTimeWindow.end);
+        // console.log('toDateFull', toDate);
+        // console.log('disrStartDate', disrStartDate);
+        // console.log('disrEndDate', disrEndDate);
+        // console.log('disrStartDateTest', disrStartDateTest);
+        // console.log('disrEndDateTest', disrEndDateTest);
+
+        if (isStartWithinRange || isEndWithinRange || isRangeWithinDisruption) {
+          returnitem = disrItem;
+        }
+        return returnitem;
+      }
+      // disrStartDate = format(
+      //   getValidDate(disrItem.disruptionTimeWindow.start),
+      //   'YYYY-MM-DDTHH:mm:ss.sssZ',
+      // );
+      // disrEndDate = format(
+      //   getValidDate(disrItem.disruptionTimeWindow.end),
+      //   'YYYY-MM-DDTHH:mm:ss.sssZ',
+      // );
+
+      disrStartDate = disrItem.disruptionTimeWindow.start;
+      disrEndDate = disrItem.disruptionTimeWindow.end;
+
+      // console.log('-----------');
+      // console.log('subtitle', disrItem.subtitle);
+      // console.log('fromDateFull', fromDateFull);
+      // console.log('toDateFull', toDateFull);
       // console.log('disrStartDate', disrStartDate);
       // console.log('disrEndDate', disrEndDate);
 
       // If disruption dates are within selected time range then return that disruption
       if (
-        (disrStartDate >= fromDate && disrStartDate <= toDate) ||
-        (disrEndDate >= fromDate && disrStartDate <= toDate)
+        (disrStartDate >= fromDateFull && disrStartDate <= toDateFull) ||
+        (disrEndDate >= fromDateFull && disrStartDate <= toDateFull)
       ) {
         returnitem = disrItem;
       }
