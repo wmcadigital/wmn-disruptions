@@ -2,7 +2,14 @@
   border-radius: 0.1rem;
   border: none;
   box-shadow: 0 0 5px 0 rgba(192, 192, 192, 0.5);
-  max-width: 100%;
+  width: 100% !important;
+  max-width: 320px;
+  box-sizing: border-box;
+}
+
+.react-datepicker__day, .react-datepicker__day-name {
+  width: 25px !important;
+  height: 25px !important;
 }
 
 // Date Picker - Weekends Background Colours
