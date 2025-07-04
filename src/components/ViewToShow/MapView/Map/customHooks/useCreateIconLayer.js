@@ -1,127 +1,146 @@
-import { useEffect, useState, useContext, useCallback, useMemo } from 'react';
+import { useEffect, useState, useCallback } from 'react';
+// import { useEffect, useState, useContext, useCallback, useMemo } from 'react';
 import { format, parse } from 'fecha';
-import { FetchDisruptionsContext } from 'globalState';
+// import { FetchDisruptionsContext } from 'globalState';
+import useFilterLogic from 'customHooks/useFilterLogic';
 import Graphic from '@arcgis/core/Graphic';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 
 const useCreateIconLayer = (view) => {
+  console.log('useCreateIconLayer called');
   const [isCreated, setIsCreated] = useState(false);
   const map = view !== null && view?.map;
 
-  const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
+  // const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
 
-  const disruptionsData = useMemo(() => {
-    return fetchDisruptionsState?.data || [];
-  }, [fetchDisruptionsState]);
+  // const disruptionsData = useMemo(() => {
+  //   return fetchDisruptionsState?.data || [];
+  // }, [fetchDisruptionsState]);
+
+  const disruptionsData = useFilterLogic(); // Use filtered disruptions
+
+  console.log(isCreated);
+  console.log(disruptionsData);
 
   const createIconLayer = useCallback(async () => {
     try {
-      if (!disruptionsData.length) return;
+      console.log('Creating icon layer 1234567890');
+      // if (disruptionsData.length !== 0) return;
+      console.log('Creating icon layer');
 
       const fallbackDate = format(new Date(), 'YYYY-MM-DD');
       const getValidDate = (date) => {
         return date.toLowerCase() !== 'invalid date' ? parse(date, 'isoDateTime') : new Date();
       };
 
-      const disruptionGraphics = disruptionsData.map((disruption) => {
-        const {
-          disruptionTimeWindow,
-          servicesAffected,
-          stopsAffected,
-          id,
-          title,
-          mode,
-          disruptionSeverity,
-          lat,
-          lon,
-        } = disruption;
-
-        const { start, end } = disruptionTimeWindow || { start: fallbackDate, end: fallbackDate };
-        const startDate = format(getValidDate(start), 'YYYY-MM-DD');
-        const endDate = format(getValidDate(end), 'YYYY-MM-DD');
-
-        const affectedIds = (() => {
-          const services = servicesAffected || [];
-          const stops = stopsAffected || [];
-
-          if (mode === 'bus') {
-            return services.reduce((accumulator, service) => {
-              return `${accumulator}${service.id}, `;
-            }, '');
-          }
-
-          if (mode === 'train' && servicesAffected[0]?.routeDescriptions) {
-            return servicesAffected[0].routeDescriptions.reduce((accumulator, line) => {
-              return `${accumulator}${line.description}, `;
-            }, '');
-          }
-
-          if (mode === 'tram') {
-            let ids = '';
-
-            ids = services.reduce((accumulator, service) => {
-              return `${accumulator}${service.id}, `;
-            }, ids);
-
-            ids = stops.reduce((accumulator, stop) => {
-              return `${accumulator}${stop.atcoCode}, `;
-            }, ids);
-
-            return ids;
-          }
-
-          return '';
-        })();
-
-        if (mode === 'tram' && stopsAffected?.length > 0) {
-          return stopsAffected.map(
-            (stop) =>
-              new Graphic({
-                attributes: {
-                  id,
-                  title,
-                  mode,
-                  disruptionSeverity,
-                  mapIcon: `${mode}-${disruptionSeverity}`,
-                  servicesAffected: affectedIds,
-                  startDate,
-                  endDate,
-                },
-                geometry: {
-                  type: 'point',
-                  // If no lat/long then default to Birmingham city centre
-                  longitude: stop.lon || -1.8960335,
-                  latitude: stop.lat || 52.481755,
-                  spatialreference: {
-                    wkid: 4326,
-                  },
-                },
-              }),
-          );
-        }
-
-        return new Graphic({
-          attributes: {
+      const disruptionGraphics = disruptionsData
+        .map((disruption) => {
+          const {
+            disruptionTimeWindow,
+            servicesAffected,
+            stopsAffected,
             id,
             title,
             mode,
             disruptionSeverity,
-            mapIcon: `${mode}-${disruptionSeverity}`,
-            servicesAffected: affectedIds,
-            startDate,
-            endDate,
-          },
-          geometry: {
-            type: 'point',
-            // If no lat/long then default to Birmingham city centre
-            longitude: lon || -1.8960335,
-            latitude: lat || 52.481755,
-            spatialreference: {
-              wkid: 4326,
+            lat,
+            lon,
+          } = disruption;
+
+          // Don't return a graphic if lat or lon is 0
+          if (lat === 0 || lon === 0) return null;
+
+          const { start, end } = disruptionTimeWindow || { start: fallbackDate, end: fallbackDate };
+          const startDate = format(getValidDate(start), 'YYYY-MM-DD');
+          const endDate = format(getValidDate(end), 'YYYY-MM-DD');
+
+          const affectedIds = (() => {
+            const services = servicesAffected || [];
+            const stops = stopsAffected || [];
+
+            if (mode === 'bus') {
+              return services.reduce((accumulator, service) => {
+                return `${accumulator}${service.id}, `;
+              }, '');
+            }
+
+            if (mode === 'train' && servicesAffected[0]?.routeDescriptions) {
+              return servicesAffected[0].routeDescriptions.reduce((accumulator, line) => {
+                return `${accumulator}${line.description}, `;
+              }, '');
+            }
+
+            if (mode === 'tram') {
+              let ids = '';
+
+              ids = services.reduce((accumulator, service) => {
+                return `${accumulator}${service.id}, `;
+              }, ids);
+
+              ids = stops.reduce((accumulator, stop) => {
+                return `${accumulator}${stop.atcoCode}, `;
+              }, ids);
+
+              return ids;
+            }
+
+            return '';
+          })();
+
+          if (mode === 'tram' && stopsAffected?.length > 0) {
+            return stopsAffected
+              .filter((stop) => stop.lat !== 0 && stop.lon !== 0) // Also filter tram stops with 0,0
+              .map(
+                (stop) =>
+                  new Graphic({
+                    attributes: {
+                      id,
+                      title,
+                      mode,
+                      disruptionSeverity,
+                      mapIcon: `${mode}-${disruptionSeverity}`,
+                      servicesAffected: affectedIds,
+                      startDate,
+                      endDate,
+                    },
+                    geometry: {
+                      type: 'point',
+                      longitude: stop.lon,
+                      latitude: stop.lat,
+                      spatialreference: {
+                        wkid: 4326,
+                      },
+                    },
+                  }),
+              );
+          }
+
+          console.log(
+            `Creating disruption graphic for ${id} with lat: ${lat}, lon: ${lon} - ${mode}`,
+          );
+
+          return new Graphic({
+            attributes: {
+              id,
+              title,
+              mode,
+              disruptionSeverity,
+              mapIcon: `${mode}-${disruptionSeverity}`,
+              servicesAffected: affectedIds,
+              startDate,
+              endDate,
             },
-          },
-        });
-      });
+            geometry: {
+              type: 'point',
+              longitude: lon,
+              latitude: lat,
+              spatialreference: {
+                wkid: 4326,
+              },
+            },
+          });
+        })
+        .filter(Boolean); // Remove nulls
 
       const iconLayer = new FeatureLayer({
         id: 'disruptions',
@@ -414,9 +433,12 @@ const useCreateIconLayer = (view) => {
   }, [disruptionsData, map]);
 
   useEffect(() => {
+    if (disruptionsData.length === 0) {
+      createIconLayer();
+    }
     if (isCreated || !map) return;
     createIconLayer();
-  }, [isCreated, createIconLayer, map]);
+  }, [isCreated, createIconLayer, map, disruptionsData.length]);
 
   return isCreated;
 };

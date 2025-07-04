@@ -22,7 +22,7 @@ const useGETDisruptions = () => {
       })
       // .get(`assets/demo-api.json`)
       .then((response) => {
-        // console.log(response);
+        console.log(response);
         setFetchDisruptionsState((prevState) => ({
           ...prevState,
           data: response.data.disruptions,

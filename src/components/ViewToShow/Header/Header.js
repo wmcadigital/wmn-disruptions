@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 // Import contexts
 import { FetchDisruptionsContext } from 'globalState';
+
 // Import components
 import Button from 'components/shared/Button/Button';
 // Import Helper functions
@@ -30,6 +31,11 @@ function Header({ isFetching, hasError }) {
     localStorage.setItem('disruptionsApp', storageData);
   };
 
+  // const { disruptionCoordinates } = useDisruptionCoordinates();
+
+  // const mapData = disruptionCoordinates.length;
+
+  // Hide the map/list view button if mapData is 0
   return (
     <div className={`wmnds-container ${s.headerWrapper}`}>
       {/* Hotjar feedback form */}
@@ -82,7 +88,7 @@ function Header({ isFetching, hasError }) {
       <div className="wmnds-grid wmnds-grid--justify-between wmnds-grid--align-middle wmnds-p-b-sm wmnds-p-t-sm">
         <h1 className={`wmnds-col-auto wmnds-m-b-none ${s.h1}`}>Disruptions</h1>
 
-        {/* Map/list view button should only show if no error and API has finished fetching */}
+        {/* Map/list view button should only show if no error, API has finished fetching, and mapData > 0 */}
         {!isFetching && !hasError && (
           <div className="wmnds-col-auto">
             <Button

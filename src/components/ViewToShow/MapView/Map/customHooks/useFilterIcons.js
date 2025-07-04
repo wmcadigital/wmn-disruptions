@@ -64,8 +64,8 @@ const useFilterIcons = (view, isIconLayerCreated) => {
     }
 
     // MODE FILTER
-    if (mode && mode === 'roads') whereClause += ` AND (mode = 'road')`;
-    if (mode && mode !== 'roads') whereClause += ` AND (mode = '${mode}')`;
+    // if (mode && mode === 'roads') whereClause += ` AND (mode = 'road')`;
+    // if (mode && mode !== 'roads') whereClause += ` AND (mode = '${mode}')`;
 
     // BUS FILTER
     if (mode === 'bus' && !selectedByMap && selectedItem?.id) {
