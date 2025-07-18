@@ -1,13 +1,43 @@
-import React from 'react';
+import React, { useContext } from 'react';
+// Import contexts
+import { FetchDisruptionsContext, ModeContext } from 'globalState';
 // CustomHooks
-import useResetState from 'customHooks/useResetState';
+// import useResetState from 'customHooks/useResetState';
 import useFilterLogic from 'customHooks/useFilterLogic';
+// Import Helper functions
+import { setSearchParam } from 'globalState/helpers/URLSearchParams'; // (used to sync state with URL)
 // Import components
 import { useDisruptionCoordinates } from 'globalState/DisruptionCoordinatesContext';
+import { WhenContext } from 'globalState/WhenContext';
+import Button from 'components/shared/Button/Button';
+
+// Import styling
+import s from './Stats.module.scss';
 
 function Stats() {
-  const { modeState } = useResetState();
+  // Remove setFetchDisruptionsState from useDisruptionCoordinates
   const { setDisruptionCoordinates } = useDisruptionCoordinates();
+  // Get setFetchDisruptionsState from FetchDisruptionsContext
+  const [fetchDisruptionState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
+  const [whenState] = useContext(WhenContext);
+  const [modeState] = useContext(ModeContext); // Get the state of modeButtons from modeContext
+
+  const handleClick = () => {
+    let isMapVisible;
+    // Update the state of the isMapVisible to opposite of what it was
+    setFetchDisruptionsState((prevState) => {
+      isMapVisible = !prevState.isMapVisible;
+      return {
+        ...prevState,
+        isMapVisible,
+      };
+    });
+    // Update URL param to opposite of what it was
+    setSearchParam('isMapVisible', isMapVisible);
+    // Set the preference in localStorage
+    const storageData = JSON.stringify({ isMapVisible });
+    localStorage.setItem('disruptionsApp', storageData);
+  };
 
   // Call useFilterLogic only once
   const filteredDisruptions = useFilterLogic();
@@ -34,37 +64,81 @@ function Stats() {
   const disruptionCoordinates = disruptionsWithLat.length;
   const { mode } = modeState;
 
-  if (disruptionsCount === 0) return null;
+  // Only show if disruptionsCount - disruptionCoordinates !== 0
+  if (disruptionsCount - disruptionCoordinates === 0) return null;
 
   return (
     <div className="wmnds-grid wmnds-m-t-lg">
       <div className="wmnds-col-1">
-        <p>
-          There {disruptionsCount === 1 ? 'is' : 'are'} <strong>{disruptionsCount}</strong> {mode}{' '}
-          disruption
-          {disruptionsCount === 1 ? '' : 's'}
-        </p>
-        <p>
-          There {disruptionCoordinates === 1 ? 'is' : 'are'}{' '}
-          <strong>{disruptionCoordinates}</strong> disruption point
-          {disruptionCoordinates === 1 ? '' : 's'} on the map.
-        </p>
-        {disruptionCoordinates === 0 && (
-          <div className="wmnds-msg-summary wmnds-msg-summary--info ">
-            <div className="wmnds-msg-summary__header">
-              <svg className="wmnds-msg-summary__icon">
-                <use xlinkHref="#wmnds-general-info" href="#wmnds-general-info" />
-              </svg>
-              <h3 className="wmnds-msg-summary__title">No disruptions on map view</h3>
-            </div>
-            <div className="wmnds-msg-summary__info">
-              There are no disruptions to show on this Map view but there{' '}
-              {disruptionsCount === 1 ? 'is' : 'are'} <strong>{disruptionsCount}</strong> {mode}{' '}
-              disruption
-              {disruptionsCount === 1 ? '' : 's'} on the List view.
-            </div>
+        <p>{disruptionCoordinates} disruptions with coordinates</p>
+        <p>{disruptionsCount} disruptions in total</p>
+        <div className="wmnds-msg-summary wmnds-msg-summary--info">
+          <div className="wmnds-msg-summary__header">
+            <svg className="wmnds-msg-summary__icon">
+              <use xlinkHref="#wmnds-general-info" href="#wmnds-general-info" />
+            </svg>
+            <h3 className="wmnds-msg-summary__title">
+              {disruptionsCount} {disruptionsCount <= 1 ? 'disruption' : 'disruptions'}{' '}
+              {whenState.when === 'now' ? 'now' : ''}{' '}
+              {whenState.when === 'tomorrow' ? 'tomorrow' : ''}
+            </h3>
           </div>
-        )}
+          <div className="wmnds-msg-summary__info">
+            {fetchDisruptionState.isMapVisible && (
+              <>
+                There {disruptionCoordinates === 1 ? 'is' : 'are'}{' '}
+                <strong>{disruptionCoordinates}</strong> {mode} disruption
+                {disruptionCoordinates === 1 ? '' : 's'} available on this view
+                {disruptionsCount - disruptionCoordinates > 0 && (
+                  <>
+                    {' and another '}
+                    <strong>{disruptionsCount - disruptionCoordinates}</strong> disruptions shown on
+                    the{' '}
+                    <Button
+                      btnClass={`wmnds-btn wmnds-btn--link ${s.wmndsbtninline}`}
+                      onClick={handleClick}
+                      aria-label={
+                        fetchDisruptionState.isMapVisible
+                          ? 'Change to list view'
+                          : 'Change to Map View'
+                      }
+                      text={fetchDisruptionState.isMapVisible ? 'List View' : 'Map View'}
+                    />
+                    .
+                  </>
+                )}
+              </>
+            )}
+            {!fetchDisruptionState.isMapVisible && (
+              <>
+                There {disruptionsCount - disruptionCoordinates === 1 ? 'is' : 'are'}{' '}
+                <strong>
+                  <strong>{disruptionsCount}</strong>
+                </strong>{' '}
+                {mode} disruption
+                {disruptionCoordinates === 1 ? '' : 's'} available on this view
+                {disruptionsCount - disruptionCoordinates > 0 && (
+                  <>
+                    {' and another '}
+                    <strong>{disruptionsCount - disruptionCoordinates}</strong> disruptions shown on
+                    the{' '}
+                    <Button
+                      btnClass={`wmnds-btn wmnds-btn--link ${s.wmndsbtninline}`}
+                      onClick={handleClick}
+                      aria-label={
+                        fetchDisruptionState.isMapVisible
+                          ? 'Change to list view'
+                          : 'Change to Map View'
+                      }
+                      text={fetchDisruptionState.isMapVisible ? 'List View' : 'Map View'}
+                    />
+                    .
+                  </>
+                )}
+              </>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

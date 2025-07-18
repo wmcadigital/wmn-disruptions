@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 // Import contexts
@@ -10,7 +11,7 @@ import { setSearchParam } from 'globalState/helpers/URLSearchParams'; // (used t
 // Import styles
 import s from './Header.module.scss';
 
-function Header({ isFetching, hasError }) {
+function Header({ isFetching, hasError = false }) {
   const [fetchDisruptionState, setFetchDisruptionsState] = useContext(FetchDisruptionsContext);
   const { REACT_APP_FEEDBACK_LINK_URL, REACT_APP_FEEDBACK_LINK_ID } = process.env; // Destructure env variables
 
@@ -110,10 +111,6 @@ function Header({ isFetching, hasError }) {
 Header.propTypes = {
   hasError: PropTypes.bool,
   isFetching: PropTypes.bool.isRequired,
-};
-
-Header.defaultProps = {
-  hasError: false,
 };
 
 export default Header;

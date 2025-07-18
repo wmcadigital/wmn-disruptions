@@ -7,13 +7,9 @@ export function FavsProvider(props) {
 
   const getCookie = (cookieName) => {
     const cookies = document.cookie;
-    const containsCookiePolicy = cookies.indexOf(cookieName) > -1;
-    if (!containsCookiePolicy) return null;
-
-    return cookies
-      .split('; ')
-      .find((row) => row.startsWith(`${cookieName}=`))
-      .split('=')[1];
+    const cookieString = cookies.split('; ').find((row) => row.startsWith(`${cookieName}=`));
+    if (!cookieString) return null;
+    return cookieString.split('=')[1];
   };
 
   const setCookie = (cname, cvalue, exdays) => {

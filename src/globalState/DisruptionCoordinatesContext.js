@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useState } from 'react';
-import PropTypes from 'prop-types';
 
 const DisruptionCoordinatesContext = createContext();
 
 export const useDisruptionCoordinates = () => useContext(DisruptionCoordinatesContext);
 
-export function DisruptionCoordinatesProvider({ children }) {
+export function DisruptionCoordinatesProvider(props) {
+  const { children } = props || {};
   const [disruptionCoordinates, setDisruptionCoordinates] = useState([]);
   const value = React.useMemo(
     () => ({ disruptionCoordinates, setDisruptionCoordinates }),
@@ -18,7 +18,3 @@ export function DisruptionCoordinatesProvider({ children }) {
     </DisruptionCoordinatesContext.Provider>
   );
 }
-
-DisruptionCoordinatesProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};

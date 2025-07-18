@@ -66,6 +66,9 @@ function DisruptionInfo({ disruption }) {
   const trainStart = `${disruption.disruptionTimeWindow.start}Z`;
   const trainEnd = `${disruption.disruptionTimeWindow.end}Z`;
 
+  // Only show content if disruption has lat/lon coordinates
+  const hasCoordinates = disruption && disruption.lat !== 0 && disruption.lon !== 0;
+
   return (
     <>
       {/* Disruption description (don't show for trains) */}
@@ -73,13 +76,18 @@ function DisruptionInfo({ disruption }) {
         <div
           className="wmnds-m-b-lg wmnds-col-1"
           dangerouslySetInnerHTML={{
-            // Remove 'style' attributes from any descriptions
-            __html: sanitize(disruption.description, { FORBID_ATTR: ['style'] }),
+            // Remove 'style' attributes and unwanted <p><strong>&nbsp;</strong></p> and <p>&nbsp;</p>
+            __html: sanitize(
+              disruption.description
+                .replace(/<p>&nbsp;<\/p>/g, '')
+                .replace(/<p><strong>&nbsp;<\/strong><\/p>/g, ''),
+              {
+                FORBID_ATTR: ['style'],
+              },
+            ),
           }}
         />
       )}
-
-      {/* Carried out by (only for roads) */}
       {showPromoterOrganisation && (
         <div className="wmnds-m-b-lg wmnds-col-1">
           <strong>Carried out by</strong>
@@ -88,7 +96,6 @@ function DisruptionInfo({ disruption }) {
           </p>
         </div>
       )}
-
       {/* When (only for roads) */}
       {modeState.mode === 'roads' && disruption.disruptionTimeWindow && (
         <div className="wmnds-col-1">
@@ -136,7 +143,6 @@ function DisruptionInfo({ disruption }) {
           </div>
         </>
       )}
-
       {/* Replan button */}
       <span className={`wmnds-col-1 ${isMapVisible ? s.mapBtn : `${s.listBtn} wmnds-col-sm-1-2`}`}>
         <a
@@ -152,12 +158,10 @@ function DisruptionInfo({ disruption }) {
           />
         </a>
       </span>
-
       {/* Share button */}
       <ShareButtons isMapVisible={isMapVisible} disruption={disruption} />
-
       {/* View on map button */}
-      {!isMapVisible && (
+      {!isMapVisible && hasCoordinates && (
         <Button
           btnClass="wmnds-btn--secondary wmnds-col-1"
           text="View on map"

@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 // Import contexts
@@ -8,7 +9,15 @@ import Icon from 'components/shared/Icon/Icon';
 // Styles
 import s from './FavBtn.module.scss';
 
-function FavBtn({ id, severity, text, title, mode, narrow, inline }) {
+function FavBtn({
+  id = null,
+  severity = '',
+  text = '',
+  title = '',
+  mode = 'bus',
+  narrow = false,
+  inline = false,
+}) {
   const [favState, favDispatch] = useContext(FavsContext); // Get fav state from globalState
 
   const isIdFavourited = useCallback(
@@ -96,15 +105,6 @@ FavBtn.propTypes = {
   severity: PropTypes.string, // severity of disruption
   text: PropTypes.string.isRequired, // text inside button
   title: PropTypes.string,
-};
-
-FavBtn.defaultProps = {
-  id: null,
-  mode: 'bus',
-  narrow: false,
-  inline: false,
-  severity: 'purple',
-  title: null,
 };
 
 export default FavBtn;

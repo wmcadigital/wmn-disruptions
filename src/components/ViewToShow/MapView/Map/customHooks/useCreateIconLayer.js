@@ -1,39 +1,28 @@
-import { useEffect, useState, useCallback } from 'react';
-// import { useEffect, useState, useContext, useCallback, useMemo } from 'react';
+import { useEffect, useState, useContext, useCallback, useMemo } from 'react';
 import { format, parse } from 'fecha';
-// import { FetchDisruptionsContext } from 'globalState';
-import useFilterLogic from 'customHooks/useFilterLogic';
+import { FetchDisruptionsContext } from 'globalState';
 import Graphic from '@arcgis/core/Graphic';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 
 const useCreateIconLayer = (view) => {
-  console.log('useCreateIconLayer called');
   const [isCreated, setIsCreated] = useState(false);
-  const map = view !== null && view?.map;
+  const map = view?.map;
 
-  // const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
+  const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
 
-  // const disruptionsData = useMemo(() => {
-  //   return fetchDisruptionsState?.data || [];
-  // }, [fetchDisruptionsState]);
-
-  const disruptionsData = useFilterLogic(); // Use filtered disruptions
-
-  console.log(isCreated);
-  console.log(disruptionsData);
+  const disruptionsData = useMemo(() => {
+    return fetchDisruptionsState?.data || [];
+  }, [fetchDisruptionsState]);
 
   const createIconLayer = useCallback(async () => {
     try {
-      console.log('Creating icon layer 1234567890');
-      // if (disruptionsData.length !== 0) return;
-      console.log('Creating icon layer');
-
       const fallbackDate = format(new Date(), 'YYYY-MM-DD');
       const getValidDate = (date) => {
         return date.toLowerCase() !== 'invalid date' ? parse(date, 'isoDateTime') : new Date();
       };
 
-      const disruptionGraphics = disruptionsData
+      let oidCounter = 1;
+      let disruptionGraphics = disruptionsData
         .map((disruption) => {
           const {
             disruptionTimeWindow,
@@ -91,9 +80,11 @@ const useCreateIconLayer = (view) => {
             return stopsAffected
               .filter((stop) => stop.lat !== 0 && stop.lon !== 0) // Also filter tram stops with 0,0
               .map(
+                // eslint-disable-next-line no-return-assign
                 (stop) =>
                   new Graphic({
                     attributes: {
+                      oid: (oidCounter += 1),
                       id,
                       title,
                       mode,
@@ -115,12 +106,9 @@ const useCreateIconLayer = (view) => {
               );
           }
 
-          console.log(
-            `Creating disruption graphic for ${id} with lat: ${lat}, lon: ${lon} - ${mode}`,
-          );
-
-          return new Graphic({
+          const location = new Graphic({
             attributes: {
+              oid: (oidCounter += 1),
               id,
               title,
               mode,
@@ -139,13 +127,18 @@ const useCreateIconLayer = (view) => {
               },
             },
           });
+
+          return location;
         })
         .filter(Boolean); // Remove nulls
 
+      disruptionGraphics = disruptionGraphics.flat(Infinity); // <-- flatten the array
+
       const iconLayer = new FeatureLayer({
         id: 'disruptions',
-        source: disruptionGraphics.flat(Infinity),
-        objectIdField: 'oid', // This must be defined when creating a layer from `Graphic` objects
+        source: disruptionGraphics,
+        objectIdField: 'oid',
+        geometryType: 'point',
         fields: [
           {
             name: 'oid',
@@ -420,12 +413,29 @@ const useCreateIconLayer = (view) => {
               },
             },
           ],
+          // Add a default symbol for unmatched values
+          defaultSymbol: {
+            type: 'picture-marker',
+            url: '/map-icons/default.png',
+            height: '30px',
+            width: '30px',
+          },
         },
       });
+
+      // if (!map || typeof map.add !== 'function') {
+      //   console.error('Map object is not available or does not support add()');
+      //   return;
+      // }
 
       map.add(iconLayer);
       map.reorder(iconLayer, 5);
       setIsCreated(true);
+
+      // After adding the iconLayer to the map, log the graphics data
+      // if (iconLayer && iconLayer.source) {
+      //   console.log('Map View Data:', iconLayer.source.toArray());
+      // }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
@@ -433,12 +443,9 @@ const useCreateIconLayer = (view) => {
   }, [disruptionsData, map]);
 
   useEffect(() => {
-    if (disruptionsData.length === 0) {
-      createIconLayer();
-    }
-    if (isCreated || !map) return;
+    if (isCreated) return;
     createIconLayer();
-  }, [isCreated, createIconLayer, map, disruptionsData.length]);
+  }, [isCreated, createIconLayer]);
 
   return isCreated;
 };
