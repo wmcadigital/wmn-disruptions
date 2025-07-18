@@ -438,7 +438,7 @@ const useCreateIconLayer = (view) => {
       // }
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error);
+      // console.log(error);
     }
   }, [disruptionsData, map]);
 

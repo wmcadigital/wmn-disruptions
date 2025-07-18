@@ -74,7 +74,6 @@ const useGoTo = (
 
   // Go to all target geometries (disruptions, polylines, locations)
   const goToTarget = useCallback(async () => {
-    console.log('Executing goToTarget');
     const disruptionsGeometry = await getVisibleDisruptionsGeometry();
     const polylineGeometry = getPolylineGeometry();
     const selectedLocationGeometry = getSelectedLocationGeometry();
