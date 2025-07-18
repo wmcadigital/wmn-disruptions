@@ -10,7 +10,7 @@ export const ModeContext = createContext(); // Create when context
 
 // Set initial state of when
 const initialState = {
-  mode: getSearchParam('mode') || 'bus', // Can be any of the modes (bus, train, tram, roads)
+  mode: getSearchParam('mode'), // Can be any of the modes (bus, train, tram, roads)
 };
 export function ModeProvider(props) {
   const { children } = props || {};

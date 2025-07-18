@@ -6,7 +6,7 @@ import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 
 const useCreateIconLayer = (view) => {
   const [isCreated, setIsCreated] = useState(false);
-  const map = view !== null && view?.map;
+  const map = view?.map;
 
   const [fetchDisruptionsState] = useContext(FetchDisruptionsContext);
 
@@ -16,117 +16,129 @@ const useCreateIconLayer = (view) => {
 
   const createIconLayer = useCallback(async () => {
     try {
-      if (!disruptionsData.length) return;
-
       const fallbackDate = format(new Date(), 'YYYY-MM-DD');
       const getValidDate = (date) => {
         return date.toLowerCase() !== 'invalid date' ? parse(date, 'isoDateTime') : new Date();
       };
 
-      const disruptionGraphics = disruptionsData.map((disruption) => {
-        const {
-          disruptionTimeWindow,
-          servicesAffected,
-          stopsAffected,
-          id,
-          title,
-          mode,
-          disruptionSeverity,
-          lat,
-          lon,
-        } = disruption;
-
-        const { start, end } = disruptionTimeWindow || { start: fallbackDate, end: fallbackDate };
-        const startDate = format(getValidDate(start), 'YYYY-MM-DD');
-        const endDate = format(getValidDate(end), 'YYYY-MM-DD');
-
-        const affectedIds = (() => {
-          const services = servicesAffected || [];
-          const stops = stopsAffected || [];
-
-          if (mode === 'bus') {
-            return services.reduce((accumulator, service) => {
-              return `${accumulator}${service.id}, `;
-            }, '');
-          }
-
-          if (mode === 'train' && servicesAffected[0]?.routeDescriptions) {
-            return servicesAffected[0].routeDescriptions.reduce((accumulator, line) => {
-              return `${accumulator}${line.description}, `;
-            }, '');
-          }
-
-          if (mode === 'tram') {
-            let ids = '';
-
-            ids = services.reduce((accumulator, service) => {
-              return `${accumulator}${service.id}, `;
-            }, ids);
-
-            ids = stops.reduce((accumulator, stop) => {
-              return `${accumulator}${stop.atcoCode}, `;
-            }, ids);
-
-            return ids;
-          }
-
-          return '';
-        })();
-
-        if (mode === 'tram' && stopsAffected?.length > 0) {
-          return stopsAffected.map(
-            (stop) =>
-              new Graphic({
-                attributes: {
-                  id,
-                  title,
-                  mode,
-                  disruptionSeverity,
-                  mapIcon: `${mode}-${disruptionSeverity}`,
-                  servicesAffected: affectedIds,
-                  startDate,
-                  endDate,
-                },
-                geometry: {
-                  type: 'point',
-                  // If no lat/long then default to Birmingham city centre
-                  longitude: stop.lon || -1.8960335,
-                  latitude: stop.lat || 52.481755,
-                  spatialreference: {
-                    wkid: 4326,
-                  },
-                },
-              }),
-          );
-        }
-
-        return new Graphic({
-          attributes: {
+      let oidCounter = 1;
+      let disruptionGraphics = disruptionsData
+        .map((disruption) => {
+          const {
+            disruptionTimeWindow,
+            servicesAffected,
+            stopsAffected,
             id,
             title,
             mode,
             disruptionSeverity,
-            mapIcon: `${mode}-${disruptionSeverity}`,
-            servicesAffected: affectedIds,
-            startDate,
-            endDate,
-          },
-          geometry: {
-            type: 'point',
-            // If no lat/long then default to Birmingham city centre
-            longitude: lon || -1.8960335,
-            latitude: lat || 52.481755,
-            spatialreference: {
-              wkid: 4326,
+            lat,
+            lon,
+          } = disruption;
+
+          // Don't return a graphic if lat or lon is 0
+          if (lat === 0 || lon === 0) return null;
+
+          const { start, end } = disruptionTimeWindow || { start: fallbackDate, end: fallbackDate };
+          const startDate = format(getValidDate(start), 'YYYY-MM-DD');
+          const endDate = format(getValidDate(end), 'YYYY-MM-DD');
+
+          const affectedIds = (() => {
+            const services = servicesAffected || [];
+            const stops = stopsAffected || [];
+
+            if (mode === 'bus') {
+              return services.reduce((accumulator, service) => {
+                return `${accumulator}${service.id}, `;
+              }, '');
+            }
+
+            if (mode === 'train' && servicesAffected[0]?.routeDescriptions) {
+              return servicesAffected[0].routeDescriptions.reduce((accumulator, line) => {
+                return `${accumulator}${line.description}, `;
+              }, '');
+            }
+
+            if (mode === 'tram') {
+              let ids = '';
+
+              ids = services.reduce((accumulator, service) => {
+                return `${accumulator}${service.id}, `;
+              }, ids);
+
+              ids = stops.reduce((accumulator, stop) => {
+                return `${accumulator}${stop.atcoCode}, `;
+              }, ids);
+
+              return ids;
+            }
+
+            return '';
+          })();
+
+          if (mode === 'tram' && stopsAffected?.length > 0) {
+            return stopsAffected
+              .filter((stop) => stop.lat !== 0 && stop.lon !== 0) // Also filter tram stops with 0,0
+              .map(
+                // eslint-disable-next-line no-return-assign
+                (stop) =>
+                  new Graphic({
+                    attributes: {
+                      oid: (oidCounter += 1),
+                      id,
+                      title,
+                      mode,
+                      disruptionSeverity,
+                      mapIcon: `${mode}-${disruptionSeverity}`,
+                      servicesAffected: affectedIds,
+                      startDate,
+                      endDate,
+                    },
+                    geometry: {
+                      type: 'point',
+                      longitude: stop.lon,
+                      latitude: stop.lat,
+                      spatialreference: {
+                        wkid: 4326,
+                      },
+                    },
+                  }),
+              );
+          }
+
+          const location = new Graphic({
+            attributes: {
+              oid: (oidCounter += 1),
+              id,
+              title,
+              mode,
+              disruptionSeverity,
+              mapIcon: `${mode}-${disruptionSeverity}`,
+              servicesAffected: affectedIds,
+              startDate,
+              endDate,
             },
-          },
-        });
-      });
+            geometry: {
+              type: 'point',
+              longitude: lon,
+              latitude: lat,
+              spatialreference: {
+                wkid: 4326,
+              },
+            },
+          });
+
+          return location;
+        })
+        .filter(Boolean); // Remove nulls
+
+      disruptionGraphics = disruptionGraphics.flat(Infinity); // <-- flatten the array
 
       const iconLayer = new FeatureLayer({
         id: 'disruptions',
-        source: disruptionGraphics.flat(Infinity),
-        objectIdField: 'oid', // This must be defined when creating a layer from `Graphic` objects
+        source: disruptionGraphics,
+        objectIdField: 'oid',
+        geometryType: 'point',
         fields: [
           {
             name: 'oid',
@@ -401,22 +413,39 @@ const useCreateIconLayer = (view) => {
               },
             },
           ],
+          // Add a default symbol for unmatched values
+          defaultSymbol: {
+            type: 'picture-marker',
+            url: '/map-icons/default.png',
+            height: '30px',
+            width: '30px',
+          },
         },
       });
+
+      // if (!map || typeof map.add !== 'function') {
+      //   console.error('Map object is not available or does not support add()');
+      //   return;
+      // }
 
       map.add(iconLayer);
       map.reorder(iconLayer, 5);
       setIsCreated(true);
+
+      // After adding the iconLayer to the map, log the graphics data
+      // if (iconLayer && iconLayer.source) {
+      //   console.log('Map View Data:', iconLayer.source.toArray());
+      // }
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error);
+      // console.log(error);
     }
   }, [disruptionsData, map]);
 
   useEffect(() => {
-    if (isCreated || !map) return;
+    if (isCreated) return;
     createIconLayer();
-  }, [isCreated, createIconLayer, map]);
+  }, [isCreated, createIconLayer]);
 
   return isCreated;
 };

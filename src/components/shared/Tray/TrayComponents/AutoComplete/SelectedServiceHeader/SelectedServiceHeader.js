@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 // Imported components
@@ -5,7 +6,12 @@ import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/Dis
 import CloseButton from './CloseButton/CloseButton';
 import s from './SelectedServiceHeader.module.scss';
 
-function SelectedServiceHeader({ autoCompleteState, autoCompleteDispatch, mode, to }) {
+function SelectedServiceHeader({
+  autoCompleteState,
+  autoCompleteDispatch,
+  mode = 'bus',
+  to = false,
+}) {
   const { selectedItem, selectedItemTo, selectedLocation } = autoCompleteState;
   const selectedServiceRef = useRef(null);
 
@@ -70,11 +76,6 @@ SelectedServiceHeader.propTypes = {
   autoCompleteDispatch: PropTypes.func.isRequired,
   mode: PropTypes.string,
   to: PropTypes.bool,
-};
-
-SelectedServiceHeader.defaultProps = {
-  mode: 'bus',
-  to: false,
 };
 
 export default SelectedServiceHeader;

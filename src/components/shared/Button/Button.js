@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 // Import packages
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -5,16 +6,16 @@ import Icon from '../Icon/Icon';
 import './Button.scss'; // Temp styling for displaying button as link
 
 function Button({
-  type,
-  title,
-  isActive,
-  text,
-  onClick,
-  btnClass,
-  iconLeft,
-  iconRight,
-  disabled,
-  id,
+  text = '',
+  type = 'button',
+  title = null,
+  onClick = null,
+  isActive = false,
+  btnClass = '',
+  iconLeft = null,
+  iconRight = null,
+  disabled = false,
+  id = null,
 }) {
   return (
     <button
@@ -54,19 +55,6 @@ Button.propTypes = {
   iconRight: PropTypes.string, // Set icon right on button
   disabled: PropTypes.bool, // Sets if the button is disabled or not
   id: PropTypes.string,
-};
-
-Button.defaultProps = {
-  text: '',
-  type: 'button',
-  title: null,
-  onClick: null,
-  isActive: false,
-  btnClass: '',
-  iconLeft: null,
-  iconRight: null,
-  disabled: false,
-  id: null,
 };
 
 export default Button;

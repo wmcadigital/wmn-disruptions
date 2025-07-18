@@ -1,8 +1,15 @@
+/* eslint-disable react/require-default-props */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'components/shared/Button/Button';
 
-function ToggleMoreAffectedItems({ amountHidden, handleClick, id, isExpanded, serviceText }) {
+function ToggleMoreAffectedItems({
+  amountHidden = 0,
+  handleClick = null,
+  id,
+  isExpanded,
+  serviceText,
+}) {
   // Create button text
   let buttonText = `${isExpanded ? 'Hide' : 'Show'} `;
   buttonText += `${amountHidden} `;
@@ -31,14 +38,6 @@ ToggleMoreAffectedItems.propTypes = {
   id: PropTypes.string,
   isExpanded: PropTypes.bool,
   serviceText: PropTypes.string,
-};
-
-ToggleMoreAffectedItems.defaultProps = {
-  amountHidden: 0,
-  handleClick: null,
-  id: '',
-  isExpanded: false,
-  serviceText: '',
 };
 
 export default ToggleMoreAffectedItems;

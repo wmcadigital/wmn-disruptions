@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { DebounceInput } from 'react-debounce-input'; // https://www.npmjs.com/package/react-debounce-input
@@ -12,7 +13,7 @@ import SelectedServiceHeader from '../SelectedServiceHeader/SelectedServiceHeade
 import useHandleAutoCompleteKeys from '../customHooks/useHandleAutoCompleteKeys';
 import useAutoCompleteAPI from '../customHooks/useAutoCompleteAPI';
 
-function TramAutoComplete({ to }) {
+function TramAutoComplete({ to = false }) {
   const { updateQuery, autoCompleteState, autoCompleteDispatch } = useResetState();
 
   const resultsList = useRef(null);
@@ -99,11 +100,6 @@ function TramAutoComplete({ to }) {
 // PropTypes
 TramAutoComplete.propTypes = {
   to: PropTypes.bool,
-};
-
-// Default props
-TramAutoComplete.defaultProps = {
-  to: false,
 };
 
 export default TramAutoComplete;

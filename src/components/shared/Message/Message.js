@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import React from 'react';
 import PropTypes from 'prop-types';
 import dompurify from 'dompurify';
@@ -5,7 +6,13 @@ import Icon from 'components/shared/Icon/Icon';
 
 const { sanitize } = dompurify;
 
-function Message({ type, title, message, showRetry, retryCallback }) {
+function Message({
+  type = 'success',
+  title = 'Good service',
+  message = 'No incidents reported.',
+  showRetry = false,
+  retryCallback = null,
+}) {
   let iconName;
   switch (type) {
     case 'error':
@@ -58,14 +65,6 @@ Message.propTypes = {
   message: PropTypes.string,
   showRetry: PropTypes.bool,
   retryCallback: PropTypes.func,
-};
-
-Message.defaultProps = {
-  type: 'success',
-  title: 'Good service',
-  message: 'No incidents reported.',
-  showRetry: false,
-  retryCallback: null,
 };
 
 export default Message;

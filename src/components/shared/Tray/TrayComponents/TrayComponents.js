@@ -7,6 +7,7 @@ import When from './When/When';
 import Mode from './Mode/Mode';
 import AutoComplete from './AutoComplete/AutoComplete';
 import SelectedService from './SelectedService/SelectedService';
+import Stats from './Stats/Stats';
 // Styles
 import s from './TrayComponents.module.scss';
 
@@ -33,6 +34,8 @@ function TrayComponents() {
       <AutoComplete />
 
       <SelectedService />
+
+      <Stats />
     </>
   );
 }
