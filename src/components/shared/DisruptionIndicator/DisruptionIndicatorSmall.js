@@ -1,8 +1,9 @@
+/* eslint-disable react/require-default-props */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'components/shared/Icon/Icon';
 
-function DisruptionIndicatorSmall({ className, iconLeft, severity }) {
+function DisruptionIndicatorSmall({ className = '', iconLeft = null, severity = '' }) {
   let iconRightName;
   let disruptedClass;
   // Removed the if statement - Icon now showing.
@@ -50,11 +51,6 @@ DisruptionIndicatorSmall.propTypes = {
   className: PropTypes.string,
   iconLeft: PropTypes.string.isRequired,
   severity: PropTypes.string,
-};
-
-DisruptionIndicatorSmall.defaultProps = {
-  className: '',
-  severity: '',
 };
 
 export default DisruptionIndicatorSmall;

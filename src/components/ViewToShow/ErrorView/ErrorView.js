@@ -21,18 +21,6 @@ function ErrorPage() {
         <p>
           This page will refresh in <strong>{timeLeft}</strong> seconds or you can try again later.
         </p>
-        <p>
-          View a{' '}
-          <a
-            href="https://www.wmnetwork.co.uk/plan-your-journey/disruptions/?utm_source=beta&utm_medium=errorpage&utm_campaign=disruptions"
-            title="Current disruptions on the existing West Midlands Network website"
-            target="_self"
-            className="wmnds-link"
-          >
-            list of current disruptions
-          </a>{' '}
-          on the existing West Midlands Network website.
-        </p>
       </div>
     </div>
   );

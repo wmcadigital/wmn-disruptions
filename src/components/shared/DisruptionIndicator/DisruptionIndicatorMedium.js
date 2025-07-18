@@ -1,16 +1,17 @@
+/* eslint-disable react/require-default-props */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'components/shared/Icon/Icon';
 import './DisruptionIndicatorMedium.scss';
 
 function DisruptionIndicatorMedium({
-  className,
-  iconLeft,
-  narrow,
-  noMarginOnIcon,
-  severity,
-  text,
-  title,
+  className = '',
+  iconLeft = null,
+  narrow = false,
+  noMarginOnIcon = false,
+  severity = '',
+  text = null,
+  title = null,
 }) {
   let iconRightName;
   let disruptedClass;
@@ -80,16 +81,6 @@ DisruptionIndicatorMedium.propTypes = {
   severity: PropTypes.string,
   text: PropTypes.string,
   title: PropTypes.string,
-};
-
-DisruptionIndicatorMedium.defaultProps = {
-  className: '',
-  iconLeft: null,
-  narrow: false,
-  noMarginOnIcon: false,
-  severity: '',
-  text: null,
-  title: null,
 };
 
 export default DisruptionIndicatorMedium;
