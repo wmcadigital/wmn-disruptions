@@ -16,6 +16,7 @@ function Button({
   iconRight = null,
   disabled = false,
   id = null,
+  ariaLabel = null,
 }) {
   return (
     <button
@@ -28,6 +29,7 @@ function Button({
       onClick={onClick}
       disabled={disabled}
       id={id}
+      aria-label={ariaLabel}
     >
       {/* If icon left is set then call icon component and inject correct svg */}
       {iconLeft ? <Icon iconClass="wmnds-btn__icon" iconName={iconLeft} /> : null}
@@ -55,6 +57,7 @@ Button.propTypes = {
   iconRight: PropTypes.string, // Set icon right on button
   disabled: PropTypes.bool, // Sets if the button is disabled or not
   id: PropTypes.string,
+  ariaLabel: PropTypes.string, // Set aria-label for accessibility
 };
 
 export default Button;

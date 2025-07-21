@@ -10,7 +10,7 @@ function Mode() {
   return (
     <div className="wmnds-grid">
       <div className="wmnds-col-1">
-        <h4>Select a mode of travel</h4>
+        <h2 className="wmnds-h4">Select a mode of travel</h2>
       </div>
       {/* Bus mode button */}
       <Button

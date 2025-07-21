@@ -165,6 +165,7 @@ function DisruptionInfo({ disruption }) {
         <Button
           btnClass="wmnds-btn--secondary wmnds-col-1"
           text="View on map"
+          ariaLabel={`View ${disruption.title} on a map view`}
           onClick={handleViewOnMapBtn}
         />
       )}

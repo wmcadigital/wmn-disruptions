@@ -23,7 +23,7 @@ function When() {
   return (
     <div className="wmnds-grid">
       <div className="wmnds-col-1">
-        <h4>When</h4>
+        <h2 className="wmnds-h4">When</h2>
       </div>
       <div className="wmnds-grid">
         {/* Now button */}
