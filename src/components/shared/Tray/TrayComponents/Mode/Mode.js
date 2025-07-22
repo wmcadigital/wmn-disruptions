@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 // CustomHooks
 import useResetState from 'customHooks/useResetState';
 // Import components
 import Button from 'components/shared/Button/Button';
 
-function Mode() {
+function Mode({ trainDisruptionsCount }) {
   const { modeState, updateMode } = useResetState();
 
   return (
@@ -23,11 +24,11 @@ function Mode() {
       {/* Train mode button */}
       <Button
         btnClass="wmnds-btn--mode wmnds-col-auto wmnds-m-r-sm wmnds-m-b-sm wmnds-p-xsm"
-        title="Train mode coming soon"
         isActive={modeState.mode === 'train'}
         onClick={() => updateMode('train')}
         iconLeft="modes-isolated-rail"
         text="Train"
+        disabled={trainDisruptionsCount === 0} // Disable if no train disruptions
       />
       {/* Tram mode button */}
       <Button
@@ -48,5 +49,8 @@ function Mode() {
     </div>
   );
 }
+Mode.propTypes = {
+  trainDisruptionsCount: PropTypes.number.isRequired,
+};
 
 export default Mode;
