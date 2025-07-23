@@ -6,6 +6,7 @@ import useDateFilter from 'customHooks/useDateFilter';
 import FeatureFilter from '@arcgis/core/layers/support/FeatureFilter';
 import Point from '@arcgis/core/geometry/Point';
 
+// Custom hook to filter disruption icons on the map based on user-selected filters
 const useFilterIcons = (view, isIconLayerCreated) => {
   const [isFilteringDone, setIsFilteringDone] = useState(false);
 
@@ -19,7 +20,7 @@ const useFilterIcons = (view, isIconLayerCreated) => {
   const [whenState] = useContext(WhenContext);
   const { when } = whenState;
 
-  const { fromDate, toDate } = useDateFilter();
+  const { fromDateUtc, toDateUtc } = useDateFilter();
 
   const getDisruptionsFeatureLayer = useCallback(() => {
     if (!view || !view?.map || !isIconLayerCreated) return null;
@@ -37,83 +38,75 @@ const useFilterIcons = (view, isIconLayerCreated) => {
       disruptionsFeatureLayerView = await view.whenLayerView(disruptionsFeatureLayer);
     } catch (error) {
       const { name } = error;
-      // MapView is destroyed on onUnmount which throws 'cancelled:layerview-create' when creating a layer view, so only log other errors
       if (name !== 'cancelled:layerview-create') {
-        console.log(error);
+        // console.log(error);
       }
     }
 
-    // let FeatureFilter;
-    // let Point;
-    // try {
-    //   [FeatureFilter, Point] = await loadModules([
-    //     'esri/views/layers/support/FeatureFilter',
-    //     'esri/geometry/Point',
-    //   ]);
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
-    let whereClause;
+    let whereClause = '';
     let distance;
     let point;
 
-    // TIME FILTER
-    if (when) {
-      whereClause = `((startDate >= '${fromDate}' AND startDate <= '${toDate}') OR (endDate >= '${fromDate}' AND startDate <= '${toDate}'))`;
-    }
+    // Filter by selectedItem if present in the URL
+    if (selectedItem?.id) {
+      whereClause = `id = '${selectedItem.id}'`;
+    } else {
+      // TIME FILTER: filter by date range
+      if (when) {
+        whereClause = `((startDate >= '${fromDateUtc}' AND startDate <= '${toDateUtc}') OR (endDate >= '${fromDateUtc}' AND startDate <= '${toDateUtc}'))`;
+      }
 
-    // MODE FILTER
-    if (mode && mode === 'roads') whereClause += ` AND (mode = 'road')`;
-    if (mode && mode !== 'roads') whereClause += ` AND (mode = '${mode}')`;
+      // MODE FILTER: filter by selected mode
+      if (mode && mode === 'roads') whereClause += ` AND (mode = 'road')`;
+      if (mode && mode !== 'roads') whereClause += ` AND (mode = '${mode}')`;
 
-    // BUS FILTER
-    if (mode === 'bus' && !selectedByMap && selectedItem?.id) {
-      const busWhereClause = `servicesAffected LIKE '%${selectedItem.id}%'`;
-      whereClause += ` AND (${busWhereClause})`;
-    }
+      // BUS FILTER: filter by selected bus service
+      if (mode === 'bus' && !selectedByMap && selectedItem?.id) {
+        const busWhereClause = `servicesAffected LIKE '%${selectedItem.id}%'`;
+        whereClause += ` AND (${busWhereClause})`;
+      }
 
-    // TRAIN FILTER
-    if (mode === 'train' && !selectedByMap && selectedItem?.id && selectedItemTo?.id) {
-      const allLines = [...selectedItem.lines, ...selectedItemTo.lines];
-      const allUniqueLines = allLines.filter((line, index, self) => self.indexOf(line) === index);
+      // TRAIN FILTER: filter by selected train lines/stations
+      if (mode === 'train' && !selectedByMap && selectedItem?.id && selectedItemTo?.id) {
+        const allLines = [...selectedItem.lines, ...selectedItemTo.lines];
+        const allUniqueLines = allLines.filter((line, index, self) => self.indexOf(line) === index);
 
-      const trainStationsWhereClause = allUniqueLines.reduce((accumulator, line, index, self) => {
-        const or = index === self.length - 1 ? '' : ' OR ';
-        return `${accumulator}(servicesAffected LIKE '%${line}%')${or}`;
-      }, '');
-
-      whereClause += ` AND (${trainStationsWhereClause})`;
-    }
-
-    // TRAM FILTER
-    if (mode === 'tram' && !selectedByMap && selectedItem?.id && selectedItemTo?.id) {
-      let tramWhereClause = "(servicesAffected LIKE '%4546%')";
-
-      if (selectedItem?.lines && selectedItem.lines.length) {
-        const stops = selectedItem.lines;
-
-        const tramStopsWhereClause = stops.reduce((accumulator, stop, index, self) => {
+        const trainStationsWhereClause = allUniqueLines.reduce((accumulator, line, index, self) => {
           const or = index === self.length - 1 ? '' : ' OR ';
-          return `${accumulator}(servicesAffected LIKE '%${stop.atcoCode}%')${or}`;
+          return `${accumulator}(servicesAffected LIKE '%${line}%')${or}`;
         }, '');
 
-        tramWhereClause = `${tramWhereClause} OR ${tramStopsWhereClause}`;
-      } else {
-        tramWhereClause = `${tramWhereClause} OR (servicesAffected LIKE '%${selectedItem.id}%')`;
-        tramWhereClause = `${tramWhereClause} OR (servicesAffected LIKE '%${selectedItemTo.id}%')`;
+        whereClause += ` AND (${trainStationsWhereClause})`;
       }
-      whereClause += ` AND (${tramWhereClause})`;
+
+      // TRAM FILTER: filter by selected tram stops/lines
+      if (mode === 'tram' && !selectedByMap && selectedItem?.id && selectedItemTo?.id) {
+        let tramWhereClause = "(servicesAffected LIKE '%4546%')";
+
+        if (selectedItem?.lines && selectedItem.lines.length) {
+          const stops = selectedItem.lines;
+
+          const tramStopsWhereClause = stops.reduce((accumulator, stop, index, self) => {
+            const or = index === self.length - 1 ? '' : ' OR ';
+            return `${accumulator}(servicesAffected LIKE '%${stop.atcoCode}%')${or}`;
+          }, '');
+
+          tramWhereClause = `${tramWhereClause} OR ${tramStopsWhereClause}`;
+        } else {
+          tramWhereClause = `${tramWhereClause} OR (servicesAffected LIKE '%${selectedItem.id}%')`;
+          tramWhereClause = `${tramWhereClause} OR (servicesAffected LIKE '%${selectedItemTo.id}%')`;
+        }
+        whereClause += ` AND (${tramWhereClause})`;
+      }
+
+      // ROADS FILTER: filter by spatial location and radius
+      const { lat, lon, radius } = selectedLocation;
+      if (mode === 'roads' && lat && lon && radius) {
+        distance = selectedLocation.radius;
+        point = new Point({ y: lat, x: lon });
+      }
     }
 
-    // ROADS FILTER
-    const { lat, lon, radius } = selectedLocation;
-    if (mode === 'roads' && lat && lon && radius) {
-      distance = selectedLocation.radius;
-      point = new Point({ y: lat, x: lon });
-    }
-
-    // Check if map is still mounted before filtering
     if (!disruptionsFeatureLayerView) return;
     disruptionsFeatureLayerView.filter = new FeatureFilter({
       where: whereClause,
@@ -122,9 +115,10 @@ const useFilterIcons = (view, isIconLayerCreated) => {
       distance,
       units: 'miles',
     });
+
     setIsFilteringDone(true);
   }, [
-    fromDate,
+    fromDateUtc,
     getDisruptionsFeatureLayer,
     mode,
     selectedByMap,
@@ -133,7 +127,7 @@ const useFilterIcons = (view, isIconLayerCreated) => {
     selectedItemTo.id,
     selectedItemTo.lines,
     selectedLocation,
-    toDate,
+    toDateUtc,
     view,
     when,
   ]);

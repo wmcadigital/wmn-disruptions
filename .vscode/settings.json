@@ -2,5 +2,9 @@
   "files.associations": {
     "*.js": "javascriptreact"
   },
-  "files.eol": "\n"
+  "files.eol": "\n",
+  "cSpell.words": [
+    "spatialreference",
+    "wkid"
+  ]
 }

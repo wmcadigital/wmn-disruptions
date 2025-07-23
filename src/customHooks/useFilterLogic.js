@@ -207,6 +207,7 @@ const useFilterLogic = () => {
       }
     }
   }
+  // If no disruptions are found then return an empty array
   return filteredData;
 };
 

@@ -17,7 +17,7 @@ function AutoComplete() {
     const autoCompleteTitle = (title, subtitle = '') => {
       return (
         <div className="wmnds-col-1">
-          <h4>{title}</h4>
+          <h2 className="wmnds-h4">{title}</h2>
           {subtitle && <p>{subtitle}</p>}
         </div>
       );

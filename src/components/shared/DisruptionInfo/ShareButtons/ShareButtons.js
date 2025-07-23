@@ -27,6 +27,7 @@ function ShareButtons({ isMapVisible, disruption }) {
       <Button
         btnClass={`wmnds-col-1 ${showShareBtns ? 'wmnds-is--active' : ''}`}
         text="Share disruption"
+        ariaLabel={`Share disruption at ${disruption.title}`}
         iconRight="general-share"
         onClick={() => setShowShareBtns(!showShareBtns)}
       />

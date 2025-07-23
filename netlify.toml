@@ -16,3 +16,6 @@ package = "@sentry/netlify-build-plugin"
   REACT_APP_ROADS_AUTOCOMPLETE_KEY='e0c1216f818a41be8d528ac1d4f7ebfd'
   REACT_APP_FEEDBACK_LINK_URL='https://forms.office.com/Pages/ResponsePage.aspx'
   REACT_APP_FEEDBACK_LINK_ID='RetZCK7xCk6e-ubWa7tnL1voVKMeFXVKvUhU3Uh8aqFUNUNVNFlKOVpLMThNV0g0T1VZWDYyT1FLNCQlQCN0PWcu'
+
+[build.environment]
+  NODE_OPTIONS = "--max_old_space_size=4096"

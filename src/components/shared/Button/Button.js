@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 // Import packages
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -5,16 +6,17 @@ import Icon from '../Icon/Icon';
 import './Button.scss'; // Temp styling for displaying button as link
 
 function Button({
-  type,
-  title,
-  isActive,
-  text,
-  onClick,
-  btnClass,
-  iconLeft,
-  iconRight,
-  disabled,
-  id,
+  text = '',
+  type = 'button',
+  title = null,
+  onClick = null,
+  isActive = false,
+  btnClass = '',
+  iconLeft = null,
+  iconRight = null,
+  disabled = false,
+  id = null,
+  ariaLabel = null,
 }) {
   return (
     <button
@@ -27,6 +29,7 @@ function Button({
       onClick={onClick}
       disabled={disabled}
       id={id}
+      aria-label={ariaLabel}
     >
       {/* If icon left is set then call icon component and inject correct svg */}
       {iconLeft ? <Icon iconClass="wmnds-btn__icon" iconName={iconLeft} /> : null}
@@ -54,19 +57,7 @@ Button.propTypes = {
   iconRight: PropTypes.string, // Set icon right on button
   disabled: PropTypes.bool, // Sets if the button is disabled or not
   id: PropTypes.string,
-};
-
-Button.defaultProps = {
-  text: '',
-  type: 'button',
-  title: null,
-  onClick: null,
-  isActive: false,
-  btnClass: '',
-  iconLeft: null,
-  iconRight: null,
-  disabled: false,
-  id: null,
+  ariaLabel: PropTypes.string, // Set aria-label for accessibility
 };
 
 export default Button;
