@@ -72,7 +72,25 @@ function SelectedServiceHeader({
 
 // PropTypes
 SelectedServiceHeader.propTypes = {
-  autoCompleteState: PropTypes.objectOf([PropTypes.object]).isRequired,
+  autoCompleteState: PropTypes.shape({
+    selectedItem: PropTypes.shape({
+      id: PropTypes.string,
+      routeName: PropTypes.string,
+      serviceNumber: PropTypes.string,
+      selectedByMap: PropTypes.bool,
+      severity: PropTypes.string,
+    }),
+    selectedItemTo: PropTypes.shape({
+      id: PropTypes.string,
+      routeName: PropTypes.string,
+      serviceNumber: PropTypes.string,
+      selectedByMap: PropTypes.bool,
+      severity: PropTypes.string,
+    }),
+    selectedLocation: PropTypes.shape({
+      address: PropTypes.string,
+    }),
+  }).isRequired,
   autoCompleteDispatch: PropTypes.func.isRequired,
   mode: PropTypes.string,
   to: PropTypes.bool,

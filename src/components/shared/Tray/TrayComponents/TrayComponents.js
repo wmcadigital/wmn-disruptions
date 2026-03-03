@@ -1,6 +1,7 @@
 import React from 'react';
 // Custom hooks
 import useResetState from 'customHooks/useResetState';
+import useFilterLogic from 'customHooks/useFilterLogic';
 // Import components
 import Button from 'components/shared/Button/Button';
 import When from './When/When';
@@ -13,6 +14,10 @@ import s from './TrayComponents.module.scss';
 
 function TrayComponents() {
   const { resetTray } = useResetState(); // Get reset methods and state from custom hook
+  const filteredDisruptions = useFilterLogic(); // Get filtered disruptions
+  const trainDisruptionsCount = filteredDisruptions.filter(
+    (disruption) => disruption.mode === 'train',
+  ).length; // Count train disruptions
 
   return (
     <>
@@ -29,7 +34,7 @@ function TrayComponents() {
 
       <When />
 
-      <Mode />
+      <Mode trainDisruptionsCount={trainDisruptionsCount} />
 
       <AutoComplete />
 

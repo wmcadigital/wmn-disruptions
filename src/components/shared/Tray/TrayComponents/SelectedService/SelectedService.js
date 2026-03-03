@@ -3,8 +3,8 @@ import React from 'react';
 import useShowSelectedServicesInfo from './customHooks/useShowSelectedServiceInfo';
 // Imported components
 import DisruptedService from './DisruptedService/DisruptedService';
-import InfoAboutSelectedService from './InfoAboutSelectedService/InfoAboutSelectedService';
-import SaveRoutesMessage from './SaveRoutesMessage/SaveRoutesMessage';
+// import InfoAboutSelectedService from './InfoAboutSelectedService/InfoAboutSelectedService';
+// import SaveRoutesMessage from './SaveRoutesMessage/SaveRoutesMessage';
 import NoKnownDisruptionMessage from './NoKnownDisruptionMessage/NoKnownDisruptionMessage';
 
 function SelectedService() {
@@ -22,8 +22,8 @@ function SelectedService() {
       {showLineBreak && <hr className="wmnds-col-1" />}
       {showInfoAboutSelectedService && (
         <>
-          <SaveRoutesMessage />
-          <InfoAboutSelectedService />
+          {/* <SaveRoutesMessage /> */}
+          {/* <InfoAboutSelectedService /> */}
         </>
       )}
       {/* If no selectedData then it must be good service */}

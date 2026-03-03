@@ -1,3 +1,7 @@
+<<<<<<< dev
+/* eslint-disable no-unused-vars */
+=======
+>>>>>>> master
 /* eslint-disable react/require-default-props */
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
@@ -5,7 +9,7 @@ import PropTypes from 'prop-types';
 import { FavsContext } from 'globalState';
 // Import Components
 import DisruptionIndicatorMedium from 'components/shared/DisruptionIndicator/DisruptionIndicatorMedium';
-import Icon from 'components/shared/Icon/Icon';
+// import Icon from 'components/shared/Icon/Icon';
 // Styles
 import s from './FavBtn.module.scss';
 
@@ -18,47 +22,53 @@ function FavBtn({
   narrow = false,
   inline = false,
 }) {
+<<<<<<< dev
+  // const [favState, favDispatch] = useContext(FavsContext); // Get fav state from globalState
+=======
   const [favState, favDispatch] = useContext(FavsContext); // Get fav state from globalState
+>>>>>>> master
 
-  const isIdFavourited = useCallback(
-    (favId) => {
-      if (!favState.favs[mode].length) return false;
-      if (mode === 'bus' || mode === 'tram') return favState.favs[mode].indexOf(favId) > -1;
+  // const isIdFavourited = useCallback(
+  //   (favId) => {
+  //     if (!favState.favs[mode].length) return false;
+  //     if (mode === 'bus' || mode === 'tram') return favState.favs[mode].indexOf(favId) > -1;
 
-      if (mode === 'roads') {
-        return favState.favs[mode].some((roadsFave) => {
-          const addressMatch = roadsFave.address === id.address;
-          const latMatch = roadsFave.lat === id.lat;
-          const lonMatch = roadsFave.lon === id.lon;
-          const radiusMatch = roadsFave.radius === id.radius;
-          return addressMatch && latMatch && lonMatch && radiusMatch;
-        });
-      }
+  //     if (mode === 'roads') {
+  //       if (!favId) return false;
+  //       return favState.favs[mode].some((roadsFave) => {
+  //         const addressMatch = roadsFave.address === favId.address;
+  //         const latMatch = roadsFave.lat === favId.lat;
+  //         const lonMatch = roadsFave.lon === favId.lon;
+  //         const radiusMatch = roadsFave.radius === favId.radius;
+  //         return addressMatch && latMatch && lonMatch && radiusMatch;
+  //       });
+  //     }
 
-      return favState.favs[mode].some(
-        (trainFav) =>
-          trainFav.to === favId.to && trainFav.from === favId.from && trainFav.line === favId.line,
-      );
-    },
-    [favState.favs, id.address, id.lat, id.lon, id.radius, mode],
-  );
+  //     if (!favId) return false;
+  //     return favState.favs[mode].some(
+  //       (trainFav) =>
+  //         trainFav.to === favId.to && trainFav.from === favId.from && trainFav.line === favId.line,
+  //     );
+  //   },
+  //   [favState.favs, mode],
+  // );
 
-  const [isFav, setIsFav] = useState(isIdFavourited(id)); // Check favs on load to see if ours is included
+  // const [isFav, setIsFav] = useState(isIdFavourited(id)); // Check favs on load to see if ours is included
 
   // UseEffect to watch for changes of favState, then we can reload component with new favourites
-  useEffect(() => {
-    setIsFav(isIdFavourited(id)); // Check reloaded favs to see if our id is included in there
-  }, [id, isIdFavourited]);
+  // useEffect(() => {
+  //   setIsFav(isIdFavourited(id)); // Check reloaded favs to see if our id is included in there
+  // }, [id, isIdFavourited]);
 
-  const toggleFav = () => {
-    setIsFav((prevState) => !prevState); // Toggle the fav state
+  // const toggleFav = () => {
+  //   setIsFav((prevState) => !prevState); // Toggle the fav state
 
-    if (isFav) {
-      favDispatch({ type: 'REMOVE_FAV', id, mode }); // Remove favourite from globalState/localStorage
-    } else {
-      favDispatch({ type: 'ADD_FAV', id, mode }); // Add favourite to globalState/localStorage
-    }
-  };
+  //   if (isFav) {
+  //     favDispatch({ type: 'REMOVE_FAV', id, mode }); // Remove favourite from globalState/localStorage
+  //   } else {
+  //     favDispatch({ type: 'ADD_FAV', id, mode }); // Add favourite to globalState/localStorage
+  //   }
+  // };
 
   return (
     <div
@@ -77,14 +87,14 @@ function FavBtn({
       )}
 
       {/* Faved Routed to be saved to local storage */}
-      <button
+      {/* <button
         type="button"
         className={`${s.starIconBtn}`}
         title={isFav ? `Remove ${title} from favourites` : `Favourite the ${title}`}
         onClick={toggleFav}
       >
         <Icon iconName={isFav ? 'general-star' : 'general-star-empty'} iconClass={s.starIcon} />
-      </button>
+      </button> */}
     </div>
   );
 }
