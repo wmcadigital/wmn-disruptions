@@ -26,21 +26,23 @@ function FavBtn({
       if (mode === 'bus' || mode === 'tram') return favState.favs[mode].indexOf(favId) > -1;
 
       if (mode === 'roads') {
+        if (!favId) return false;
         return favState.favs[mode].some((roadsFave) => {
-          const addressMatch = roadsFave.address === id.address;
-          const latMatch = roadsFave.lat === id.lat;
-          const lonMatch = roadsFave.lon === id.lon;
-          const radiusMatch = roadsFave.radius === id.radius;
+          const addressMatch = roadsFave.address === favId.address;
+          const latMatch = roadsFave.lat === favId.lat;
+          const lonMatch = roadsFave.lon === favId.lon;
+          const radiusMatch = roadsFave.radius === favId.radius;
           return addressMatch && latMatch && lonMatch && radiusMatch;
         });
       }
 
+      if (!favId) return false;
       return favState.favs[mode].some(
         (trainFav) =>
           trainFav.to === favId.to && trainFav.from === favId.from && trainFav.line === favId.line,
       );
     },
-    [favState.favs, id.address, id.lat, id.lon, id.radius, mode],
+    [favState.favs, mode],
   );
 
   const [isFav, setIsFav] = useState(isIdFavourited(id)); // Check favs on load to see if ours is included
