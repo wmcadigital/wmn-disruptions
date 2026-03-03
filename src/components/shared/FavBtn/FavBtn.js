@@ -1,4 +1,7 @@
+<<<<<<< dev
 /* eslint-disable no-unused-vars */
+=======
+>>>>>>> master
 /* eslint-disable react/require-default-props */
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
@@ -19,7 +22,11 @@ function FavBtn({
   narrow = false,
   inline = false,
 }) {
+<<<<<<< dev
   // const [favState, favDispatch] = useContext(FavsContext); // Get fav state from globalState
+=======
+  const [favState, favDispatch] = useContext(FavsContext); // Get fav state from globalState
+>>>>>>> master
 
   // const isIdFavourited = useCallback(
   //   (favId) => {
